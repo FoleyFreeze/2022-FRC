@@ -11,11 +11,8 @@ public class Util {
         5,      0,      0,     0,      0
     };
 
-    public Util(){
-
-    }
-
-    /* All log functions take the inputted importance integer and checks it
+    /* 
+     * All log functions take the inputted importance integer and checks it
      * against the coorisponding value to the value of the group the function 
      * belongs to. If the inputted importance integer is lower than the group
      * value, the function will output.

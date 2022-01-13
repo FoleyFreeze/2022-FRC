@@ -7,8 +7,16 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Cannon.CalsCannon;
+import frc.robot.Cannon.Cannon;
+import frc.robot.Drive.CalsDrive;
+import frc.robot.Drive.Drive;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
+import frc.robot.Intake.CalsIntake;
+import frc.robot.Intake.Intake;
+import frc.robot.Vision.CalsVision;
+import frc.robot.Vision.Vision;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -19,7 +27,11 @@ import frc.robot.Inputs.Inputs;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public final Inputs transport = new Inputs(new CalsInputs());
+  public final Cannon cannon = new Cannon(new CalsCannon());
+  public final Drive drive = new Drive(new CalsDrive());
+  public final Inputs inputs = new Inputs(new CalsInputs());
+  public final Intake intake = new Intake(new CalsIntake());
+  public final Vision vision = new Vision(new CalsVision());
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
