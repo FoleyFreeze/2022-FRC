@@ -1,13 +1,13 @@
-package frc.robot.Drive;
+package frc.robot.Cannon;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Drive extends CommandBase {
+public class Shoot extends CommandBase {
     
-    DriveTrain m_subsystem;
-    CalsDrive cals;
+    Cannon m_subsystem;
+    CalsCannon cals;
 
-    public Drive(CalsDrive cals){
+    public Shoot(CalsCannon cals){
         this.cals = cals;
     }
 

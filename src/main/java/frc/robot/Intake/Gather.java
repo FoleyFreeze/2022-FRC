@@ -1,13 +1,13 @@
-package frc.robot.Drive;
+package frc.robot.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Drive extends CommandBase {
+public class Gather extends CommandBase{
     
-    DriveTrain m_subsystem;
-    CalsDrive cals;
+    Intake m_subsystem;
+    CalsIntake cals;
 
-    public Drive(CalsDrive cals){
+    public Gather(CalsIntake cals){
         this.cals = cals;
     }
 

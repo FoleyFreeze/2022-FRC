@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Cannon.CalsCannon;
 import frc.robot.Cannon.Cannon;
 import frc.robot.Drive.CalsDrive;
-import frc.robot.Drive.Drive;
+import frc.robot.Drive.DriveTrain;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Intake.CalsIntake;
@@ -28,7 +28,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   public final Cannon cannon = new Cannon(new CalsCannon());
-  public final Drive drive = new Drive(new CalsDrive());
+  public final DriveTrain drive = new DriveTrain(new CalsDrive());
   public final Inputs inputs = new Inputs(new CalsInputs());
   public final Intake intake = new Intake(new CalsIntake());
   public final Vision vision = new Vision(new CalsVision());
