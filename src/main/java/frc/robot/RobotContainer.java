@@ -8,13 +8,13 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Cannon.CalsCannon;
-import frc.robot.Cannon.Cannon;
+import frc.robot.Cannon.SysCannon;
 import frc.robot.Drive.CalsDrive;
-import frc.robot.Drive.DriveTrain;
+import frc.robot.Drive.SysDriveTrain;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Intake.CalsIntake;
-import frc.robot.Intake.Intake;
+import frc.robot.Intake.SysIntake;
 import frc.robot.Vision.CalsVision;
 import frc.robot.Vision.Vision;
 
@@ -27,10 +27,10 @@ import frc.robot.Vision.Vision;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public final Cannon cannon = new Cannon(new CalsCannon());
-  public final DriveTrain drive = new DriveTrain(new CalsDrive());
+  public final SysCannon cannon = new SysCannon(new CalsCannon());
+  public final SysDriveTrain drive = new SysDriveTrain(new CalsDrive());
   public final Inputs inputs = new Inputs(new CalsInputs());
-  public final Intake intake = new Intake(new CalsIntake());
+  public final SysIntake intake = new SysIntake(new CalsIntake());
   public final Vision vision = new Vision(new CalsVision());
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */

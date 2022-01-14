@@ -3,7 +3,11 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Inputs": "Subsystem",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
+      "/LiveWindow/SysCannon": "Subsystem",
+      "/LiveWindow/SysDriveTrain": "Subsystem",
+      "/LiveWindow/SysIntake": "Subsystem",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Vision": "Subsystem"
     }
   }
 }

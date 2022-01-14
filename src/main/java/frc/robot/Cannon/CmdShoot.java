@@ -2,12 +2,12 @@ package frc.robot.Cannon;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Shoot extends CommandBase {
+public class CmdShoot extends CommandBase {
     
-    Cannon m_subsystem;
+    SysCannon m_subsystem;
     CalsCannon cals;
 
-    public Shoot(CalsCannon cals){
+    public CmdShoot(CalsCannon cals){
         this.cals = cals;
     }
 

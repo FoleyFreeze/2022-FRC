@@ -3,15 +3,15 @@ package frc.robot.Inputs;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Util.Util;
+import frc.robot.Util.Log;
 
 public class Inputs extends SubsystemBase{
 
     CalsInputs cals;
     public Joystick controller;
 
-    public boolean hasFlySky;
-    public boolean hasGamePad;
+    public boolean hasFlySky = false;
+    public boolean hasGamePad = false;
 
     double time;
 
@@ -48,9 +48,9 @@ public class Inputs extends SubsystemBase{
 
             time = Timer.getFPGATimestamp() + cals.CHECK_INTERVAL;
 
-            Util.logBool(hasFlySky, Util.LOG_GROUPS.INPUTS, 1, false, "has FlySky");
-            Util.logBool(hasGamePad, Util.LOG_GROUPS.INPUTS, 1, false, "has gamepad");
-            Util.logString(name, Util.LOG_GROUPS.INPUTS, 1, false, "name");
+            Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 1, false, "has FlySky");
+            Log.logBool(hasGamePad, Log.LOG_GROUPS.INPUTS, 1, false, "has gamepad");
+            Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "name");
         }
     }
 }

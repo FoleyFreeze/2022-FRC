@@ -2,7 +2,7 @@ package frc.robot.Util;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class Util {
+public class Log {
 
     public static enum LOG_GROUPS{
         INPUTS, INTAKE, DRIVE, VISION, SHOOTER

@@ -1,14 +1,20 @@
-package frc.robot.Drive;
+package frc.robot.Intake;
 
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Drive extends CommandBase {
+public class CmdGather extends CommandBase{
     
-    DriveTrain m_subsystem;
-    CalsDrive cals;
+    SysIntake m_subsystem;
 
-    public Drive(CalsDrive cals){
+    Spark intakeMotor;
+
+    CalsIntake cals;
+
+    public CmdGather(CalsIntake cals){
         this.cals = cals;
+
+        intakeMotor = new Spark(cals.INTAKE_MOTOR_CHANNEL);
     }
 
     @Override
