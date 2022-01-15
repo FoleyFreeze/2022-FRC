@@ -7,9 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Cannon.CalsCannon;
 import frc.robot.Cannon.SysCannon;
 import frc.robot.Drive.CalsDrive;
+import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.SysDriveTrain;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
@@ -35,6 +37,10 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    CommandScheduler cs = CommandScheduler.getInstance();
+    cs.registerSubsystem(inputs, vision, intake, cannon, drive); //order matters
+    cs.setDefaultCommand(drive, new CmdDrive(this));
+
     // Configure the button bindings
     configureButtonBindings();
   }

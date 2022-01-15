@@ -9,7 +9,14 @@ public class Vector {
 
     public Vector(double r, double theta){
         this.r = r;
-        this.theta = theta; //note this is radians
+        this.theta = Angle.normRad(theta); //note this is radians
+    }
+   
+    public Vector inverse(){
+        r = -r;
+        theta += Math.PI;
+
+        return this;
     }
 
     //returns a vector from x and y polar coordinates
@@ -51,5 +58,25 @@ public class Vector {
 
     public double getY(){
         return r * Math.sin(theta);
+    }
+
+    public Vector add(Vector v){
+        double x = (Math.cos(theta) * r) + (Math.cos(v.theta) * v.r);
+        double y = (Math.sin(theta) * r) + (Math.sin(v.theta) * v.r);
+
+        r = Math.sqrt((x * x) + (y * y));
+        theta = Angle.normRad(Math.atan2(y, x));
+
+        return this;
+    }
+
+    public Vector subtract(Vector v){
+        double x = (Math.cos(theta) * r) - (Math.cos(v.theta) * v.r);
+        double y = (Math.sin(theta) * r) - (Math.sin(v.theta) * v.r);
+
+        r = Math.sqrt((x * x) + (y * y));
+        theta = Angle.normRad(Math.atan2(y, x));
+
+        return this;
     }
 }
