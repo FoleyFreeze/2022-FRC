@@ -9,11 +9,11 @@ public class Vector {
 
     public Vector(double r, double theta){
         this.r = r;
-        this.theta = theta;
+        this.theta = theta; //note this is radians
     }
 
     //returns a vector from x and y polar coordinates
-    public static Vector createVector(double x, double y){
+    public static Vector fromXY(double x, double y){
 
         double r = Math.sqrt((x*x) + (y*y));
         double theta = Math.atan2(y, x);
@@ -31,5 +31,25 @@ public class Vector {
         double theta = Math.atan2(y, x);
 
         return new Vector(r, theta);
+    }
+
+    //subtracts two given vectors using vector subtraction by breaking into x and y components
+    public static Vector subVectors(Vector v1, Vector v2){
+
+        double x = (Math.cos(v1.theta) * v1.r) - (Math.cos(v2.theta) * v2.r);
+        double y = (Math.sin(v1.theta) * v1.r) - (Math.sin(v2.theta) * v2.r);
+
+        double r = Math.sqrt((x * x) + (y * y));
+        double theta = Math.atan2(y, x);
+
+        return new Vector(r, theta);
+    }
+
+    public double getX(){
+        return r * Math.cos(theta);
+    }
+
+    public double getY(){
+        return r * Math.sin(theta);
     }
 }
