@@ -18,28 +18,57 @@ public class Inputs extends SubsystemBase{
 
     public Inputs(CalsInputs cals){
         this.cals = cals;
+    }
 
-        //controller = new Joystick(cals.JOYPORT);
-        
+    public double expo(double value, double exponent){
+        return Math.pow(Math.abs(value), exponent) * Math.signum(value);
+    }
+
+    public double deadBand(double value, double lo, double hi, double min){
+        double valSign = Math.signum(value);
+        double absVal = Math.abs(value);
+
+        if(absVal < lo){
+            return 0;
+        }else if(absVal > hi){
+            return 1.0 * valSign;
+        }else{
+            //mapping input range to output range
+            double inputRange = hi - lo;
+            double outputRange = 1 - min;
+            return (absVal - lo) * valSign / inputRange * outputRange + min;
+        }
     }
 
     public double getDriveX(){
         if(flysky != null){
-            return flysky.getRawAxis(0);
+            double val = deadBand(flysky.getRawAxis(0), 
+                                  cals.FS_DEADBAND_LOWER, 
+                                  cals.FS_DEADBAND_UPPER, 
+                                  cals.FS_INIT_VALUE);
+            return expo(val, cals.FS_EXPO);
         } 
         return 0;
     }
 
     public double getDriveY(){
         if(flysky != null){
-            return flysky.getRawAxis(1);
+            double val = deadBand(flysky.getRawAxis(1), 
+                                  cals.FS_DEADBAND_LOWER, 
+                                  cals.FS_DEADBAND_UPPER, 
+                                  cals.FS_INIT_VALUE);
+            return expo(val, cals.FS_EXPO);
         }
         return 0;
     }
 
     public double getDrivezR(){
         if(flysky != null){
-            return flysky.getRawAxis(4);
+            double val = deadBand(flysky.getRawAxis(4), 
+                                  cals.FS_DEADBAND_LOWER, 
+                                  cals.FS_DEADBAND_UPPER, 
+                                  cals.FS_INIT_VALUE);
+            return expo(val, cals.FS_EXPO);
         }
         return 0;
     }

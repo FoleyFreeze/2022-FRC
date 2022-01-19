@@ -1,17 +1,17 @@
 package frc.robot.Cannon;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Util.Motor.Motor;
 
 public class SysCannon extends SubsystemBase {
     
     CalsCannon cals;
     
-    Spark shootMotor;
+    Motor shootMotor;
 
     public SysCannon(CalsCannon cals){
         this.cals = cals;
-        shootMotor = new Spark(cals.SHOOT_MOTOR_CHANNEL);
+        shootMotor = Motor.create(cals.shootMotor);
     }
 
     public void prime(){

@@ -29,6 +29,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     public void driveSwerve(Vector xy, double zR){
         //create rotation vectors from wheel angle and rotation axis magnitude
         double max = 0;
+        boolean allZero = true;
         for(Wheel w : wheels){
             double theta = w.calcRotAngle(centerOfRot);
             Vector v = new Vector(zR, theta);
@@ -41,6 +42,11 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
             if(mag > max){
                 max = mag;
             }
+
+            //tracks whether wheel vectors have magnitude and should drive
+            if(mag != 0){
+                allZero = false;
+            }
         }
 
         if(max > 1){
@@ -48,8 +54,10 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         }
 
         //drive motors to wheel angles & powers
-        for(Wheel w : wheels){
-            w.drive();
+        if(!allZero){
+            for(Wheel w : wheels){
+                w.drive();
+            }
         }
     }
 

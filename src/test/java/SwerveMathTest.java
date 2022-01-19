@@ -1,6 +1,8 @@
 import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.Wheel;
+import frc.robot.Inputs.CalsInputs;
+import frc.robot.Inputs.Inputs;
 import frc.robot.Util.Vector;
 
 import static org.junit.Assert.*;
@@ -9,10 +11,12 @@ import org.junit.*;
 public class SwerveMathTest {
     public static final double DELTA = 1e-2;
     Wheel wheel;
+    Inputs inputs;
 
     @Before
     public void setup(){
         wheel = new Wheel((new CalsDrive()).FRwheel);
+        inputs = new Inputs(new CalsInputs());
     }
 
     @After
@@ -81,5 +85,17 @@ public class SwerveMathTest {
         CmdDrive.mapSquareToCircle(v);
         System.out.println(v.r);
         assertEquals(0.5, v.r, DELTA);
+    }
+
+    @Test
+    public void testDeadBand(){
+        double v1 = inputs.expo(-2, 4);
+        assertEquals(-16, v1, DELTA);
+        double v2 = inputs.deadBand(0.1, 0.1, 0.9, 0.03);
+        assertEquals(0.03, v2, DELTA);
+        v2 = inputs.deadBand(0.9, 0.1, 0.9, 0.03);
+        assertEquals(1, v2, DELTA);
+        v2 = inputs.deadBand(0.5, 0.1, 0.9, 0.03);
+        assertEquals(0.515, v2, DELTA);
     }
 }
