@@ -1,6 +1,7 @@
 package frc.robot.Drive;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Drive.CalsDrive.CalsWheel;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
@@ -8,10 +9,10 @@ import frc.robot.Util.Motor.Motor;
 
 public class Wheel implements AutoCloseable {
     
-    CalsWheel cals;
+    public CalsWheel cals;
 
     Motor drive; //wheel power motor
-    Motor swerve; //wheel angle motor
+    public Motor swerve; //wheel angle motor
     AnalogInput angleEncoder;
 
     public Vector wheelLocation;
@@ -29,8 +30,9 @@ public class Wheel implements AutoCloseable {
 
     //reset the relative encoder to match the absolute encoder
     public void resetToAbsEnc(){
-        double relEncAngle = Angle.normDeg(swerve.getPosition());
+        double relEncAngle = Angle.normDeg(swerve.getPosition() * 360);
         encOffset = Angle.normDeg(relEncAngle - getAbsoluteEncAngle());
+        SmartDashboard.putNumber(cals.name + " encOffset", encOffset);
     }
 
     public double getAbsoluteEncAngle(){
@@ -44,14 +46,15 @@ public class Wheel implements AutoCloseable {
         return v.theta + (Math.PI / 2);
     }
 
-    public void drive(){
+    public void drive(boolean allZero){
         //figure out the right encoder position to target
-        double targetAngle = Math.toDegrees(driveVec.theta) - encOffset;
+        double targetAngle = Math.toDegrees(driveVec.theta) + encOffset;
 
-        double currPosition = swerve.getPosition();
+        double currPosition = swerve.getPosition() * 360;//convert from revolutions to degrees
         double angleDiff = Angle.normDeg(targetAngle - currPosition);
-        
+
         double magnitude = driveVec.r;
+        
         //if we are going the long way
         if(Math.abs(angleDiff) > 90){
             magnitude = -magnitude;
@@ -62,9 +65,16 @@ public class Wheel implements AutoCloseable {
             }
         }
 
-        swerve.setPosition(angleDiff + currPosition);
+        //convert back to motor rotations
+        double rotationsSetpoint = (angleDiff + currPosition) / 360;
         
-        drive.setPower(magnitude);
+        SmartDashboard.putNumber(cals.name + " wheel setpoint", rotationsSetpoint);
+
+        if(!allZero){
+            swerve.setPosition(rotationsSetpoint);
+        }
+        
+        drive.setPower(magnitude * cals.maxPower);
     }
 
     @Override

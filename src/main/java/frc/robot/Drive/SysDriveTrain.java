@@ -1,20 +1,26 @@
 package frc.robot.Drive;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Inputs.Inputs;
+import frc.robot.Inputs.Sensors;
 import frc.robot.Util.Vector;
 
 public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     
     CalsDrive cals;
 
-    Wheel[] wheels;
+    public Wheel[] wheels;
 
     Vector centerOfRot;
+    double fieldOrientOffset;
+    Inputs inputs;
+    Sensors sensors;
 
     public SysDriveTrain(CalsDrive cals){
         this.cals = cals;
         centerOfRot = cals.defaultRobotCenter;
 
+        wheels = new Wheel[cals.wheelCals.length];
         for(int i=0; i < cals.wheelCals.length; i++){
             wheels[i] = new Wheel(cals.wheelCals[i]);
         }
@@ -26,7 +32,16 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         }
     }
 
+    public void resetWheelEncoders(){
+        for(Wheel w : wheels){
+            w.resetToAbsEnc();
+        }
+    }
+
     public void driveSwerve(Vector xy, double zR){
+        if(inputs.getFieldOrient()){
+            xy.theta -= sensors.getFieldOrientAngle();
+        }
         //create rotation vectors from wheel angle and rotation axis magnitude
         double max = 0;
         boolean allZero = true;
@@ -54,10 +69,9 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         }
 
         //drive motors to wheel angles & powers
-        if(!allZero){
-            for(Wheel w : wheels){
-                w.drive();
-            }
+
+        for(Wheel w : wheels){
+            w.drive(allZero);
         }
     }
 

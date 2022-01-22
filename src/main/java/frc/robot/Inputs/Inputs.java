@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Log;
 
-public class Inputs extends SubsystemBase{
+public class Inputs extends SubsystemBase implements AutoCloseable{
 
     CalsInputs cals;
     public Joystick flysky;
@@ -18,6 +18,7 @@ public class Inputs extends SubsystemBase{
 
     public Inputs(CalsInputs cals){
         this.cals = cals;
+        flysky = new Joystick(0);
     }
 
     public double expo(double value, double exponent){
@@ -40,6 +41,14 @@ public class Inputs extends SubsystemBase{
         }
     }
 
+    public boolean getFieldOrient(){
+        if(flysky != null){
+            return flysky.getRawButton(cals.FLYSKY_FIELD_ORIENT);
+        } else{
+            return false;
+        }
+    }
+
     public double getDriveX(){
         if(flysky != null){
             double val = deadBand(flysky.getRawAxis(0), 
@@ -57,7 +66,7 @@ public class Inputs extends SubsystemBase{
                                   cals.FS_DEADBAND_LOWER, 
                                   cals.FS_DEADBAND_UPPER, 
                                   cals.FS_INIT_VALUE);
-            return expo(val, cals.FS_EXPO);
+            return -expo(val, cals.FS_EXPO);
         }
         return 0;
     }
@@ -68,7 +77,7 @@ public class Inputs extends SubsystemBase{
                                   cals.FS_DEADBAND_LOWER, 
                                   cals.FS_DEADBAND_UPPER, 
                                   cals.FS_INIT_VALUE);
-            return expo(val, cals.FS_EXPO);
+            return -expo(val, cals.FS_EXPO);
         }
         return 0;
     }
@@ -76,7 +85,7 @@ public class Inputs extends SubsystemBase{
     public void periodic(){
 
         if(Timer.getFPGATimestamp() > time){
-
+            
             //for each potential joystick port
             for(int i=0; i<DriverStation.kJoystickPorts; i++){
                 String name = DriverStation.getJoystickName(i);
@@ -89,10 +98,18 @@ public class Inputs extends SubsystemBase{
 
             time = Timer.getFPGATimestamp() + cals.CHECK_INTERVAL;
 
-            //Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, false, "has FlySky");
-            //Log.logBool(hasGamePad, Log.LOG_GROUPS.INPUTS, 5, false, "has gamepad");
-            //Log.logString(name, Log.LOG_GROUPS.INPUTS, 5, false, "name");
-            
+            Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, true, "has FlySky");
+            Log.logBool(hasGamePad, Log.LOG_GROUPS.INPUTS, 5, true, "has gamepad");
+            Log.logString(DriverStation.getJoystickName(0), Log.LOG_GROUPS.INPUTS, 5, false, "name");
+
         }
+
+        Log.logDouble(getDriveY(), Log.LOG_GROUPS.INPUTS, 1, true, "input Y");
+        Log.logDouble(getDriveX(), Log.LOG_GROUPS.INPUTS, 1, true, "input X");
+    }
+
+    @Override
+    public void close() throws Exception {
+        
     }
 }

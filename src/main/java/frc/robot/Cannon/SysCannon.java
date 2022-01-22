@@ -11,7 +11,6 @@ public class SysCannon extends SubsystemBase {
 
     public SysCannon(CalsCannon cals){
         this.cals = cals;
-        shootMotor = Motor.create(cals.shootMotor);
     }
 
     public void prime(){

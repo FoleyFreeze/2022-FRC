@@ -9,12 +9,18 @@ public class CalsMotor {
 
     public int channel;
 
-    public double ticksPerUnit;
+    public double powerLimit = 1;
 
-    public double p;
-    public double i;
-    public double d;
-    public double f;
+    public double ticksPerUnit = 1;
+
+    public double kP = 0;
+    public double kI = 0;
+    public double kD = 0;
+    public double kF = 0;
+    public double dFilt = 0;
+
+    public boolean invert;
+    public boolean brake;
 
     public CalsMotor(MotorType t, int channel){
         type = t;
@@ -27,10 +33,30 @@ public class CalsMotor {
     }
 
     public CalsMotor setPIDF(double p, double i, double d, double f){
-        this.p = p;
-        this.i = i;
-        this.d = d;
-        this.f = f;
+        this.kP = p;
+        this.kI = i;
+        this.kD = d;
+        this.kF = f;
+        return this;
+    }
+
+    public CalsMotor setDfilt(double filt){
+        this.dFilt = filt;
+        return this;
+    }
+
+    public CalsMotor setPIDPwrLim(double max){
+        this.powerLimit = max;
+        return this;
+    }
+
+    public CalsMotor invert(){
+        this.invert = true;
+        return this;
+    }
+
+    public CalsMotor brake(){
+        this.brake = true;
         return this;
     }
 }

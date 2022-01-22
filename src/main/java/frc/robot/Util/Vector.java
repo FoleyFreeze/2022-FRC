@@ -79,4 +79,14 @@ public class Vector {
 
         return this;
     }
+
+    //returns a string of r, theta
+    public String toStringPolar(){
+        return String.format("%.2f,%.0f\u00b0", r, Math.toDegrees(theta));
+    }
+
+    //returns a string of x, y
+    public String toStringXY(){
+        return String.format("%.2f,%.2f", getX(), getY());
+    }
 }

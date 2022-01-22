@@ -19,6 +19,21 @@ public class SparkMotor implements Motor{
         motor = new CANSparkMax(cals.channel, MotorType.kBrushless);
         pidController = motor.getPIDController();
         encoder = motor.getEncoder();
+
+        pidController.setP(cals.kP);
+        pidController.setI(cals.kI);
+        pidController.setD(cals.kD);
+        pidController.setFF(cals.kF);
+        pidController.setDFilter(cals.dFilt);
+
+        motor.setInverted(cals.invert);
+        setBrake(cals.brake);
+
+        //this is in units/tick
+        //TODO(1): do this later, but for now the 2019 bot assumes conversion outside the spark
+        //encoder.setPositionConversionFactor(1 / cals.ticksPerUnit);
+
+        pidController.setOutputRange(-cals.powerLimit, cals.powerLimit);
     }
 
     public void setPower(double power){
@@ -26,10 +41,12 @@ public class SparkMotor implements Motor{
     }
 
     public void setPosition(double revs){
-        pidController.setReference(revs, ControlType.kPosition);
+        //TODO(1): remove the scaling
+        pidController.setReference(revs * cals.ticksPerUnit, ControlType.kPosition);
     }
 
     public double getPosition(){
+        ////TODO(1): remove the scaling
         return encoder.getPosition() / cals.ticksPerUnit;
     }
 

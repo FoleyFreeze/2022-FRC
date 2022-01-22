@@ -8,6 +8,8 @@ public class Angle {
         
         if(angle > 180){
             angle -= 360;
+        } else if(angle < -180){
+            angle += 360;
         }
         return angle;
     }
@@ -17,6 +19,8 @@ public class Angle {
         
         if(angle > Math.PI){
             angle -= Math.PI * 2;
+        } else if(angle < -Math.PI){
+            angle += Math.PI * 2;
         }
         return angle;
     }

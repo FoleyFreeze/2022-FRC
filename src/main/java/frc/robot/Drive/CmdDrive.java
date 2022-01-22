@@ -10,11 +10,17 @@ public class CmdDrive extends CommandBase {
 
     public CmdDrive(RobotContainer r){
         bot = r;
+        addRequirements(r.drive);
     }
 
     @Override
     public void initialize(){
+        bot.drive.resetWheelEncoders();
+    }
 
+    @Override
+    public boolean runsWhenDisabled(){
+        return true;
     }
 
     @Override
@@ -35,9 +41,9 @@ public class CmdDrive extends CommandBase {
 
         if(v.theta < 3*pi/4 && v.theta > pi/4
                 || v.theta < -pi/4 && v.theta > -3*pi/4){
-            maxMag = 1 / Math.sin(v.theta);
+            maxMag = Math.abs(1 / Math.sin(v.theta));
         } else {
-            maxMag = 1 / Math.cos(v.theta);
+            maxMag = Math.abs(1 / Math.cos(v.theta));
         }
 
         v.r /= maxMag;
