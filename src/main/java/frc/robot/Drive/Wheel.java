@@ -18,6 +18,7 @@ public class Wheel implements AutoCloseable {
     public Vector wheelLocation;
     public Vector driveVec;
     double encOffset;
+    public double rawAbsEncOffset;
 
     public Wheel(CalsWheel c){
         cals = c;
@@ -26,6 +27,7 @@ public class Wheel implements AutoCloseable {
         swerve = Motor.create(c.swerveMotor);
         angleEncoder = new AnalogInput(c.angleEncoderChannel);
         wheelLocation = c.wheelLocation;
+        rawAbsEncOffset = cals.angleEncoderOffset;
     }
 
     //reset the relative encoder to match the absolute encoder
@@ -35,9 +37,16 @@ public class Wheel implements AutoCloseable {
         SmartDashboard.putNumber(cals.name + " encOffset", encOffset);
     }
 
+    public double learnWheelAngle(){
+        double offset = angleEncoder.getVoltage();
+        rawAbsEncOffset = offset;
+        resetToAbsEnc();
+        return offset;
+    }
+
     public double getAbsoluteEncAngle(){
         //return absolue encoder angle position
-        return Angle.normDeg((angleEncoder.getVoltage() - cals.angleEncoderOffset) / 5.0 * 360);
+        return Angle.normDeg((angleEncoder.getVoltage() - rawAbsEncOffset) / 5.0 * 360);
     }
 
     public double calcRotAngle(Vector centerOfRot){

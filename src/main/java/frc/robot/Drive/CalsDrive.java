@@ -17,6 +17,8 @@ public class CalsDrive {
         public double maxPower;
     }
 
+    public final boolean DISABLED = false;
+
     public double[] angleEncoderOffsets = {4.896, 1.298, 0.544, 2.170};
     double kP = 0.1;
     double kI = 0.0;

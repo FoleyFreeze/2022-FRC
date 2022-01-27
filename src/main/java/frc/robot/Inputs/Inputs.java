@@ -4,17 +4,29 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Util.Log;
 
 public class Inputs extends SubsystemBase implements AutoCloseable{
 
     CalsInputs cals;
-    public Joystick flysky;
+    public Joystick flysky = null;
 
     public boolean hasFlySky = false;
     public boolean hasGamePad = false;
 
     double time;
+
+    public Trigger resetSwerveAngles = new Trigger(){
+        public boolean get(){
+            if(flysky != null){
+                boolean b = flysky.getRawButton(10) && flysky.getRawButton(14);
+                return b;
+            } else {
+                return false;
+            }
+        }
+    };
 
     public Inputs(CalsInputs cals){
         this.cals = cals;
@@ -44,9 +56,8 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
     public boolean getFieldOrient(){
         if(flysky != null){
             return flysky.getRawButton(cals.FLYSKY_FIELD_ORIENT);
-        } else{
-            return false;
         }
+        return false;
     }
 
     public double getDriveX(){

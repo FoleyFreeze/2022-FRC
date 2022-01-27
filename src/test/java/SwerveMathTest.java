@@ -1,11 +1,10 @@
-import frc.robot.RobotContainer;
 import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.SysDriveTrain;
 import frc.robot.Drive.Wheel;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
-import frc.robot.Util.Angle;
+import frc.robot.Inputs.Sensors;
 import frc.robot.Util.Vector;
 
 import static org.junit.Assert.*;
@@ -15,12 +14,14 @@ public class SwerveMathTest {
     public static final double DELTA = 1e-2;
     Wheel wheel;
     Inputs inputs;
+    Sensors sensors;
     SysDriveTrain drive;
 
     @Before
     public void setup(){
         inputs = new Inputs(new CalsInputs());
-        drive = new SysDriveTrain(new CalsDrive());
+        sensors = new Sensors();
+        drive = new SysDriveTrain(new CalsDrive(), inputs, sensors);
         wheel = drive.wheels[0];
     }
 
@@ -58,9 +59,10 @@ public class SwerveMathTest {
 
     @Test
     public void testDriveMag(){
+        /*
         double angleDiff = 0;
         double magnitude = 1;
-        /*
+
         for(int i = 0; i < 360; i++){
             angleDiff++;
             if(Math.abs(angleDiff) > 90){
@@ -129,41 +131,5 @@ public class SwerveMathTest {
         System.out.println("Joystick Y " + inputs.getDriveY());
         System.out.println("Joystick X " + inputs.getDriveX());
         System.out.println("Joystick R " + inputs.getDrivezR());
-    }
-
-    @Test
-    public void testAngleNorm(){
-        double a = 179;
-        double b = Angle.normDeg(a);
-        assertEquals(179, b, DELTA);
-        a = 181;
-        b = Angle.normDeg(a);
-        assertEquals(-179, b, DELTA);
-        a = 361;
-        b = Angle.normDeg(a);
-        assertEquals(1, b, DELTA);
-        a = 719;
-        b = Angle.normDeg(a);
-        assertEquals(-1, b, DELTA);
-
-        a = -179;
-        b = Angle.normDeg(a);
-        assertEquals(-179, b, DELTA);
-        a = -181;
-        b = Angle.normDeg(a);
-        assertEquals(179, b, DELTA);
-        a = -361;
-        b = Angle.normDeg(a);
-        assertEquals(-1, b, DELTA);
-        a = -719;
-        b = Angle.normDeg(a);
-        assertEquals(1, b, DELTA);
-    }
-
-    @Test
-    public void testFromXY(){
-        Vector v = Vector.fromXY(0, -1);
-        assertEquals(1, v.r, DELTA);
-        assertEquals(-Math.PI/2, v.theta, DELTA);
     }
 }

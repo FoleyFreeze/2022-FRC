@@ -12,8 +12,12 @@ public class Interpolate {
         int i = axis.length - 1;
         while(value < axis[--i]);//moves through all numbers in the axis array until it finds the range that value is in
 
-        double slope = (table[i-1] - table[i]) / (axis[i-1] - axis[i]);
+        double slope = (table[i+1] - table[i]) / (axis[i+1] - axis[i]);
         double x = value - axis[i];
         return x * slope + table[i];
+    }
+
+    public void close(){
+
     }
 }

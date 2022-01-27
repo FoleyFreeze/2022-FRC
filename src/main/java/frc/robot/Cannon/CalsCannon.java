@@ -1,13 +1,16 @@
 package frc.robot.Cannon;
 
 import frc.robot.Util.Motor.CalsMotor;
+import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsCannon {
     
+    public final boolean DISABLED = true;
+
     public final int SHOOT_MOTOR_CHANNEL = 0;
-    public CalsMotor cwMotor;
-    public CalsMotor ccwMotor;
-    public CalsMotor angleMotor;
+    public CalsMotor cwMotor = new CalsMotor(MotorType.SPARK, 0);
+    public CalsMotor ccwMotor = new CalsMotor(MotorType.SPARK, 0);
+    public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 0);
 
     public final double RPM_TO_POWER = 0;
 

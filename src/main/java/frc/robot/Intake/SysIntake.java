@@ -6,9 +6,8 @@ public class SysIntake extends SubsystemBase {
     
     CalsIntake cals;
 
-    
-
     public SysIntake(CalsIntake cals){
         this.cals = cals;
+        if(cals.DISABLED) return;
     }
 }

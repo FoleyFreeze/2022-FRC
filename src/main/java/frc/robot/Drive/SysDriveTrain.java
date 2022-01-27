@@ -3,6 +3,7 @@ package frc.robot.Drive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Inputs.Sensors;
+import frc.robot.Util.FileManager;
 import frc.robot.Util.Vector;
 
 public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
@@ -15,33 +16,87 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     double fieldOrientOffset;
     Inputs inputs;
     Sensors sensors;
+    FileManager fm = new FileManager("/home/lvuser/WheelEncoderOffsets.txt");
 
-    public SysDriveTrain(CalsDrive cals){
+    public SysDriveTrain(CalsDrive cals, Inputs inputs, Sensors sensors){
         this.cals = cals;
+        if(cals.DISABLED) return;
+        this.inputs = inputs;
+        this.sensors = sensors;
         centerOfRot = cals.defaultRobotCenter;
 
         wheels = new Wheel[cals.wheelCals.length];
         for(int i=0; i < cals.wheelCals.length; i++){
             wheels[i] = new Wheel(cals.wheelCals[i]);
         }
+
+        try{
+            System.out.println("file exists: " + fm.exists());
+            if(fm.exists()){
+                for(Wheel w : wheels) {
+                    double val = Double.parseDouble(fm.readLine());
+                    System.out.println("Read " + w.cals.name + ": " + val);
+                    w.rawAbsEncOffset = val;
+                }
+
+                fm.close();
+            }
+        }catch(Exception e){
+            System.out.println(e.toString());
+            e.printStackTrace();
+            //if there was an error, reset to cal value
+            for(Wheel w : wheels) {
+                w.rawAbsEncOffset = w.cals.angleEncoderOffset;
+            }
+        }
+    }
+
+    public void learnWheelAngs(){
+        if(cals.DISABLED) return;
+
+        System.out.println("Reset ran");
+
+        for(Wheel w : wheels) {
+            w.learnWheelAngle();
+        }
+
+        try{
+            for(Wheel w : wheels) {
+                fm.writeLine(Double.toString(w.rawAbsEncOffset));
+                System.out.println(w.cals.name + " " + w.rawAbsEncOffset);
+            }
+
+            fm.close();
+
+        }catch(Exception e){
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
     }
 
     private void normalize(double max){
+        if(cals.DISABLED) return;
+
         for(Wheel w: wheels){
             w.driveVec.r = w.driveVec.r / max;
         }
     }
 
     public void resetWheelEncoders(){
+        if(cals.DISABLED) return;
+
         for(Wheel w : wheels){
             w.resetToAbsEnc();
         }
     }
 
     public void driveSwerve(Vector xy, double zR){
+        if(cals.DISABLED) return;
+        
         if(inputs.getFieldOrient()){
             xy.theta -= sensors.getFieldOrientAngle();
         }
+
         //create rotation vectors from wheel angle and rotation axis magnitude
         double max = 0;
         boolean allZero = true;
@@ -77,7 +132,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
 
     public void periodic(){
-        
+        if(cals.DISABLED) return;
     }
 
     @Override

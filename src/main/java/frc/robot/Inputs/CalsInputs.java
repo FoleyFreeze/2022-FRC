@@ -11,7 +11,7 @@ public class CalsInputs {
     public final double FS_EXPO = 1.8;
     public final double FS_INIT_VALUE = 0.03;
 
-    public final int FLYSKY_FIELD_ORIENT = 0;
+    public final int FLYSKY_FIELD_ORIENT = 5;
 
     public CalsInputs(){
 
