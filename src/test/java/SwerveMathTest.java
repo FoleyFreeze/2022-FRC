@@ -4,7 +4,8 @@ import frc.robot.Drive.SysDriveTrain;
 import frc.robot.Drive.Wheel;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
-import frc.robot.Inputs.Sensors;
+import frc.robot.Sensors.CalsSensors;
+import frc.robot.Sensors.Sensors;
 import frc.robot.Util.Vector;
 
 import static org.junit.Assert.*;
@@ -20,7 +21,7 @@ public class SwerveMathTest {
     @Before
     public void setup(){
         inputs = new Inputs(new CalsInputs());
-        sensors = new Sensors();
+        sensors = new Sensors(new CalsSensors());
         drive = new SysDriveTrain(new CalsDrive(), inputs, sensors);
         wheel = drive.wheels[0];
     }
@@ -86,7 +87,6 @@ public class SwerveMathTest {
 
         Vector out = v1.subtract(v2);
 
-        //System.out.println(out.getY());
         assertEquals(1, out.getX(), DELTA);
         assertEquals(-3, out.getY(), DELTA);
     }
@@ -95,7 +95,6 @@ public class SwerveMathTest {
     public void testCalcRotAngle(){
         wheel.wheelLocation = Vector.fromXY(-1, -1);
         double val = wheel.calcRotAngle(new Vector(0, 0));
-        //System.out.format("%.3f matches %.3f\n",Math.toDegrees(val), Math.toDegrees(0));
         assertEquals(-Math.PI / 4, val, DELTA);
     }
 
@@ -121,15 +120,7 @@ public class SwerveMathTest {
     }
 
     @Test
-    public void testSwerveFunc(){
-        drive.driveSwerve(Vector.fromXY(0, -1), 0);
-
-        for(Wheel w : drive.wheels){
-            System.out.println(w.cals.name + " " + w.driveVec.toStringPolar());
-        }
-
-        System.out.println("Joystick Y " + inputs.getDriveY());
-        System.out.println("Joystick X " + inputs.getDriveX());
-        System.out.println("Joystick R " + inputs.getDrivezR());
+    public void testFieldOrient(){
+        drive.driveSwerve(Vector.fromXY(1, 1), 0.5);
     }
 }

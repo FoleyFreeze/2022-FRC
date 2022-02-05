@@ -9,19 +9,19 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.Cannon.CalsCannon;
 import frc.robot.Cannon.SysCannon;
+import frc.robot.Climber.CalsClimb;
+import frc.robot.Climber.SysClimb;
 import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.SysDriveTrain;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
-import frc.robot.Inputs.Sensors;
 import frc.robot.Intake.CalsIntake;
 import frc.robot.Intake.SysIntake;
-import frc.robot.Vision.CalsVision;
-import frc.robot.Vision.Vision;
+import frc.robot.Sensors.CalsSensors;
+import frc.robot.Sensors.Sensors;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -32,17 +32,17 @@ import frc.robot.Vision.Vision;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
-  public final Vision vision = new Vision(new CalsVision());
   public final Inputs inputs = new Inputs(new CalsInputs());
-  public final Sensors sensors = new Sensors();
+  public final Sensors sensors = new Sensors(new CalsSensors());
   public final SysCannon cannon = new SysCannon(new CalsCannon());
   public final SysDriveTrain drive = new SysDriveTrain(new CalsDrive(), inputs, sensors);
   public final SysIntake intake = new SysIntake(new CalsIntake());
+  public final SysClimb climb = new SysClimb(new CalsClimb());
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     CommandScheduler cs = CommandScheduler.getInstance();
-    cs.registerSubsystem(inputs, vision, intake, cannon, drive); //order matters
+    cs.registerSubsystem(inputs, intake, cannon, drive); //order matters
     cs.setDefaultCommand(drive, new CmdDrive(this));
 
     // Configure the button bindings
@@ -58,8 +58,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     inputs.resetSwerveAngles.whileActiveOnce(new InstantCommand(drive::learnWheelAngs));
-    
-
+    inputs.primeCannon.whileActiveContinuous(new InstantCommand(cannon::prime));
+    inputs.fireCannon.whileActiveContinuous(new InstantCommand(cannon::fire));
 
   }
 

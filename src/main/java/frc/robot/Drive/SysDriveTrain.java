@@ -2,7 +2,7 @@ package frc.robot.Drive;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Inputs.Inputs;
-import frc.robot.Inputs.Sensors;
+import frc.robot.Sensors.Sensors;
 import frc.robot.Util.FileManager;
 import frc.robot.Util.Vector;
 
@@ -31,11 +31,9 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         }
 
         try{
-            System.out.println("file exists: " + fm.exists());
             if(fm.exists()){
                 for(Wheel w : wheels) {
                     double val = Double.parseDouble(fm.readLine());
-                    System.out.println("Read " + w.cals.name + ": " + val);
                     w.rawAbsEncOffset = val;
                 }
 
@@ -54,8 +52,6 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     public void learnWheelAngs(){
         if(cals.DISABLED) return;
 
-        System.out.println("Reset ran");
-
         for(Wheel w : wheels) {
             w.learnWheelAngle();
         }
@@ -67,7 +63,6 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
             }
 
             fm.close();
-
         }catch(Exception e){
             System.out.println(e.toString());
             e.printStackTrace();
@@ -93,8 +88,8 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     public void driveSwerve(Vector xy, double zR){
         if(cals.DISABLED) return;
         
-        if(inputs.getFieldOrient()){
-            xy.theta -= sensors.getFieldOrientAngle();
+        if(inputs.getFieldOrient.get()){
+            
         }
 
         //create rotation vectors from wheel angle and rotation axis magnitude

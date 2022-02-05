@@ -19,7 +19,13 @@ public class CalsCannon {
     public double[] speeds = {0, 0, 0, 0};
 
     public final double LAYUP_SHOOT_SPEED = 0;
+    public final double LAYUP_SHOOT_ANG = 0;
     public final double LAUNCH_PAD_SHOOT_SPEED = 0;
+    public final double LAUNCH_PAD_SHOOT_ANG = 0;
+    public double jogInitSpeed = 0;
+    public double jogSpeedInterval = 0;
+    public double jogInitAng = 0;
+    public double jogAngInterval = 0;
 
     public CalsCannon(){
 

@@ -3,6 +3,7 @@ package frc.robot.Drive;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Drive.CalsDrive.CalsWheel;
+import frc.robot.Sensors.Utilities.SwerveEncoder;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 import frc.robot.Util.Motor.Motor;
@@ -11,7 +12,7 @@ public class Wheel implements AutoCloseable {
     
     public CalsWheel cals;
 
-    Motor drive; //wheel power motor
+    public Motor drive; //wheel power motor
     public Motor swerve; //wheel angle motor
     AnalogInput angleEncoder;
 
@@ -19,6 +20,9 @@ public class Wheel implements AutoCloseable {
     public Vector driveVec;
     double encOffset;
     public double rawAbsEncOffset;
+
+    double prevPos = 0;
+    double prevAng = 0;
 
     public Wheel(CalsWheel c){
         cals = c;
@@ -55,11 +59,23 @@ public class Wheel implements AutoCloseable {
         return v.theta + (Math.PI / 2);
     }
 
+    public Vector deltaVec(){
+        double currentPos = drive.getPosition();
+        double pos = currentPos - prevPos;
+        prevPos = currentPos;
+
+        double currentAng = Angle.normDeg(swerve.getPosition() * 360 - encOffset);
+        double ang = (currentAng + prevAng) / 2;
+        prevPos = currentAng;
+
+        return new Vector(pos, Math.toRadians(ang));
+    }
+
     public void drive(boolean allZero){
         //figure out the right encoder position to target
         double targetAngle = Math.toDegrees(driveVec.theta) + encOffset;
 
-        double currPosition = swerve.getPosition() * 360;//convert from revolutions to degrees
+        double currPosition = swerve.getPosition() * 360;
         double angleDiff = Angle.normDeg(targetAngle - currPosition);
 
         double magnitude = driveVec.r;

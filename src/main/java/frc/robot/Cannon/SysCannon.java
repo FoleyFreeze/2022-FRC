@@ -12,13 +12,24 @@ public class SysCannon extends SubsystemBase {
     Motor ccwMotor;
     Motor angleMotor;
 
+    double jogSpeed;
+    double jogAng;
+
     public SysCannon(CalsCannon cals){
         this.cals = cals;
         if (cals.DISABLED) return;
+
+        jogSpeed = cals.jogInitSpeed;
+        jogAng = cals.jogInitAng;
         
         cwMotor = Motor.create(cals.cwMotor);
         ccwMotor = Motor.create(cals.ccwMotor);
         angleMotor = Motor.create(cals.angleMotor);
+    }
+
+    public void prime(){
+        //manual prime from control board
+        prime(jogSpeed + cals.LAYUP_SHOOT_SPEED, jogAng + cals.LAYUP_SHOOT_ANG);
     }
 
     public void prime(double dist){
@@ -54,5 +65,21 @@ public class SysCannon extends SubsystemBase {
 
         ccwMotor.setPower(ccwSpeed * cals.RPM_TO_POWER);
         cwMotor.setPower(cwSpeed * cals.RPM_TO_POWER);
+    }
+
+    public void jogSpeed(boolean up){
+        if(up){
+            jogSpeed += cals.jogSpeedInterval;
+        } else {
+            jogSpeed -= cals.jogSpeedInterval;
+        }
+    }
+
+    public void jogAng(boolean right){
+        if(right){
+            jogAng += cals.jogAngInterval;
+        } else {
+            jogAng -= cals.jogAngInterval;
+        }
     }
 }

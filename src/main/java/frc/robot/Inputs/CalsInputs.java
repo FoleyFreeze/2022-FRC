@@ -11,7 +11,15 @@ public class CalsInputs {
     public final double FS_EXPO = 1.8;
     public final double FS_INIT_VALUE = 0.03;
 
-    public final int FLYSKY_FIELD_ORIENT = 5;
+    public final int FS_FIELD_ORIENT = 5;
+    public final int FS_RESET_SWERVE_LEFT = 11;
+    public final int FS_RESET_SWERVE_RIGHT = 15;
+
+    //driverstation cals
+    public final int CB_PRIME = 0;
+    public final int CB_FIRE = 0;
+
+    public final double RESET_ANGLE_DELAY = 5;
 
     public CalsInputs(){
 

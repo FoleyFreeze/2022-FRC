@@ -11,17 +11,54 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     CalsInputs cals;
     public Joystick flysky = null;
+    public Joystick controlBoard = null;
 
     public boolean hasFlySky = false;
     public boolean hasGamePad = false;
 
     double time;
 
-    public Trigger resetSwerveAngles = new Trigger(){
+    public Trigger getFieldOrient = new Trigger(){
         public boolean get(){
             if(flysky != null){
-                boolean b = flysky.getRawButton(10) && flysky.getRawButton(14);
-                return b;
+                return flysky.getRawButton(cals.FS_FIELD_ORIENT);
+            } else {
+                return false;
+            }
+        }
+    };
+
+    public Trigger resetSwerveAngles = new Trigger(){
+        double startTime;
+        public boolean get(){
+            double now = Timer.getFPGATimestamp();
+            if(flysky != null){
+                boolean b = flysky.getRawButton(cals.FS_RESET_SWERVE_LEFT) && flysky.getRawButton(cals.FS_RESET_SWERVE_RIGHT);
+                if(!b){
+                    startTime = Timer.getFPGATimestamp();
+                }
+                return b && now > startTime + cals.RESET_ANGLE_DELAY;
+            } else {
+                startTime = Timer.getFPGATimestamp();
+                return false;
+            }
+        }
+    };
+
+    public Trigger primeCannon = new Trigger(){
+        public boolean get(){
+            if(controlBoard != null){
+                return controlBoard.getRawButton(cals.CB_PRIME);
+            } else {
+                return false;
+            }
+        }
+    };
+    
+    public Trigger fireCannon = new Trigger(){
+        public boolean get(){
+            if(controlBoard != null){
+                return controlBoard.getRawButton(cals.CB_FIRE);
             } else {
                 return false;
             }
@@ -51,13 +88,6 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
             double outputRange = 1 - min;
             return (absVal - lo) * valSign / inputRange * outputRange + min;
         }
-    }
-
-    public boolean getFieldOrient(){
-        if(flysky != null){
-            return flysky.getRawButton(cals.FLYSKY_FIELD_ORIENT);
-        }
-        return false;
     }
 
     public double getDriveX(){
@@ -105,15 +135,17 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
                     flysky = new Joystick(i);
                     Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "Flysky found on port: " + i);
                 }
+
+                if(name.contains("foley") && (controlBoard==null || controlBoard.getPort() != i)) {
+                    controlBoard = new Joystick(i);
+                    Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "control board found on port: " + i);
+                }
             }
 
             time = Timer.getFPGATimestamp() + cals.CHECK_INTERVAL;
-
-            Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, true, "has FlySky");
-            Log.logBool(hasGamePad, Log.LOG_GROUPS.INPUTS, 5, true, "has gamepad");
-            Log.logString(DriverStation.getJoystickName(0), Log.LOG_GROUPS.INPUTS, 5, false, "name");
-
         }
+        Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, true, "has FlySky");
+        Log.logBool(hasGamePad, Log.LOG_GROUPS.INPUTS, 5, true, "has gamepad");
 
         Log.logDouble(getDriveY(), Log.LOG_GROUPS.INPUTS, 1, true, "input Y");
         Log.logDouble(getDriveX(), Log.LOG_GROUPS.INPUTS, 1, true, "input X");

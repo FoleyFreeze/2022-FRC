@@ -26,6 +26,6 @@ public class TestUtil {
         double value = 1.25;
         double result = Interpolate.interpolate(axis, table, value);
 
-        //System.out.println(result);
+        assertEquals(0.625, result, DELTA);
     }
 }
