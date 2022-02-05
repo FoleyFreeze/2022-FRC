@@ -5,10 +5,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Log {
 
     public static enum LOG_GROUPS{
-        INPUTS, INTAKE, DRIVE, VISION, SHOOTER
+        INPUTS, INTAKE, DRIVE, SENSORS, SHOOTER
     }
     private static int[] VALUES = {
-        4,      0,      4,     0,      0
+        4,      0,      4,     0,       0
     };
 
     /* 

@@ -58,8 +58,11 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     inputs.resetSwerveAngles.whileActiveOnce(new InstantCommand(drive::learnWheelAngs));
-    inputs.primeCannon.whileActiveContinuous(new InstantCommand(cannon::prime));
-    inputs.fireCannon.whileActiveContinuous(new InstantCommand(cannon::fire));
+    inputs.resetNavXAng.whileActiveOnce(new InstantCommand(sensors.navX::resetAng));
+    inputs.resetNavXPos.whileActiveOnce(new InstantCommand(sensors.navX::resetPos));
+
+    //inputs.primeCannon.whileActiveContinuous(new InstantCommand(cannon::prime));
+    //inputs.fireCannon.whileActiveContinuous(new InstantCommand(cannon::fire));
 
   }
 

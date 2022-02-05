@@ -42,6 +42,7 @@ public class Vision {
                 // id, currTime, calcTime, {dist, angle, color} repeat
                 String[] parts = value.getString().split(",");
                 
+                @SuppressWarnings("unused")
                 int id = Integer.parseInt(parts[0]);
 
                 double currTime = Double.parseDouble(parts[1]);
@@ -75,6 +76,7 @@ public class Vision {
                 // id, currTime, calcTime, {dist, angle, color} repeat
                 String[] parts = value.getString().split(",");
 
+                @SuppressWarnings("unused")
                 int id = Integer.parseInt(parts[0]);
 
                 double currTime = Double.parseDouble(parts[1]);

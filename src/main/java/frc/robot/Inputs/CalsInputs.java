@@ -14,12 +14,15 @@ public class CalsInputs {
     public final int FS_FIELD_ORIENT = 5;
     public final int FS_RESET_SWERVE_LEFT = 11;
     public final int FS_RESET_SWERVE_RIGHT = 15;
+    public final double RESET_ANGLE_DELAY = 5;
+
+    public final int FS_RESET_NAVX_ANG = -1;
+    public final int FS_RESET_NAVX_POS = -1;
+    public final double RESET_NAVX_DELAY = 3;
 
     //driverstation cals
     public final int CB_PRIME = 0;
     public final int CB_FIRE = 0;
-
-    public final double RESET_ANGLE_DELAY = 5;
 
     public CalsInputs(){
 

@@ -6,6 +6,8 @@ import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Sensors.CalsSensors;
 import frc.robot.Sensors.Sensors;
+import frc.robot.Sensors.GPS.CameraGPS;
+import frc.robot.Sensors.GPS.SwerveEncoder;
 import frc.robot.Util.Vector;
 
 import static org.junit.Assert.*;
@@ -17,6 +19,8 @@ public class SwerveMathTest {
     Inputs inputs;
     Sensors sensors;
     SysDriveTrain drive;
+    SwerveEncoder encoder;
+    CameraGPS gps;
 
     @Before
     public void setup(){
@@ -24,6 +28,8 @@ public class SwerveMathTest {
         sensors = new Sensors(new CalsSensors());
         drive = new SysDriveTrain(new CalsDrive(), inputs, sensors);
         wheel = drive.wheels[0];
+        gps = new CameraGPS(10);
+        encoder = new SwerveEncoder(drive.wheels);
     }
 
     @After
@@ -31,6 +37,8 @@ public class SwerveMathTest {
         try{
             inputs.close();
             drive.close();
+            gps.close();
+            encoder.close();
         } catch (Exception e){
             System.out.println("Exception during close:");
             System.out.println(e.toString());
@@ -122,5 +130,42 @@ public class SwerveMathTest {
     @Test
     public void testFieldOrient(){
         drive.driveSwerve(Vector.fromXY(1, 1), 0.5);
+    }
+
+
+
+    //sensors testing
+
+    @Test
+    public void testInterp(){
+        gps.addLocation(Vector.fromXY(0.5, 0.5), 0, 0.5);
+        gps.addLocation(Vector.fromXY(0.6, 0.8), 0.4, 0.6);
+
+        //Location l = gps.interpolate(0.52);
+    }
+
+    @Test
+    public void testCamera(){
+        gps.addLocation(Vector.fromXY(0.1, 0.7), 2, 100);
+        gps.addLocation(new Vector(1, 2), 1, 110);
+
+      /*System.out.println(gps.locationHistory[0].pos.getX());
+        System.out.println(gps.locationHistory[0].angle);
+        System.out.println(gps.locationHistory[0].timestamp);*/
+
+        assertEquals(0.1, gps.locationHistory[0].pos.getX(), DELTA);
+        assertEquals(0.7, gps.locationHistory[0].pos.getY(), DELTA);
+        assertEquals(2, gps.locationHistory[0].angle, DELTA);
+    }
+
+    @Test
+    public void testEncoders(){
+        double pi = Math.PI;
+        Vector[] wheelVecs = {new Vector(1, pi/4), new Vector(1, -pi/4), new Vector(1, (3*pi)/4), new Vector(1, -(3*pi)/4)};
+
+        Vector averageTrans = encoder.averageTranslation(wheelVecs);
+        double averageRot = encoder.averageRotation(wheelVecs, averageTrans);
+
+        System.out.println(averageRot);
     }
 }

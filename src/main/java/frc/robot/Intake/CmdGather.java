@@ -1,6 +1,5 @@
 package frc.robot.Intake;
 
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CmdGather extends CommandBase{

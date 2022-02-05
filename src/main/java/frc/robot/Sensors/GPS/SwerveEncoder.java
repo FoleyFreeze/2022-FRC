@@ -1,14 +1,15 @@
-package frc.robot.Sensors.Utilities;
+package frc.robot.Sensors.GPS;
 
 import frc.robot.Drive.Wheel;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
-public class SwerveEncoder {
+public class SwerveEncoder implements AutoCloseable{
     
-    Wheel[] wheels;
+    public Wheel[] wheels;
     public Vector botPos;
-    double prevAng;
+    public double botAng;
+    public double prevAng;
 
     public SwerveEncoder(Wheel[] wheels){
         this.wheels = wheels;
@@ -24,11 +25,11 @@ public class SwerveEncoder {
         double deltaAngle = averageRotation(wheelVecs, deltaXY);
 
         botPos.add(deltaXY);
+        botAng += deltaAngle;
         prevAng = Angle.normDeg(prevAng + deltaAngle);
     }
 
     public Vector averageTranslation(Vector[] wheelVecs){
-
         Vector v = new Vector(0,0);
         for(Vector w : wheelVecs){
             v.add(w);
@@ -43,18 +44,23 @@ public class SwerveEncoder {
         double[] deltaAng = new double[wheelVecs.length];
         double averageAng = 0;
 
-        for(int i = 0; i > wheelVecs.length; i++){
+        for(int i = 0; i < wheelVecs.length; i++){
             Vector rotationVec = Vector.subVectors(wheelVecs[i], deltaXY);
 
             Vector wheelLocation = wheels[i].cals.wheelLocation;
             double perpendicular = wheelLocation.theta - Math.PI / 2;
 
-            double deltaDist = rotationVec.r * Math.cos(rotationVec.theta - perpendicular); 
+            double deltaDist = rotationVec.r * Math.cos(rotationVec.theta - perpendicular);
             deltaAng[i] = (deltaDist / (2 * Math.PI * wheelLocation.r)) * 360;
             
-            averageAng = deltaAng[i] / 4;
+            averageAng += deltaAng[i] / wheelVecs.length;
         }
 
         return averageAng;
+    }
+
+    @Override
+    public void close() throws Exception {
+
     }
 }

@@ -52,11 +52,6 @@ public class Vector {
         return new Vector(r, theta);
     }
 
-    //projects v1 onto v2
-    public static Vector multiplyVectors(Vector v1, Vector v2){
-        return new Vector(v1.r * v2.r * Math.cos(v1.theta - v2.theta), v1.theta);
-    }
-
     public double getX(){
         return r * Math.cos(theta);
     }

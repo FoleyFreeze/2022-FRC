@@ -1,4 +1,4 @@
-package frc.robot.Sensors.Utilities;
+package frc.robot.Sensors.GPS;
 
 import frc.robot.Sensors.Vision.VisionData;
 import frc.robot.Util.Vector;

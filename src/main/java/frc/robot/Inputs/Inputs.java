@@ -28,6 +28,40 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     };
 
+    public Trigger resetNavXAng = new Trigger(){
+        double startTime;
+        public boolean get(){
+            double now = Timer.getFPGATimestamp();
+            if(flysky != null){
+                boolean b = flysky.getRawButton(cals.FS_RESET_NAVX_ANG);
+                if(!b){
+                    startTime = Timer.getFPGATimestamp();
+                }
+                return b && now > startTime + cals.RESET_NAVX_DELAY;
+            } else {
+                startTime = Timer.getFPGATimestamp();
+                return false;
+            }
+        }
+    };
+
+    public Trigger resetNavXPos = new Trigger(){
+        double startTime;
+        public boolean get(){
+            double now = Timer.getFPGATimestamp();
+            if(flysky != null){
+                boolean b = flysky.getRawButton(cals.FS_RESET_NAVX_POS);
+                if(!b){
+                    startTime = Timer.getFPGATimestamp();
+                }
+                return b && now > startTime + cals.RESET_NAVX_DELAY;
+            } else {
+                startTime = Timer.getFPGATimestamp();
+                return false;
+            }
+        }
+    };
+
     public Trigger resetSwerveAngles = new Trigger(){
         double startTime;
         public boolean get(){

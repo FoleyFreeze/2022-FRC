@@ -1,4 +1,4 @@
-package frc.robot.Sensors.Utilities;
+package frc.robot.Sensors.GPS;
 
 import com.kauailabs.navx.frc.AHRS;
 
@@ -28,11 +28,22 @@ public class NavX {
             prevDY = navX.getDisplacementY();
             navX.resetDisplacement();
         }
-        return Vector.fromXY(navX.getDisplacementX() + prevDX, navX.getDisplacementY() + prevDY);
+        Vector v = Vector.fromXY(navX.getDisplacementX() + prevDX, navX.getDisplacementY() + prevDY);
+        
+        //rotate the xy position to match the same 0 as the encoder vector
+        v.theta += Math.toRadians(prevAng);
+        
+        return v;
     }
 
     public void resetAng(){
         prevAng = navX.getYaw();
+    }
+
+    public void resetPos(){
+        prevDX = 0;
+        prevDY = 0;
+        navX.resetDisplacement();
     }
 
     public void overrideAng(double angle){

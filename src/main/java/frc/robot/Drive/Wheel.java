@@ -3,7 +3,6 @@ package frc.robot.Drive;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Drive.CalsDrive.CalsWheel;
-import frc.robot.Sensors.Utilities.SwerveEncoder;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 import frc.robot.Util.Motor.Motor;
@@ -12,7 +11,7 @@ public class Wheel implements AutoCloseable {
     
     public CalsWheel cals;
 
-    public Motor drive; //wheel power motor
+    public Motor drive; //driving power motor
     public Motor swerve; //wheel angle motor
     AnalogInput angleEncoder;
 
