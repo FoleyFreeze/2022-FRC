@@ -1,3 +1,4 @@
+import frc.robot.RobotContainer;
 import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.SysDriveTrain;
@@ -21,12 +22,14 @@ public class SwerveMathTest {
     SysDriveTrain drive;
     SwerveEncoder encoder;
     CameraGPS gps;
+    RobotContainer c;
 
     @Before
     public void setup(){
+        c = new RobotContainer();
         inputs = new Inputs(new CalsInputs());
-        sensors = new Sensors(new CalsSensors());
-        drive = new SysDriveTrain(new CalsDrive(), inputs, sensors);
+        sensors = new Sensors(new CalsSensors(), c);
+        drive = new SysDriveTrain(new CalsDrive(), c);
         wheel = drive.wheels[0];
         gps = new CameraGPS(10);
         encoder = new SwerveEncoder(drive.wheels);

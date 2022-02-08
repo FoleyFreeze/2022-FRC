@@ -13,6 +13,9 @@ public class SwerveEncoder implements AutoCloseable{
 
     public SwerveEncoder(Wheel[] wheels){
         this.wheels = wheels;
+
+        //TODO: Init to cals based on auton pattern
+        botPos = new Vector(0,0);
     }
 
     public void updateRobotLocation(){
@@ -25,8 +28,7 @@ public class SwerveEncoder implements AutoCloseable{
         double deltaAngle = averageRotation(wheelVecs, deltaXY);
 
         botPos.add(deltaXY);
-        botAng += deltaAngle;
-        prevAng = Angle.normDeg(prevAng + deltaAngle);
+        botAng = Angle.normDeg(botAng + deltaAngle);
     }
 
     public Vector averageTranslation(Vector[] wheelVecs){
@@ -57,6 +59,14 @@ public class SwerveEncoder implements AutoCloseable{
         }
 
         return averageAng;
+    }
+
+    public void resetAng(){
+        botAng = 0;
+    }
+
+    public void resetPos(){
+        botPos = new Vector(0, botAng);
     }
 
     @Override

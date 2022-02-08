@@ -2,6 +2,7 @@ package frc.robot.Sensors.GPS;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import frc.robot.Util.Vector;
 
@@ -24,8 +25,8 @@ public class NavX {
 
     public Vector getFieldOrientDisplacement(boolean isMoving){
         if(!isMoving){
-            prevDX = navX.getDisplacementX();
-            prevDY = navX.getDisplacementY();
+            prevDX = Units.metersToInches(navX.getDisplacementX());
+            prevDY = Units.metersToInches(navX.getDisplacementY());
             navX.resetDisplacement();
         }
         Vector v = Vector.fromXY(navX.getDisplacementX() + prevDX, navX.getDisplacementY() + prevDY);

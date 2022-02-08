@@ -28,7 +28,7 @@ public class CalsDrive {
     public final double MAX_SWERVE_PWR = 0.6;
     public final double MAX_DRIVE_PWR = 0.15;
     double swerveRotationsPer360 = 60.0;
-    double driveRotationsPerInch = 1;
+    double driveRotationsPerInch = 64/18.0 * 18/32.0 * 45/15.0 / 4.0 / Math.PI;
 
     public boolean fieldOriented;
     

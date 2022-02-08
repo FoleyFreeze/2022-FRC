@@ -33,11 +33,12 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   public final Inputs inputs = new Inputs(new CalsInputs());
-  public final Sensors sensors = new Sensors(new CalsSensors());
   public final SysCannon cannon = new SysCannon(new CalsCannon());
-  public final SysDriveTrain drive = new SysDriveTrain(new CalsDrive(), inputs, sensors);
+  public final SysDriveTrain drive = new SysDriveTrain(new CalsDrive(), this);
   public final SysIntake intake = new SysIntake(new CalsIntake());
   public final SysClimb climb = new SysClimb(new CalsClimb());
+  public final Sensors sensors = new Sensors(new CalsSensors(),this); //needs to run after drive is created
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -58,8 +59,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     inputs.resetSwerveAngles.whileActiveOnce(new InstantCommand(drive::learnWheelAngs));
-    inputs.resetNavXAng.whileActiveOnce(new InstantCommand(sensors.navX::resetAng));
-    inputs.resetNavXPos.whileActiveOnce(new InstantCommand(sensors.navX::resetPos));
+    inputs.resetNavXAng.whileActiveOnce(new InstantCommand(sensors::resetAng));
+    inputs.resetNavXPos.whileActiveOnce(new InstantCommand(sensors::resetPos));
 
     //inputs.primeCannon.whileActiveContinuous(new InstantCommand(cannon::prime));
     //inputs.fireCannon.whileActiveContinuous(new InstantCommand(cannon::fire));

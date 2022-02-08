@@ -3,6 +3,7 @@ package frc.robot.Sensors;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Sensors.GPS.CameraGPS;
 import frc.robot.Sensors.GPS.NavX;
 import frc.robot.Sensors.GPS.SwerveEncoder;
@@ -32,7 +33,7 @@ public class Sensors extends SubsystemBase {
     public boolean isOnRedTeam;
     private boolean checkedAlliance;
 
-    public Sensors(CalsSensors cals){
+    public Sensors(CalsSensors cals, RobotContainer c){
         this.cals = cals;
         checkedAlliance = false;
 
@@ -41,7 +42,9 @@ public class Sensors extends SubsystemBase {
         opponentCargo = new VisionData();
         opponentCargo.timestamp = -10;
 
-        
+        camera = new CameraGPS(cals.HISTORY_SIZE);
+        navX = new NavX();
+        encoders = new SwerveEncoder(c.drive.wheels);
     }
 
     @Override
@@ -97,6 +100,16 @@ public class Sensors extends SubsystemBase {
 
         //process other sensors if any
 
+    }
+
+    public void resetAng(){
+        navX.resetAng();
+        encoders.resetAng();
+    }
+
+    public void resetPos(){
+        navX.resetPos();
+        encoders.resetPos();
     }
 
     public Vector toFieldCoord(Vector v){ 

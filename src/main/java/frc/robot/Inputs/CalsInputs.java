@@ -16,8 +16,8 @@ public class CalsInputs {
     public final int FS_RESET_SWERVE_RIGHT = 15;
     public final double RESET_ANGLE_DELAY = 5;
 
-    public final int FS_RESET_NAVX_ANG = -1;
-    public final int FS_RESET_NAVX_POS = -1;
+    public final int FS_RESET_NAVX_ANG = 10;
+    public final int FS_RESET_NAVX_POS = 14;
     public final double RESET_NAVX_DELAY = 3;
 
     //driverstation cals

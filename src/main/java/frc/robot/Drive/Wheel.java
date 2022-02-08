@@ -37,7 +37,7 @@ public class Wheel implements AutoCloseable {
     public void resetToAbsEnc(){
         double relEncAngle = Angle.normDeg(swerve.getPosition() * 360);
         encOffset = Angle.normDeg(relEncAngle - getAbsoluteEncAngle());
-        SmartDashboard.putNumber(cals.name + " encOffset", encOffset);
+        //SmartDashboard.putNumber(cals.name + " encOffset", encOffset);
     }
 
     public double learnWheelAngle(){
@@ -65,7 +65,7 @@ public class Wheel implements AutoCloseable {
 
         double currentAng = Angle.normDeg(swerve.getPosition() * 360 - encOffset);
         double ang = (currentAng + prevAng) / 2;
-        prevPos = currentAng;
+        prevAng = currentAng;
 
         return new Vector(pos, Math.toRadians(ang));
     }
@@ -92,7 +92,7 @@ public class Wheel implements AutoCloseable {
         //convert back to motor rotations
         double rotationsSetpoint = (angleDiff + currPosition) / 360;
         
-        SmartDashboard.putNumber(cals.name + " wheel setpoint", rotationsSetpoint);
+        //SmartDashboard.putNumber(cals.name + " wheel setpoint", rotationsSetpoint);
 
         if(!allZero){
             swerve.setPosition(rotationsSetpoint);

@@ -6,6 +6,8 @@ public class CalsSensors {
 
     public final double MOVING_TIMEOUT = 0.1;
 
+    public final int HISTORY_SIZE = 10;
+
     public CalsSensors(){
 
     }

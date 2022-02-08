@@ -1,28 +1,26 @@
 package frc.robot.Drive;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
-import frc.robot.Sensors.Sensors;
 import frc.robot.Util.FileManager;
 import frc.robot.Util.Vector;
 
 public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     
     CalsDrive cals;
+    Inputs inputs;
 
     public Wheel[] wheels;
 
     Vector centerOfRot;
     double fieldOrientOffset;
-    Inputs inputs;
-    Sensors sensors;
     FileManager fm = new FileManager("/home/lvuser/WheelEncoderOffsets.txt");
 
-    public SysDriveTrain(CalsDrive cals, Inputs inputs, Sensors sensors){
+    public SysDriveTrain(CalsDrive cals, RobotContainer c){
         this.cals = cals;
+        inputs = c.inputs;
         if(cals.DISABLED) return;
-        this.inputs = inputs;
-        this.sensors = sensors;
         centerOfRot = cals.defaultRobotCenter;
 
         wheels = new Wheel[cals.wheelCals.length];
