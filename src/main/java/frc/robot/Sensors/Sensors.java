@@ -64,6 +64,8 @@ public class Sensors extends SubsystemBase {
             }
         }
 
+        Log.logBool(navX.navX.isConnected(), Log.LOG_GROUPS.SENSORS, 1, true, "navX Connected");
+
         //update robot orientation and location
         encoders.updateRobotLocation();
 

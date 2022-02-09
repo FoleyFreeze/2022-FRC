@@ -27,5 +27,11 @@ public class NullMotor implements Motor{
     @Override
     public void close() throws Exception {
     }
+
+    @Override
+    public void resetEncoder() {
+        // TODO Auto-generated method stub
+        
+    }
     
 }

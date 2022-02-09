@@ -27,6 +27,7 @@ public class SparkMotor implements Motor{
         pidController.setDFilter(cals.dFilt);
 
         motor.setInverted(cals.invert);
+
         setBrake(cals.brake);
 
         //this is in units/tick
@@ -65,5 +66,10 @@ public class SparkMotor implements Motor{
     @Override
     public void close() throws Exception {
         motor.close();
+    }
+
+    @Override
+    public void resetEncoder() {
+        encoder.setPosition(0);
     }
 }

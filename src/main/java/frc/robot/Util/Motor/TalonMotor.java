@@ -46,4 +46,10 @@ public class TalonMotor implements Motor{
     public void close() throws Exception {
         throw new NoSuchMethodException();
     }
+
+    @Override
+    public void resetEncoder() {
+        // TODO Auto-generated method stub
+        
+    }
 }

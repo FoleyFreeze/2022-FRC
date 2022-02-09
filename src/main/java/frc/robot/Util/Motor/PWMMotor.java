@@ -34,4 +34,10 @@ public class PWMMotor implements Motor{
     public void close() throws Exception {
         motor.close();
     }
+
+    @Override
+    public void resetEncoder() {
+        // TODO Auto-generated method stub
+        
+    }
 }

@@ -4,6 +4,7 @@ import frc.robot.Util.Vector;
 import frc.robot.Util.Motor.CalsMotor;
 import frc.robot.Util.Motor.CalsMotor.MotorType;
 
+
 public class CalsDrive {
     
     public static class CalsWheel {
@@ -26,7 +27,7 @@ public class CalsDrive {
     double kF = 0.0;
     double dFilt = 0.00;
     public final double MAX_SWERVE_PWR = 0.6;
-    public final double MAX_DRIVE_PWR = 0.15;
+    public final static double MAX_DRIVE_PWR = 0.25;
     double swerveRotationsPer360 = 60.0;
     double driveRotationsPerInch = 64/18.0 * 18/32.0 * 45/15.0 / 4.0 / Math.PI;
 

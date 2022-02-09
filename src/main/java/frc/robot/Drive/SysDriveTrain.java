@@ -30,8 +30,10 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
         try{
             if(fm.exists()){
+                System.out.println("Reading wheel positions file:");
                 for(Wheel w : wheels) {
                     double val = Double.parseDouble(fm.readLine());
+                    System.out.println(w.cals.name + " " + val);
                     w.rawAbsEncOffset = val;
                 }
 
@@ -41,8 +43,10 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
             System.out.println(e.toString());
             e.printStackTrace();
             //if there was an error, reset to cal value
+            System.out.println("Error reading file, defaulting to:");
             for(Wheel w : wheels) {
                 w.rawAbsEncOffset = w.cals.angleEncoderOffset;
+                System.out.println(w.cals.name + " " + w.rawAbsEncOffset);
             }
         }
     }
@@ -55,6 +59,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         }
 
         try{
+            System.out.println("Saving new wheel locations:");
             for(Wheel w : wheels) {
                 fm.writeLine(Double.toString(w.rawAbsEncOffset));
                 System.out.println(w.cals.name + " " + w.rawAbsEncOffset);
@@ -62,6 +67,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
             fm.close();
         }catch(Exception e){
+            System.out.println("Error while saving wheel locations:");
             System.out.println(e.toString());
             e.printStackTrace();
         }

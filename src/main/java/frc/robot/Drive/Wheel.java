@@ -27,6 +27,7 @@ public class Wheel implements AutoCloseable {
         cals = c;
         
         drive = Motor.create(c.driveMotor);
+        drive.resetEncoder();
         swerve = Motor.create(c.swerveMotor);
         angleEncoder = new AnalogInput(c.angleEncoderChannel);
         wheelLocation = c.wheelLocation;

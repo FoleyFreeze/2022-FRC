@@ -26,6 +26,7 @@ public interface Motor extends AutoCloseable {
     public double getPosition();
     public boolean getBrake();
     public void setBrake(boolean brake);
+    public void resetEncoder();
     
     /*
     public void setSpeed(double rpm);

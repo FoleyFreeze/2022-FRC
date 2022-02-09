@@ -1,9 +1,10 @@
 package frc.robot.Sensors.GPS;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.SerialPort.Port;
+import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.Util.Vector;
 
 public class NavX {
@@ -14,7 +15,8 @@ public class NavX {
     public double prevAng;
 
     public NavX(){
-        navX = new AHRS(Port.kUSB);
+        //navX = new AHRS(Port.kUSB);
+        navX = new AHRS(SerialPort.Port.kUSB, SerialDataType.kProcessedData, (byte)200);
         navX.calibrate();
         navX.zeroYaw();
     }
@@ -24,21 +26,27 @@ public class NavX {
     }
 
     public Vector getFieldOrientDisplacement(boolean isMoving){
+        double x = Units.metersToInches(navX.getDisplacementX());
+        double y = Units.metersToInches(navX.getDisplacementY());
+
         if(!isMoving){
-            prevDX = Units.metersToInches(navX.getDisplacementX());
-            prevDY = Units.metersToInches(navX.getDisplacementY());
+            prevDX = x;
+            prevDY = y;
             navX.resetDisplacement();
         }
-        Vector v = Vector.fromXY(navX.getDisplacementX() + prevDX, navX.getDisplacementY() + prevDY);
+        
+        Vector v = Vector.fromXY(x + prevDX, y + prevDY);
         
         //rotate the xy position to match the same 0 as the encoder vector
-        v.theta += Math.toRadians(prevAng);
+        v.theta += Math.toRadians(prevAng) + Math.PI/2;
         
         return v;
     }
 
     public void resetAng(){
-        prevAng = navX.getYaw();
+        //prevAng = navX.getYaw();
+        prevAng = 0;
+        navX.zeroYaw();
     }
 
     public void resetPos(){

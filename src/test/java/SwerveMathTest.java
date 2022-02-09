@@ -1,4 +1,4 @@
-import frc.robot.RobotContainer;
+/*import frc.robot.RobotContainer;
 import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.SysDriveTrain;
@@ -26,10 +26,13 @@ public class SwerveMathTest {
 
     @Before
     public void setup(){
-        c = new RobotContainer();
         inputs = new Inputs(new CalsInputs());
-        sensors = new Sensors(new CalsSensors(), c);
-        drive = new SysDriveTrain(new CalsDrive(), c);
+        try {
+            sensors = new Sensors(new CalsSensors(), c);
+            drive = new SysDriveTrain(new CalsDrive(), c);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         wheel = drive.wheels[0];
         gps = new CameraGPS(10);
         encoder = new SwerveEncoder(drive.wheels);
@@ -71,7 +74,7 @@ public class SwerveMathTest {
 
     @Test
     public void testDriveMag(){
-        /*
+        
         double angleDiff = 0;
         double magnitude = 1;
 
@@ -88,7 +91,6 @@ public class SwerveMathTest {
             System.out.println("angleDiff: " + angleDiff);
             System.out.println("magnitude: " + magnitude);
         }
-        */
     }
 
     @Test
@@ -152,9 +154,9 @@ public class SwerveMathTest {
         gps.addLocation(Vector.fromXY(0.1, 0.7), 2, 100);
         gps.addLocation(new Vector(1, 2), 1, 110);
 
-      /*System.out.println(gps.locationHistory[0].pos.getX());
+        System.out.println(gps.locationHistory[0].pos.getX());
         System.out.println(gps.locationHistory[0].angle);
-        System.out.println(gps.locationHistory[0].timestamp);*/
+        System.out.println(gps.locationHistory[0].timestamp);
 
         assertEquals(0.1, gps.locationHistory[0].pos.getX(), DELTA);
         assertEquals(0.7, gps.locationHistory[0].pos.getY(), DELTA);
@@ -172,3 +174,4 @@ public class SwerveMathTest {
         System.out.println(averageRot);
     }
 }
+*/

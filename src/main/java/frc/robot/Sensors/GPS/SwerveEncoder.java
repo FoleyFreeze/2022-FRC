@@ -24,11 +24,17 @@ public class SwerveEncoder implements AutoCloseable{
             wheelVecs[i] = wheels[i].deltaVec();
         }
 
+        //note these are robot relative
         Vector deltaXY = averageTranslation(wheelVecs);
         double deltaAngle = averageRotation(wheelVecs, deltaXY);
 
-        botPos.add(deltaXY);
         botAng = Angle.normDeg(botAng + deltaAngle);
+
+        //convert to field relative
+        deltaXY.theta += Math.toRadians(botAng);
+        
+        
+        botPos.add(deltaXY);
     }
 
     public Vector averageTranslation(Vector[] wheelVecs){
@@ -50,7 +56,7 @@ public class SwerveEncoder implements AutoCloseable{
             Vector rotationVec = Vector.subVectors(wheelVecs[i], deltaXY);
 
             Vector wheelLocation = wheels[i].cals.wheelLocation;
-            double perpendicular = wheelLocation.theta - Math.PI / 2;
+            double perpendicular = wheelLocation.theta + Math.PI / 2;
 
             double deltaDist = rotationVec.r * Math.cos(rotationVec.theta - perpendicular);
             deltaAng[i] = (deltaDist / (2 * Math.PI * wheelLocation.r)) * 360;

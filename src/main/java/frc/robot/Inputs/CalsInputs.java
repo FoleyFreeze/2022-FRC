@@ -1,5 +1,7 @@
 package frc.robot.Inputs;
 
+import frc.robot.Drive.CalsDrive;
+
 public class CalsInputs {
 
     public final boolean DEBUG = false;
@@ -9,7 +11,7 @@ public class CalsInputs {
     public final double FS_DEADBAND_UPPER = 0.9;
     public final double FS_DEADBAND_LOWER = 0.075;
     public final double FS_EXPO = 1.8;
-    public final double FS_INIT_VALUE = 0.03;
+    public final double FS_INIT_VALUE = 0.00;
 
     public final int FS_FIELD_ORIENT = 5;
     public final int FS_RESET_SWERVE_LEFT = 11;
