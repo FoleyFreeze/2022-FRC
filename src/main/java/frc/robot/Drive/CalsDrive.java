@@ -19,7 +19,7 @@ public class CalsDrive {
 
         public double driveInPerSwerveRotation = -32/18.0 * 15/45.0 * 4*Math.PI;
 
-        public boolean useVelocityControl = false;
+        public boolean useVelocityControl = true;
         public double maxVelocity = 120;//inches per second
     }
 
@@ -37,10 +37,10 @@ public class CalsDrive {
     double swerveRotationsPer360 = 60.0;
 
     //Drive Motor PID
-    double kPdr = 0;
-    double kIdr = 0;
+    double kPdr = 0.00015;
+    double kIdr = 5e-7;
     double kDdr = 0;
-    double kFdr = 0;
+    double kFdr = 0.00017;
     double iLimdr = 0;
     double dFiltdr = 0;
     public final static double MAX_DRIVE_PWR = 0.25;
