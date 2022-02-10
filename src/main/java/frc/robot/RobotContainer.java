@@ -29,7 +29,7 @@ import frc.robot.Sensors.Sensors;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer implements AutoCloseable{
   // The robot's subsystems and commands are defined here...
 
   public final Inputs inputs = new Inputs(new CalsInputs());
@@ -75,5 +75,15 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return null;
+  }
+
+  @Override
+  public void close() throws Exception {
+    inputs.close();
+    cannon.close();
+    drive.close();
+    intake.close();
+    climb.close();
+    sensors.close();
   }
 }

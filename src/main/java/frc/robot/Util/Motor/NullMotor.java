@@ -30,7 +30,11 @@ public class NullMotor implements Motor{
 
     @Override
     public void resetEncoder() {
-        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setSpeed(double speed) {
         
     }
     

@@ -3,7 +3,7 @@ package frc.robot.Intake;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Motor.Motor;
 
-public class SysIntake extends SubsystemBase {
+public class SysIntake extends SubsystemBase implements AutoCloseable{
     
     CalsIntake cals;
 
@@ -16,7 +16,12 @@ public class SysIntake extends SubsystemBase {
     }
 
     public void intake(double speed){
-        leftMotor.setPower(speed * cals.RPM_TO_POWER);
-        rightMotor.setPower(speed * cals.RPM_TO_POWER);
+        leftMotor.setSpeed(speed);
+        rightMotor.setSpeed(speed);
+    }
+
+    @Override
+    public void close() throws Exception {
+        
     }
 }

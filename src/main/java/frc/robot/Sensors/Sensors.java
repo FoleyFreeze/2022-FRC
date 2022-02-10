@@ -12,7 +12,7 @@ import frc.robot.Util.Angle;
 import frc.robot.Util.Log;
 import frc.robot.Util.Vector;
 
-public class Sensors extends SubsystemBase {
+public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public CalsSensors cals;
 
@@ -144,5 +144,10 @@ public class Sensors extends SubsystemBase {
         Vector roboVec = new Vector(0, 0);
 
         return Vector.subVectors(v, roboVec);
+    }
+
+    @Override
+    public void close() throws Exception {
+        
     }
 }

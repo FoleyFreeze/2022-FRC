@@ -52,4 +52,9 @@ public class TalonMotor implements Motor{
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public void setSpeed(double speed) {
+        
+    }
 }

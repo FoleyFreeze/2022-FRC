@@ -1,7 +1,6 @@
 package frc.robot.Drive;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Drive.CalsDrive.CalsWheel;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
@@ -60,7 +59,7 @@ public class Wheel implements AutoCloseable {
     }
 
     public Vector deltaVec(){
-        double currentPos = drive.getPosition();
+        double currentPos = drive.getPosition() + swerve.getPosition() * cals.driveInPerSwerveRotation;
         double pos = currentPos - prevPos;
         prevPos = currentPos;
 
@@ -99,7 +98,11 @@ public class Wheel implements AutoCloseable {
             swerve.setPosition(rotationsSetpoint);
         }
         
-        drive.setPower(magnitude * cals.maxPower);
+        if(cals.useVelocityControl){
+            drive.setSpeed(magnitude * cals.maxPower * cals.maxVelocity);
+        } else{
+            drive.setPower(magnitude * cals.maxPower);
+        }
     }
 
     @Override

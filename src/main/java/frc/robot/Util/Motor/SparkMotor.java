@@ -24,6 +24,7 @@ public class SparkMotor implements Motor{
         pidController.setI(cals.kI);
         pidController.setD(cals.kD);
         pidController.setFF(cals.kF);
+        pidController.setIZone(cals.kIlim);
         pidController.setDFilter(cals.dFilt);
 
         motor.setInverted(cals.invert);
@@ -71,5 +72,11 @@ public class SparkMotor implements Motor{
     @Override
     public void resetEncoder() {
         encoder.setPosition(0);
+    }
+
+    @Override
+    public void setSpeed(double speed) {
+        //need to convert speed in units/sec to RPM
+        pidController.setReference(speed * cals.ticksPerUnit * 60, ControlType.kVelocity);
     }
 }

@@ -2,7 +2,7 @@ package frc.robot.Climber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class SysClimb extends SubsystemBase{
+public class SysClimb extends SubsystemBase implements AutoCloseable{
 
     CalsClimb cals;
 
@@ -21,5 +21,10 @@ public class SysClimb extends SubsystemBase{
     @Override
     public void periodic(){
 
+    }
+
+    @Override
+    public void close() throws Exception {
+        
     }
 }

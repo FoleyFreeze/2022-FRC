@@ -1,50 +1,35 @@
-/*import frc.robot.RobotContainer;
-import frc.robot.Drive.CalsDrive;
+import frc.robot.RobotContainer;
 import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.SysDriveTrain;
 import frc.robot.Drive.Wheel;
-import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
-import frc.robot.Sensors.CalsSensors;
 import frc.robot.Sensors.Sensors;
-import frc.robot.Sensors.GPS.CameraGPS;
-import frc.robot.Sensors.GPS.SwerveEncoder;
 import frc.robot.Util.Vector;
 
 import static org.junit.Assert.*;
 import org.junit.*;
 
 public class SwerveMathTest {
+
     public static final double DELTA = 1e-2;
+    RobotContainer rc;
     Wheel wheel;
     Inputs inputs;
     Sensors sensors;
     SysDriveTrain drive;
-    SwerveEncoder encoder;
-    CameraGPS gps;
-    RobotContainer c;
 
     @Before
     public void setup(){
-        inputs = new Inputs(new CalsInputs());
-        try {
-            sensors = new Sensors(new CalsSensors(), c);
-            drive = new SysDriveTrain(new CalsDrive(), c);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        rc = new RobotContainer();
+        inputs = rc.inputs;
+        drive = rc.drive;
         wheel = drive.wheels[0];
-        gps = new CameraGPS(10);
-        encoder = new SwerveEncoder(drive.wheels);
     }
 
     @After
     public void shutdown(){
         try{
-            inputs.close();
-            drive.close();
-            gps.close();
-            encoder.close();
+            rc.close();
         } catch (Exception e){
             System.out.println("Exception during close:");
             System.out.println(e.toString());
@@ -74,7 +59,7 @@ public class SwerveMathTest {
 
     @Test
     public void testDriveMag(){
-        
+        /*
         double angleDiff = 0;
         double magnitude = 1;
 
@@ -91,6 +76,7 @@ public class SwerveMathTest {
             System.out.println("angleDiff: " + angleDiff);
             System.out.println("magnitude: " + magnitude);
         }
+        */
     }
 
     @Test
@@ -136,42 +122,4 @@ public class SwerveMathTest {
     public void testFieldOrient(){
         drive.driveSwerve(Vector.fromXY(1, 1), 0.5);
     }
-
-
-
-    //sensors testing
-
-    @Test
-    public void testInterp(){
-        gps.addLocation(Vector.fromXY(0.5, 0.5), 0, 0.5);
-        gps.addLocation(Vector.fromXY(0.6, 0.8), 0.4, 0.6);
-
-        //Location l = gps.interpolate(0.52);
-    }
-
-    @Test
-    public void testCamera(){
-        gps.addLocation(Vector.fromXY(0.1, 0.7), 2, 100);
-        gps.addLocation(new Vector(1, 2), 1, 110);
-
-        System.out.println(gps.locationHistory[0].pos.getX());
-        System.out.println(gps.locationHistory[0].angle);
-        System.out.println(gps.locationHistory[0].timestamp);
-
-        assertEquals(0.1, gps.locationHistory[0].pos.getX(), DELTA);
-        assertEquals(0.7, gps.locationHistory[0].pos.getY(), DELTA);
-        assertEquals(2, gps.locationHistory[0].angle, DELTA);
-    }
-
-    @Test
-    public void testEncoders(){
-        double pi = Math.PI;
-        Vector[] wheelVecs = {new Vector(1, pi/4), new Vector(1, -pi/4), new Vector(1, (3*pi)/4), new Vector(1, -(3*pi)/4)};
-
-        Vector averageTrans = encoder.averageTranslation(wheelVecs);
-        double averageRot = encoder.averageRotation(wheelVecs, averageTrans);
-
-        System.out.println(averageRot);
-    }
 }
-*/

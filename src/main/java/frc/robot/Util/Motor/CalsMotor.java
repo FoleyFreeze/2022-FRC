@@ -17,6 +17,7 @@ public class CalsMotor {
     public double kI = 0;
     public double kD = 0;
     public double kF = 0;
+    public double kIlim = 0;
     public double dFilt = 0;
 
     public boolean invert;
@@ -57,6 +58,11 @@ public class CalsMotor {
 
     public CalsMotor brake(){
         this.brake = true;
+        return this;
+    }
+
+    public CalsMotor setkIlim(double iLim){
+        this.kIlim = iLim;
         return this;
     }
 }

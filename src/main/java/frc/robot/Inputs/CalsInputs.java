@@ -1,7 +1,5 @@
 package frc.robot.Inputs;
 
-import frc.robot.Drive.CalsDrive;
-
 public class CalsInputs {
 
     public final boolean DEBUG = false;

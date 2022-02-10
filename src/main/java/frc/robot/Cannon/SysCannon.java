@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Interpolate;
 import frc.robot.Util.Motor.Motor;
 
-public class SysCannon extends SubsystemBase {
+public class SysCannon extends SubsystemBase implements AutoCloseable{
     
     CalsCannon cals;
     
@@ -81,5 +81,10 @@ public class SysCannon extends SubsystemBase {
         } else {
             jogAng -= cals.jogAngInterval;
         }
+    }
+
+    @Override
+    public void close() throws Exception {
+        
     }
 }
