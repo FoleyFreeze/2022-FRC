@@ -3,10 +3,13 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Inputs": "Subsystem",
+      "/LiveWindow/Sensors": "Subsystem",
       "/LiveWindow/SysCannon": "Subsystem",
+      "/LiveWindow/SysClimb": "Subsystem",
       "/LiveWindow/SysDriveTrain": "Subsystem",
       "/LiveWindow/SysIntake": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/navX-Sensor[2]": "Gyro",
       "/LiveWindow/Vision": "Subsystem"
     }
   }

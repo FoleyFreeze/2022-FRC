@@ -1,93 +1,27 @@
 package frc.robot.Inputs;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Inputs.Controls.DriverControls;
+import frc.robot.Inputs.Controls.OperatorControls;
 import frc.robot.Util.Log;
 
 public class Inputs extends SubsystemBase implements AutoCloseable{
 
     CalsInputs cals;
-    public Joystick flysky = null;
-    public Joystick controlBoard = null;
+    public DriverControls driverJoy;
+    public OperatorControls operatorJoy;
 
     public boolean hasFlySky = false;
     public boolean hasGamePad = false;
 
     double time;
 
-    public Trigger getFieldOrient = new Trigger(){
-        public boolean get(){
-            if(flysky != null){
-                return flysky.getRawButton(cals.FS_FIELD_ORIENT);
-            } else {
-                return false;
-            }
-        }
-    };
-
-    public Trigger resetNavXAng = new Trigger(){
-        public boolean get(){
-            if(flysky != null){
-                return flysky.getRawButton(cals.FS_RESET_NAVX_ANG);
-            } else {
-                return false;
-            }
-        }
-    };
-
-    public Trigger resetNavXPos = new Trigger(){
-        public boolean get(){
-            if(flysky != null){
-                return flysky.getRawButton(cals.FS_RESET_NAVX_POS);
-            } else {
-                return false;
-            }
-        }
-    };
-
-    public Trigger resetSwerveAngles = new Trigger(){
-        double startTime;
-        public boolean get(){
-            double now = Timer.getFPGATimestamp();
-            if(flysky != null){
-                boolean b = flysky.getRawButton(cals.FS_RESET_SWERVE_LEFT) && flysky.getRawButton(cals.FS_RESET_SWERVE_RIGHT);
-                if(!b){
-                    startTime = Timer.getFPGATimestamp();
-                }
-                return b && now > startTime + cals.RESET_ANGLE_DELAY;
-            } else {
-                startTime = Timer.getFPGATimestamp();
-                return false;
-            }
-        }
-    };
-
-    public Trigger primeCannon = new Trigger(){
-        public boolean get(){
-            if(controlBoard != null){
-                return controlBoard.getRawButton(cals.CB_PRIME);
-            } else {
-                return false;
-            }
-        }
-    };
-    
-    public Trigger fireCannon = new Trigger(){
-        public boolean get(){
-            if(controlBoard != null){
-                return controlBoard.getRawButton(cals.CB_FIRE);
-            } else {
-                return false;
-            }
-        }
-    };
-
-    public Inputs(CalsInputs cals){
-        this.cals = cals;
-        flysky = new Joystick(0);
+    public Inputs(CalsInputs inCals, CalsFlysky driverCals, CalsCBoard operatorCals){
+        this.cals = inCals;
+        driverJoy = new DriverControls(driverCals);
+        operatorJoy = new OperatorControls(operatorCals);
     }
 
     public double expo(double value, double exponent){
@@ -110,21 +44,57 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     }
 
+    public Trigger getFieldOrient = new Trigger(){
+        public boolean get(){
+            return driverJoy.getFieldOrient();
+        }
+    };
+
+    public Trigger resetNavXAng = new Trigger(){
+        public boolean get(){
+            return driverJoy.getResetAngle();
+        }
+    };
+
+    public Trigger resetNavXPos = new Trigger(){
+        public boolean get(){
+            return driverJoy.getResetPos();
+        }
+    };
+
+    public Trigger resetSwerveAngles = new Trigger(){
+        public boolean get(){
+            return driverJoy.learnSwerveAngles();
+        }
+    };
+
+    public Trigger primeCannon = new Trigger(){
+        public boolean get(){
+            return operatorJoy.primeCannon();
+        }
+    };
+    
+    public Trigger fireCannon = new Trigger(){
+        public boolean get(){
+            return operatorJoy.fireCannon();
+        }
+    };
+
     public double getDriveX(){
-        if(flysky != null){
-            double val = deadBand(flysky.getRawAxis(0), 
-                                  cals.FS_DEADBAND_LOWER, 
-                                  cals.FS_DEADBAND_UPPER, 
-                                  cals.FS_INIT_VALUE);
+        if(driverJoy != null){
+            double val = driverJoy.getX();
+            val = deadBand(val, cals.FS_DEADBAND_LOWER, 
+                                cals.FS_DEADBAND_UPPER, 
+                                cals.FS_INIT_VALUE);
             return expo(val, cals.FS_EXPO);
         } 
         return 0;
     }
 
     public double getDriveY(){
-        if(flysky != null){
-            double val = deadBand(flysky.getRawAxis(1), 
-                                  cals.FS_DEADBAND_LOWER, 
+        if(driverJoy != null){
+            double val = driverJoy.getY();
+            val = deadBand(val, cals.FS_DEADBAND_LOWER, 
                                   cals.FS_DEADBAND_UPPER, 
                                   cals.FS_INIT_VALUE);
             return -expo(val, cals.FS_EXPO);
@@ -133,11 +103,11 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
     }
 
     public double getDrivezR(){
-        if(flysky != null){
-            double val = deadBand(flysky.getRawAxis(4), 
-                                  cals.FS_DEADBAND_LOWER, 
-                                  cals.FS_DEADBAND_UPPER, 
-                                  cals.FS_INIT_VALUE);
+        if(driverJoy != null){
+            double val = driverJoy.getZ();
+            val = deadBand(val, cals.FS_DEADBAND_LOWER, 
+                                cals.FS_DEADBAND_UPPER, 
+                                cals.FS_INIT_VALUE);
             return -expo(val, cals.FS_EXPO);
         }
         return 0;
@@ -147,20 +117,8 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
         if(Timer.getFPGATimestamp() > time){
             
-            //for each potential joystick port
-            for(int i=0; i<DriverStation.kJoystickPorts; i++){
-                String name = DriverStation.getJoystickName(i);
-                
-                if(name.contains("FlySky") && (flysky==null || flysky.getPort() != i)) {
-                    flysky = new Joystick(i);
-                    Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "Flysky found on port: " + i);
-                }
-
-                if(name.contains("foley") && (controlBoard==null || controlBoard.getPort() != i)) {
-                    controlBoard = new Joystick(i);
-                    Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "control board found on port: " + i);
-                }
-            }
+            driverJoy.detectJoystick();
+            operatorJoy.detectJoystick();
 
             time = Timer.getFPGATimestamp() + cals.CHECK_INTERVAL;
         }

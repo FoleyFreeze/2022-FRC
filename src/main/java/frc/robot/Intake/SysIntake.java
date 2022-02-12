@@ -17,7 +17,7 @@ public class SysIntake extends SubsystemBase implements AutoCloseable{
 
     public void intake(double speed){
         leftMotor.setSpeed(speed);
-        rightMotor.setSpeed(speed);
+        rightMotor.setSpeed(-speed);
     }
 
     @Override

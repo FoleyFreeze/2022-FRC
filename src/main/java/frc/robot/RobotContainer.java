@@ -16,6 +16,8 @@ import frc.robot.Climber.SysClimb;
 import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.SysDriveTrain;
+import frc.robot.Inputs.CalsCBoard;
+import frc.robot.Inputs.CalsFlysky;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Intake.CalsIntake;
@@ -32,7 +34,7 @@ import frc.robot.Sensors.Sensors;
 public class RobotContainer implements AutoCloseable{
   // The robot's subsystems and commands are defined here...
 
-  public final Inputs inputs = new Inputs(new CalsInputs());
+  public final Inputs inputs = new Inputs(new CalsInputs(), new CalsFlysky(), new CalsCBoard());
   public final SysCannon cannon = new SysCannon(new CalsCannon());
   public final SysDriveTrain drive = new SysDriveTrain(new CalsDrive(), this);
   public final SysIntake intake = new SysIntake(new CalsIntake());
@@ -62,8 +64,8 @@ public class RobotContainer implements AutoCloseable{
     inputs.resetNavXAng.whileActiveOnce(new InstantCommand(sensors::resetAng));
     inputs.resetNavXPos.whileActiveOnce(new InstantCommand(sensors::resetPos));
 
-    //inputs.primeCannon.whileActiveContinuous(new InstantCommand(cannon::prime));
-    //inputs.fireCannon.whileActiveContinuous(new InstantCommand(cannon::fire));
+    inputs.primeCannon.whileActiveContinuous(new InstantCommand(cannon::prime));
+    inputs.fireCannon.whileActiveContinuous(new InstantCommand(cannon::fire));
 
   }
 
