@@ -146,6 +146,10 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         return Vector.subVectors(v, roboVec);
     }
 
+    public boolean hasGatheredCargo(){
+        return false;
+    }
+
     @Override
     public void close() throws Exception {
         

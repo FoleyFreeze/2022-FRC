@@ -9,7 +9,9 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Cannon.CalsCannon;
+import frc.robot.Cannon.CmdShoot;
 import frc.robot.Cannon.SysCannon;
 import frc.robot.Climber.CalsClimb;
 import frc.robot.Climber.SysClimb;
@@ -64,9 +66,7 @@ public class RobotContainer implements AutoCloseable{
     inputs.resetNavXAng.whileActiveOnce(new InstantCommand(sensors::resetAng));
     inputs.resetNavXPos.whileActiveOnce(new InstantCommand(sensors::resetPos));
 
-    inputs.primeCannon.whileActiveContinuous(new InstantCommand(cannon::prime));
-    inputs.fireCannon.whileActiveContinuous(new InstantCommand(cannon::fire));
-
+    inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
   }
 
   /**

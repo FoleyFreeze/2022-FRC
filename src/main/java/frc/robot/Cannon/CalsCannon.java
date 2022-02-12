@@ -10,6 +10,7 @@ public class CalsCannon {
     public CalsMotor cwMotor = new CalsMotor(MotorType.SPARK, 0);
     public CalsMotor ccwMotor = new CalsMotor(MotorType.SPARK, 0);
     public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 0);
+    public CalsMotor fireMotor = new CalsMotor(MotorType.SPARK, 0);
     public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 0);
     
     public double[] distances = {0, 0, 0, 0};
@@ -27,6 +28,11 @@ public class CalsCannon {
     public double jogSpeedInterval = 0;
     public double jogInitAng = 0;
     public double jogAngInterval = 0;
+    public double minShootSpeedError = -100;
+    public double maxShootSpeedError = 100;
+
+    public double preLoadTime = 0.5;
+    public double tranSpeed = 0.5;
 
     public CalsCannon(){
 

@@ -57,4 +57,14 @@ public class TalonMotor implements Motor{
     public void setSpeed(double speed) {
         
     }
+
+    @Override
+    public double getSpeed() {
+        return motor.getSelectedSensorVelocity();
+    }
+
+    @Override
+    public double getClosedLoopError() {
+        return motor.getClosedLoopError();
+    }
 }

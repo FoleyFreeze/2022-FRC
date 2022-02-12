@@ -1,15 +1,15 @@
 package frc.robot.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.RobotContainer;
 
 public class CmdGather extends CommandBase{
     
-    SysIntake m_subsystem;
-    
-    CalsIntake cals;
+    RobotContainer r;
 
-    public CmdGather(CalsIntake cals){
-        this.cals = cals;
+    public CmdGather(RobotContainer r){
+        this.r = r;
+        addRequirements(r.intake);
     }
 
     @Override
@@ -19,16 +19,17 @@ public class CmdGather extends CommandBase{
 
     @Override
     public void execute(){
-
+        r.intake.intake();
     }
 
     @Override
     public void end(boolean interrupted){
-
+        r.intake.stop();
+        r.cannon.preLoadCargo();
     }
 
     @Override
     public boolean isFinished(){
-        return false;
+        return r.sensors.hasGatheredCargo();
     }
 }

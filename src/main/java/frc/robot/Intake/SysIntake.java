@@ -7,8 +7,7 @@ public class SysIntake extends SubsystemBase implements AutoCloseable{
     
     CalsIntake cals;
 
-    Motor leftMotor;
-    Motor rightMotor;
+    Motor intakeMotor;
 
     public SysIntake(CalsIntake cals){
         this.cals = cals;
@@ -16,8 +15,19 @@ public class SysIntake extends SubsystemBase implements AutoCloseable{
     }
 
     public void intake(double speed){
-        leftMotor.setSpeed(speed);
-        rightMotor.setSpeed(-speed);
+        intakeMotor.setPower(speed);
+    }
+
+    public void intake(){
+        intakeMotor.setPower(cals.intakeSpeed);
+    }
+
+    public void reverse(){
+        intakeMotor.setPower(cals.reverseSpeed);
+    }
+
+    public void stop(){
+        intakeMotor.setPower(0);
     }
 
     @Override

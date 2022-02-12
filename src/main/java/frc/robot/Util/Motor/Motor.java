@@ -28,12 +28,6 @@ public interface Motor extends AutoCloseable {
     public void setBrake(boolean brake);
     public void resetEncoder();
     public void setSpeed(double speed);
-    
-    /*
-    public void setSpeed(double rpm);
     public double getSpeed();
-    public double getCurrent();
-    public double getTemp();
-    public boolean isJammed();
-    */
+    public double getClosedLoopError();
 }

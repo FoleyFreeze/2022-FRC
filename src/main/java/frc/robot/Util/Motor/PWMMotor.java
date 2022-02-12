@@ -44,4 +44,14 @@ public class PWMMotor implements Motor{
     public void setSpeed(double speed) {
         
     }
+
+    @Override
+    public double getSpeed() {
+        return 0;
+    }
+
+    @Override
+    public double getClosedLoopError() {
+        return 0;
+    }
 }

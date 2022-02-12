@@ -14,6 +14,12 @@ public class SparkMotor implements Motor{
     SparkMaxPIDController pidController;
     RelativeEncoder encoder;
 
+    enum SetpointType{
+        POWER, POSITION, VELOCITY
+    }
+    private SetpointType setpointType;
+    private double setpoint;
+
     public SparkMotor(CalsMotor cals){
         this.cals = cals;
         motor = new CANSparkMax(cals.channel, MotorType.kBrushless);
@@ -40,11 +46,15 @@ public class SparkMotor implements Motor{
 
     public void setPower(double power){
         motor.set(power);
+        setpoint = 0;
+        setpointType = SetpointType.POWER;
     }
 
     public void setPosition(double revs){
         //TODO(1): remove the scaling
         pidController.setReference(revs * cals.ticksPerUnit, ControlType.kPosition);
+        setpoint = revs;
+        setpointType = SetpointType.POSITION;
     }
 
     public double getPosition(){
@@ -75,8 +85,28 @@ public class SparkMotor implements Motor{
     }
 
     @Override
+    public double getClosedLoopError(){
+        switch(setpointType){
+            case POSITION:
+                return getPosition() - setpoint;
+            case POWER:
+                return 0;
+            case VELOCITY:
+                return getSpeed() - setpoint;
+        }
+        return 0;
+    }
+
+    @Override
     public void setSpeed(double speed) {
         //need to convert speed in units/sec to RPM
         pidController.setReference(speed * cals.ticksPerUnit * 60, ControlType.kVelocity);
+        setpoint = speed;
+        setpointType = SetpointType.VELOCITY;
+    }
+
+    @Override
+    public double getSpeed(){
+        return encoder.getVelocity() / cals.ticksPerUnit / 60.0;
     }
 }

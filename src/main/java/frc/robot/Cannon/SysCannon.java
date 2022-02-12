@@ -1,5 +1,6 @@
 package frc.robot.Cannon;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Util.Interpolate;
 import frc.robot.Util.Motor.Motor;
@@ -11,6 +12,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     Motor cwMotor;
     Motor ccwMotor;
     Motor angleMotor;
+    Motor fireMotor;
     Motor transpMotor;
 
     double jogSpeed;
@@ -26,6 +28,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         cwMotor = Motor.create(cals.cwMotor);
         ccwMotor = Motor.create(cals.ccwMotor);
         angleMotor = Motor.create(cals.angleMotor);
+        fireMotor = Motor.create(cals.fireMotor);
         transpMotor = Motor.create(cals.transpMotor);
     }
 
@@ -54,7 +57,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void fire(double power){
-        transpMotor.setPower(power);
+        fireMotor.setPower(power);
     }
 
     public void setAngle(double angle){
@@ -78,6 +81,13 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
          cwMotor.setSpeed(cwSpeed);
     }
 
+    public boolean upToSpeed(){
+        double error = ccwMotor.getClosedLoopError();
+        error += cwMotor.getClosedLoopError();
+
+        return error > cals.minShootSpeedError && error < cals.maxShootSpeedError;
+    }
+
     public void jogSpeed(boolean up){
         if(up){
             jogSpeed += cals.jogSpeedInterval;
@@ -91,6 +101,32 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             jogAng += cals.jogAngInterval;
         } else {
             jogAng -= cals.jogAngInterval;
+        }
+    }
+
+    public void transport(){
+        transpMotor.setPower(cals.tranSpeed);
+    }
+
+    public void stopTransport(){
+        transpMotor.setPower(0);
+    }
+
+    private boolean cargoReady;
+    public void preLoadCargo(){
+        cargoReady = true;
+    }
+
+    private double preLoadTimer;
+    public void periodic(){
+        if(cargoReady){
+            cargoReady = false;
+            preLoadTimer = Timer.getFPGATimestamp() + cals.preLoadTime;
+        }
+        if(Timer.getFPGATimestamp() < preLoadTimer){
+            transport();
+        } else {
+            stopTransport();
         }
     }
 
