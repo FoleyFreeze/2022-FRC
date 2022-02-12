@@ -11,6 +11,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     Motor cwMotor;
     Motor ccwMotor;
     Motor angleMotor;
+    Motor transpMotor;
 
     double jogSpeed;
     double jogAng;
@@ -25,6 +26,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         cwMotor = Motor.create(cals.cwMotor);
         ccwMotor = Motor.create(cals.ccwMotor);
         angleMotor = Motor.create(cals.angleMotor);
+        transpMotor = Motor.create(cals.transpMotor);
     }
 
     public void prime(){
@@ -32,10 +34,13 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         prime(jogSpeed + cals.LAYUP_SHOOT_SPEED, jogAng + cals.LAYUP_SHOOT_ANG);
     }
 
-    public void prime(double dist){
+    public void prime(double dist, boolean spinIt){
         if (cals.DISABLED) return;
-
-        double speed = Interpolate.interpolate(cals.distances, cals.speeds, dist);
+        
+        double speed = 0;
+        if(spinIt) {
+            speed = Interpolate.interpolate(cals.distances, cals.speeds, dist);
+        }
         double angle = Interpolate.interpolate(cals.distances, cals.angles, dist);
 
         prime(speed, angle);
@@ -48,12 +53,18 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         setSpeed(speed, speed);
     }
 
-    public void fire(){
-        //once we figure this out, this will just use a mechanism to push the ball into the shooter
+    public void fire(double power){
+        transpMotor.setPower(power);
     }
 
     public void setAngle(double angle){
         if (cals.DISABLED) return;
+        
+        if (angle > cals.shootMaxAngle)
+            angle = cals.shootMaxAngle;
+
+        if (angle < cals.shootMinAngle)
+            angle = cals.shootMinAngle;
 
         double revs = angle / 360;
         angleMotor.setPosition(revs);
@@ -63,8 +74,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void setSpeed(double ccwSpeed, double cwSpeed){
         if (cals.DISABLED) return;
 
-        ccwMotor.setPower(ccwSpeed * cals.RPM_TO_POWER);
-        cwMotor.setPower(cwSpeed * cals.RPM_TO_POWER);
+        ccwMotor.setSpeed(ccwSpeed);
+         cwMotor.setSpeed(cwSpeed);
     }
 
     public void jogSpeed(boolean up){
