@@ -92,7 +92,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     public void driveSwerve(Vector xy, double zR){
         if(cals.DISABLED) return;
         
-        if(inputs.getFieldOrient.get()){
+        if(inputs.getFieldOrient()){
             
         }
 

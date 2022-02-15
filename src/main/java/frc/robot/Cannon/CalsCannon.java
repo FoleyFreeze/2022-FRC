@@ -17,8 +17,8 @@ public class CalsCannon {
     public double[] angles = {0, 0, 0, 0};
     public double[] speeds = {0, 0, 0, 0};
 
-    public double shootMaxAngle = 45;
-    public double shootMinAngle = -45;
+    public double shootMaxAngle = 135;
+    public double shootMinAngle = 45;
 
     public final double LAYUP_SHOOT_SPEED = 0;
     public final double LAYUP_SHOOT_ANG = 0;
@@ -30,6 +30,9 @@ public class CalsCannon {
     public double jogAngInterval = 0;
     public double minShootSpeedError = -100;
     public double maxShootSpeedError = 100;
+
+    public double wheelOfFirePower = 1;
+    public double shootTime = 0.25;
 
     public double preLoadTime = 0.5;
     public double tranSpeed = 0.5;

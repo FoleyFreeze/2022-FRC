@@ -37,6 +37,9 @@ public class CalsFlysky {
     public final int learnWheelPositions = TOP_LEFT_HAT_DOWN | TOP_RIGHT_HAT_DOWN;
     public final double wheelLearnWaitTime = 3;
     public final int fieldOrient = TOP_RIGHT_SWITCH;
+
+    public final int fireCannon = RIGHT_TRIGGER;
+    public final int cameraShoot = TOP_RIGHT_SWITCH;
         
 
     public CalsFlysky(){

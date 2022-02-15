@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Cannon.CalsCannon;
 import frc.robot.Cannon.CmdShoot;
 import frc.robot.Cannon.SysCannon;
@@ -26,6 +24,7 @@ import frc.robot.Intake.CalsIntake;
 import frc.robot.Intake.SysIntake;
 import frc.robot.Sensors.CalsSensors;
 import frc.robot.Sensors.Sensors;
+import frc.robot.Util.InstantAlwaysCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,7 +36,7 @@ public class RobotContainer implements AutoCloseable{
   // The robot's subsystems and commands are defined here...
 
   public final Inputs inputs = new Inputs(new CalsInputs(), new CalsFlysky(), new CalsCBoard());
-  public final SysCannon cannon = new SysCannon(new CalsCannon());
+  public final SysCannon cannon = new SysCannon(new CalsCannon(), this);
   public final SysDriveTrain drive = new SysDriveTrain(new CalsDrive(), this);
   public final SysIntake intake = new SysIntake(new CalsIntake());
   public final SysClimb climb = new SysClimb(new CalsClimb());
@@ -62,9 +61,9 @@ public class RobotContainer implements AutoCloseable{
    */
   private void configureButtonBindings() {
 
-    inputs.resetSwerveAngles.whileActiveOnce(new InstantCommand(drive::learnWheelAngs));
-    inputs.resetNavXAng.whileActiveOnce(new InstantCommand(sensors::resetAng));
-    inputs.resetNavXPos.whileActiveOnce(new InstantCommand(sensors::resetPos));
+    inputs.resetSwerveAngles.whileActiveOnce(new InstantAlwaysCommand(drive::learnWheelAngs));
+    inputs.resetNavXAng.whileActiveOnce(new InstantAlwaysCommand(sensors::resetAng));
+    inputs.resetNavXPos.whileActiveOnce(new InstantAlwaysCommand(sensors::resetPos));
 
     inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
   }

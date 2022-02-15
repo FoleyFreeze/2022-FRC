@@ -44,11 +44,9 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     }
 
-    public Trigger getFieldOrient = new Trigger(){
-        public boolean get(){
-            return driverJoy.getFieldOrient();
-        }
-    };
+    public boolean getFieldOrient(){
+        return driverJoy.getFieldOrient();
+    }
 
     public Trigger resetNavXAng = new Trigger(){
         public boolean get(){
@@ -68,15 +66,19 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     };
 
-    public Trigger primeCannon = new Trigger(){
-        public boolean get(){
-            return operatorJoy.primeCannon();
-        }
-    };
+    public boolean cameraShoot(){
+        return driverJoy.cameraShoot();
+    }
     
     public Trigger fireCannon = new Trigger(){
         public boolean get(){
-            return operatorJoy.fireCannon();
+            return driverJoy.fireCannon();
+        }
+    };
+
+    public Trigger primeCannon = new Trigger(){
+        public boolean get(){
+            return operatorJoy.primeCannon();
         }
     };
 

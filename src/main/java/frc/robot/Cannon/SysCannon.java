@@ -2,12 +2,14 @@ package frc.robot.Cannon;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Util.Interpolate;
 import frc.robot.Util.Motor.Motor;
 
 public class SysCannon extends SubsystemBase implements AutoCloseable{
     
     CalsCannon cals;
+    RobotContainer r;
     
     Motor cwMotor;
     Motor ccwMotor;
@@ -18,9 +20,10 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     double jogSpeed;
     double jogAng;
 
-    public SysCannon(CalsCannon cals){
+    public SysCannon(CalsCannon cals, RobotContainer r){
         this.cals = cals;
         if (cals.DISABLED) return;
+        this.r = r;
 
         jogSpeed = cals.jogInitSpeed;
         jogAng = cals.jogInitAng;
@@ -33,8 +36,11 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void prime(){
-        //manual prime from control board
-        prime(jogSpeed + cals.LAYUP_SHOOT_SPEED, jogAng + cals.LAYUP_SHOOT_ANG);
+        if(r.inputs.cameraShoot()){
+            prime(r.sensors.target.botRelativeLoc.r, true);
+        }else{
+            prime(cals.LAYUP_SHOOT_SPEED, cals.LAYUP_SHOOT_ANG);
+        }
     }
 
     public void prime(double dist, boolean spinIt){
@@ -52,12 +58,16 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void prime(double speed, double angle){
         if (cals.DISABLED) return;
 
-        setAngle(angle);
-        setSpeed(speed, speed);
+        setAngle(angle + jogAng);
+        setSpeed(speed + jogSpeed, speed + jogSpeed);
     }
 
     public void fire(double power){
         fireMotor.setPower(power);
+    }
+
+    public void fire(){
+        fire(cals.wheelOfFirePower);
     }
 
     public void setAngle(double angle){
