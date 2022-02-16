@@ -35,7 +35,9 @@ public class CalsCannon {
     public double shootTime = 0.25;
 
     public double preLoadTime = 0.5;
+    public double loadTime = -1;//TODO: put a number in here
     public double tranSpeed = 0.5;
+    public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current
 
     public CalsCannon(){
 

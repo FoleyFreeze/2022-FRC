@@ -11,6 +11,10 @@ public class CalsIntake {
     public double intakeSpeed = 0.5;
     public double reverseSpeed = -0.5;
 
+    public double kX;
+    public double yPower;
+    public double kR;
+
     public CalsIntake(){
 
     }

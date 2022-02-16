@@ -78,9 +78,9 @@ public class CameraGPS implements AutoCloseable{
 
     public Vector imgToLocation(VisionData img){
         Location botLoc = interpolate(img.timestamp);
-        img.botRelativeLoc.theta += botLoc.angle;
+        img.location.theta += botLoc.angle;
 
-        return img.botRelativeLoc.add(botLoc.pos);
+        return img.location.add(botLoc.pos);
     }
     
     @Override

@@ -13,7 +13,7 @@ public class Vision {
     ConcurrentLinkedQueue<VisionData> visionQueue;
     
     public static class VisionData{
-        public Vector botRelativeLoc;
+        public Vector location;
         public double timestamp;
         public Type type;
     }
@@ -54,7 +54,7 @@ public class Vision {
                 double dist = Double.parseDouble(parts[3]);
                 double angle = Double.parseDouble(parts[4]);
 
-                data.botRelativeLoc = new Vector(dist, angle);
+                data.location = new Vector(dist, angle);
 
                 if(Integer.parseInt(parts[5]) == 1){
                     data.type = Type.BLUE_CARGO;//blue is true!
@@ -88,7 +88,7 @@ public class Vision {
                 double dist = Double.parseDouble(parts[3]);
                 double angle = Double.parseDouble(parts[4]);
 
-                data.botRelativeLoc = new Vector(dist, angle);
+                data.location = new Vector(dist, angle);
 
                 data.type = Type.VISION_TARGET;
 

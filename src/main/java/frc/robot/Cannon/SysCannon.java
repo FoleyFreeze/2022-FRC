@@ -36,8 +36,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void prime(){
-        if(r.inputs.cameraShoot()){
-            prime(r.sensors.target.botRelativeLoc.r, true);
+        if(r.inputs.cameraDrive()){
+            prime(r.sensors.target.location.r, true);
         }else{
             prime(cals.LAYUP_SHOOT_SPEED, cals.LAYUP_SHOOT_ANG);
         }
@@ -89,6 +89,13 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         ccwMotor.setSpeed(ccwSpeed);
          cwMotor.setSpeed(cwSpeed);
+    }
+
+    public void setPower(double ccwPower, double cwPower){
+        if(cals.DISABLED) return;
+
+        ccwMotor.setPower(ccwPower);
+         cwMotor.setPower(cwPower);
     }
 
     public boolean upToSpeed(){

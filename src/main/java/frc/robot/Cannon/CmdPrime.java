@@ -9,6 +9,7 @@ public class CmdPrime extends CommandBase{
 
     public CmdPrime(RobotContainer r){
         this.r = r;
+        addRequirements(r.cannon);
     }
 
     @Override

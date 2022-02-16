@@ -77,6 +77,10 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         Log.logDouble(navX.getFieldOrientAngle(), Log.LOG_GROUPS.SENSORS, 1, true, "navx angle");
         Log.logString(navX.getFieldOrientDisplacement(isMoving).toStringXY(), Log.LOG_GROUPS.SENSORS, 1, true, "navx X, Y");
 
+        //TODO: figure out a better filtering strategy?
+        botLoc = new Vector(encoders.botPos);
+        botAng = navX.getFieldOrientAngle();
+
         //update history array of robot positions and orientations
         camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp());
 
@@ -84,6 +88,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         while(!vision.visionQueue.isEmpty()){
             VisionData vd = vision.visionQueue.poll();
+            camera.imgToLocation(vd);
             switch(vd.type){
                 case BLUE_CARGO:
                     if(isOnRedTeam) opponentCargo = vd;
@@ -95,7 +100,11 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     break;
                 case VISION_TARGET:
                     //maybe do a blend or something based on percieved accuracy of the image
-                    camera.updateArray(camera.imgToLocation(target));
+                    camera.updateArray(target.location);
+
+                    //also remove any error that was present in the calculated cargo locations
+                    if(alliedCargo != null) alliedCargo.location.add(target.location);
+                    if(opponentCargo != null) opponentCargo.location.add(target.location);
                     break;
             }
         }
@@ -135,15 +144,6 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public boolean hasAlliedCargo(){
         return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT;
-    }
-
-    public Vector getAlliedCargoFieldPos(){
-        Vector v = alliedCargo.botRelativeLoc;
-        //v.r -= getFieldOrientAngle();
-
-        Vector roboVec = new Vector(0, 0);
-
-        return Vector.subVectors(v, roboVec);
     }
 
     public boolean hasGatheredCargo(){

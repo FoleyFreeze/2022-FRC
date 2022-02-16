@@ -40,6 +40,7 @@ public class CalsFlysky {
 
     public final int fireCannon = RIGHT_TRIGGER;
     public final int cameraShoot = TOP_RIGHT_SWITCH;
+    public final int loadCargo = TOP_RIGHT_LEVER;
         
 
     public CalsFlysky(){

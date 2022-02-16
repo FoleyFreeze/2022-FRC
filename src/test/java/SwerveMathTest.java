@@ -1,5 +1,4 @@
 import frc.robot.RobotContainer;
-import frc.robot.Drive.CmdDrive;
 import frc.robot.Drive.SysDriveTrain;
 import frc.robot.Drive.Wheel;
 import frc.robot.Inputs.Inputs;
@@ -100,7 +99,7 @@ public class SwerveMathTest {
     @Test
     public void testSquToCircle(){
         Vector v = Vector.fromXY(0, -1);
-        CmdDrive.mapSquareToCircle(v);
+        Inputs.mapSquareToCircle(v);
         System.out.println(v.toStringPolar());
         assertEquals(1, v.r, DELTA);
         assertEquals(-90, Math.toDegrees(v.theta), DELTA);

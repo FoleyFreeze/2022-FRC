@@ -12,6 +12,11 @@ public class Vector {
         this.theta = Angle.normRad(theta); //note this is radians
     }
    
+    public Vector(Vector v){
+        this.r = v.r;
+        this.theta = v.theta;
+    }
+
     public Vector inverse(){
         r = -r;
         theta += Math.PI;

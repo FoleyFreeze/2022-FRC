@@ -2,6 +2,8 @@ package frc.robot.Intake;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Inputs.Inputs;
+import frc.robot.Util.Vector;
 
 public class CmdGather extends CommandBase{
     
@@ -10,6 +12,7 @@ public class CmdGather extends CommandBase{
     public CmdGather(RobotContainer r){
         this.r = r;
         addRequirements(r.intake);
+        addRequirements(r.drive);
     }
 
     @Override
@@ -19,7 +22,31 @@ public class CmdGather extends CommandBase{
 
     @Override
     public void execute(){
+        double x;
+        double y;
+        double zR;
+
+        Vector xy;
+        
         r.intake.intake();
+        if(r.inputs.cameraDrive()){
+            Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
+            cargoPos.theta -= Math.toRadians(r.sensors.botAng);
+            
+            zR = r.intake.cals.kR * cargoPos.theta;
+            x = r.intake.cals.kX * cargoPos.getX();
+            y = Math.max(r.intake.cals.yPower - x - zR, 0);
+            xy = Vector.fromXY(x, y);
+        } else {
+            zR = r.inputs.getDrivezR();
+            x = r.inputs.getDriveX();
+            y = r.inputs.getDriveY();
+
+            xy = Vector.fromXY(x, y);
+            Inputs.mapSquareToCircle(xy);
+        }
+
+        r.drive.driveSwerve(xy, zR);
     }
 
     @Override

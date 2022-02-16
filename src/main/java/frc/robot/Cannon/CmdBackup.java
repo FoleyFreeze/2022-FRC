@@ -3,27 +3,25 @@ package frc.robot.Cannon;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 
-public class CmdFire extends WaitCommand{
+public class CmdBackup extends WaitCommand{
 
     RobotContainer r;
 
-    public CmdFire(RobotContainer r){
-        super(r.cannon.cals.shootTime);
+    public CmdBackup(double time, RobotContainer r){
+        super(time);
         this.r = r;
         addRequirements(r.cannon);
     }
 
     @Override
     public void execute(){
-        r.cannon.prime();
-        r.cannon.fire();
+        super.execute();
+        r.cannon.fire(-0.1);
     }
 
     @Override
     public void end(boolean interrupted){
         super.end(interrupted);
-
-        r.cannon.setSpeed(0, 0);
         r.cannon.fire(0);
     }
 }

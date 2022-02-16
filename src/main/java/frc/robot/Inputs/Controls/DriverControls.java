@@ -82,11 +82,16 @@ public class DriverControls extends Controls{
         }
     }
 
+    //cannon joystick buttons
     public boolean fireCannon(){
         return joystick.getRawButton(activeCals.fireCannon);
     }
 
     public boolean cameraShoot(){
         return checkButtons(joystick, activeCals.cameraShoot);
+    }
+
+    public boolean loadCargo(){
+        return checkButtons(joystick, activeCals.loadCargo);
     }
 }

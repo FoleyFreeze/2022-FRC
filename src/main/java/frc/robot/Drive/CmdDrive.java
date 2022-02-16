@@ -2,6 +2,7 @@ package frc.robot.Drive;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Inputs.Inputs;
 import frc.robot.Util.Vector;
 
 public class CmdDrive extends CommandBase {
@@ -30,24 +31,12 @@ public class CmdDrive extends CommandBase {
         double zR = bot.inputs.getDrivezR();
 
         Vector xy = Vector.fromXY(x, y);
-        mapSquareToCircle(xy);
+        Inputs.mapSquareToCircle(xy);
         
         bot.drive.driveSwerve(xy, zR);
     }
 
-    public static void mapSquareToCircle(Vector v){
-        double pi = Math.PI;
-        double maxMag;
-
-        if(v.theta < 3*pi/4 && v.theta > pi/4
-                || v.theta < -pi/4 && v.theta > -3*pi/4){
-            maxMag = Math.abs(1 / Math.sin(v.theta));
-        } else {
-            maxMag = Math.abs(1 / Math.cos(v.theta));
-        }
-
-        v.r /= maxMag;
-    }
+    
 
     @Override
     public void end(boolean interrupted){

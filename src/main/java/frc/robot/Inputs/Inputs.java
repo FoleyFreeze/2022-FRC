@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Inputs.Controls.DriverControls;
 import frc.robot.Inputs.Controls.OperatorControls;
 import frc.robot.Util.Log;
+import frc.robot.Util.Vector;
 
 public class Inputs extends SubsystemBase implements AutoCloseable{
 
@@ -44,6 +45,20 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     }
 
+    public static void mapSquareToCircle(Vector v){
+        double pi = Math.PI;
+        double maxMag;
+
+        if(v.theta < 3*pi/4 && v.theta > pi/4
+                || v.theta < -pi/4 && v.theta > -3*pi/4){
+            maxMag = Math.abs(1 / Math.sin(v.theta));
+        } else {
+            maxMag = Math.abs(1 / Math.cos(v.theta));
+        }
+
+        v.r /= maxMag;
+    }
+
     public boolean getFieldOrient(){
         return driverJoy.getFieldOrient();
     }
@@ -66,7 +81,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     };
 
-    public boolean cameraShoot(){
+    public boolean cameraDrive(){
         return driverJoy.cameraShoot();
     }
     
@@ -79,6 +94,12 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
     public Trigger primeCannon = new Trigger(){
         public boolean get(){
             return operatorJoy.primeCannon();
+        }
+    };
+
+    public Trigger loadCargo = new Trigger(){
+        public boolean get(){
+            return driverJoy.loadCargo();
         }
     };
 
