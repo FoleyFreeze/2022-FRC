@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.Inputs.CalsCBoard;
 import frc.robot.Util.Log;
 
-public class OperatorControls extends Controls{
+public class OperatorControls extends Controls implements AutoCloseable{
 
     public CalsCBoard cals;
     public Joystick controlBoard;
@@ -34,5 +34,12 @@ public class OperatorControls extends Controls{
 
     public boolean fireCannon(){
         return checkButtons(controlBoard, cals.fire);
+    }
+
+    @Override
+    public void close() throws Exception {
+        if(controlBoard != null){
+            controlBoard = null;
+        }
     }
 }

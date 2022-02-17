@@ -5,13 +5,14 @@ import frc.robot.Util.Motor.Motor;
 
 public class SysIntake extends SubsystemBase implements AutoCloseable{
     
-    CalsIntake cals;
+    public CalsIntake cals;
 
     Motor intakeMotor;
 
     public SysIntake(CalsIntake cals){
         this.cals = cals;
         if(cals.DISABLED) return;
+        intakeMotor = Motor.create(cals.intakeMotor);
     }
 
     public void intake(double speed){
@@ -32,6 +33,6 @@ public class SysIntake extends SubsystemBase implements AutoCloseable{
 
     @Override
     public void close() throws Exception {
-        
+        intakeMotor.close();
     }
 }

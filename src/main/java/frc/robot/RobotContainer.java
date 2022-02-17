@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Cannon.CalsCannon;
-import frc.robot.Cannon.CmdLoad;
+import frc.robot.Cannon.CmdLoadSequential;
 import frc.robot.Cannon.CmdShoot;
 import frc.robot.Cannon.SysCannon;
 import frc.robot.Climber.CalsClimb;
@@ -36,16 +36,24 @@ import frc.robot.Util.InstantAlwaysCommand;
 public class RobotContainer implements AutoCloseable{
   // The robot's subsystems and commands are defined here...
 
-  public final Inputs inputs = new Inputs(new CalsInputs(), new CalsFlysky(), new CalsCBoard());
-  public final SysCannon cannon = new SysCannon(new CalsCannon(), this);
-  public final SysDriveTrain drive = new SysDriveTrain(new CalsDrive(), this);
-  public final SysIntake intake = new SysIntake(new CalsIntake());
-  public final SysClimb climb = new SysClimb(new CalsClimb());
-  public final Sensors sensors = new Sensors(new CalsSensors(),this); //needs to run after drive is created
+  public final Inputs inputs;
+  public final SysCannon cannon;
+  public final SysDriveTrain drive;
+  public final SysIntake intake;
+  public final SysClimb climb;
+  public final Sensors sensors;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    inputs = new Inputs(new CalsInputs(), new CalsFlysky(), new CalsCBoard());
+    cannon = new SysCannon(new CalsCannon(), this);
+    drive = new SysDriveTrain(new CalsDrive(), this);
+    intake = new SysIntake(new CalsIntake());
+    climb = new SysClimb(new CalsClimb());
+    sensors = new Sensors(new CalsSensors(),this); //needs to run after drive is created
+
     CommandScheduler cs = CommandScheduler.getInstance();
     cs.registerSubsystem(inputs, intake, cannon, drive); //order matters
     cs.setDefaultCommand(drive, new CmdDrive(this));
@@ -62,12 +70,12 @@ public class RobotContainer implements AutoCloseable{
    */
   private void configureButtonBindings() {
 
-    inputs.resetSwerveAngles.whileActiveOnce(new InstantAlwaysCommand(drive::learnWheelAngs));
-    inputs.resetNavXAng.whileActiveOnce(new InstantAlwaysCommand(sensors::resetAng));
-    inputs.resetNavXPos.whileActiveOnce(new InstantAlwaysCommand(sensors::resetPos));
-
-    inputs.loadCargo.whileActiveOnce(new CmdLoad(this));
-    inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
+    //inputs.resetSwerveAngles.whileActiveOnce(new InstantAlwaysCommand(drive::learnWheelAngs));
+    //inputs.resetNavXAng.whileActiveOnce(new InstantAlwaysCommand(sensors::resetAng));
+    //inputs.resetNavXPos.whileActiveOnce(new InstantAlwaysCommand(sensors::resetPos));
+    //  
+    //inputs.loadCargo.whileActiveOnce(new CmdLoadSequential(this));
+    //inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
   }
 
   /**

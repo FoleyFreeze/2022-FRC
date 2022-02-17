@@ -1,5 +1,6 @@
 package frc.robot.Drive;
 
+import frc.robot.Robot;
 import frc.robot.Util.Vector;
 import frc.robot.Util.Motor.CalsMotor;
 import frc.robot.Util.Motor.CalsMotor.MotorType;
@@ -23,7 +24,7 @@ public class CalsDrive {
         public double maxVelocity = 120;//inches per second
     }
 
-    public final boolean DISABLED = false;
+    public final boolean DISABLED = false && Robot.isReal();
 
     //Swerve Motor PID
     public double[] angleEncoderOffsets = {4.896, 1.298, 0.544, 2.170};

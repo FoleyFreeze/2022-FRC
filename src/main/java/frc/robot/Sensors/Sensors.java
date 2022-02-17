@@ -152,6 +152,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     @Override
     public void close() throws Exception {
-        
+        encoders.close();
+        navX.close();
     }
 }

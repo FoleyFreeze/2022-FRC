@@ -7,7 +7,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.Util.Vector;
 
-public class NavX {
+public class NavX implements AutoCloseable {
 
     public AHRS navX;
     public double prevDX;
@@ -58,5 +58,10 @@ public class NavX {
     public void overrideAng(double angle){
         prevAng = angle;
         navX.zeroYaw();
+    }
+
+    @Override
+    public void close() throws Exception {
+        navX.close();
     }
 }

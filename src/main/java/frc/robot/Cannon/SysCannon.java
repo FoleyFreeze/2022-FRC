@@ -14,7 +14,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     Motor cwMotor;
     Motor ccwMotor;
     Motor angleMotor;
-    Motor fireMotor;
+    Motor leftFireMotor;
+    Motor rightFireMotor;
     Motor transpMotor;
 
     double jogSpeed;
@@ -31,7 +32,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         cwMotor = Motor.create(cals.cwMotor);
         ccwMotor = Motor.create(cals.ccwMotor);
         angleMotor = Motor.create(cals.angleMotor);
-        fireMotor = Motor.create(cals.fireMotor);
+        leftFireMotor = Motor.create(cals.leftFireMotor);
+        rightFireMotor = Motor.create(cals.rightFireMotor);
         transpMotor = Motor.create(cals.transpMotor);
     }
 
@@ -63,7 +65,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void fire(double power){
-        fireMotor.setPower(power);
+        leftFireMotor.setPower(power);
+        rightFireMotor.setPower(power);
     }
 
     public void fire(){
@@ -149,6 +152,11 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     @Override
     public void close() throws Exception {
-        
+        cwMotor.close();
+        ccwMotor.close();
+        angleMotor.close();
+        leftFireMotor.close();
+        rightFireMotor.close();
+        transpMotor.close();
     }
 }

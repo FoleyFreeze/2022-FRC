@@ -7,7 +7,7 @@ import frc.robot.Inputs.CalsFlysky;
 import frc.robot.Inputs.CalsGamepad;
 import frc.robot.Util.Log;
 
-public class DriverControls extends Controls{
+public class DriverControls extends Controls implements AutoCloseable{
     public CalsFlysky activeCals;
     public CalsFlysky fsCals;
     public CalsGamepad gPadCals;
@@ -84,7 +84,7 @@ public class DriverControls extends Controls{
 
     //cannon joystick buttons
     public boolean fireCannon(){
-        return joystick.getRawButton(activeCals.fireCannon);
+        return joystick.getRawAxis(activeCals.fireCannon) > 0.5;
     }
 
     public boolean cameraShoot(){
@@ -93,5 +93,12 @@ public class DriverControls extends Controls{
 
     public boolean loadCargo(){
         return checkButtons(joystick, activeCals.loadCargo);
+    }
+
+    @Override
+    public void close() throws Exception {
+        if(joystick != null){
+            joystick = null;
+        }
     }
 }

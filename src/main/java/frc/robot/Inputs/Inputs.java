@@ -154,6 +154,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     @Override
     public void close() throws Exception {
-        
+        driverJoy.close();
+        operatorJoy.close();
     }
 }

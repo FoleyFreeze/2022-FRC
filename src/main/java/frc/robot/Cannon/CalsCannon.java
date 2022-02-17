@@ -1,16 +1,18 @@
 package frc.robot.Cannon;
 
+import frc.robot.Robot;
 import frc.robot.Util.Motor.CalsMotor;
 import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsCannon {
     
-    public final boolean DISABLED = true;
+    public final boolean DISABLED = true && Robot.isReal();
 
     public CalsMotor cwMotor = new CalsMotor(MotorType.SPARK, 0);
-    public CalsMotor ccwMotor = new CalsMotor(MotorType.SPARK, 0);
-    public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 0);
-    public CalsMotor fireMotor = new CalsMotor(MotorType.SPARK, 0);
+    public CalsMotor ccwMotor = new CalsMotor(MotorType.SPARK, 1);
+    public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 2);
+    public CalsMotor leftFireMotor = new CalsMotor(MotorType.SPARK, 0);
+    public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 0);
     public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 0);
     
     public double[] distances = {0, 0, 0, 0};
@@ -35,7 +37,7 @@ public class CalsCannon {
     public double shootTime = 0.25;
 
     public double preLoadTime = 0.5;
-    public double loadTime = -1;//TODO: put a number in here
+    public double loadTime = -1;//TODO: put a time in here
     public double tranSpeed = 0.5;
     public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current
 

@@ -5,15 +5,15 @@ import edu.wpi.first.wpilibj.RobotBase;
 public interface Motor extends AutoCloseable {
 
     public static Motor create(CalsMotor c){
+        if(RobotBase.isSimulation()){
+            return new NullMotor();
+        }
         switch(c.type){
             case PWM:
                 return new PWMMotor(c);
             case SPARK:
                 return new SparkMotor(c);
             case TALON:
-                if(RobotBase.isSimulation()){
-                    return new PWMMotor(c);
-                }
                 return new TalonMotor(c);
             case NULL:
             default:

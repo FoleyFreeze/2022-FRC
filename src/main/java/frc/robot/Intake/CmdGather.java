@@ -29,7 +29,7 @@ public class CmdGather extends CommandBase{
         Vector xy;
         
         r.intake.intake();
-        if(r.inputs.cameraDrive()){
+        if(r.inputs.cameraDrive() && r.sensors.hasAlliedCargo()){
             Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
             cargoPos.theta -= Math.toRadians(r.sensors.botAng);
             
