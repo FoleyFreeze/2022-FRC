@@ -146,6 +146,10 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT;
     }
 
+    public boolean targetAquired(){
+        return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT;
+    }
+
     public boolean hasGatheredCargo(){
         return false;
     }
