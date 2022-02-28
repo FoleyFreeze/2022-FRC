@@ -16,14 +16,17 @@ public class SysIntake extends SubsystemBase implements AutoCloseable{
     }
 
     public void intake(double speed){
+        if (cals.DISABLED) return;
         intakeMotor.setPower(speed);
     }
 
     public void intake(){
+        if (cals.DISABLED) return;
         intakeMotor.setPower(cals.intakeSpeed);
     }
 
     public void reverse(){
+        if (cals.DISABLED) return;
         intakeMotor.setPower(cals.reverseSpeed);
     }
 

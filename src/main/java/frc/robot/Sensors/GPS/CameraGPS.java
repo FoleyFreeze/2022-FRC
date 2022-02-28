@@ -11,6 +11,7 @@ public class CameraGPS implements AutoCloseable{
         public Vector pos;
         public double angle;
         public double timestamp;
+        public double cannonAng;//in degrees
     }
     public Location[] locationHistory;
 
@@ -21,7 +22,7 @@ public class CameraGPS implements AutoCloseable{
         }
     }
 
-    public void addLocation(Vector pos, double ang, double time){
+    public void addLocation(Vector pos, double ang, double time, double cannonAng){
         head++;
         if(head > locationHistory.length - 1){
             head = 0;
@@ -30,6 +31,7 @@ public class CameraGPS implements AutoCloseable{
         locationHistory[head].pos = pos;
         locationHistory[head].angle = ang;
         locationHistory[head].timestamp = time;
+        locationHistory[head].cannonAng = cannonAng;
     }
 
     public Location interpolate(double time){
@@ -56,10 +58,11 @@ public class CameraGPS implements AutoCloseable{
     }
 
     //update only locations from after image was taken
-    public void updateArray(Vector error, double time){
+    public void updateArray(Vector error, double time, double cannonAng){
         int i = head;
         while(locationHistory[i].timestamp > time){
             locationHistory[i].pos.add(error);
+            locationHistory[i].cannonAng = cannonAng;
             i--;
             if(i < 0){
                 i = locationHistory.length;
@@ -68,10 +71,11 @@ public class CameraGPS implements AutoCloseable{
     }
 
     //updates all values if they are not null
-    public void updateArray(Vector error){
+    public void updateArray(Vector error, double cannonAng){
         for(int i = 0; i > locationHistory.length; i++){
             if(locationHistory[i].pos != null){
                 locationHistory[i].pos.add(error);
+                locationHistory[i].cannonAng = cannonAng;
             }
         }
     }

@@ -8,7 +8,7 @@ public class CalsIntake {
     
     public final boolean DISABLED = true && Robot.isReal();
 
-    public CalsMotor intakeMotor = new CalsMotor(MotorType.SPARK, 0);
+    public CalsMotor intakeMotor = new CalsMotor(MotorType.SPARK, 6);
     public double intakeSpeed = 0.5;
     public double reverseSpeed = -0.5;
 

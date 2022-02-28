@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Cannon.CalsCannon;
 import frc.robot.Cannon.CmdLoadSequential;
+import frc.robot.Cannon.CmdCannonAngleReset;
 import frc.robot.Cannon.CmdShoot;
 import frc.robot.Cannon.SysCannon;
 import frc.robot.Climber.CalsClimb;
@@ -22,6 +23,7 @@ import frc.robot.Inputs.CalsFlysky;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Intake.CalsIntake;
+import frc.robot.Intake.CmdGather;
 import frc.robot.Intake.SysIntake;
 import frc.robot.Sensors.CalsSensors;
 import frc.robot.Sensors.Sensors;
@@ -48,11 +50,11 @@ public class RobotContainer implements AutoCloseable{
   public RobotContainer() {
 
     inputs = new Inputs(new CalsInputs(), new CalsFlysky(), new CalsCBoard());
-    cannon = new SysCannon(new CalsCannon(), this);
     drive = new SysDriveTrain(new CalsDrive(), this);
     intake = new SysIntake(new CalsIntake());
     climb = new SysClimb(new CalsClimb());
-    sensors = new Sensors(new CalsSensors(),this); //needs to run after drive is created
+    sensors = new Sensors(new CalsSensors(), this); //needs to run after drive is created
+    cannon = new SysCannon(new CalsCannon(), this);
 
     CommandScheduler cs = CommandScheduler.getInstance();
     cs.registerSubsystem(inputs, intake, cannon, drive); //order matters
@@ -70,12 +72,15 @@ public class RobotContainer implements AutoCloseable{
    */
   private void configureButtonBindings() {
 
-    //inputs.resetSwerveAngles.whileActiveOnce(new InstantAlwaysCommand(drive::learnWheelAngs));
-    //inputs.resetNavXAng.whileActiveOnce(new InstantAlwaysCommand(sensors::resetAng));
-    //inputs.resetNavXPos.whileActiveOnce(new InstantAlwaysCommand(sensors::resetPos));
-    //  
-    //inputs.loadCargo.whileActiveOnce(new CmdLoadSequential(this));
-    //inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
+    inputs.resetSwerveAngles.whileActiveOnce(new InstantAlwaysCommand(drive::learnWheelAngs));
+    inputs.resetNavXAng.whileActiveOnce(new InstantAlwaysCommand(sensors::resetAng));
+    inputs.resetNavXPos.whileActiveOnce(new InstantAlwaysCommand(sensors::resetPos));
+      
+    inputs.loadCargo.whileActiveOnce(new CmdLoadSequential(this));
+    inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
+    inputs.resetCannon.whileActiveOnce(new CmdCannonAngleReset(this));
+
+    inputs.intake.whileActiveOnce(new CmdGather(this));
   }
 
   /**
@@ -97,4 +102,10 @@ public class RobotContainer implements AutoCloseable{
     climb.close();
     sensors.close();
   }
+
+    //this is not relevant to anything delete if needed
+    public boolean monkeyTrouble(boolean aSmile, boolean bSmile){
+      return (aSmile == bSmile);
+    }
+  
 }

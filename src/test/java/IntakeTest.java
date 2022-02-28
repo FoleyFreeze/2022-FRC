@@ -26,7 +26,7 @@ public class IntakeTest {
     }
 
     @Test
-    public void testCamerDrive(){
+    public void testCameraDrive(){
                                           //cargo location,                     robot location
         Vector cargoPos = Vector.subVectors(new Vector(1, Math.toRadians(-90)), new Vector(1.41, Math.toRadians(-45)));
         cargoPos.theta -= Math.toRadians(-45);

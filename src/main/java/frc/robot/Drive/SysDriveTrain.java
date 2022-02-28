@@ -17,9 +17,9 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     double fieldOrientOffset;
     FileManager fm = new FileManager("/home/lvuser/WheelEncoderOffsets.txt");
 
-    public SysDriveTrain(CalsDrive cals, RobotContainer c){
+    public SysDriveTrain(CalsDrive cals, RobotContainer r){
         this.cals = cals;
-        inputs = c.inputs;
+        inputs = r.inputs;
         if(cals.DISABLED) return;
         centerOfRot = cals.defaultRobotCenter;
 

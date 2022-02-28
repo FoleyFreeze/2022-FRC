@@ -13,7 +13,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     
     Motor cwMotor;
     Motor ccwMotor;
-    Motor angleMotor;
+    public Motor angleMotor;
     Motor leftFireMotor;
     Motor rightFireMotor;
     Motor transpMotor;
@@ -38,6 +38,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void prime(){
+        if (cals.DISABLED) return;
         if(r.inputs.cameraDrive()){
             prime(r.sensors.target.location.r, true);
         }else{
@@ -60,16 +61,18 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void prime(double speed, double angle){
         if (cals.DISABLED) return;
 
-        setAngle(angle + jogAng);
+        setAngle(angle + jogAng - cals.angOffset);
         setSpeed(speed + jogSpeed, speed + jogSpeed);
     }
 
     public void fire(double power){
+        if (cals.DISABLED) return;
         leftFireMotor.setPower(power);
         rightFireMotor.setPower(power);
     }
 
     public void fire(){
+        if (cals.DISABLED) return;
         fire(cals.wheelOfFirePower);
     }
 
@@ -109,6 +112,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void jogSpeed(boolean up){
+        if (cals.DISABLED) return;
         if(up){
             jogSpeed += cals.jogSpeedInterval;
         } else {
@@ -117,6 +121,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void jogAng(boolean right){
+        if (cals.DISABLED) return;
         if(right){
             jogAng += cals.jogAngInterval;
         } else {
@@ -125,6 +130,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void transport(){
+        if (cals.DISABLED) return;
         transpMotor.setPower(cals.tranSpeed);
     }
 
@@ -139,6 +145,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     private double preLoadTimer;
     public void periodic(){
+        if (cals.DISABLED) return;
         if(cargoReady){
             cargoReady = false;
             preLoadTimer = Timer.getFPGATimestamp() + cals.preLoadTime;

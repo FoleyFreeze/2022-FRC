@@ -97,9 +97,21 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     };
 
+    public Trigger resetCannon = new Trigger(){
+        public boolean get(){
+            return driverJoy.resetCannonAng();
+        }
+    };
+
     public Trigger loadCargo = new Trigger(){
         public boolean get(){
             return driverJoy.loadCargo();
+        }
+    };
+
+    public Trigger intake = new Trigger(){
+        public boolean get(){
+            return driverJoy.intake();
         }
     };
 

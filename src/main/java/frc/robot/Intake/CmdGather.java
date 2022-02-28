@@ -60,3 +60,4 @@ public class CmdGather extends CommandBase{
         return r.sensors.hasGatheredCargo();
     }
 }
+

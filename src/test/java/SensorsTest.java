@@ -35,16 +35,16 @@ public class SensorsTest {
 
     @Test
     public void testInterp(){
-        gps.addLocation(Vector.fromXY(0.5, 0.5), 0, 0.5);
-        gps.addLocation(Vector.fromXY(0.6, 0.8), 0.4, 0.6);
+        gps.addLocation(Vector.fromXY(0.5, 0.5), 0, 0.5, 90);
+        gps.addLocation(Vector.fromXY(0.6, 0.8), 0.4, 0.6, 90);
 
         //Location l = gps.interpolate(0.52);
     }
 
     @Test
     public void testCamera(){
-        gps.addLocation(Vector.fromXY(0.1, 0.7), 2, 100);
-        gps.addLocation(new Vector(1, 2), 1, 110);
+        gps.addLocation(Vector.fromXY(0.1, 0.7), 2, 100, 90);
+        gps.addLocation(new Vector(1, 2), 1, 110, 90);
 
         System.out.println(gps.locationHistory[0].pos.getX());
         System.out.println(gps.locationHistory[0].angle);

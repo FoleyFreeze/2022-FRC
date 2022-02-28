@@ -49,7 +49,6 @@ public class TalonMotor implements Motor{
 
     @Override
     public void resetEncoder() {
-        // TODO Auto-generated method stub
         
     }
 

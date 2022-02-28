@@ -1,5 +1,6 @@
 package frc.robot.Sensors;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +16,7 @@ import frc.robot.Util.Vector;
 public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public CalsSensors cals;
+    RobotContainer r;
 
     public Vision vision = new Vision();
     public VisionData alliedCargo;
@@ -33,8 +35,12 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public boolean isOnRedTeam;
     private boolean checkedAlliance;
 
-    public Sensors(CalsSensors cals, RobotContainer c){
+    public DigitalInput verticalShooterCheck;
+    public boolean isVertical = true;
+
+    public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
+        this.r = r;
         checkedAlliance = false;
 
         alliedCargo = new VisionData();
@@ -44,7 +50,13 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         camera = new CameraGPS(cals.HISTORY_SIZE);
         navX = new NavX();
-        encoders = new SwerveEncoder(c.drive.wheels);
+        encoders = new SwerveEncoder(r.drive.wheels);
+
+        try{
+            verticalShooterCheck = new DigitalInput(0);//TODO: figure out the channel for the sensor
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -82,7 +94,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         botAng = navX.getFieldOrientAngle();
 
         //update history array of robot positions and orientations
-        camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp());
+        camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
 
         //process all camera data (and update robot location again?)
 
@@ -100,7 +112,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     break;
                 case VISION_TARGET:
                     //maybe do a blend or something based on percieved accuracy of the image
-                    camera.updateArray(target.location);
+                    camera.updateArray(target.location, r.cannon.angleMotor.getPosition() * 360);
 
                     //also remove any error that was present in the calculated cargo locations
                     if(alliedCargo != null) alliedCargo.location.add(target.location);
@@ -111,6 +123,11 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         //process other sensors if any
 
+        if(verticalShooterCheck != null){
+            isVertical = verticalShooterCheck.get();
+        }else{
+            isVertical = true;
+        }
     }
 
     public void resetAng(){
@@ -146,13 +163,20 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT;
     }
 
+    public boolean hasTargetImage(){
+        return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT;
+    }
+
     public boolean hasGatheredCargo(){
+        //TODO: this is utterly useless. make it work
         return false;
+
     }
 
     @Override
     public void close() throws Exception {
         encoders.close();
         navX.close();
+        verticalShooterCheck.close();
     }
 }

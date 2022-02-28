@@ -31,7 +31,7 @@ public class DriverControls extends Controls implements AutoCloseable{
                     Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "flysky found on port: " + i);
                     return;//if we found the flysky, we are done checking
                 }
-                if(name.contains("gamepad") || joystick==null || joystick.getPort() != i) {//TODO: change gamepad name
+                if(name.contains("gamepad") || joystick==null || joystick.getPort() != i) {
                     isFlySky = false;
                     isGamePad = true;
                     activeCals = gPadCals;
@@ -84,7 +84,11 @@ public class DriverControls extends Controls implements AutoCloseable{
 
     //cannon joystick buttons
     public boolean fireCannon(){
-        return joystick.getRawAxis(activeCals.fireCannon) > 0.5;
+        if(joystick != null){
+            return joystick.getRawAxis(activeCals.fireCannon) > 0.5;
+        }else{
+            return false;
+        }
     }
 
     public boolean cameraShoot(){
@@ -93,6 +97,14 @@ public class DriverControls extends Controls implements AutoCloseable{
 
     public boolean loadCargo(){
         return checkButtons(joystick, activeCals.loadCargo);
+    }
+
+    public boolean resetCannonAng(){
+        return checkButtons(joystick, activeCals.resetCannon);
+    }
+
+    public boolean intake(){
+        return checkButtons(joystick, activeCals.intake);
     }
 
     @Override

@@ -14,7 +14,6 @@ public class SwerveEncoder implements AutoCloseable{
     public SwerveEncoder(Wheel[] wheels){
         this.wheels = wheels;
 
-        //TODO: Init to cals based on auton pattern
         botPos = new Vector(0,0);
     }
 

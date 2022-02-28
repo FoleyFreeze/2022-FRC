@@ -11,7 +11,7 @@ import org.junit.*;
 public class SwerveMathTest {
 
     public static final double DELTA = 1e-2;
-    RobotContainer rc;
+    RobotContainer r;
     Wheel wheel;
     Inputs inputs;
     Sensors sensors;
@@ -19,16 +19,16 @@ public class SwerveMathTest {
 
     @Before
     public void setup(){
-        rc = new RobotContainer();
-        inputs = rc.inputs;
-        drive = rc.drive;
+        r = new RobotContainer();
+        inputs = r.inputs;
+        drive = r.drive;
         wheel = drive.wheels[0];
     }
 
     @After
     public void shutdown(){
         try{
-            rc.close();
+            r.close();
         } catch (Exception e){
             System.out.println("Exception during close:");
             System.out.println(e.toString());
