@@ -10,13 +10,10 @@ public class CmdShoot extends SequentialCommandGroup{
     RobotContainer r;
 
     public CmdShoot(RobotContainer r){
-<<<<<<< HEAD
         addRequirements(r.cannon);
         addRequirements(r.drive);
-=======
         this.r = r;
 
->>>>>>> 37a7d45e49ec1e0bbe8731e163dbc289e9958f99
         addCommands(new SequentialCommandGroup(new CmdPrime(r), new CmdFire(r)));
     }
 
@@ -30,7 +27,7 @@ public class CmdShoot extends SequentialCommandGroup{
 
         Vector xy = Vector.fromXY(x, y);
 
-        if(r.inputs.cameraDrive() && r.sensors.targetAquired()){
+        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
             /*double error = r.sensors.botAng - r.sensors.botLoc.theta;
             if(){
                 
