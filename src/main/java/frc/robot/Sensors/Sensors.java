@@ -37,10 +37,12 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public DigitalInput verticalShooterCheck;
     public boolean isVertical = true;
+    public DigitalInput cargoSensor;
 
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
         this.r = r;
+        if(cals.DISABLED == true) return;
         checkedAlliance = false;
 
         alliedCargo = new VisionData();
@@ -54,6 +56,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         try{
             verticalShooterCheck = new DigitalInput(0);//TODO: figure out the channel for the sensor
+            cargoSensor = new DigitalInput(0);
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -61,6 +64,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     @Override
     public void periodic(){
+        if(cals.DISABLED) return;
         if(!checkedAlliance){
             switch(DriverStation.getAlliance()){
                 case Blue:
@@ -94,7 +98,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         botAng = navX.getFieldOrientAngle();
 
         //update history array of robot positions and orientations
-        camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
+        //camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
 
         //process all camera data (and update robot location again?)
 
@@ -131,11 +135,13 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     }
 
     public void resetAng(){
+        if(cals.DISABLED) return;
         navX.resetAng();
         encoders.resetAng();
     }
 
     public void resetPos(){
+        if(cals.DISABLED) return;
         navX.resetPos();
         encoders.resetPos();
     }
@@ -150,6 +156,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     private Vector prevEncBotPos = new Vector(0,0);
     private double timeOfMovement = 0;
     public boolean botIsMoving(){
+        if(cals.DISABLED) return false;
         Vector v = Vector.subVectors(encoders.botPos, prevEncBotPos);
         if(v.r != 0){
             //we have moved
@@ -160,10 +167,12 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     }
 
     public boolean hasAlliedCargo(){
+        if(cals.DISABLED) return false;
         return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT;
     }
 
     public boolean hasTargetImage(){
+        if(cals.DISABLED) return false;
         return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT;
     }
 

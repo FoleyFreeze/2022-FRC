@@ -25,16 +25,15 @@ public class CmdLoad extends CommandBase{
     @Override
     public void execute(){
         c.setAngle(65);
-        c.setPower(-0.2, -0.2);
+        c.setPower(-0.1, -0.1);
         c.transport();
-        c.fire();
     }
 
     @Override
     public void end(boolean interrupted){
         c.stopTransport();
         c.fire(0);
-        c.setSpeed(0, 0);
+        c.setPower(0, 0);
     }
 
     @Override

@@ -41,7 +41,7 @@ public class SparkMotor implements Motor{
         //TODO(1): do this later, but for now the 2019 bot assumes conversion outside the spark
         //encoder.setPositionConversionFactor(1 / cals.ticksPerUnit);
 
-        pidController.setOutputRange(-cals.powerLimit, cals.powerLimit);
+        pidController.setOutputRange(-cals.powerLimitMax, cals.powerLimitMax);
     }
 
     public void setPower(double power){

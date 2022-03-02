@@ -2,18 +2,29 @@ package frc.robot.Util.Motor;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 public class TalonMotor implements Motor{
 
     CalsMotor cals;
-    TalonSRX motor;
+    TalonFX motor;
     boolean brake;
 
     public TalonMotor(CalsMotor cals){
         this.cals = cals;
-        motor = new WPI_TalonSRX(cals.channel);
+        motor = new TalonFX(cals.channel);
+
+        motor.setInverted(cals.invert);
+
+        motor.config_kP(0, cals.kP);
+        motor.config_kI(0, cals.kI);
+        motor.config_kD(0, cals.kD);
+        motor.config_kF(0, cals.kF);
+
+        motor.configPeakOutputForward(cals.powerLimitMax);
+        motor.configPeakOutputReverse(cals.powerLimitMin);
     }
 
     public void setPower(double power){
@@ -21,7 +32,7 @@ public class TalonMotor implements Motor{
     }
 
     public void setPosition(double revs){
-        motor.set(ControlMode.Position, revs);
+        //motor.set(ControlMode.Position, revs);
     }
 
     public double getPosition(){
@@ -54,16 +65,19 @@ public class TalonMotor implements Motor{
 
     @Override
     public void setSpeed(double speed) {
-        
+        //convert to ticks per 100ms
+        motor.set(ControlMode.Velocity, speed * 2048 / 600.0);
     }
 
     @Override
     public double getSpeed() {
-        return motor.getSelectedSensorVelocity();
+        //convert to rpm from ticks per 100ms (2048 ticks per rev)
+        return motor.getSelectedSensorVelocity() * 600 / 2048.0;
     }
 
     @Override
     public double getClosedLoopError() {
-        return motor.getClosedLoopError();
+        //convert to rpm
+        return motor.getClosedLoopError() * 600 / 2048.0;
     }
 }

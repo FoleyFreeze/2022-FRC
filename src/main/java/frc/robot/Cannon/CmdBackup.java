@@ -16,7 +16,7 @@ public class CmdBackup extends WaitCommand{
     @Override
     public void execute(){
         super.execute();
-        r.cannon.fire(-0.1);
+        r.cannon.fire(0.2);
     }
 
     @Override

@@ -25,7 +25,7 @@ public class CalsDrive {
     }
 
     @SuppressWarnings("unused")
-    public final boolean DISABLED = false && Robot.isReal();
+    public final boolean DISABLED = true && Robot.isReal();
 
     //Swerve Motor PID
     public double[] angleEncoderOffsets = {4.896, 1.298, 0.544, 2.170};

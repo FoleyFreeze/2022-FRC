@@ -3,14 +3,16 @@ package frc.robot.Inputs.Controls;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Inputs.CalsFlysky;
 import frc.robot.Inputs.CalsGamepad;
 import frc.robot.Util.Log;
 
 public class DriverControls extends Controls implements AutoCloseable{
-    public CalsFlysky activeCals;
-    public CalsFlysky fsCals;
-    public CalsGamepad gPadCals;
+    public CalsFlysky fsCals = new CalsFlysky();
+    public CalsGamepad gPadCals = new CalsGamepad();
+    public CalsFlysky activeCals = fsCals;
+    
 
     public Joystick joystick;
 
@@ -20,10 +22,15 @@ public class DriverControls extends Controls implements AutoCloseable{
     public void detectJoystick(){
         //for each potential joystick port
         if(!isFlySky || !joystick.isConnected()){
+            /*
+            isFlySky = true;
+            joystick = new Joystick(0);
+            */
+            
             for(int i=0; i<DriverStation.kJoystickPorts; i++){
                 String name = DriverStation.getJoystickName(i);
 
-                if(name.contains("flysky") || joystick==null || joystick.getPort() != i) {
+                if(name.contains("FlySky") && (joystick==null || joystick.getPort() != i)) {
                     isFlySky = true;
                     isGamePad = false;
                     activeCals = fsCals;
@@ -31,7 +38,7 @@ public class DriverControls extends Controls implements AutoCloseable{
                     Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "flysky found on port: " + i);
                     return;//if we found the flysky, we are done checking
                 }
-                if(name.contains("gamepad") || joystick==null || joystick.getPort() != i) {
+                if(name.contains("gamepad") && (joystick==null || joystick.getPort() != i)) {
                     isFlySky = false;
                     isGamePad = true;
                     activeCals = gPadCals;
@@ -42,22 +49,22 @@ public class DriverControls extends Controls implements AutoCloseable{
         }
     }
 
-    public DriverControls(CalsFlysky c){
-        activeCals = c;
+    public DriverControls(){
+        //activeCals = c;
     }
 
 
     //drive joystick buttons
     public double getX(){
-        return joystick.getRawAxis(activeCals.X_AXIS);
+        return checkAxis(joystick, activeCals.X_AXIS);
     }
 
     public double getY(){
-        return joystick.getRawAxis(activeCals.Y_AXIS);
+        return checkAxis(joystick, activeCals.Y_AXIS);
     }
 
     public double getZ(){
-        return joystick.getRawAxis(activeCals.Z_AXIS);
+        return checkAxis(joystick, activeCals.Z_AXIS);
     }
 
     public boolean getFieldOrient(){
@@ -104,7 +111,7 @@ public class DriverControls extends Controls implements AutoCloseable{
     }
 
     public boolean intake(){
-        return checkButtons(joystick, activeCals.intake);
+        return checkAxis(joystick, activeCals.intake) > 0.5;
     }
 
     @Override

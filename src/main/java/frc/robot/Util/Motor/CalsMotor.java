@@ -9,7 +9,8 @@ public class CalsMotor {
 
     public int channel;
 
-    public double powerLimit = 1;
+    public double powerLimitMax = 1;
+    public double powerLimitMin = -1;
 
     public double ticksPerUnit = 1;
 
@@ -47,7 +48,14 @@ public class CalsMotor {
     }
 
     public CalsMotor setPIDPwrLim(double max){
-        this.powerLimit = max;
+        this.powerLimitMax = max;
+        this.powerLimitMin = -max;
+        return this;
+    }
+
+    public CalsMotor setPIDPwrLim(double min, double max){
+        powerLimitMax = max;
+        powerLimitMin = min;
         return this;
     }
 

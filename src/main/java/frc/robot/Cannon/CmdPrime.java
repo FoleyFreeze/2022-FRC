@@ -1,5 +1,6 @@
 package frc.robot.Cannon;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
@@ -9,6 +10,7 @@ public class CmdPrime extends CommandBase{
 
     RobotContainer r;
 
+    double timer;
     public CmdPrime(RobotContainer r){
         this.r = r;
         addRequirements(r.cannon);
@@ -17,7 +19,7 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public void initialize(){
-
+        timer = Timer.getFPGATimestamp() + r.cannon.cals.minPrimeTime;
     }
 
     @Override
@@ -48,12 +50,15 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public void end(boolean interrupted){
-
+        if(interrupted){
+            //only stop shooting if we exit early
+            r.cannon.setSpeed(0,0);
+        }
     }
 
     @Override
     public boolean isFinished(){
-        return r.cannon.upToSpeed() && !r.sensors.botIsMoving();
+        return r.cannon.upToSpeed() && !r.sensors.botIsMoving() && Timer.getFPGATimestamp() > timer;
     }
 
 

@@ -53,8 +53,9 @@ public class RobotContainer implements AutoCloseable{
     drive = new SysDriveTrain(new CalsDrive(), this);
     intake = new SysIntake(new CalsIntake());
     climb = new SysClimb(new CalsClimb());
-    sensors = new Sensors(new CalsSensors(), this); //needs to run after drive is created
     cannon = new SysCannon(new CalsCannon(), this);
+    sensors = new Sensors(new CalsSensors(), this); //needs to run after drive is created
+    
 
     CommandScheduler cs = CommandScheduler.getInstance();
     cs.registerSubsystem(inputs, intake, cannon, drive); //order matters

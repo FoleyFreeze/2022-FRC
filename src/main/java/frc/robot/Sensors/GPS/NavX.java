@@ -15,7 +15,6 @@ public class NavX implements AutoCloseable {
     public double prevAng;
 
     public NavX(){
-        //navX = new AHRS(Port.kUSB);
         navX = new AHRS(SerialPort.Port.kUSB, SerialDataType.kProcessedData, (byte)200);
         navX.calibrate();
         navX.zeroYaw();

@@ -7,22 +7,27 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsCannon {
     
-    public final boolean DISABLED = true && Robot.isReal();
+    public final boolean DISABLED = false && Robot.isReal();
 
     double MAX_PWR = 0.5;
 
-    double kP = 0.2;
-    double kI = 0.005;
-    double kD = 0.3;
-    double kF = 0.0;
-    double iLim = 3;
+    double shoot_kP = 0.1;
+    double shoot_kI = 0.000;
+    double shoot_kD = 0.0;
+    double shoot_kF = 0.0507;
 
-    public CalsMotor cwMotor = new CalsMotor(MotorType.SPARK, 2);
-    public CalsMotor ccwMotor = new CalsMotor(MotorType.SPARK, 17);
-    public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 15).setEncUnits(60).setPIDF(kP, kI, kD, kF).setkIlim(iLim).setPIDPwrLim(MAX_PWR).brake();
-    public CalsMotor leftFireMotor = new CalsMotor(MotorType.TALON, 7);
-    public CalsMotor rightFireMotor = new CalsMotor(MotorType.TALON, 12);
-    public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5);
+    double angle_kP = 0.0;
+    double angle_kI = 0.000;
+    double angle_kD = 0.0;
+    double angle_kF = 0.0;
+    double angle_iLim = 0;
+
+    public CalsMotor cwMotor = new CalsMotor(MotorType.TALON, 2).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,0.5);
+    public CalsMotor ccwMotor = new CalsMotor(MotorType.TALON, 17).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,0.5);
+    public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 15).setEncUnits(60).setPIDF(angle_kP, angle_kI, angle_kD, angle_kF).setkIlim(angle_iLim).setPIDPwrLim(MAX_PWR).brake();
+    public CalsMotor leftFireMotor = new CalsMotor(MotorType.SPARK, 7).invert();
+    public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 12).invert();
+    public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5).invert();
     
     public double[] distances = {0, 0, 0, 0};
     public double[] angles = {0, 0, 0, 0};
@@ -31,7 +36,7 @@ public class CalsCannon {
     public double shootMaxAngle = 135;
     public double shootMinAngle = 45;
 
-    public final double LAYUP_SHOOT_SPEED = 0;
+    public final double LAYUP_SHOOT_SPEED = 2000;
     public final double LAYUP_SHOOT_ANG = 0;
     public final double LAUNCH_PAD_SHOOT_SPEED = 0;
     public final double LAUNCH_PAD_SHOOT_ANG = 0;
@@ -39,15 +44,16 @@ public class CalsCannon {
     public double jogSpeedInterval = 0;
     public double jogInitAng = 0;
     public double jogAngInterval = 0;
-    public double minShootSpeedError = -100;
-    public double maxShootSpeedError = 100;
+    public double minShootSpeedError = -60;
+    public double maxShootSpeedError = 60;
 
     public double wheelOfFirePower = 1;
     public double shootTime = 0.25;
+    public double minPrimeTime = 1;
 
     public double preLoadTime = 0.5;
-    public double loadTime = 5;
-    public double tranSpeed = 0.5;
+    public double loadTime = 1;
+    public double tranSpeed = 0.4;
     public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current
 
     public double angOffset;

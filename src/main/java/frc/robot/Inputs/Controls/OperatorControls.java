@@ -19,7 +19,7 @@ public class OperatorControls extends Controls implements AutoCloseable{
         for(int i=0; i<DriverStation.kJoystickPorts; i++){
             String name = DriverStation.getJoystickName(i);
             
-            if(controlBoard.getName().contains("foley") || controlBoard==null || controlBoard.getPort() != i) {
+            if(name.contains("foley") && (controlBoard==null || controlBoard.getPort() != i)) {
                 controlBoard = new Joystick(i);
                 Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "control board found on port: " + i);
             }

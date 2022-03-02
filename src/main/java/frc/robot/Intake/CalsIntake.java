@@ -6,9 +6,9 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsIntake {
     
-    public final boolean DISABLED = true && Robot.isReal();
+    public final boolean DISABLED = false && Robot.isReal();
 
-    public CalsMotor intakeMotor = new CalsMotor(MotorType.SPARK, 6);
+    public CalsMotor intakeMotor = new CalsMotor(MotorType.SPARK, 6).invert();
     public double intakeSpeed = 0.5;
     public double reverseSpeed = -0.5;
 

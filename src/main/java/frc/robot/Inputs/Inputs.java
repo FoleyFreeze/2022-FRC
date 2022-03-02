@@ -21,7 +21,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     public Inputs(CalsInputs inCals, CalsFlysky driverCals, CalsCBoard operatorCals){
         this.cals = inCals;
-        driverJoy = new DriverControls(driverCals);
+        driverJoy = new DriverControls();
         operatorJoy = new OperatorControls(operatorCals);
     }
 

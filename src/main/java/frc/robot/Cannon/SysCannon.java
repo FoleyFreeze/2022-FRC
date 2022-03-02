@@ -1,6 +1,7 @@
 package frc.robot.Cannon;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Util.Interpolate;
@@ -77,6 +78,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void setAngle(double angle){
+        /*
         if (cals.DISABLED) return;
         
         if (angle > cals.shootMaxAngle)
@@ -87,6 +89,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         double revs = angle / 360;
         angleMotor.setPosition(revs);
+        */
     }
 
     //sets motors via speeds in RPM
@@ -105,6 +108,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public boolean upToSpeed(){
+        if(cals.DISABLED) return false;
+
         double error = ccwMotor.getClosedLoopError();
         error += cwMotor.getClosedLoopError();
 
@@ -135,6 +140,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void stopTransport(){
+        if(cals.DISABLED) return;
         transpMotor.setPower(0);
     }
 
@@ -146,6 +152,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     private double preLoadTimer;
     public void periodic(){
         if (cals.DISABLED) return;
+
         if(cargoReady){
             cargoReady = false;
             preLoadTimer = Timer.getFPGATimestamp() + cals.preLoadTime;
@@ -155,6 +162,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         } else {
             stopTransport();
         }
+
+        SmartDashboard.putNumber("ShooterSpeedError", cwMotor.getClosedLoopError() + ccwMotor.getClosedLoopError());
     }
 
     @Override

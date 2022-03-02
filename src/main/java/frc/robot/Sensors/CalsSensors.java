@@ -1,6 +1,10 @@
 package frc.robot.Sensors;
 
+import frc.robot.Robot;
+
 public class CalsSensors {
+
+    public final boolean DISABLED = true && Robot.isReal();
 
     public final double VISION_DATA_TIMEOUT = 0.5;
 
