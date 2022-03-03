@@ -18,8 +18,8 @@ public class CalsFlysky {
     public final int TOP_RIGHT_HAT_LEFT = 1 << 16;
     public final int TOP_RIGHT_HAT_DOWN = 1 << 14;
     public final int TOP_RIGHT_HAT_RIGHT = 1 << 15;
-    public final int BOT_RIGHT_3POS_UP = 1 << 16;
-    public final int BOT_RIGHT_3POS_DOWN = 1 << 17;
+    public final int BOT_RIGHT_3POS_UP = 1 << 7;
+    public final int BOT_RIGHT_3POS_DOWN = 1 << 8;
 
     public final int LEFT_DIAL = 7;
     public final int RIGHT_DIAL = 6;

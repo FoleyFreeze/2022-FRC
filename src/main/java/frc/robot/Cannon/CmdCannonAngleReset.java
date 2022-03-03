@@ -13,7 +13,8 @@ public class CmdCannonAngleReset extends CommandBase{
 
     @Override
     public void initialize(){
-        r.cannon.cals.angOffset = (r.cannon.angleMotor.getPosition() * 360) - r.cannon.cals.resetAngle;
+        //r.cannon.cals.angOffset = (r.cannon.angleMotor.getPosition() * 360) - r.cannon.cals.resetAngle;
+        r.cannon.angleMotor.setEncoderPosition(r.cannon.cals.resetAngle / 360.0);
     }
 
     @Override
@@ -24,6 +25,11 @@ public class CmdCannonAngleReset extends CommandBase{
     @Override
     public void end(boolean interrupted){
         
+    }
+
+    @Override
+    public boolean runsWhenDisabled() {
+        return true;
     }
 
     @Override

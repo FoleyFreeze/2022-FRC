@@ -109,4 +109,9 @@ public class SparkMotor implements Motor{
     public double getSpeed(){
         return encoder.getVelocity() / cals.ticksPerUnit / 60.0;
     }
+
+    @Override
+    public void setEncoderPosition(double position){
+        encoder.setPosition(position * cals.ticksPerUnit);
+    }
 }

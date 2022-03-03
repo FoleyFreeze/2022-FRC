@@ -30,4 +30,5 @@ public interface Motor extends AutoCloseable {
     public void setSpeed(double speed);
     public double getSpeed();
     public double getClosedLoopError();
+    public void setEncoderPosition(double revs);
 }

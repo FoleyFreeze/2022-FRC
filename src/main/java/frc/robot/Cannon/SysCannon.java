@@ -42,7 +42,15 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         if (cals.DISABLED) return;
         if(r.inputs.cameraDrive()){
             prime(r.sensors.target.location.r, true);
-        }else{
+        } else if(cals.useVariableShootSpeed){
+            double speed = r.inputs.driverJoy.getDial1() * 
+                    (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
+                     + cals.minVariableShootSpeed;
+            double angle = r.inputs.driverJoy.getDial2() *
+                    (cals.shootMaxAngle - cals.shootMinAngle)
+                    + cals.shootMinAngle;
+            prime(speed, angle);
+        } else {
             prime(cals.LAYUP_SHOOT_SPEED, cals.LAYUP_SHOOT_ANG);
         }
     }
@@ -78,7 +86,6 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void setAngle(double angle){
-        /*
         if (cals.DISABLED) return;
         
         if (angle > cals.shootMaxAngle)
@@ -89,7 +96,6 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         double revs = angle / 360;
         angleMotor.setPosition(revs);
-        */
     }
 
     //sets motors via speeds in RPM
@@ -134,6 +140,10 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         }
     }
 
+    public double getShooterAngle(){
+        return angleMotor.getPosition()*360 - cals.angOffset;
+    }
+
     public void transport(){
         if (cals.DISABLED) return;
         transpMotor.setPower(cals.tranSpeed);
@@ -152,6 +162,18 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     private double preLoadTimer;
     public void periodic(){
         if (cals.DISABLED) return;
+
+        SmartDashboard.putNumber("Shooter Angle", getShooterAngle());
+        SmartDashboard.putNumber("Raw ShooterPosition", angleMotor.getPosition());
+
+        double speed = r.inputs.driverJoy.getDial1() * 
+                    (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
+                     + cals.minVariableShootSpeed;
+        double angle = r.inputs.driverJoy.getDial2() *
+                    (cals.shootMaxAngle - cals.shootMinAngle)
+                    + cals.shootMinAngle;
+        SmartDashboard.putNumber("Speed Dial Shoot", speed);
+        SmartDashboard.putNumber("Angle Dial Shoot", angle);
 
         if(cargoReady){
             cargoReady = false;

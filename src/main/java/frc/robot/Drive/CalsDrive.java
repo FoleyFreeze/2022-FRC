@@ -25,7 +25,7 @@ public class CalsDrive {
     }
 
     @SuppressWarnings("unused")
-    public final boolean DISABLED = true && Robot.isReal();
+    public final boolean DISABLED = false && Robot.isReal();
 
     //Swerve Motor PID
     public double[] angleEncoderOffsets = {4.896, 1.298, 0.544, 2.170};
@@ -56,7 +56,7 @@ public class CalsDrive {
     public CalsWheel FLwheel = new CalsWheel();{
         FLwheel.driveMotor = new CalsMotor(MotorType.SPARK, 20).setEncUnits(driveRotationsPerInch).invert().setPIDF(kPdr,kIdr,kDdr,kFdr).setPIDPwrLim(MAX_DRIVE_PWR);
         FLwheel.swerveMotor = new CalsMotor(MotorType.SPARK, 1).setEncUnits(swerveRotationsPer360).setPIDF(kPsw, kIsw, kDsw, kFsw).setkIlim(iLimsw).setPIDPwrLim(MAX_SWERVE_PWR).brake();
-        FLwheel.angleEncoderChannel = 2;
+        FLwheel.angleEncoderChannel = 1;
         FLwheel.angleEncoderOffset = angleEncoderOffsets[FLwheel.angleEncoderChannel];
         FLwheel.wheelLocation = Vector.fromXY(-xWheelPos, yWheelPos);
         FLwheel.maxPower = MAX_DRIVE_PWR;
@@ -66,7 +66,7 @@ public class CalsDrive {
     public CalsWheel FRwheel = new CalsWheel();{
         FRwheel.driveMotor = new CalsMotor(MotorType.SPARK, 18).setEncUnits(driveRotationsPerInch).invert().setPIDF(kPdr,kIdr,kDdr,kFdr).setPIDPwrLim(MAX_DRIVE_PWR);
         FRwheel.swerveMotor = new CalsMotor(MotorType.SPARK, 19).setEncUnits(swerveRotationsPer360).setPIDF(kPsw, kIsw, kDsw, kFsw).setkIlim(iLimsw).setPIDPwrLim(MAX_SWERVE_PWR).brake();
-        FRwheel.angleEncoderChannel = 1;
+        FRwheel.angleEncoderChannel = 2;
         FRwheel.angleEncoderOffset = angleEncoderOffsets[FRwheel.angleEncoderChannel];
         FRwheel.wheelLocation = Vector.fromXY(xWheelPos, yWheelPos);
         FRwheel.maxPower = MAX_DRIVE_PWR;
@@ -76,7 +76,7 @@ public class CalsDrive {
     public CalsWheel RLwheel = new CalsWheel();{
         RLwheel.driveMotor = new CalsMotor(MotorType.SPARK, 8).setEncUnits(driveRotationsPerInch).invert().setPIDF(kPdr,kIdr,kDdr,kFdr).setPIDPwrLim(MAX_DRIVE_PWR);
         RLwheel.swerveMotor = new CalsMotor(MotorType.SPARK, 9).setEncUnits(swerveRotationsPer360).setPIDF(kPsw, kIsw, kDsw, kFsw).setkIlim(iLimsw).setPIDPwrLim(MAX_SWERVE_PWR).brake();
-        RLwheel.angleEncoderChannel = 3;
+        RLwheel.angleEncoderChannel = 0;
         RLwheel.angleEncoderOffset = angleEncoderOffsets[RLwheel.angleEncoderChannel];
         RLwheel.wheelLocation = Vector.fromXY(-xWheelPos, -yWheelPos);
         RLwheel.maxPower = MAX_DRIVE_PWR;
@@ -86,7 +86,7 @@ public class CalsDrive {
     public CalsWheel RRwheel = new CalsWheel();{
         RRwheel.driveMotor = new CalsMotor(MotorType.SPARK, 10).setEncUnits(driveRotationsPerInch).invert().setPIDF(kPdr,kIdr,kDdr,kFdr).setPIDPwrLim(MAX_DRIVE_PWR);
         RRwheel.swerveMotor = new CalsMotor(MotorType.SPARK, 11).setEncUnits(swerveRotationsPer360).setPIDF(kPsw, kIsw, kDsw, kFsw).setkIlim(iLimsw).setPIDPwrLim(MAX_SWERVE_PWR).brake();
-        RRwheel.angleEncoderChannel = 0;
+        RRwheel.angleEncoderChannel = 3;
         RRwheel.angleEncoderOffset = angleEncoderOffsets[RRwheel.angleEncoderChannel];
         RRwheel.wheelLocation = Vector.fromXY(xWheelPos, -yWheelPos);
         RRwheel.maxPower = MAX_DRIVE_PWR;

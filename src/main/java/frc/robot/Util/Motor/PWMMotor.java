@@ -54,4 +54,9 @@ public class PWMMotor implements Motor{
     public double getClosedLoopError() {
         return 0;
     }
+
+    @Override
+    public void setEncoderPosition(double position) {
+        
+    }
 }

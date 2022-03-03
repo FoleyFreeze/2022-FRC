@@ -47,5 +47,10 @@ public class NullMotor implements Motor{
     public double getClosedLoopError() {
         return 0;
     }
+
+    @Override
+    public void setEncoderPosition(double position) {
+        
+    }
     
 }

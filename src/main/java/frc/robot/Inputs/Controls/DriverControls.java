@@ -67,6 +67,22 @@ public class DriverControls extends Controls implements AutoCloseable{
         return checkAxis(joystick, activeCals.Z_AXIS);
     }
 
+    double dial1Val;
+    public double getDial1(){
+        if(checkButtons(joystick, activeCals.BOT_RIGHT_3POS_UP)){
+            dial1Val = (checkAxis(joystick, activeCals.RIGHT_DIAL) + 1) / 2.0;
+        }
+        return dial1Val;
+    }
+
+    double dial2Val;
+    public double getDial2(){
+        if(checkButtons(joystick, activeCals.BOT_RIGHT_3POS_DOWN)){
+            dial2Val = (checkAxis(joystick, activeCals.RIGHT_DIAL) + 1) / 2.0;
+        }
+        return dial2Val;
+    }
+
     public boolean getFieldOrient(){
         return checkButtons(joystick, activeCals.fieldOrient);
     }

@@ -80,4 +80,9 @@ public class TalonMotor implements Motor{
         //convert to rpm
         return motor.getClosedLoopError() * 600 / 2048.0;
     }
+
+    @Override
+    public void setEncoderPosition(double position) {
+        
+    }
 }

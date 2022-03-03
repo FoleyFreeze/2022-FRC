@@ -13,6 +13,7 @@ public class CmdGather extends CommandBase{
         this.r = r;
         addRequirements(r.intake);
         addRequirements(r.drive);
+        //addRequirements(r.cannon);
     }
 
     @Override
@@ -29,6 +30,8 @@ public class CmdGather extends CommandBase{
         Vector xy;
         
         r.intake.intake();
+        r.cannon.transport();
+
         if(r.inputs.cameraDrive() && r.sensors.hasAlliedCargo()){
             Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
             cargoPos.theta -= Math.toRadians(r.sensors.botAng);
@@ -51,6 +54,10 @@ public class CmdGather extends CommandBase{
 
     @Override
     public void end(boolean interrupted){
+        if(interrupted){
+            r.cannon.stopTransport();
+        }
+        
         r.intake.stop();
         r.cannon.preLoadCargo();
     }

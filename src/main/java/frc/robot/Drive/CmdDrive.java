@@ -16,7 +16,7 @@ public class CmdDrive extends CommandBase {
 
     @Override
     public void initialize(){
-        bot.drive.resetWheelEncoders();
+        //bot.drive.resetWheelEncoders();
     }
 
     @Override

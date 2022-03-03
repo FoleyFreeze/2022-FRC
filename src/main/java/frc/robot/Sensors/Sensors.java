@@ -3,6 +3,7 @@ package frc.robot.Sensors;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Sensors.GPS.CameraGPS;
@@ -35,9 +36,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public boolean isOnRedTeam;
     private boolean checkedAlliance;
 
-    public DigitalInput verticalShooterCheck;
-    public boolean isVertical = true;
-    public DigitalInput cargoSensor;
+    public DigitalInput cannonAngleSensor;
 
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
@@ -54,12 +53,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         navX = new NavX();
         encoders = new SwerveEncoder(r.drive.wheels);
 
-        try{
-            verticalShooterCheck = new DigitalInput(0);//TODO: figure out the channel for the sensor
-            cargoSensor = new DigitalInput(0);
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        cannonAngleSensor = new DigitalInput(20);
     }
 
     @Override
@@ -116,7 +110,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     break;
                 case VISION_TARGET:
                     //maybe do a blend or something based on percieved accuracy of the image
-                    camera.updateArray(target.location, r.cannon.angleMotor.getPosition() * 360);
+                    camera.updateArray(target.location, r.cannon.getShooterAngle());
 
                     //also remove any error that was present in the calculated cargo locations
                     if(alliedCargo != null) alliedCargo.location.add(target.location);
@@ -127,11 +121,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         //process other sensors if any
 
-        if(verticalShooterCheck != null){
-            isVertical = verticalShooterCheck.get();
-        }else{
-            isVertical = true;
-        }
+        SmartDashboard.putBoolean("Cargo Sensor", !cannonAngleSensor.get());
     }
 
     public void resetAng(){
@@ -186,6 +176,5 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public void close() throws Exception {
         encoders.close();
         navX.close();
-        verticalShooterCheck.close();
     }
 }

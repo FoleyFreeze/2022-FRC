@@ -24,7 +24,7 @@ public class CmdLoad extends CommandBase{
 
     @Override
     public void execute(){
-        c.setAngle(65);
+        c.setAngle(60);
         c.setPower(-0.1, -0.1);
         c.transport();
     }

@@ -10,7 +10,7 @@ public class Controls {
     private int getButtonIndex(){
         int i = 1;
         int idx = 1; //index starts counting at 1, not 0
-        while((flags & i) == 0 && i < (1 << 16)){
+        while((flags & i) == 0 && i < (1 << 20)){
             i = i << 1;
             idx++;
         }
@@ -26,7 +26,7 @@ public class Controls {
         boolean output = true;
 
         int count = 0;
-        while(flags > 0 && count < 16){
+        while(flags > 0 && count < 20){
             int idx = getButtonIndex();
             output &= j.getRawButton(idx);
             count++;
