@@ -3,11 +3,11 @@ package frc.robot.Cannon;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 
-public class CmdBackup extends WaitCommand{
+public class CmdKickerLoad extends WaitCommand{
 
     RobotContainer r;
 
-    public CmdBackup(double time, RobotContainer r){
+    public CmdKickerLoad(double time, RobotContainer r){
         super(time);
         this.r = r;
         addRequirements(r.cannon);

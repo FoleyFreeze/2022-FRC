@@ -62,6 +62,4 @@ public class CmdPrime extends CommandBase{
     public boolean isFinished(){
         return r.cannon.upToSpeed() && Timer.getFPGATimestamp() > timer;
     }
-
-
 }

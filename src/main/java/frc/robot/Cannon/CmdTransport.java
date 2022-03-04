@@ -4,14 +4,14 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
-public class CmdLoad extends CommandBase{
+public class CmdTransport extends CommandBase{
 
     RobotContainer r;
     SysCannon c;
 
     private double startTime;
 
-    public CmdLoad(RobotContainer  r){
+    public CmdTransport(RobotContainer  r){
         this.r = r;
         c = r.cannon;
         addRequirements(r.cannon);

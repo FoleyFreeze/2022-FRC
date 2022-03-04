@@ -159,9 +159,9 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         transpMotor.setPower(0);
     }
 
-    private boolean cargoReady;
+    private boolean cargoReadyToTP;
     public void preLoadCargo(){
-        cargoReady = true;
+        cargoReadyToTP = true;
     }
 
     private double preLoadTimer;
@@ -180,8 +180,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putNumber("Speed Dial Shoot", speed);
         SmartDashboard.putNumber("Angle Dial Shoot", angle);
 
-        if(cargoReady){
-            cargoReady = false;
+        if(cargoReadyToTP){
+            cargoReadyToTP = false;
             preLoadTimer = Timer.getFPGATimestamp() + cals.preLoadTime;
         }
         if(Timer.getFPGATimestamp() < preLoadTimer){
