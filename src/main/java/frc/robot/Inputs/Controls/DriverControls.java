@@ -3,7 +3,6 @@ package frc.robot.Inputs.Controls;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Inputs.CalsFlysky;
 import frc.robot.Inputs.CalsGamepad;
 import frc.robot.Util.Log;
@@ -83,6 +82,10 @@ public class DriverControls extends Controls implements AutoCloseable{
         return dial2Val;
     }
 
+    public double getDial3(){
+        return checkAxis(joystick, activeCals.RIGHT_DIAL);
+    }
+
     public boolean getFieldOrient(){
         return checkButtons(joystick, activeCals.fieldOrient);
     }
@@ -91,16 +94,26 @@ public class DriverControls extends Controls implements AutoCloseable{
         return checkButtons(joystick, activeCals.resetAngle);
     }
 
+    double cannonResetTimer;
+    public boolean getSensorCannonReset(){
+        if(checkButtons(joystick, activeCals.sensorResetCannon)){
+            return Timer.getFPGATimestamp() - activeCals.wheelLearnWaitTime > cannonResetTimer;
+        } else {
+            cannonResetTimer = Timer.getFPGATimestamp();
+            return false;
+        }
+    }
+
     public boolean getResetPos(){
         return checkButtons(joystick, activeCals.resetPosition);
     }
 
-    double timer;
+    double swerveAngTimer;
     public boolean learnSwerveAngles(){
         if(checkButtons(joystick, activeCals.learnWheelPositions)){
-            return Timer.getFPGATimestamp() - activeCals.wheelLearnWaitTime > timer;
+            return Timer.getFPGATimestamp() - activeCals.wheelLearnWaitTime > swerveAngTimer;
         } else {
-            timer = Timer.getFPGATimestamp();
+            swerveAngTimer = Timer.getFPGATimestamp();
             return false;
         }
     }
@@ -126,8 +139,28 @@ public class DriverControls extends Controls implements AutoCloseable{
         return checkButtons(joystick, activeCals.resetCannon);
     }
 
-    public boolean intake(){
+    public boolean intakeAxis(){
         return checkAxis(joystick, activeCals.intake) > 0.5;
+    }
+
+    public boolean intake(){
+        return intakeAxis();
+    }
+
+    public boolean manualIntake(){
+        return checkButtons(joystick, activeCals.manualIntake);
+    }
+
+    public boolean intakeSpin(){
+        return checkButtons(joystick, activeCals.intakeSpin);
+    }
+    
+    public boolean transportSpin(){
+        return !intakeSpin() && !fireSpin();
+    }
+
+    public boolean fireSpin(){
+        return checkButtons(joystick, activeCals.fireSpin);
     }
 
     @Override

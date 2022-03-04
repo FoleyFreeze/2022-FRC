@@ -1,7 +1,6 @@
 package frc.robot.Inputs.Controls;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Controls {
     //finding button index value

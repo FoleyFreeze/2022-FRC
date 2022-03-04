@@ -42,8 +42,12 @@ public class CalsFlysky {
     public final int cameraShoot = TOP_RIGHT_SWITCH;
     public final int loadCargo = TOP_RIGHT_LEVER;
     public final int resetCannon = TOP_RIGHT_HAT_RIGHT | TOP_LEFT_HAT_RIGHT;
+    public final int sensorResetCannon = TOP_RIGHT_HAT_LEFT | TOP_LEFT_HAT_LEFT;
 
     public final int intake = LEFT_TRIGGER;
+    public final int manualIntake = TOP_LEFT_3POS_DOWN;
+    public final int intakeSpin = BOT_LEFT_3POS_DOWN;
+    public final int fireSpin = BOT_LEFT_3POS_UP;
         
 
     public CalsFlysky(){

@@ -4,7 +4,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Util.FileManager;
+import frc.robot.Util.Log;
 import frc.robot.Util.Vector;
+import frc.robot.Util.Log.LOG_GROUPS;
 
 public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     
@@ -49,6 +51,8 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
                 System.out.println(w.cals.name + " " + w.rawAbsEncOffset);
             }
         }
+
+        resetWheelEncoders();
     }
 
     public void learnWheelAngs(){
@@ -132,6 +136,10 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
     public void periodic(){
         if(cals.DISABLED) return;
+        Log.logDouble(wheels[0].rawAbsEncOffset, LOG_GROUPS.DRIVE, 1, true, "Wheel 0 Abs Enc");
+        Log.logDouble(wheels[1].rawAbsEncOffset, LOG_GROUPS.DRIVE, 1, true, "Wheel 1 Abs Enc");
+        Log.logDouble(wheels[2].rawAbsEncOffset, LOG_GROUPS.DRIVE, 1, true, "Wheel 2 Abs Enc");
+        Log.logDouble(wheels[3].rawAbsEncOffset, LOG_GROUPS.DRIVE, 1, true, "Wheel 3 Abs Enc");
     }
 
     @Override

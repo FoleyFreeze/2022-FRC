@@ -14,49 +14,85 @@ public class NavX implements AutoCloseable {
     public double prevDY;
     public double prevAng;
 
+    public boolean isDisabled = true;
+
     public NavX(){
+        if(isDisabled) return;
+
         navX = new AHRS(SerialPort.Port.kUSB, SerialDataType.kProcessedData, (byte)200);
-        navX.calibrate();
-        navX.zeroYaw();
+        if(navX.isConnected()){
+            navX.calibrate();
+            navX.zeroYaw();
+        }
     }
     
     public double getFieldOrientAngle(){
-        return -navX.getYaw() + prevAng;
+        if(isDisabled) return 0;
+
+        if(navX.isConnected()){
+            return -navX.getYaw() + prevAng;
+        } else {
+            return 0;
+        }
     }
 
     public Vector getFieldOrientDisplacement(boolean isMoving){
-        double x = Units.metersToInches(navX.getDisplacementX());
-        double y = Units.metersToInches(navX.getDisplacementY());
+        if(isDisabled) return new Vector(0,0);
 
-        if(!isMoving){
-            prevDX = x;
-            prevDY = y;
-            navX.resetDisplacement();
+        if(navX.isConnected()){
+            double x = Units.metersToInches(navX.getDisplacementX());
+            double y = Units.metersToInches(navX.getDisplacementY());
+
+            if(!isMoving){
+                prevDX = x;
+                prevDY = y;
+                navX.resetDisplacement();
+            }
+            
+            Vector v = Vector.fromXY(x + prevDX, y + prevDY);
+            
+            //rotate the xy position to match the same 0 as the encoder vector
+            v.theta += Math.toRadians(prevAng) + Math.PI/2;
+            
+            return v;
+        } else {
+            return new Vector(0,0);
         }
-        
-        Vector v = Vector.fromXY(x + prevDX, y + prevDY);
-        
-        //rotate the xy position to match the same 0 as the encoder vector
-        v.theta += Math.toRadians(prevAng) + Math.PI/2;
-        
-        return v;
     }
 
     public void resetAng(){
-        //prevAng = navX.getYaw();
-        prevAng = 0;
-        navX.zeroYaw();
+        if(isDisabled) return;
+
+        if(navX.isConnected()){
+            //prevAng = navX.getYaw();
+            prevAng = 0;
+            navX.zeroYaw();
+        } else {
+            return;
+        }
     }
 
     public void resetPos(){
-        prevDX = 0;
-        prevDY = 0;
-        navX.resetDisplacement();
+        if(isDisabled) return;
+
+        if(navX.isConnected()){
+            prevDX = 0;
+            prevDY = 0;
+            navX.resetDisplacement();
+        } else {
+            return;
+        }
     }
 
     public void overrideAng(double angle){
-        prevAng = angle;
-        navX.zeroYaw();
+        if(isDisabled) return;
+
+        if(navX.isConnected()){
+            prevAng = angle;
+            navX.zeroYaw();
+        } else {
+            return;
+        }
     }
 
     @Override

@@ -8,7 +8,7 @@ public class Log {
         INPUTS, INTAKE, DRIVE, SENSORS, SHOOTER
     }
     private static int[] VALUES = {
-        4,      0,      4,     5,       0
+        4,      0,      5,     5,       0
     };
 
     /* 

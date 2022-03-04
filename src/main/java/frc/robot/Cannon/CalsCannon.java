@@ -36,7 +36,7 @@ public class CalsCannon {
     public double[] angles = {0, 0, 0, 0};
     public double[] speeds = {0, 0, 0, 0};
 
-    public double shootMaxAngle = 120;
+    public double shootMaxAngle = 115;
     public double shootMinAngle = 50;
 
     public boolean useVariableShootSpeed = true;
@@ -59,11 +59,15 @@ public class CalsCannon {
 
     public double preLoadTime = 0.3;
     public double loadTime = 0.4;
-    public double tranSpeed = 0.4;
+    public double tranPwr = 0.4;
     public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current
 
     public double angOffset;
     public double resetAngle = 60;
+
+    public double sensorResetAngle = 47;
+    public double sensorResetPwr = 0.05;
+    public double sensorResetTime = 5;
 
     public Vector targetLocation = Vector.fromXY(0, 0);
     public double kR = 0;

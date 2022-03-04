@@ -15,9 +15,9 @@ public class SysIntake extends SubsystemBase implements AutoCloseable{
         intakeMotor = Motor.create(cals.intakeMotor);
     }
 
-    public void intake(double speed){
+    public void intake(double pwr){
         if (cals.DISABLED) return;
-        intakeMotor.setPower(speed);
+        intakeMotor.setPower(pwr);
     }
 
     public void intake(){

@@ -3,6 +3,7 @@ package frc.robot.Inputs;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.RobotContainer;
 import frc.robot.Inputs.Controls.DriverControls;
 import frc.robot.Inputs.Controls.OperatorControls;
 import frc.robot.Util.Log;
@@ -10,6 +11,7 @@ import frc.robot.Util.Vector;
 
 public class Inputs extends SubsystemBase implements AutoCloseable{
 
+    RobotContainer r;
     CalsInputs cals;
     public DriverControls driverJoy;
     public OperatorControls operatorJoy;
@@ -19,7 +21,8 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     double time;
 
-    public Inputs(CalsInputs inCals, CalsFlysky driverCals, CalsCBoard operatorCals){
+    public Inputs(CalsInputs inCals, CalsFlysky driverCals, CalsCBoard operatorCals, RobotContainer r){
+        this.r = r;
         this.cals = inCals;
         driverJoy = new DriverControls();
         operatorJoy = new OperatorControls(operatorCals);
@@ -103,15 +106,45 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     };
 
+    public Trigger sensorResetCannon = new Trigger(){
+        public boolean get(){
+            return driverJoy.getSensorCannonReset() && !r.sensors.cannonAngleSensor.get();
+        }
+    };
+
     public Trigger loadCargo = new Trigger(){
         public boolean get(){
             return driverJoy.loadCargo();
         }
     };
 
-    public Trigger intake = new Trigger(){
+    public Trigger gather = new Trigger(){
         public boolean get(){
             return driverJoy.intake();
+        }
+    };
+
+    public Trigger manualGather = new Trigger(){
+        public boolean get(){
+            return driverJoy.manualIntake();
+        }
+    };
+
+    public Trigger intakeSpin = new Trigger(){
+        public boolean get(){
+            return driverJoy.intakeSpin();
+        }
+    };
+
+    public Trigger transportSpin = new Trigger(){
+        public boolean get(){
+            return driverJoy.transportSpin();
+        }
+    };
+
+    public Trigger fireSpin = new Trigger(){
+        public boolean get(){
+            return driverJoy.fireSpin();
         }
     };
 

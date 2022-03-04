@@ -26,6 +26,7 @@ public class CmdPrime extends CommandBase{
     public void execute(){
         r.cannon.prime();
 
+        /*
         double x;
         double y;
         double zR;
@@ -46,6 +47,7 @@ public class CmdPrime extends CommandBase{
         xy = Vector.fromXY(x, y);
         Inputs.mapSquareToCircle(xy);
         r.drive.driveSwerve(xy, zR);
+        */
     }
 
     @Override
@@ -58,7 +60,7 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return r.cannon.upToSpeed() && !r.sensors.botIsMoving() && Timer.getFPGATimestamp() > timer;
+        return r.cannon.upToSpeed() && Timer.getFPGATimestamp() > timer;
     }
 
 

@@ -36,6 +36,9 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public boolean isOnRedTeam;
     private boolean checkedAlliance;
 
+    public DigitalInput ballSensorOne;
+    public DigitalInput ballSensorTwo;
+    public DigitalInput ballSensorThree;
     public DigitalInput cannonAngleSensor;
 
     public Sensors(CalsSensors cals, RobotContainer r){
@@ -53,7 +56,14 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         navX = new NavX();
         encoders = new SwerveEncoder(r.drive.wheels);
 
-        cannonAngleSensor = new DigitalInput(20);
+        try{
+            ballSensorOne = new DigitalInput(7);
+            ballSensorTwo = new DigitalInput(8);
+            ballSensorThree = new DigitalInput(9);
+            cannonAngleSensor = new DigitalInput(20);
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -74,7 +84,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
             }
         }
 
-        Log.logBool(navX.navX.isConnected(), Log.LOG_GROUPS.SENSORS, 1, true, "navX Connected");
+        //Log.logBool(navX.navX.isConnected(), Log.LOG_GROUPS.SENSORS, 1, true, "navX Connected");
 
         //update robot orientation and location
         encoders.updateRobotLocation();
@@ -121,7 +131,10 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         //process other sensors if any
 
-        SmartDashboard.putBoolean("Cargo Sensor", !cannonAngleSensor.get());
+        SmartDashboard.putBoolean("Ball Sensor 1", ballSensorOne.get());
+        SmartDashboard.putBoolean("Ball Sensor 2", ballSensorTwo.get());
+        SmartDashboard.putBoolean("Ball Sensor 3", ballSensorThree.get());
+        SmartDashboard.putBoolean("Cannon Sensor", !cannonAngleSensor.get());
     }
 
     public void resetAng(){

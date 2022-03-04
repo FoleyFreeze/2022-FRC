@@ -9,7 +9,7 @@ import frc.robot.Util.Motor.Motor;
 
 public class SysCannon extends SubsystemBase implements AutoCloseable{
     
-    CalsCannon cals;
+    public CalsCannon cals;
     RobotContainer r;
     
     Motor cwMotor;
@@ -146,7 +146,12 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void transport(){
         if (cals.DISABLED) return;
-        transpMotor.setPower(cals.tranSpeed);
+        transpMotor.setPower(cals.tranPwr);
+    }
+
+    public void transport(double pwr){
+        if (cals.DISABLED) return;
+        transpMotor.setPower(pwr);
     }
 
     public void stopTransport(){
