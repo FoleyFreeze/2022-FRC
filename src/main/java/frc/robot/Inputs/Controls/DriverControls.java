@@ -66,7 +66,7 @@ public class DriverControls extends Controls implements AutoCloseable{
         return checkAxis(joystick, activeCals.Z_AXIS);
     }
 
-    double dial1Val;
+    double dial1Val = 0.154;
     public double getDial1(){
         if(checkButtons(joystick, activeCals.BOT_RIGHT_3POS_UP)){
             dial1Val = (checkAxis(joystick, activeCals.RIGHT_DIAL) + 1) / 2.0;

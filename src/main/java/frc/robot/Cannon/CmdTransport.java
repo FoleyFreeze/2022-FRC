@@ -24,7 +24,7 @@ public class CmdTransport extends CommandBase{
 
     @Override
     public void execute(){
-        c.setAngle(60);
+        c.setAngle(65);
         c.setPower(-0.1, -0.1);
         c.transport();
     }

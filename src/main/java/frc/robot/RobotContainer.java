@@ -101,7 +101,7 @@ public class RobotContainer implements AutoCloseable{
       
     inputs.loadCargo.whileActiveOnce(new CmdLoadSequential(this));
     inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
-    //inputs.resetCannon.whileActiveOnce(new CmdCannonAngleReset(this));
+    inputs.resetCannon.whileActiveOnce(new CmdCannonAngleReset(this));
     inputs.sensorResetCannon.whenActive(new CmdCannonSensorReset(this));
 
     inputs.gather.and(inputs.manualGather.negate()).and(inputs.autoGather.negate()).whileActiveOnce(new CmdGather(this));
