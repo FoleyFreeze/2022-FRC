@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Cannon.CalsCannon;
 import frc.robot.Cannon.CmdLoadSequential;
-import frc.robot.Cannon.CmdCannonAngleReset;
 import frc.robot.Cannon.CmdCannonSensorReset;
 import frc.robot.Cannon.CmdShoot;
 import frc.robot.Cannon.SysCannon;
@@ -24,6 +23,7 @@ import frc.robot.Inputs.CalsFlysky;
 import frc.robot.Inputs.CalsInputs;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Intake.CalsIntake;
+import frc.robot.Intake.CmdAutoGather;
 import frc.robot.Intake.CmdGather;
 import frc.robot.Intake.CmdGatherManual;
 import frc.robot.Intake.SysIntake;
@@ -84,8 +84,9 @@ public class RobotContainer implements AutoCloseable{
     //inputs.resetCannon.whileActiveOnce(new CmdCannonAngleReset(this));
     inputs.sensorResetCannon.whenActive(new CmdCannonSensorReset(this));
 
-    inputs.gather.and(inputs.manualGather.negate()).whileActiveOnce(new CmdGather(this));
+    inputs.gather.and(inputs.manualGather.negate()).and(inputs.autoGather.negate()).whileActiveOnce(new CmdGather(this));
     inputs.manualGather.whileActiveOnce(new CmdGatherManual(this));
+    inputs.autoGather.and(inputs.gather).whileActiveOnce(new CmdAutoGather(this));
   }
 
   /**

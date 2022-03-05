@@ -108,7 +108,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     public Trigger sensorResetCannon = new Trigger(){
         public boolean get(){
-            return driverJoy.getSensorCannonReset() && !r.sensors.cannonAngleSensor.get();
+            return driverJoy.getSensorCannonReset() && r.sensors.cannonAngleSensor.get();
         }
     };
 
@@ -129,6 +129,12 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
             return driverJoy.manualIntake();
         }
     };
+
+    public Trigger autoGather = new Trigger(){
+        public boolean get(){
+            return driverJoy.autoIntake();
+        }
+    }
 
     public Trigger intakeSpin = new Trigger(){
         public boolean get(){

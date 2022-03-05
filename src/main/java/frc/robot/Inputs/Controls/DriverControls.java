@@ -151,6 +151,10 @@ public class DriverControls extends Controls implements AutoCloseable{
         return checkButtons(joystick, activeCals.manualIntake);
     }
 
+    public boolean autoIntake(){
+        return checkButtons(joystick, activeCals.TOP_LEFT_3POS_UP);
+    }
+
     public boolean intakeSpin(){
         return checkButtons(joystick, activeCals.intakeSpin);
     }

@@ -16,6 +16,8 @@ public class CalsIntake {
     public double yPower = 0.3;
     public double kR = 0.1;
 
+    public double intakeTimeOffset = 0.1;
+
     public CalsIntake(){
 
     }

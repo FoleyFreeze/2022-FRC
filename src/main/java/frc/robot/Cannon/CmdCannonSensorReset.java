@@ -31,7 +31,7 @@ public class CmdCannonSensorReset extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        if(r.sensors.cannonAngleSensor.get()){
+        if(!r.sensors.cannonAngleSensor.get()){
             r.cannon.angleMotor.setEncoderPosition(r.cannon.cals.sensorResetAngle / 360);
             return true;
         } else {

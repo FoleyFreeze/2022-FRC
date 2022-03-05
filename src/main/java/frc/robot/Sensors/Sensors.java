@@ -12,6 +12,7 @@ import frc.robot.Sensors.GPS.SwerveEncoder;
 import frc.robot.Sensors.Vision.VisionData;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Log;
+import frc.robot.Util.SmartDigitalInput;
 import frc.robot.Util.Vector;
 
 public class Sensors extends SubsystemBase implements AutoCloseable{
@@ -36,10 +37,10 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public boolean isOnRedTeam;
     private boolean checkedAlliance;
 
-    public DigitalInput ballSensorOne;
-    public DigitalInput ballSensorTwo;
+    public SmartDigitalInput ballSensorUpper;
+    public SmartDigitalInput ballSensorLower;
     public DigitalInput ballSensorThree;
-    public DigitalInput cannonAngleSensor;
+    public SmartDigitalInput cannonAngleSensor;
 
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
@@ -56,19 +57,21 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         navX = new NavX();
         encoders = new SwerveEncoder(r.drive.wheels);
 
-        try{
-            ballSensorOne = new DigitalInput(7);
-            ballSensorTwo = new DigitalInput(8);
-            ballSensorThree = new DigitalInput(9);
-            cannonAngleSensor = new DigitalInput(20);
-        } catch(Exception e){
-            e.printStackTrace();
-        }
+        ballSensorUpper = new SmartDigitalInput(7);
+        ballSensorLower = new SmartDigitalInput(8);
+        ballSensorThree = new DigitalInput(9);
+        cannonAngleSensor = new SmartDigitalInput(20);
+        cannonAngleSensor.invert();
     }
 
     @Override
     public void periodic(){
         if(cals.DISABLED) return;
+
+        ballSensorLower.update();
+        ballSensorUpper.update();
+        cannonAngleSensor.update();
+
         if(!checkedAlliance){
             switch(DriverStation.getAlliance()){
                 case Blue:
@@ -131,10 +134,10 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         //process other sensors if any
 
-        SmartDashboard.putBoolean("Ball Sensor 1", ballSensorOne.get());
-        SmartDashboard.putBoolean("Ball Sensor 2", ballSensorTwo.get());
+        SmartDashboard.putBoolean("Ball Sensor 1", ballSensorUpper.get());
+        SmartDashboard.putBoolean("Ball Sensor 2", ballSensorLower.get());
         SmartDashboard.putBoolean("Ball Sensor 3", ballSensorThree.get());
-        SmartDashboard.putBoolean("Cannon Sensor", !cannonAngleSensor.get());
+        SmartDashboard.putBoolean("Cannon Sensor", cannonAngleSensor.get());
     }
 
     public void resetAng(){
