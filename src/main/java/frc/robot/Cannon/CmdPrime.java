@@ -25,7 +25,7 @@ public class CmdPrime extends CommandBase{
     @Override
     public void execute(){
 
-        if(r.sensors.ballSensorUpper.get()){
+        if(!r.inputs.autoGather.get() || r.sensors.ballSensorUpper.get()){
             r.cannon.prime();
         }
 

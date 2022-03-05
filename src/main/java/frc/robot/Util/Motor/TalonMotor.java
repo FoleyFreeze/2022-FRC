@@ -20,6 +20,9 @@ public class TalonMotor implements Motor{
         motor.config_kI(0, cals.kI);
         motor.config_kD(0, cals.kD);
         motor.config_kF(0, cals.kF);
+        if(cals.izone > 0){
+            motor.config_IntegralZone(0, cals.izone);
+        }
 
         motor.configPeakOutputForward(cals.powerLimitMax);
         motor.configPeakOutputReverse(cals.powerLimitMin);

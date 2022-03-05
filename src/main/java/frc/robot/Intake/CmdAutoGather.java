@@ -89,7 +89,7 @@ public class CmdAutoGather extends CommandBase{
 
         //cannon motor
         if(lowBall && !hiBall){
-            r.cannon.setAngle(60);
+            r.cannon.setAngle(65);
         }
 
         //drive code

@@ -41,6 +41,10 @@ public class CmdAutoDrive extends CommandBase {
 
     @Override
     public boolean isFinished(){
+        double xError = Math.abs(r.sensors.botLoc.getX() - driveVec.getX());
+        double yError = Math.abs(r.sensors.botLoc.getY() - driveVec.getY());
+        double zError = Math.abs(r.sensors.botAng - rot);
+
         return false;
     }
 }

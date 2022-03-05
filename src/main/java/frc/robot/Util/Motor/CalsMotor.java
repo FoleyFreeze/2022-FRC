@@ -20,6 +20,7 @@ public class CalsMotor {
     public double kF = 0;
     public double kIlim = 0;
     public double dFilt = 0;
+    public double izone = 0;
 
     public boolean invert;
     public boolean brake;
@@ -44,6 +45,11 @@ public class CalsMotor {
 
     public CalsMotor setDfilt(double filt){
         this.dFilt = filt;
+        return this;
+    }
+
+    public CalsMotor setIzone(double izone){
+        this.izone = izone;
         return this;
     }
 

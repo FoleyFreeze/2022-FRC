@@ -12,10 +12,11 @@ public class CalsCannon {
     double maxAnglePwr = 0.25;
     double maxShootPower = 0.9;
 
-    double shoot_kP = 0.1;
-    double shoot_kI = 0.000;
+    double shoot_kP = 0.25;
+    double shoot_kI = 0.0001;
     double shoot_kD = 0.0;
     double shoot_kF = 0.0507;
+    double shoot_izone = 300;
 
     double angle_kP = 0.05;
     double angle_kI = 0.000;
@@ -26,8 +27,8 @@ public class CalsCannon {
 
     double angleGearRatio = 60 * 59 / 24;
 
-    public CalsMotor cwMotor = new CalsMotor(MotorType.TALON, 2).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,maxShootPower);
-    public CalsMotor ccwMotor = new CalsMotor(MotorType.TALON, 17).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,maxShootPower);
+    public CalsMotor cwMotor = new CalsMotor(MotorType.TALON, 2).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,maxShootPower).setIzone(shoot_izone);
+    public CalsMotor ccwMotor = new CalsMotor(MotorType.TALON, 17).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,maxShootPower).setIzone(shoot_izone);
     public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 15).setEncUnits(angleGearRatio).setPIDF(angle_kP, angle_kI, angle_kD, angle_kF).setkIlim(angle_iLim).setPIDPwrLim(maxAnglePwr).brake();
     public CalsMotor leftFireMotor = new CalsMotor(MotorType.SPARK, 7).invert().brake();
     public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 12).invert().brake();
@@ -37,8 +38,8 @@ public class CalsCannon {
     public double[] angles = {0, 0, 0, 0};
     public double[] speeds = {0, 0, 0, 0};
 
-    public double shootMaxAngle = 115;
-    public double shootMinAngle = 50;
+    public double shootMaxAngle = 120;
+    public double shootMinAngle = 55;
 
     public boolean useVariableShootSpeed = true;
     public double maxVariableShootSpeed = 4500;
@@ -68,10 +69,10 @@ public class CalsCannon {
     public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current
 
     public double angOffset;
-    public double resetAngle = 60;
+    public double resetAngle = 65;
 
-    public double sensorResetAngle = 47;
-    public double sensorResetPwr = 0.05;
+    public double sensorResetAngle = 50;
+    public double sensorResetPwr = 0.07;
     public double sensorResetTime = 5;
 
     public Vector targetLocation = Vector.fromXY(0, 0);

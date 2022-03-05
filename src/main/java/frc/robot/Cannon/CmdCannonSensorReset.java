@@ -17,6 +17,7 @@ public class CmdCannonSensorReset extends CommandBase{
     @Override
     public void initialize(){
         startTime = Timer.getFPGATimestamp();
+        System.out.println("Started ShooterReset");
     }
 
     @Override
@@ -26,6 +27,7 @@ public class CmdCannonSensorReset extends CommandBase{
 
     @Override
     public void end(boolean interrupted){
+        System.out.println("Ended ShooterReset");
         r.cannon.angleMotor.setPower(0);
     }
 
