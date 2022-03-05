@@ -2,6 +2,7 @@ package frc.robot.Cannon;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Util.Interpolate;
@@ -85,6 +86,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         fire(cals.wheelOfFirePower);
     }
 
+    double timeAngleWasSet;
     public void setAngle(double angle){
         if (cals.DISABLED) return;
         
@@ -96,6 +98,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         double revs = angle / 360;
         angleMotor.setPosition(revs);
+        timeAngleWasSet = Timer.getFPGATimestamp();
     }
 
     //sets motors via speeds in RPM
@@ -165,6 +168,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     private double preLoadTimer;
+    private boolean preLoadRan;
     public void periodic(){
         if (cals.DISABLED) return;
 
@@ -179,18 +183,28 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                     + cals.shootMinAngle;
         SmartDashboard.putNumber("Speed Dial Shoot", speed);
         SmartDashboard.putNumber("Angle Dial Shoot", angle);
+        SmartDashboard.putNumber("ShooterSpeedError", cwMotor.getClosedLoopError() + ccwMotor.getClosedLoopError());
 
         if(cargoReadyToTP){
             cargoReadyToTP = false;
             preLoadTimer = Timer.getFPGATimestamp() + cals.preLoadTime;
-        }
-        if(Timer.getFPGATimestamp() < preLoadTimer){
-            transport();
-        } else {
-            stopTransport();
+            preLoadRan = true;
         }
 
-        SmartDashboard.putNumber("ShooterSpeedError", cwMotor.getClosedLoopError() + ccwMotor.getClosedLoopError());
+        if(Timer.getFPGATimestamp() < preLoadTimer && !r.sensors.ballSensorUpper.get()){
+            //transport();
+            fire(cals.preLoadPower);
+        } else if(preLoadRan) {
+            fire(0);
+            preLoadRan = false;
+        }
+
+        /*
+        if(Timer.getFPGATimestamp() > timeAngleWasSet + cals.maxAngleSetTime){
+            angleMotor.setPower(0);
+        }
+        */
+        
     }
 
     @Override

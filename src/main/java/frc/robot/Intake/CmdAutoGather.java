@@ -16,11 +16,12 @@ public class CmdAutoGather extends CommandBase{
 
     @Override
     public void initialize(){
-        
+        System.out.println("Started AutoGather");
     }
 
     double startTime;
     boolean prevLoadState = false;
+    double lowFallingTimer;
     @Override
     public void execute(){
         boolean hiBall = r.sensors.ballSensorUpper.get();
@@ -33,9 +34,15 @@ public class CmdAutoGather extends CommandBase{
         } else if(lowBall && Timer.getFPGATimestamp() > startTime + r.intake.cals.intakeTimeOffset){
             if(hiBall){
                 //set defensive intake position
+                r.intake.intake(0);
             } else {
                 r.intake.intake(0);
             }
+        }
+
+        
+        if(r.sensors.ballSensorLower.fallingEdge()){
+            lowFallingTimer = Timer.getFPGATimestamp();
         }
 
         //transporter motor
@@ -46,11 +53,18 @@ public class CmdAutoGather extends CommandBase{
                 r.cannon.transport();
             }
         } else {
-            r.cannon.stopTransport();
+            if(!hiBall && Timer.getFPGATimestamp() < lowFallingTimer + r.intake.cals.lowFallingTime){
+                r.cannon.transport();
+            } else if(hiBall) {
+                r.cannon.transport();
+            } else {
+                //run when we have nothing
+                r.cannon.transport();
+            }
         }
 
         //kicker motor
-        if(!hiBall && lowBall){
+        if(!hiBall && Timer.getFPGATimestamp() < lowFallingTimer + r.intake.cals.lowFallingKickerOffset){
             if(!prevLoadState) {
                 r.cannon.preLoadCargo();
                 prevLoadState = true;
@@ -62,7 +76,8 @@ public class CmdAutoGather extends CommandBase{
 
     @Override
     public void end(boolean isFinished){
-
+        r.cannon.transport(0);
+        r.intake.intake(0);
     }
 
     @Override

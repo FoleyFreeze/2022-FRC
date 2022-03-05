@@ -1,6 +1,5 @@
 package frc.robot.Sensors;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,7 +38,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public SmartDigitalInput ballSensorUpper;
     public SmartDigitalInput ballSensorLower;
-    public DigitalInput ballSensorThree;
+    public SmartDigitalInput ballSensorTest;
     public SmartDigitalInput cannonAngleSensor;
 
     public Sensors(CalsSensors cals, RobotContainer r){
@@ -57,9 +56,9 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         navX = new NavX();
         encoders = new SwerveEncoder(r.drive.wheels);
 
-        ballSensorUpper = new SmartDigitalInput(7);
-        ballSensorLower = new SmartDigitalInput(8);
-        ballSensorThree = new DigitalInput(9);
+        ballSensorUpper = new SmartDigitalInput(8);
+        ballSensorLower = new SmartDigitalInput(9);
+        ballSensorTest = new SmartDigitalInput(7);
         cannonAngleSensor = new SmartDigitalInput(20);
         cannonAngleSensor.invert();
     }
@@ -134,9 +133,9 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         //process other sensors if any
 
-        SmartDashboard.putBoolean("Ball Sensor 1", ballSensorUpper.get());
-        SmartDashboard.putBoolean("Ball Sensor 2", ballSensorLower.get());
-        SmartDashboard.putBoolean("Ball Sensor 3", ballSensorThree.get());
+        SmartDashboard.putBoolean("Ball Sensor High", ballSensorUpper.get());
+        SmartDashboard.putBoolean("Ball Sensor Low", ballSensorLower.get());
+        SmartDashboard.putBoolean("Ball Sensor 3", ballSensorTest.get());
         SmartDashboard.putBoolean("Cannon Sensor", cannonAngleSensor.get());
     }
 

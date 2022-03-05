@@ -22,15 +22,16 @@ public class CalsCannon {
     double angle_kD = 0.05;
     double angle_kF = 0.0;
     double angle_iLim = 0;
+    double maxAngleSetTime = 0.25; //the amount of time the shooter is allowed to move after you release the command
 
     double angleGearRatio = 60 * 59 / 24;
 
     public CalsMotor cwMotor = new CalsMotor(MotorType.TALON, 2).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,maxShootPower);
     public CalsMotor ccwMotor = new CalsMotor(MotorType.TALON, 17).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,maxShootPower);
     public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 15).setEncUnits(angleGearRatio).setPIDF(angle_kP, angle_kI, angle_kD, angle_kF).setkIlim(angle_iLim).setPIDPwrLim(maxAnglePwr).brake();
-    public CalsMotor leftFireMotor = new CalsMotor(MotorType.SPARK, 7).invert();
-    public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 12).invert();
-    public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5).invert();
+    public CalsMotor leftFireMotor = new CalsMotor(MotorType.SPARK, 7).invert().brake();
+    public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 12).invert().brake();
+    public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5).invert().brake();
     
     public double[] distances = {0, 0, 0, 0};
     public double[] angles = {0, 0, 0, 0};
@@ -57,7 +58,8 @@ public class CalsCannon {
     public double shootTime = 0.25;
     public double minPrimeTime = 1;
 
-    public double preLoadTime = 0.3;
+    public double preLoadTime = 1.0; //0.3
+    public double preLoadPower = 0.2;
     public double loadTime = 0.4;
     public double tranPwr = 0.4;
     public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current

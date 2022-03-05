@@ -134,7 +134,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         public boolean get(){
             return driverJoy.autoIntake();
         }
-    }
+    };
 
     public Trigger intakeSpin = new Trigger(){
         public boolean get(){
