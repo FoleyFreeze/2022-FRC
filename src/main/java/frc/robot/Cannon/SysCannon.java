@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Util.Angle;
 import frc.robot.Util.Interpolate;
 import frc.robot.Util.Motor.Motor;
 
@@ -123,6 +124,13 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         error += cwMotor.getClosedLoopError();
 
         return error > cals.minShootSpeedError && error < cals.maxShootSpeedError;
+    }
+
+    public boolean angleAligned(){
+        if(cals.DISABLED) return false;
+
+        double error = angleMotor.getClosedLoopError();
+        return error > cals.minShootAngleError && error < cals.maxShootAngleError;
     }
 
     public void jogSpeed(boolean up){

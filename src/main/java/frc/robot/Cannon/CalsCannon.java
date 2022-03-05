@@ -51,8 +51,11 @@ public class CalsCannon {
     public double jogSpeedInterval = 0;
     public double jogInitAng = 0;
     public double jogAngInterval = 0;
+
     public double minShootSpeedError = -60;
     public double maxShootSpeedError = 60;
+    public double minShootAngleError = -2.5;
+    public double maxShootAngleError = 2.5;
 
     public double wheelOfFirePower = 1;
     public double shootTime = 0.25;

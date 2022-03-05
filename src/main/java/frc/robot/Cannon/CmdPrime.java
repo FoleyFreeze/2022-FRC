@@ -24,7 +24,10 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public void execute(){
-        r.cannon.prime();
+
+        if(r.sensors.ballSensorUpper.get()){
+            r.cannon.prime();
+        }
 
         /*
         double x;
@@ -60,6 +63,6 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return r.cannon.upToSpeed() && Timer.getFPGATimestamp() > timer;
+        return r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer && r.sensors.ballSensorUpper.get();
     }
 }

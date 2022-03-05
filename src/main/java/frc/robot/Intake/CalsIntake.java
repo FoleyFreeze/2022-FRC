@@ -6,9 +6,16 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsIntake {
     
+    @SuppressWarnings("unused")
     public final boolean DISABLED = false && Robot.isReal();
 
-    public CalsMotor intakeMotor = new CalsMotor(MotorType.SPARK, 6).invert().brake();
+    double intakeRatio = 12;
+
+    double p = 0.05;
+    double d = 0.05;
+    double pwrLim = 0.5;
+
+    public CalsMotor intakeMotor = new CalsMotor(MotorType.SPARK, 6).invert().brake().setEncUnits(intakeRatio).setPIDPwrLim(pwrLim).setPIDF(p, 0, d, 0);
     public double intakeSpeed = 0.5;
     public double reverseSpeed = -0.5;
 

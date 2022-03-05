@@ -3,6 +3,9 @@ package frc.robot.Intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Inputs.Inputs;
+import frc.robot.Util.Angle;
+import frc.robot.Util.Vector;
 
 public class CmdAutoGather extends CommandBase{
 
@@ -19,7 +22,7 @@ public class CmdAutoGather extends CommandBase{
         System.out.println("Started AutoGather");
     }
 
-    double startTime;
+    double intakeDelayStartTime;
     boolean prevLoadState = false;
     double lowFallingTimer;
     @Override
@@ -27,20 +30,31 @@ public class CmdAutoGather extends CommandBase{
         boolean hiBall = r.sensors.ballSensorUpper.get();
         boolean lowBall = r.sensors.ballSensorLower.get();
 
+        boolean allowDrive = false;
+
         //gatherer motor
         if(!lowBall){
             r.intake.intake();
-            startTime = Timer.getFPGATimestamp();
-        } else if(lowBall && Timer.getFPGATimestamp() > startTime + r.intake.cals.intakeTimeOffset){
+            allowDrive = true;
+            intakeDelayStartTime = Timer.getFPGATimestamp();
+        } else if(lowBall && Timer.getFPGATimestamp() > intakeDelayStartTime + r.intake.cals.intakeTimeOffset){
             if(hiBall){
                 //set defensive intake position
-                r.intake.intake(0);
+                double currAngle = r.intake.intakeMotor.getPosition() * 360;
+                double angleDiff = currAngle % 180;
+                if(angleDiff > 90){
+                    currAngle += (180 - angleDiff);
+                } else {
+                    currAngle -= angleDiff;
+                }
+
+                r.intake.intakeMotor.setPosition(currAngle / 360.0);
             } else {
+                //one ball gathered, still in lower slot
                 r.intake.intake(0);
             }
         }
 
-        
         if(r.sensors.ballSensorLower.fallingEdge()){
             lowFallingTimer = Timer.getFPGATimestamp();
         }
@@ -72,6 +86,37 @@ public class CmdAutoGather extends CommandBase{
         } else{
             prevLoadState = false;
         }
+
+        //cannon motor
+        if(lowBall && !hiBall){
+            r.cannon.setAngle(60);
+        }
+
+        //drive code
+        double x;
+        double y;
+        double zR;
+
+        Vector xy;
+
+        if(r.inputs.cameraDrive() && r.sensors.hasAlliedCargo() && allowDrive){
+            Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
+            cargoPos.theta -= Math.toRadians(r.sensors.botAng);
+            
+            zR = r.intake.cals.kR * cargoPos.theta;
+            x = r.intake.cals.kX * cargoPos.getX();
+            y = Math.max(r.intake.cals.yPower - x - zR, 0);
+            xy = Vector.fromXY(x, y);
+        } else {
+            zR = r.inputs.getDrivezR();
+            x = r.inputs.getDriveX();
+            y = r.inputs.getDriveY();
+
+            xy = Vector.fromXY(x, y);
+            Inputs.mapSquareToCircle(xy);
+        }
+
+        r.drive.driveSwerve(xy, zR);
     }
 
     @Override
