@@ -10,7 +10,7 @@ import frc.robot.Util.Log.LOG_GROUPS;
 
 public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     
-    CalsDrive cals;
+    public CalsDrive cals;
     Inputs inputs;
 
     public Wheel[] wheels;

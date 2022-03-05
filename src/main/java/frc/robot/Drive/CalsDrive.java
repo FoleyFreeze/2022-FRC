@@ -97,6 +97,9 @@ public class CalsDrive {
 
     Vector defaultRobotCenter = Vector.fromXY(0, 0);
 
+    public double minAutoPosError = 0;
+    public double minAutoAngError = 0;
+
     public CalsDrive(){
                 
         

@@ -6,7 +6,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Cannon.CalsCannon;
 import frc.robot.Cannon.CmdCannonAngleReset;
@@ -48,6 +50,9 @@ public class RobotContainer implements AutoCloseable{
   public final SysClimb climb;
   public final Sensors sensors;
 
+  public SendableChooser<Integer> posChooser;
+  public SendableChooser<Integer> ballCtChooser;
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -66,6 +71,20 @@ public class RobotContainer implements AutoCloseable{
 
     // Configure the button bindings
     configureButtonBindings();
+
+    posChooser = new SendableChooser<>();
+    posChooser.addOption("Left", 0);
+    posChooser.addOption("Mid", 1);
+    posChooser.addOption("Right", 2);
+
+    ballCtChooser = new SendableChooser<>();
+    ballCtChooser.addOption("1-ball-drive", 0);
+    ballCtChooser.addOption("2-ball", 1);
+    ballCtChooser.addOption("3-ball close", 2);
+    ballCtChooser.addOption("3-ball far", 3);
+    ballCtChooser.addOption("4-ball close", 4);
+    ballCtChooser.addOption("4-ball far", 5);
+    ballCtChooser.addOption("5-ball", 6);
   }
 
   /**
