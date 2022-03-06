@@ -40,7 +40,7 @@ public class CmdAutoGather extends CommandBase{
         } else if(lowBall && Timer.getFPGATimestamp() > intakeDelayStartTime + r.intake.cals.intakeTimeOffset){
             if(hiBall){
                 //set defensive intake position
-                double currAngle = r.intake.intakeMotor.getPosition() * 360;
+                double currAngle = r.intake.intakeMotor.getPosition() * 360 + 30;
                 double angleDiff = currAngle % 180;
                 if(angleDiff > 90){
                     currAngle += (180 - angleDiff);

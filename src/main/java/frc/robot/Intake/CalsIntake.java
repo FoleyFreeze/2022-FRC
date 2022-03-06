@@ -11,7 +11,7 @@ public class CalsIntake {
 
     double intakeRatio = 12;
 
-    double p = 0.1;
+    double p = 0.5;
     double d = 0.05;
     double pwrLim = 0.5;
 
