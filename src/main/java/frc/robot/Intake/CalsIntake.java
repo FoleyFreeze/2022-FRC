@@ -25,7 +25,7 @@ public class CalsIntake {
 
     public double intakeTimeOffset = 0.1;
     public double lowFallingTime = 0.3;
-    public double lowFallingKickerOffset = 0.2;
+    public double lowFallingKickerTimeOffset = 0.2;
 
     public CalsIntake(){
 

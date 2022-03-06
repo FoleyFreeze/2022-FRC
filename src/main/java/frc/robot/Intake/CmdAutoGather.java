@@ -1,5 +1,7 @@
 package frc.robot.Intake;
 
+import java.util.Currency;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -25,30 +27,57 @@ public class CmdAutoGather extends CommandBase{
     double intakeDelayStartTime;
     boolean prevLoadState = false;
     double lowFallingTimer;
+    double gatherMovementTimer;
+    double gatherPrevPosition;
+    double gatherCurrentTimer;
+    double gatherFlipTimer;
+    double gatherFlipSetpoint;
     @Override
     public void execute(){
         boolean hiBall = r.sensors.ballSensorUpper.get();
         boolean lowBall = r.sensors.ballSensorLower.get();
 
         boolean allowDrive = false;
+        double time = Timer.getFPGATimestamp();
 
         //gatherer motor
         if(!lowBall){
             r.intake.intake();
             allowDrive = true;
-            intakeDelayStartTime = Timer.getFPGATimestamp();
-        } else if(lowBall && Timer.getFPGATimestamp() > intakeDelayStartTime + r.intake.cals.intakeTimeOffset){
+            intakeDelayStartTime = time;
+        } else if(lowBall && time > intakeDelayStartTime + r.intake.cals.intakeTimeOffset){
             if(hiBall){
                 //set defensive intake position
                 double currAngle = r.intake.intakeMotor.getPosition() * 360 + 30;
+                double setpoint;
                 double angleDiff = currAngle % 180;
                 if(angleDiff > 90){
-                    currAngle += (180 - angleDiff);
+                    setpoint = currAngle + (180 - angleDiff);
                 } else {
-                    currAngle -= angleDiff;
+                    setpoint = currAngle - angleDiff;
                 }
 
+                //if a ball is "stuck" with the flaps in the vertical position, remove it
+                if(Math.abs(currAngle - gatherPrevPosition) > 10){
+                    gatherMovementTimer = time;
+                    gatherPrevPosition = currAngle;
+                }
+                if(r.sensors.pdh.getCurrent(r.intake.cals.intakeMotor.channel) > 1){
+                    gatherCurrentTimer = time;
+                }
+
+                if(time > gatherFlipTimer + 0.2){
+                    if(time > gatherMovementTimer + 0.1 && time > gatherCurrentTimer + 0.1){
+                        gatherFlipSetpoint = currAngle - 180;
+                        gatherFlipTimer = time;
+                        setpoint = gatherFlipSetpoint;
+                    }
+                } else {
+                    setpoint = gatherFlipSetpoint;
+                }
+                
                 r.intake.intakeMotor.setPosition(currAngle / 360.0);
+                
             } else {
                 //one ball gathered, still in lower slot
                 r.intake.intake(0);
@@ -78,7 +107,7 @@ public class CmdAutoGather extends CommandBase{
         }
 
         //kicker motor
-        if(!hiBall && Timer.getFPGATimestamp() < lowFallingTimer + r.intake.cals.lowFallingKickerOffset){
+        if(!hiBall && time < lowFallingTimer + r.intake.cals.lowFallingKickerTimeOffset){
             if(!prevLoadState) {
                 r.cannon.preLoadCargo();
                 prevLoadState = true;

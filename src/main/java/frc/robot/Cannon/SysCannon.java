@@ -99,6 +99,9 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         double revs = angle / 360;
         angleMotor.setPosition(revs);
+    }
+
+    public void resetTimeAngleWasSet(){
         timeAngleWasSet = Timer.getFPGATimestamp();
     }
 
@@ -176,7 +179,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     private double preLoadTimer;
-    private boolean preLoadRan;
+    private int preLoadRan;
     public void periodic(){
         if (cals.DISABLED) return;
 
@@ -196,15 +199,15 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         if(cargoReadyToTP){
             cargoReadyToTP = false;
             preLoadTimer = Timer.getFPGATimestamp() + cals.preLoadTime;
-            preLoadRan = true;
+            preLoadRan = 0;
         }
 
         if(Timer.getFPGATimestamp() < preLoadTimer && !r.sensors.ballSensorUpper.get()){
             //transport();
             fire(cals.preLoadPower);
-        } else if(preLoadRan) {
+        } else if(preLoadRan > 5) {
             fire(0);
-            preLoadRan = false;
+            preLoadRan++;
         }
 
         /*

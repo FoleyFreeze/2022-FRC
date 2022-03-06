@@ -1,6 +1,7 @@
 package frc.robot.Sensors;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -41,6 +42,8 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public SmartDigitalInput ballSensorTest;
     public SmartDigitalInput cannonAngleSensor;
 
+    public PowerDistribution pdh;
+
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
         this.r = r;
@@ -61,6 +64,8 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         ballSensorTest = new SmartDigitalInput(7);
         cannonAngleSensor = new SmartDigitalInput(20);
         cannonAngleSensor.invert();
+
+        pdh = new PowerDistribution();
     }
 
     @Override
