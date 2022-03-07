@@ -3,6 +3,7 @@ package frc.robot.Intake;
 import java.util.Currency;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
@@ -15,6 +16,7 @@ public class CmdAutoGather extends CommandBase{
 
     public CmdAutoGather(RobotContainer r){
         this.r = r;
+        addRequirements(r.drive);
         addRequirements(r.intake);
         //no cannon requirement even though we use it
     }
@@ -125,13 +127,14 @@ public class CmdAutoGather extends CommandBase{
         double x;
         double y;
         double zR;
-
         Vector xy;
 
         if(r.inputs.cameraDrive() && r.sensors.hasAlliedCargo() && allowDrive){
             Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
             cargoPos.theta -= Math.toRadians(r.sensors.botAng);
             
+            SmartDashboard.putString("BotRelCargo", cargoPos.toStringXY());
+
             zR = r.intake.cals.kR * cargoPos.theta;
             x = r.intake.cals.kX * cargoPos.getX();
             y = Math.max(r.intake.cals.yPower - x - zR, 0);

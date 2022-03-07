@@ -94,6 +94,6 @@ public class Vector {
 
     //returns a string of x, y
     public String toStringXY(){
-        return String.format("%.2f,%.2f", getX(), getY());
+        return String.format("%.2f, %.2f", getX(), getY());
     }
 }

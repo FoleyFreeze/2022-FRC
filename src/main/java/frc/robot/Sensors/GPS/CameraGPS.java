@@ -17,9 +17,6 @@ public class CameraGPS implements AutoCloseable{
 
     public CameraGPS(int historySize){
         locationHistory = new Location[historySize];
-        for(int i = 0; i < historySize; i++) {
-            locationHistory[i] = new Location();
-        }
     }
 
     public void addLocation(Vector pos, double ang, double time, double cannonAng){
@@ -28,15 +25,23 @@ public class CameraGPS implements AutoCloseable{
             head = 0;
         }
 
-        locationHistory[head].pos = pos;
+        if(locationHistory[head] == null) {
+            locationHistory[head] = new Location();
+            locationHistory[head].pos = new Vector(0,0);
+        }
+
+        locationHistory[head].pos.r = pos.r;
+        locationHistory[head].pos.theta = pos.theta;
         locationHistory[head].angle = ang;
         locationHistory[head].timestamp = time;
         locationHistory[head].cannonAng = cannonAng;
     }
 
     public Location interpolate(double time){
+        if(head < 0) return null;
+
         int i = head;
-        while(locationHistory[i].timestamp > time){
+        while(locationHistory[i] != null && locationHistory[i].timestamp > time){
             i--;
             if(i < 0) i = locationHistory.length-1;
         }
@@ -44,6 +49,8 @@ public class CameraGPS implements AutoCloseable{
         i++;
         if(i >= locationHistory.length) i = 0;
         Location after = locationHistory[i];
+
+        if(before == null || after == null) return null;
 
         double dt = after.timestamp - before.timestamp;
         double slopeX = (after.pos.getX() - before.pos.getX()) / dt;
@@ -82,9 +89,12 @@ public class CameraGPS implements AutoCloseable{
 
     public Vector imgToLocation(VisionData img){
         Location botLoc = interpolate(img.timestamp);
-        img.location.theta += botLoc.angle;
+        if(botLoc != null){
+            img.location.theta += botLoc.angle;
+            img.location.add(botLoc.pos);
+        }
 
-        return img.location.add(botLoc.pos);
+        return img.location;
     }
     
     @Override

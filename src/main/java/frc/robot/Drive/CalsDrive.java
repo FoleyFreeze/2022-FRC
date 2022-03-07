@@ -45,7 +45,7 @@ public class CalsDrive {
     double kFdr = 0.00017;
     double iLimdr = 0;
     double dFiltdr = 0;
-    public final static double MAX_DRIVE_PWR = 0.25;
+    public final static double MAX_DRIVE_PWR = 0.6;
     double driveRotationsPerInch = 64/18.0 * 18/32.0 * 45/15.0 / 4.0 / Math.PI;
 
     public boolean fieldOriented;

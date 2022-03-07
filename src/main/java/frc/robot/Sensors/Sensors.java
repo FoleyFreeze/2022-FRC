@@ -20,7 +20,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public CalsSensors cals;
     RobotContainer r;
 
-    public Vision vision = new Vision();
+    public Vision vision;
     public VisionData alliedCargo;
     public VisionData opponentCargo;
     public VisionData target;
@@ -47,6 +47,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
         this.r = r;
+        vision = new Vision();
         if(cals.DISABLED == true) return;
         checkedAlliance = false;
 
@@ -72,6 +73,8 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public void periodic(){
         if(cals.DISABLED) return;
 
+        vision.periodic();
+
         ballSensorLower.update();
         ballSensorUpper.update();
         cannonAngleSensor.update();
@@ -94,7 +97,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         //Log.logBool(navX.navX.isConnected(), Log.LOG_GROUPS.SENSORS, 1, true, "navX Connected");
 
         //update robot orientation and location
-        encoders.updateRobotLocation();
+        encoders.updateRobotLocation(navX.getFieldOrientAngle());
 
         Log.logString(encoders.botPos.toStringXY(), Log.LOG_GROUPS.SENSORS, 1, true, "encoder X, Y");
         Log.logDouble(encoders.botAng, Log.LOG_GROUPS.SENSORS, 1, true, "encoder angle");
@@ -109,7 +112,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         botAng = navX.getFieldOrientAngle();
 
         //update history array of robot positions and orientations
-        //camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
+        camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
 
         //process all camera data (and update robot location again?)
 
@@ -118,14 +121,18 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
             camera.imgToLocation(vd);
             switch(vd.type){
                 case BLUE_CARGO:
+                    SmartDashboard.putString("LastBlueLoc", vd.location.toStringXY());
                     if(isOnRedTeam) opponentCargo = vd;
                     else alliedCargo = vd;
                     break;
                 case RED_CARGO:
+                    SmartDashboard.putString("LastRedLoc", vd.location.toStringXY());
                     if(!isOnRedTeam) opponentCargo = vd;
                     else alliedCargo = vd;
                     break;
                 case VISION_TARGET:
+                    SmartDashboard.putString("LastTargetLoc", vd.location.toStringXY());
+                
                     //maybe do a blend or something based on percieved accuracy of the image
                     camera.updateArray(target.location, r.cannon.getShooterAngle());
 

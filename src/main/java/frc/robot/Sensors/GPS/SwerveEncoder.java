@@ -17,7 +17,7 @@ public class SwerveEncoder implements AutoCloseable{
         botPos = new Vector(0,0);
     }
 
-    public void updateRobotLocation(){
+    public void updateRobotLocation(double navxAngle){
         Vector[] wheelVecs = new Vector[wheels.length];
         for(int i=0;i<wheels.length;i++){
             wheelVecs[i] = wheels[i].deltaVec();
@@ -27,10 +27,16 @@ public class SwerveEncoder implements AutoCloseable{
         Vector deltaXY = averageTranslation(wheelVecs);
         double deltaAngle = averageRotation(wheelVecs, deltaXY);
 
-        botAng = Angle.normDeg(botAng + deltaAngle);
+        //keep a idea of where the local angle estimate is even though its not used
+        botAng = Angle.normDeg(botAng + deltaAngle); 
+
+        //use the navx angle for orientation
+        //subtract half the angle change to get the idea of where we were
+        //pointed on average during the previous time step
+        double avgAng = navxAngle - deltaAngle / 2;
 
         //convert to field relative
-        deltaXY.theta += Math.toRadians(botAng);
+        deltaXY.theta += Math.toRadians(avgAng);
         
         
         botPos.add(deltaXY);

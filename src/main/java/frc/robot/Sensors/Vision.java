@@ -5,7 +5,10 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Util.Vector;
 
 public class Vision {
@@ -28,9 +31,21 @@ public class Vision {
 
     public Vision(){
         visionQueue = new ConcurrentLinkedQueue<>();
+        addListener();
     }
 
+    int prevIdCargo;
+    int prevIdTarget;
+    int droppedCargoFrames;
+    int droppedTargetFrames;
+    double lastCargoTime;
+    double lastTargetTime;
+    double dtLimit = 0.5;
+    double lastCargoDt;
+    double lastTargetDt;
+
     public void addListener(){
+        NetworkTableInstance.getDefault().setUpdateRate(0.01);
         piTable = NetworkTableInstance.getDefault().getTable("pi");
 
         piTable.addEntryListener("Cargo", (table, key, entry, value, flags) -> {
@@ -42,8 +57,18 @@ public class Vision {
                 // id, currTime, calcTime, {dist, angle, color} repeat
                 String[] parts = value.getString().split(",");
                 
-                @SuppressWarnings("unused")
                 int id = Integer.parseInt(parts[0]);
+                int dId = id - prevIdCargo;
+                if(prevIdCargo != 0 && dId > 0){
+                    droppedCargoFrames += dId - 1;
+                }
+                prevIdCargo = id;
+
+                double t = Timer.getFPGATimestamp();
+                double dt = t - lastCargoTime;
+                if(dt < dtLimit){
+                    lastCargoDt = dt;
+                }
 
                 double currTime = Double.parseDouble(parts[1]);
                 double calcTime = Double.parseDouble(parts[2]);
@@ -52,7 +77,9 @@ public class Vision {
                 data.timestamp = now - (((now - currTime) / 2) + 0.5 * calcTime);
 
                 double dist = Double.parseDouble(parts[3]);
-                double angle = Double.parseDouble(parts[4]);
+                //note that positive angles for the pi are to the right
+                //even though they are to the left for us
+                double angle = -Double.parseDouble(parts[4]);
 
                 data.location = new Vector(dist, angle);
 
@@ -76,8 +103,18 @@ public class Vision {
                 // id, currTime, calcTime, {dist, angle, color} repeat
                 String[] parts = value.getString().split(",");
 
-                @SuppressWarnings("unused")
                 int id = Integer.parseInt(parts[0]);
+                int dId = id - prevIdTarget;
+                if(prevIdTarget != 0 && dId > 0){
+                    droppedTargetFrames += dId - 1;
+                }
+                prevIdTarget = id;
+
+                double t = Timer.getFPGATimestamp();
+                double dt = t - lastTargetTime;
+                if(dt < dtLimit){
+                    lastTargetDt = dt;
+                }
 
                 double currTime = Double.parseDouble(parts[1]);
                 double calcTime = Double.parseDouble(parts[2]);
@@ -86,7 +123,7 @@ public class Vision {
                 data.timestamp = now - (((now - currTime) / 2) + 0.5 * calcTime);
 
                 double dist = Double.parseDouble(parts[3]);
-                double angle = Double.parseDouble(parts[4]);
+                double angle = -Double.parseDouble(parts[4]);
 
                 data.location = new Vector(dist, angle);
 
@@ -97,5 +134,15 @@ public class Vision {
                 e.printStackTrace();
             }
         }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate | EntryListenerFlags.kImmediate);
+    }
+
+    public void periodic(){
+        piTable.getEntry("RobotTime").setDouble(Timer.getFPGATimestamp());
+        piTable.getEntry("RedAlliance").setBoolean(DriverStation.getAlliance().equals(Alliance.Red));
+
+        SmartDashboard.putNumber("Dropped Frames Cargo", droppedCargoFrames);
+        SmartDashboard.putNumber("Dropped Frames Target", droppedTargetFrames);
+        SmartDashboard.putNumber("Cargo dt", lastCargoDt);
+        SmartDashboard.putNumber("Target dt", lastTargetDt);
     }
 }
