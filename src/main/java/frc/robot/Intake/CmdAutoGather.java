@@ -48,9 +48,9 @@ public class CmdAutoGather extends CommandBase{
         } else if(lowBall && time > intakeDelayStartTime + r.intake.cals.intakeTimeOffset){
             if(hiBall){
                 //set defensive intake position
-                double currAngle = r.intake.intakeMotor.getPosition() * 360 + 30;
+                double currAngle = r.intake.intakeMotor.getPosition() * 360;
                 double setpoint;
-                double angleDiff = currAngle % 180;
+                double angleDiff = (currAngle % 180) + 30;
                 if(angleDiff > 90){
                     setpoint = currAngle + (180 - angleDiff);
                 } else {
@@ -62,13 +62,13 @@ public class CmdAutoGather extends CommandBase{
                     gatherMovementTimer = time;
                     gatherPrevPosition = currAngle;
                 }
-                if(r.sensors.pdh.getCurrent(r.intake.cals.intakeMotor.channel) > 1){
+                if(r.sensors.pdh.getCurrent(r.intake.cals.intakeMotor.channel) < 10){
                     gatherCurrentTimer = time;
                 }
 
-                if(time > gatherFlipTimer + 0.2){
-                    if(time > gatherMovementTimer + 0.1 && time > gatherCurrentTimer + 0.1){
-                        gatherFlipSetpoint = currAngle - 180;
+                if(time > gatherFlipTimer + 0.5){
+                    if(time > gatherMovementTimer + 0.5 && time > gatherCurrentTimer + 0.5){
+                        gatherFlipSetpoint = setpoint - 180;
                         gatherFlipTimer = time;
                         setpoint = gatherFlipSetpoint;
                     }
@@ -76,7 +76,7 @@ public class CmdAutoGather extends CommandBase{
                     setpoint = gatherFlipSetpoint;
                 }
                 
-                r.intake.intakeMotor.setPosition(currAngle / 360.0);
+                r.intake.intakeMotor.setPosition(setpoint / 360.0);
                 
             } else {
                 //one ball gathered, still in lower slot

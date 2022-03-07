@@ -204,8 +204,10 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         if(Timer.getFPGATimestamp() < preLoadTimer && !r.sensors.ballSensorUpper.get()){
             //transport();
+            System.out.println("Ran preload");
             fire(cals.preLoadPower);
-        } else if(preLoadRan > 5) {
+        } else if(preLoadRan < 5) {
+            System.out.println("Stopped preload");
             fire(0);
             preLoadRan++;
         }
