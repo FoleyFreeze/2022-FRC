@@ -3,7 +3,7 @@ package frc.robot.Auton;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.CalsAuton.Position;
-import frc.robot.Cannon.CmdShoot;
+import frc.robot.Cannon.CmdCannonSensorReset;
 
 public class AutonSequential extends SequentialCommandGroup{
     
@@ -31,10 +31,13 @@ public class AutonSequential extends SequentialCommandGroup{
             }
         };
 
-        addCommands(new AutonRelDriveGatherShoot(r, p, 0, false), //shoot the ball we have
-                    new AutonRelDriveGatherShoot(r, p, 1), //shoot ball 2 (and ball 1 if we still have it), in front of our auton zone
-                    new SequentialCommandGroup(new AutoDriveRelative(r, p, 1), new CmdShoot(r)), //shoot the ball in front of our partners zone
-                    new SequentialCommandGroup(new AutoDriveAbsolute(r, p, 2), new CmdShoot(r))); //shoot the ball in front of the load station
+        addCommands(new CmdCannonSensorReset(r), //re-zero the shooter
+                    new AutonRelDriveGatherShoot(r, p, 0, false, true), //shoot the ball we have
+                    new AutonRelDriveGatherShoot(r, p, 1), //gather & shoot ball 2 (and ball 1 if we still have it), in front of our auton zone
+                    new AutonRelDriveGatherShoot(r, p, 2), //gather & shoot ball 3 in front of allied auton zone
+                    new AutonAbsDriveGatherShoot(r, p, 3, true, false), //move to loading station, gather balls 5 & 6
+                    new AutonAbsDriveGatherShoot(r, p, 4, false, true)  //move back towards goal, shoot
+                    );
     }
 
     @Override

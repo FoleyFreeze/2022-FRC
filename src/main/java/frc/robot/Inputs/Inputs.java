@@ -1,5 +1,6 @@
 package frc.robot.Inputs;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -63,7 +64,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
     }
 
     public boolean getFieldOrient(){
-        return driverJoy.getFieldOrient();
+        return driverJoy.getFieldOrient() && !DriverStation.isAutonomousEnabled();
     }
 
     public Trigger resetNavXAng = new Trigger(){

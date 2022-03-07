@@ -1,13 +1,15 @@
-package frc.robot.Auton;
+package frc.robot.Auton.AutoSubsytem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Auton.AutonSequential;
+import frc.robot.Auton.CalsAuton;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 import frc.robot.Auton.CalsAuton.Position;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
-public class AutoDriveAbsolute extends CommandBase {
+public class AutonDriveAbsolute extends CommandBase {
     
     RobotContainer r;
 
@@ -17,7 +19,7 @@ public class AutoDriveAbsolute extends CommandBase {
     PositionProvider p;
     int idx;
 
-    public AutoDriveAbsolute(RobotContainer r, PositionProvider p, int idx){
+    public AutonDriveAbsolute(RobotContainer r, PositionProvider p, int idx){
         this.r = r;
         this.p = p;
         this.idx = idx;
