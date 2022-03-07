@@ -1,12 +1,14 @@
-package frc.robot.Auton;
+package frc.robot.Auton.AutoSubsytem;
 
 import frc.robot.RobotContainer;
+import frc.robot.Auton.AutonSequential;
+import frc.robot.Auton.CalsAuton;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 import frc.robot.Auton.CalsAuton.Position;
 
-public class AutoDriveRelative extends AutoDriveAbsolute{
+public class AutonDriveRelative extends AutonDriveAbsolute{
 
-    public AutoDriveRelative(RobotContainer r, PositionProvider p, int idx) {
+    public AutonDriveRelative(RobotContainer r, PositionProvider p, int idx) {
         super(r, p, idx);
     }
 

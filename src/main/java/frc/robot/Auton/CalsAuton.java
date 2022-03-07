@@ -4,6 +4,10 @@ import frc.robot.Util.Vector;
 
 public class CalsAuton {
 
+    public static double autoShootAngleKP = 0.01;
+    public static double autoShootAngleMaxPwr = 0.3;
+    public static double minShootDist = 15;
+
     public class Position{
         public Vector v;
         public double a;        
@@ -17,33 +21,25 @@ public class CalsAuton {
     int arrayLen = 10; //ensure that the position and skip lists are the same length
     Position[][] positionList = {
         { //left start position
-            new Position(Vector.fromXY(0,0), 0), //drive to the ball right behind us
-            new Position(Vector.fromXY(0,0), 0), //drive to the loading station
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0)
+            new Position(Vector.fromXY(0,0), -133.5), //don't move, just shoot (ABS)
+            new Position(Vector.fromXY(-14.5, -19), -93.6), //grab close ball (REL)
+            new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
+            new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
         },
 
         { //mid start position
-            new Position(Vector.fromXY(0,0), 0), //drive to the ball right behind us
-            new Position(Vector.fromXY(0,0), 0), //drive to the loading station
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0)
+            new Position(Vector.fromXY(0,0), -46.5), //don't move, just shoot (REL)
+            new Position(Vector.fromXY(16.3, -13.5), -85.0), //grab close ball (REL)
+            new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
+            new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
         },
 
         { //right start position
-            new Position(Vector.fromXY(0,0), 0), //drive to the ball right behind us
-            new Position(Vector.fromXY(0,0), 0), //drive to the loading station
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0),
-            new Position(Vector.fromXY(0,0), 0)
+            new Position(Vector.fromXY(0,0), 1.5), //don't move, just shoot (REL)
+            new Position(Vector.fromXY(-14.5, -19), -52.0), //grab close ball (REL)
+            new Position(Vector.fromXY(118.3, -77.3), -123),//grab second ball (ABS)
+            new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
+            new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
         }
     };
     

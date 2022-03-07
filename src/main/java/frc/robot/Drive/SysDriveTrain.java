@@ -10,6 +10,7 @@ import frc.robot.Util.Log.LOG_GROUPS;
 
 public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     
+    RobotContainer r;
     public CalsDrive cals;
     Inputs inputs;
 
@@ -20,6 +21,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     FileManager fm = new FileManager("/home/lvuser/WheelEncoderOffsets.txt");
 
     public SysDriveTrain(CalsDrive cals, RobotContainer r){
+        this.r = r;
         this.cals = cals;
         inputs = r.inputs;
         if(cals.DISABLED) return;
@@ -97,7 +99,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         if(cals.DISABLED) return;
         
         if(inputs.getFieldOrient()){
-            
+            xy.theta -= Math.toRadians(r.sensors.botAng);
         }
 
         //create rotation vectors from wheel angle and rotation axis magnitude
