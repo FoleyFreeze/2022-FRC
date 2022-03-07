@@ -45,7 +45,7 @@ public class Vision {
     double lastTargetDt;
 
     public void addListener(){
-        NetworkTableInstance.getDefault().setUpdateRate(0.01);
+        NetworkTableInstance.getDefault().setUpdateRate(0.05);
         piTable = NetworkTableInstance.getDefault().getTable("pi");
 
         piTable.addEntryListener("Cargo", (table, key, entry, value, flags) -> {
@@ -66,6 +66,7 @@ public class Vision {
 
                 double t = Timer.getFPGATimestamp();
                 double dt = t - lastCargoTime;
+                lastCargoTime = t;
                 if(dt < dtLimit){
                     lastCargoDt = dt;
                 }
@@ -112,6 +113,7 @@ public class Vision {
 
                 double t = Timer.getFPGATimestamp();
                 double dt = t - lastTargetTime;
+                lastTargetTime = t;
                 if(dt < dtLimit){
                     lastTargetDt = dt;
                 }
