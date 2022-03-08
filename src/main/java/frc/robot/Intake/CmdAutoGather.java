@@ -135,7 +135,7 @@ public class CmdAutoGather extends CommandBase{
             
             SmartDashboard.putString("BotRelCargo", cargoPos.toStringXY());
 
-            zR = r.intake.cals.kR * cargoPos.theta;
+            zR = r.intake.cals.kR * (cargoPos.theta - Math.PI/2);//correct for gatherer location (y+ or 90deg)
             x = r.intake.cals.kX * cargoPos.getX();
             y = Math.max(r.intake.cals.yPower - x - zR, 0);
             xy = Vector.fromXY(x, y);

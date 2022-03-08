@@ -47,14 +47,16 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
         this.r = r;
-        vision = new Vision();
+        vision = new Vision(cals);
         if(cals.DISABLED == true) return;
         checkedAlliance = false;
 
-        alliedCargo = new VisionData();
+        alliedCargo = new VisionData(); 
         alliedCargo.timestamp = -10;
         opponentCargo = new VisionData();
         opponentCargo.timestamp = -10;
+        target = new VisionData();
+        target.timestamp = -10;
 
         camera = new CameraGPS(cals.HISTORY_SIZE);
         navX = new NavX();
@@ -116,7 +118,8 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         //process all camera data (and update robot location again?)
 
-        while(!vision.visionQueue.isEmpty()){
+        int count = 0;
+        while(!vision.visionQueue.isEmpty() && count++ < 1){
             VisionData vd = vision.visionQueue.poll();
             camera.imgToLocation(vd);
             switch(vd.type){
@@ -142,6 +145,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     break;
             }
         }
+        vision.visionQueue.clear();
 
         //process other sensors if any
 

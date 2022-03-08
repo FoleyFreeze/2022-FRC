@@ -28,9 +28,12 @@ public class Vision {
     // id, currTime, calcTime, {dist, angle, color} repeat
 
     NetworkTable piTable;
+    CalsSensors cals;
 
-    public Vision(){
+    public Vision(CalsSensors cals){
+        this.cals = cals;
         visionQueue = new ConcurrentLinkedQueue<>();
+
         addListener();
     }
 
@@ -45,7 +48,7 @@ public class Vision {
     double lastTargetDt;
 
     public void addListener(){
-        //NetworkTableInstance.getDefault().setUpdateRate(0.05);
+        NetworkTableInstance.getDefault().setUpdateRate(0.01);
         piTable = NetworkTableInstance.getDefault().getTable("pi");
 
         piTable.addEntryListener("Cargo", (table, key, entry, value, flags) -> {
@@ -64,7 +67,7 @@ public class Vision {
                 }
                 prevIdCargo = id;
 
-                double t = Timer.getFPGATimestamp();
+                double t = now;
                 double dt = t - lastCargoTime;
                 lastCargoTime = t;
                 if(dt < dtLimit){
@@ -80,9 +83,11 @@ public class Vision {
                 double dist = Double.parseDouble(parts[3]);
                 //note that positive angles for the pi are to the right
                 //even though they are to the left for us
-                double angle = -Double.parseDouble(parts[4]);
+                double angle = Double.parseDouble(parts[4]);
+                angle += 90; //camera faces y+ which is +90deg
 
-                data.location = new Vector(dist, angle);
+                data.location = new Vector(dist, Math.toRadians(angle));
+                data.location.add(cals.ballCamLocationL);
 
                 if(Integer.parseInt(parts[5]) == 1){
                     data.type = Type.BLUE_CARGO;//blue is true!
@@ -111,7 +116,7 @@ public class Vision {
                 }
                 prevIdTarget = id;
 
-                double t = Timer.getFPGATimestamp();
+                double t = now;
                 double dt = t - lastTargetTime;
                 lastTargetTime = t;
                 if(dt < dtLimit){
@@ -125,9 +130,11 @@ public class Vision {
                 data.timestamp = now - (((now - currTime) / 2) + 0.5 * calcTime);
 
                 double dist = Double.parseDouble(parts[3]);
-                double angle = -Double.parseDouble(parts[4]);
+                double angle = Double.parseDouble(parts[4]);
+                angle -= 90; //cam faces y- direction (-90deg)
 
-                data.location = new Vector(dist, angle);
+                data.location = new Vector(dist, Math.toRadians(angle));
+                data.location.add(cals.tgtCamLocation);
 
                 data.type = Type.VISION_TARGET;
 

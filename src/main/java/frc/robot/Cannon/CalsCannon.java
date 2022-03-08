@@ -42,8 +42,8 @@ public class CalsCannon {
     public double shootMinAngle = 55;
 
     public boolean useVariableShootSpeed = true;
-    public double maxVariableShootSpeed = 4500;
-    public double minVariableShootSpeed = 1500;
+    public double maxVariableShootSpeed = 3800;
+    public double minVariableShootSpeed = 1000;
     public final double LAYUP_SHOOT_SPEED = 2000;
     public final double LAYUP_SHOOT_ANG = 0;
     public final double LAUNCH_PAD_SHOOT_SPEED = 0;

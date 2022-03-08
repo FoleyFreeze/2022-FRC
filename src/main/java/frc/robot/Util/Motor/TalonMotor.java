@@ -26,6 +26,8 @@ public class TalonMotor implements Motor{
 
         motor.configPeakOutputForward(cals.powerLimitMax);
         motor.configPeakOutputReverse(cals.powerLimitMin);
+
+        motor.configClosedloopRamp(0.3);
     }
 
     public void setPower(double power){

@@ -44,7 +44,14 @@ public class CameraGPS implements AutoCloseable{
         while(locationHistory[i] != null && locationHistory[i].timestamp > time){
             i--;
             if(i < 0) i = locationHistory.length-1;
+            if(i == head) {
+                //if the time is so old its off the map, just use the oldest location
+                i = head - 1;
+                if(head < 0) head = locationHistory.length - 1;
+                break;
+            }
         }
+
         Location before = locationHistory[i];
         i++;
         if(i >= locationHistory.length) i = 0;
@@ -80,7 +87,7 @@ public class CameraGPS implements AutoCloseable{
     //updates all values if they are not null
     public void updateArray(Vector error, double cannonAng){
         for(int i = 0; i > locationHistory.length; i++){
-            if(locationHistory[i].pos != null){
+            if(locationHistory != null && locationHistory[i].pos != null){
                 locationHistory[i].pos.add(error);
                 locationHistory[i].cannonAng = cannonAng;
             }

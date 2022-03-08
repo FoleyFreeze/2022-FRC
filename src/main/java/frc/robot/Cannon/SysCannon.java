@@ -42,7 +42,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void prime(){
         if (cals.DISABLED) return;
-        if(r.inputs.cameraDrive()){
+        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
             prime(r.sensors.target.location.r, true);
         } else if(cals.useVariableShootSpeed){
             double speed = r.inputs.driverJoy.getDial1() * 

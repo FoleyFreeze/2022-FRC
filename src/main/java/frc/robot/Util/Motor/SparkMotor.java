@@ -17,7 +17,7 @@ public class SparkMotor implements Motor{
     enum SetpointType{
         POWER, POSITION, VELOCITY
     }
-    private SetpointType setpointType;
+    private SetpointType setpointType = SetpointType.POWER;
     private double setpoint;
 
     public SparkMotor(CalsMotor cals){
