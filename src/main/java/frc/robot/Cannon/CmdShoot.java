@@ -26,17 +26,17 @@ public class CmdShoot extends SequentialCommandGroup{
         double zR;
 
         Vector xy = Vector.fromXY(x, y);
-
+        
         if(r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
-            /*double error = r.sensors.botAng - r.sensors.botLoc.theta;
-            if(){
-                
-            }*/
-            zR = 0;
+            Vector targetPos = Vector.subVectors(r.cannon.cals.targetLocation, r.sensors.botLoc);
+            targetPos.theta -= Math.toRadians(r.sensors.botAng);
+            
+            zR = r.cannon.cals.kR * targetPos.theta;
         } else {
             zR = r.inputs.getDrivezR();
-            Inputs.mapSquareToCircle(xy);
         }
+
+        Inputs.mapSquareToCircle(xy);
 
         r.drive.driveSwerve(xy, zR);
     } 
