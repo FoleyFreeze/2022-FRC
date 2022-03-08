@@ -5,15 +5,26 @@ import frc.robot.RobotContainer;
 import frc.robot.Intake.CmdAutoGather;
 
 public class AutonGather extends ParallelRaceGroup {
+
+    RobotContainer r;
+    boolean topBall;
+
     public AutonGather(RobotContainer r){
         addCommands(new CmdAutoGather(r));
     }
 
     @Override
+    public void initialize(){
+        topBall = r.sensors.ballSensorUpper.get();
+    }
+
+    @Override
     public boolean isFinished(){
         super.isFinished();
-        return false;
+        if(topBall){
+            return r.sensors.ballSensorLower.get();
+        } else {
+            return r.sensors.ballSensorUpper.get();
+        }
     }
 }
-
-//TODO: finish this, add init,exec,end,isfinished, etc

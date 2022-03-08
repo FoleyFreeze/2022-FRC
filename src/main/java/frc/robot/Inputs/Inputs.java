@@ -95,12 +95,6 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     };
 
-    public Trigger primeCannon = new Trigger(){
-        public boolean get(){
-            return operatorJoy.primeCannon();
-        }
-    };
-
     public Trigger resetCannon = new Trigger(){
         public boolean get(){
             return driverJoy.resetCannonAng();
@@ -121,13 +115,15 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     public Trigger gather = new Trigger(){
         public boolean get(){
-            return driverJoy.intake();
+            return driverJoy.intake() || operatorJoy.intake() 
+                    || operatorJoy.kicker() || operatorJoy.fire();
         }
     };
 
     public Trigger manualGather = new Trigger(){
         public boolean get(){
-            return driverJoy.manualIntake();
+            return driverJoy.manualIntake() || operatorJoy.intake() 
+                    || operatorJoy.kicker() || operatorJoy.fire();
         }
     };
 
@@ -139,19 +135,19 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     public Trigger intakeSpin = new Trigger(){
         public boolean get(){
-            return driverJoy.intakeSpin();
+            return driverJoy.intakeSpin() || operatorJoy.intake();
         }
     };
 
     public Trigger transportSpin = new Trigger(){
         public boolean get(){
-            return driverJoy.transportSpin();
+            return driverJoy.transportSpin() || operatorJoy.transporter();
         }
     };
 
     public Trigger fireSpin = new Trigger(){
         public boolean get(){
-            return driverJoy.fireSpin();
+            return driverJoy.fireSpin() || operatorJoy.fire();
         }
     };
 
@@ -197,6 +193,13 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
             time = Timer.getFPGATimestamp() + cals.CHECK_INTERVAL;
         }
+
+        if(operatorJoy.pitMode()) {
+            r.drive.cals.maxSwervePwr = r.drive.cals.MAX_PIT_PWR;
+        } else {
+            r.drive.cals.maxSwervePwr = r.drive.cals.MAX_FIELD_PWR;
+        }
+
         Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, true, "has FlySky");
         Log.logBool(hasGamePad, Log.LOG_GROUPS.INPUTS, 5, true, "has gamepad");
 

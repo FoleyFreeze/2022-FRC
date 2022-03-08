@@ -4,13 +4,13 @@ import frc.robot.RobotContainer;
 import frc.robot.Auton.AutoSubsytem.AutonDriveAbsolute;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 
-public class AutonAbsDriveGatherShoot extends AutonRelDriveGatherShoot{
+public class AutonAbsDrvGthrShoot extends AutonRelDrvGthrShoot{
     
-    public AutonAbsDriveGatherShoot(RobotContainer r, PositionProvider p, int idx, boolean gather, boolean shoot){
+    public AutonAbsDrvGthrShoot(RobotContainer r, PositionProvider p, int idx, boolean gather, boolean shoot){
         super(r,p,idx,true,true);
     }
 
-    public AutonAbsDriveGatherShoot(RobotContainer r, PositionProvider p, int idx){
+    public AutonAbsDrvGthrShoot(RobotContainer r, PositionProvider p, int idx){
         super(r,p,idx);
     }
 
