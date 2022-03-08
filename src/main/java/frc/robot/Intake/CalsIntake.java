@@ -7,7 +7,7 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;
 public class CalsIntake {
     
     @SuppressWarnings("unused")
-    public final boolean DISABLED = false && Robot.isReal();
+    public final boolean DISABLED = true && Robot.isReal();
 
     double intakeRatio = 12;
 

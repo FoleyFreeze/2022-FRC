@@ -48,7 +48,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         this.cals = cals;
         this.r = r;
         vision = new Vision();
-        if(cals.DISABLED == true) return;
+        if(cals.DISABLED) return;
         checkedAlliance = false;
 
         alliedCargo = new VisionData();
@@ -112,7 +112,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         botAng = navX.getFieldOrientAngle();
 
         //update history array of robot positions and orientations
-        camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
+        if(!r.cannon.cals.DISABLED) camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
 
         //process all camera data (and update robot location again?)
 

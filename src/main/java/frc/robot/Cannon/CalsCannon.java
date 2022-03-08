@@ -7,7 +7,7 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsCannon {
     
-    public final boolean DISABLED = false && Robot.isReal();
+    public final boolean DISABLED = true && Robot.isReal();
 
     double maxAnglePwr = 0.25;
     double maxShootPower = 0.9;
