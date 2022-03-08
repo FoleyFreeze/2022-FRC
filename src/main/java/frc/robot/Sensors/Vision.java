@@ -45,7 +45,7 @@ public class Vision {
     double lastTargetDt;
 
     public void addListener(){
-        NetworkTableInstance.getDefault().setUpdateRate(0.05);
+        //NetworkTableInstance.getDefault().setUpdateRate(0.05);
         piTable = NetworkTableInstance.getDefault().getTable("pi");
 
         piTable.addEntryListener("Cargo", (table, key, entry, value, flags) -> {

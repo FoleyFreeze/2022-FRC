@@ -139,6 +139,14 @@ public class CmdAutoGather extends CommandBase{
             x = r.intake.cals.kX * cargoPos.getX();
             y = Math.max(r.intake.cals.yPower - x - zR, 0);
             xy = Vector.fromXY(x, y);
+            if(xy.r > r.intake.cals.autoBallMaxPwr){
+                xy.r = r.intake.cals.autoBallMaxPwr;
+            }
+            
+            if(r.inputs.getFieldOrient()){
+                //if we are field oriented, offset so that we stay robot oriented
+                xy.theta += Math.toRadians(r.sensors.botAng);
+            }
         } else {
             zR = r.inputs.getDrivezR();
             x = r.inputs.getDriveX();
@@ -148,6 +156,7 @@ public class CmdAutoGather extends CommandBase{
             Inputs.mapSquareToCircle(xy);
         }
 
+        
         r.drive.driveSwerve(xy, zR);
     }
 

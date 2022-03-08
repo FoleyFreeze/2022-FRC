@@ -19,9 +19,10 @@ public class CalsIntake {
     public double intakeSpeed = 0.5;
     public double reverseSpeed = -0.5;
 
-    public double kX = 0.3;
-    public double yPower = 0.3;
-    public double kR = 0.1;
+    public double kX = 0.0;
+    public double yPower = 0.0;
+    public double kR = 0.0;
+    public double autoBallMaxPwr = 0.4;
 
     public double intakeTimeOffset = 0.1;
     public double lowFallingTime = 0.3;
