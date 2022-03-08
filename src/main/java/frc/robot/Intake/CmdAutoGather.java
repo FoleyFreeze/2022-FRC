@@ -23,7 +23,7 @@ public class CmdAutoGather extends CommandBase{
 
     @Override
     public void initialize(){
-        //System.out.println("Started AutoGather");
+        
     }
 
     double intakeDelayStartTime;

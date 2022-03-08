@@ -8,6 +8,12 @@ public class CalsAuton {
     public static double autoShootAngleMaxPwr = 0.3;
     public static double minShootDist = 15;
 
+    public static double primeTime;
+    public static double shootTime;
+    public static double simpleShootFirePwr;
+    public static double simpleShootPrimePwr;
+    public static double simpleShootPrimeAng;
+
     public class Position{
         public Vector v;
         public double a;        

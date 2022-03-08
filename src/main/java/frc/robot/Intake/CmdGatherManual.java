@@ -1,5 +1,6 @@
 package frc.robot.Intake;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
@@ -20,13 +21,21 @@ public class CmdGatherManual extends CommandBase{
 
     @Override
     public void execute(){
-        boolean trig = r.inputs.gather.get();
+        boolean run = r.inputs.gather.get();
+        double value = r.inputs.driverJoy.getDial3();
+
+        //if the command is coming from the control board use a default value
+        if(!r.inputs.driverJoy.manualIntake()) value = 0.5;
+        
+        //if shift is pressed, run backwards
+        if(r.inputs.operatorJoy.shift()) value = -value;
+
         if(r.inputs.intakeSpin.get()){
-            r.intake.intake(trig ? r.inputs.driverJoy.getDial3() : 0);
+            r.intake.intake(run ? value : 0);
         } else if(r.inputs.transportSpin.get()){
-            r.cannon.transport(trig ? r.inputs.driverJoy.getDial3() : 0);
+            r.cannon.transport(run ? value : 0);
         } else if(r.inputs.fireSpin.get()){
-            r.cannon.fire(trig ? r.inputs.driverJoy.getDial3() : 0);
+            r.cannon.fire(run ? value : 0);
         }
     }
 

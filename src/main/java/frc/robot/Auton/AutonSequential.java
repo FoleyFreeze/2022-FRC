@@ -32,11 +32,11 @@ public class AutonSequential extends SequentialCommandGroup{
         };
 
         addCommands(new CmdCannonSensorReset(r), //re-zero the shooter
-                    new AutonRelDriveGatherShoot(r, p, 0, false, true), //shoot the ball we have
-                    new AutonRelDriveGatherShoot(r, p, 1), //gather & shoot ball 2 (and ball 1 if we still have it), in front of our auton zone
-                    new AutonRelDriveGatherShoot(r, p, 2), //gather & shoot ball 3 in front of allied auton zone
-                    new AutonAbsDriveGatherShoot(r, p, 3, true, false), //move to loading station, gather balls 5 & 6
-                    new AutonAbsDriveGatherShoot(r, p, 4, false, true)  //move back towards goal, shoot
+                    new AutonRelDrvGthrShoot(r, p, 0, false, true), //shoot the ball we have
+                    new AutonRelDrvGthrShoot(r, p, 1), //gather & shoot ball 2 (and ball 1 if we still have it), in front of our auton zone
+                    new AutonRelDrvGthrShoot(r, p, 2), //gather & shoot ball 3 in front of allied auton zone
+                    new AutonAbsDrvGthrShoot(r, p, 3, true, false), //move to loading station, gather balls 5 & 6
+                    new AutonAbsDrvGthrShoot(r, p, 4, false, true)  //move back towards goal, shoot
                     );
     }
 

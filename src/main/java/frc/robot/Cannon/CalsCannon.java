@@ -59,7 +59,8 @@ public class CalsCannon {
     public double maxShootAngleError = 2.5;
 
     public double wheelOfFirePower = 1;
-    public double shootTime = 0.25;
+    public double shootTimeOne = 0.25;
+    public double shootTimeTwo = 0.75;
     public double minPrimeTime = 1;
 
     public double preLoadTime = 1.0; //0.3
