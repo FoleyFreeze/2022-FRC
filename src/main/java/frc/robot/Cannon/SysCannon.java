@@ -53,10 +53,10 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                     + cals.shootMinAngle;
             prime(speed, angle);
         } else if(r.inputs.operatorJoy.hubSwitch()){
-            
+
             double ang = cals.LAYUP_SHOOT_ANG;
             if(r.inputs.operatorJoy.shootForward()){
-                ang = 90 + (90 - ang);
+                ang = 180 - ang;//point shooter the other way
             }
 
             prime(cals.LAYUP_SHOOT_SPEED, ang);
@@ -64,7 +64,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
             double ang = cals.LOW_SHOOT_ANG;
             if(r.inputs.operatorJoy.shootForward()){
-                ang = 90 + (90 - ang);
+                ang = 180 - ang;//point shooter the other way
             }
 
             prime(cals.LOW_SHOOT_SPEED, ang);
