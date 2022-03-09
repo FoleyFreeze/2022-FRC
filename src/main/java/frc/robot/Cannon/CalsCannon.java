@@ -62,11 +62,14 @@ public class CalsCannon {
 
     public double wheelOfFirePower = 1;
     public double shootTimeOne = 0.25;
-    public double shootTimeTwo = 0.75;
-    public double minPrimeTime = 1;
+    public double shootTimeTwo = 1;
+    public double minPrimeTime15h = 0.5;
+    public double minPrimeTimeSpd = 1500;
+    public double minPrimeTime21h = 1.1;
+    public double maxPrimeTimeSpd = 2100;
 
     public double preLoadTime = 1.0; //0.3
-    public double preLoadPower = 0.2;
+    public double preLoadPower = 0.4;
     public double loadTime = 0.4;
     public double tranPwr = 0.4;
     public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current

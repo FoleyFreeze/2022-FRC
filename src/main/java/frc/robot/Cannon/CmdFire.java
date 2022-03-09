@@ -19,7 +19,8 @@ public class CmdFire extends CommandBase{
     @Override
     public void initialize() {
         startTime = Timer.getFPGATimestamp();
-        twoBalls = r.sensors.ballSensorLower.get();
+        double angleDiff = Math.abs(r.cannon.getShooterAngle() - r.cannon.cals.resetAngle);
+        twoBalls = r.sensors.ballSensorLower.get() && angleDiff < 6;
     }
 
     @Override
@@ -27,7 +28,7 @@ public class CmdFire extends CommandBase{
         r.cannon.prime();
         r.cannon.fire();
         if(twoBalls && Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOne){
-            r.cannon.transport();
+            r.cannon.transport(0.6);
         }
     }
 
@@ -43,9 +44,9 @@ public class CmdFire extends CommandBase{
     @Override
     public boolean isFinished(){
         if(twoBalls){
-            return Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOne;
-        } else {
             return Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeTwo;
+        } else {
+            return Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOne;
         }
     }
 }

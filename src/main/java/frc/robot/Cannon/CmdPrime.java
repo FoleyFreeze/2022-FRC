@@ -19,38 +19,15 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public void initialize(){
-        timer = Timer.getFPGATimestamp() + r.cannon.cals.minPrimeTime;
+        timer = Timer.getFPGATimestamp();
     }
 
     @Override
     public void execute(){
 
-        if(!r.inputs.autoGather.get() || r.sensors.ballSensorUpper.get()){
+        if(!r.inputs.autoGather.get() || r.sensors.ballSensorUpper.get() || r.sensors.ballSensorLower.get()){
             r.cannon.prime();
         }
-
-        /*
-        double x;
-        double y;
-        double zR;
-
-        Vector xy;
-        
-        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
-            Vector targetPos = Vector.subVectors(r.cannon.cals.targetLocation, r.sensors.botLoc);
-            targetPos.theta -= Math.toRadians(r.sensors.botAng);
-            
-            zR = r.cannon.cals.kR * targetPos.theta;
-        } else {
-            zR = r.inputs.getDrivezR();
-        }
-
-        x = r.inputs.getDriveX();
-        y = r.inputs.getDriveY();
-        xy = Vector.fromXY(x, y);
-        Inputs.mapSquareToCircle(xy);
-        r.drive.driveSwerve(xy, zR);
-        */
     }
 
     @Override
@@ -63,6 +40,6 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer && r.sensors.ballSensorUpper.get();
+        return r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() && r.sensors.ballSensorUpper.get();
     }
 }

@@ -120,11 +120,22 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     //sets motors via speeds in RPM
+    public double speedSetpoint;
     public void setSpeed(double ccwSpeed, double cwSpeed){
         if (cals.DISABLED) return;
 
         ccwMotor.setSpeed(ccwSpeed);
          cwMotor.setSpeed(cwSpeed);
+
+        speedSetpoint = Math.max(ccwSpeed, cwSpeed);
+    }
+
+    public double getPrimeTime(){
+        if(speedSetpoint < cals.minPrimeTimeSpd) return cals.minPrimeTime15h;
+        if(speedSetpoint > cals.maxPrimeTimeSpd) return cals.minPrimeTime21h;
+        //interp between the two wait times
+        return (speedSetpoint - cals.minPrimeTimeSpd) / (cals.maxPrimeTimeSpd - cals.minPrimeTimeSpd) 
+                * (cals.minPrimeTime21h - cals.minPrimeTime15h) + cals.minPrimeTime15h;
     }
 
     public void setPower(double ccwPower, double cwPower){

@@ -14,15 +14,18 @@ public class OperatorControls extends Controls implements AutoCloseable{
         cals = c;
     }
 
+    boolean hadIPAConPrev = false;
     public void detectJoystick(){
         //for each potential joystick port
         for(int i=0; i<DriverStation.kJoystickPorts; i++){
             String name = DriverStation.getJoystickName(i);
             
-            if(name.contains("I-PAC") && (controlBoard==null || controlBoard.getPort() != i)) {
+            boolean hasIPAC = name.contains("I-PAC");
+            if(hasIPAC && !hadIPAConPrev && (controlBoard==null || controlBoard.getPort() != i)) {
                 controlBoard = new Joystick(i);
                 Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "control board found on port: " + i);
             }
+            hadIPAConPrev = hasIPAC;
         }
     }
 
@@ -71,7 +74,9 @@ public class OperatorControls extends Controls implements AutoCloseable{
     }
 
     public boolean pitMode(){
-        return checkButton(cals.pitMode) && !DriverStation.isFMSAttached();
+        //field mode is true, so invert this, but also force it false when the FMS is active
+        //also use button inverse which forces it to true when the control board is not plugged in
+        return !checkButtonInverse(cals.pitMode) && !DriverStation.isFMSAttached();
     }
 
     public boolean intake(){

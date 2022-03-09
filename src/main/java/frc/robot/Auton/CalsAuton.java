@@ -14,6 +14,10 @@ public class CalsAuton {
     public static double simpleShootPrimePwr;
     public static double simpleShootPrimeAng;
 
+    public static double maxDrivePower = 0.2;
+    public static double minAutoPosError = 12;
+    public static double minAutoAngError = 10;
+
     public class Position{
         public Vector v;
         public double a;        

@@ -25,20 +25,23 @@ public class CmdGatherManual extends CommandBase{
         double value = r.inputs.driverJoy.getDial3();
 
         //if the command is coming from the control board use a default value
-        if(!r.inputs.driverJoy.manualIntake()) value = 0.5;
+        if(!r.inputs.driverJoy.manualIntake()) {
+            run = true;
+            value = 0.5;
+        }
         
         //if shift is pressed, run backwards
         if(r.inputs.operatorJoy.shift()) value = -value;
 
         if(r.inputs.operatorJoy.ejectSwitch()){
-            r.intake.intake(-.5);
-            r.cannon.transport(-.5);
+            r.intake.intake(-0.5);
+            r.cannon.transport(-0.5);
         } else if(r.inputs.intakeSpin.get()){
             r.intake.intake(run ? value : 0);
-        } else if(r.inputs.transportSpin.get()){
-            r.cannon.transport(run ? value : 0);
         } else if(r.inputs.fireSpin.get()){
             r.cannon.fire(run ? value : 0);
+        } else if(r.inputs.transportSpin.get()){
+            r.cannon.transport(run ? value : 0);
         }
     }
 
