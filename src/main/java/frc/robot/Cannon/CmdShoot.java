@@ -31,7 +31,7 @@ public class CmdShoot extends SequentialCommandGroup{
             Vector targetPos = Vector.subVectors(r.cannon.cals.targetLocation, r.sensors.botLoc);
             targetPos.theta -= Math.toRadians(r.sensors.botAng);
             
-            zR = r.cannon.cals.kR * targetPos.theta;
+            zR = r.cannon.cals.kR * (targetPos.theta + Math.PI/2);//correct for shooter location
         } else {
             zR = r.inputs.getDrivezR();
         }
