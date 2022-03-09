@@ -125,7 +125,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
     public Trigger manualGather = new Trigger(){
         public boolean get(){
             return driverJoy.manualIntake() || operatorJoy.intake() 
-                    || operatorJoy.kicker() || operatorJoy.fire();
+                    || operatorJoy.kicker() || operatorJoy.fire() || operatorJoy.ejectSwitch();
         }
     };
 
