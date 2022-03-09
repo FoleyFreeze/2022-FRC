@@ -71,7 +71,7 @@ public class OperatorControls extends Controls implements AutoCloseable{
     }
 
     public boolean pitMode(){
-        return checkButton(cals.pitMode);
+        return checkButton(cals.pitMode) && !DriverStation.isFMSAttached();
     }
 
     public boolean intake(){

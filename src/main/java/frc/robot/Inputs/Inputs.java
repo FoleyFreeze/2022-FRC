@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
+import frc.robot.Drive.CalsDrive;
+import frc.robot.Drive.Wheel;
 import frc.robot.Inputs.Controls.DriverControls;
 import frc.robot.Inputs.Controls.OperatorControls;
 import frc.robot.Util.Log;
@@ -195,9 +197,11 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
 
         if(operatorJoy.pitMode()) {
-            r.drive.cals.maxSwervePwr = r.drive.cals.MAX_PIT_PWR;
+            setMaxDrivePower(r.drive.cals.MAX_PIT_PWR);
+        } else if(operatorJoy.climbSwitch()) {
+            setMaxDrivePower(r.drive.cals.maxDrivePowerClimb);
         } else {
-            r.drive.cals.maxSwervePwr = r.drive.cals.MAX_FIELD_PWR;
+            setMaxDrivePower(CalsDrive.MAX_DRIVE_PWR);
         }
 
         Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, true, "has FlySky");
@@ -205,6 +209,12 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
         Log.logDouble(getDriveY(), Log.LOG_GROUPS.INPUTS, 1, true, "input Y");
         Log.logDouble(getDriveX(), Log.LOG_GROUPS.INPUTS, 1, true, "input X");
+    }
+
+    public void setMaxDrivePower(double power){
+        for (Wheel w : r.drive.wheels){
+            w.cals.maxPower = power;
+        }
     }
 
     @Override

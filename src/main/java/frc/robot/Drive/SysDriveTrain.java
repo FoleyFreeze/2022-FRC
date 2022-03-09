@@ -3,6 +3,7 @@ package frc.robot.Drive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
+import frc.robot.Util.Angle;
 import frc.robot.Util.FileManager;
 import frc.robot.Util.Log;
 import frc.robot.Util.Vector;
@@ -100,6 +101,13 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         
         if(inputs.getFieldOrient()){
             xy.theta -= Math.toRadians(r.sensors.botAng);
+        }
+
+        if(inputs.operatorJoy.climbSwitch()){
+            //if climbing, lock orienttion towards drivers station (-90°)
+            double error = Angle.normDeg(-90 - r.sensors.botAng);
+
+            zR = error * cals.climbAngleKp;
         }
 
         //create rotation vectors from wheel angle and rotation axis magnitude
