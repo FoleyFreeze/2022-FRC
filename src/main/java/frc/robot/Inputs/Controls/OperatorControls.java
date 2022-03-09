@@ -51,7 +51,7 @@ public class OperatorControls extends Controls implements AutoCloseable{
     }
 
     public boolean hubSwitch(){
-        return checkButton(cals.highHubSwitch);
+        return checkButtonInverse(cals.highHubSwitch);
     }
 
     public boolean shift(){
@@ -83,6 +83,13 @@ public class OperatorControls extends Controls implements AutoCloseable{
             return controlBoard.getRawButton(button);
         }
         return false;
+    }
+
+    public boolean checkButtonInverse(int button){
+        if(controlBoard != null && controlBoard.isConnected()){
+            return controlBoard.getRawButton(button);
+        }
+        return true;
     }
 
     public double checkAxis(int axis){

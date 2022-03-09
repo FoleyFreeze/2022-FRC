@@ -23,6 +23,7 @@ public class CmdCannonSensorReset extends CommandBase{
     @Override
     public void execute(){
         r.cannon.angleMotor.setPower(r.cannon.cals.sensorResetPwr);
+        r.cannon.resetTimeAngleWasSet();
     }
 
     @Override
@@ -39,5 +40,10 @@ public class CmdCannonSensorReset extends CommandBase{
         } else {
             return Timer.getFPGATimestamp() > startTime + r.cannon.cals.sensorResetTime;
         }
+    }
+
+    @Override
+    public boolean runsWhenDisabled(){
+        return true;
     }
 }

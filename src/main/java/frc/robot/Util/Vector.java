@@ -33,6 +33,14 @@ public class Vector {
         return new Vector(r, theta);
     }
 
+    //returns a vector from y and theta
+    public static Vector fromXT(double x, double theta){
+
+        double r = x / Math.cos(theta);
+
+        return new Vector(r, theta);
+    }
+
     //adds two given vectors using vector addition by breaking into x and y components
     public static Vector addVectors(Vector v1, Vector v2){
 

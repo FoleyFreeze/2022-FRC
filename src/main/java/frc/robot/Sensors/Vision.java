@@ -80,13 +80,14 @@ public class Vision {
                 //gets image start time
                 data.timestamp = now - (((now - currTime) / 2) + 0.5 * calcTime);
 
-                double dist = Double.parseDouble(parts[3]);
+                double x = Double.parseDouble(parts[3]);
                 //note that positive angles for the pi are to the right
                 //even though they are to the left for us
                 double angle = Double.parseDouble(parts[4]);
-                angle += 90; //camera faces y+ which is +90deg
+                
+                data.location = Vector.fromXT(x, Math.toRadians(angle));
+                data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
 
-                data.location = new Vector(dist, Math.toRadians(angle));
                 data.location.add(cals.ballCamLocationL);
 
                 if(Integer.parseInt(parts[5]) == 1){
@@ -129,11 +130,12 @@ public class Vision {
                 //gets image start time
                 data.timestamp = now - (((now - currTime) / 2) + 0.5 * calcTime);
 
-                double dist = Double.parseDouble(parts[3]);
+                double x = Double.parseDouble(parts[3]);
                 double angle = Double.parseDouble(parts[4]);
-                angle -= 90; //cam faces y- direction (-90deg)
 
-                data.location = new Vector(dist, Math.toRadians(angle));
+                data.location = Vector.fromXT(x, Math.toRadians(angle));
+                data.location.theta += Math.toRadians(cals.tgtCamAngle); //shooter faces "x"-
+
                 data.location.add(cals.tgtCamLocation);
 
                 data.type = Type.VISION_TARGET;

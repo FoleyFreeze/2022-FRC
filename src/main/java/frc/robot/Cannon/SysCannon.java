@@ -52,8 +52,22 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                     (cals.shootMaxAngle - cals.shootMinAngle)
                     + cals.shootMinAngle;
             prime(speed, angle);
+        } else if(r.inputs.operatorJoy.hubSwitch()){
+            
+            double ang = cals.LAYUP_SHOOT_ANG;
+            if(r.inputs.operatorJoy.shootForward()){
+                ang = 90 + (90 - ang);
+            }
+
+            prime(cals.LAYUP_SHOOT_SPEED, ang);
         } else {
-            prime(cals.LAYUP_SHOOT_SPEED, cals.LAYUP_SHOOT_ANG);
+
+            double ang = cals.LOW_SHOOT_ANG;
+            if(r.inputs.operatorJoy.shootForward()){
+                ang = 90 + (90 - ang);
+            }
+
+            prime(cals.LOW_SHOOT_SPEED, ang);
         }
     }
 
@@ -212,12 +226,9 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             preLoadRan++;
         }
 
-        /*
         if(Timer.getFPGATimestamp() > timeAngleWasSet + cals.maxAngleSetTime){
             angleMotor.setPower(0);
         }
-        */
-        
     }
 
     @Override

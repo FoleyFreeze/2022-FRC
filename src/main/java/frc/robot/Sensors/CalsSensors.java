@@ -17,6 +17,8 @@ public class CalsSensors {
     public Vector ballCamLocationL = Vector.fromXY(-6, 12.5);
     public Vector ballCamLocationR = Vector.fromXY(11, 12.5);
     public Vector tgtCamLocation = Vector.fromXY(0, 0);
+    public double ballCamAngleL = 90;
+    public double tgtCamAngle = -90;
 
     public CalsSensors(){
 

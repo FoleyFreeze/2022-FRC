@@ -23,6 +23,10 @@ public class CalsIntake {
     public double yPower = 0.2;
     public double kR = 0.7 / Math.PI/2.0;
     public double autoBallMaxPwr = 0.4;
+    public double maxAnglePIDDist = 0.0;
+    public double minCargoDist;
+    public double minCargoXError;
+    public double extraGatherTime = 0.5;
 
     public double intakeTimeOffset = 0.1;
     public double lowFallingTime = 0.3;

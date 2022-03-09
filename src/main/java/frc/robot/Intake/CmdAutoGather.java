@@ -129,16 +129,41 @@ public class CmdAutoGather extends CommandBase{
         double zR;
         Vector xy;
 
-        if(r.inputs.cameraDrive() && r.sensors.hasAlliedCargo() && allowDrive){
+        double prevR = 0;
+        double startTime = 0;
+        boolean startTimeSet = false;
+
+        if(r.inputs.cameraDrive() && allowDrive && r.sensors.hasAlliedCargo()){
+            
             Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
             cargoPos.theta -= Math.toRadians(r.sensors.botAng);
             
             SmartDashboard.putString("BotRelCargo", cargoPos.toStringXY());
+            
+            if(cargoPos.r > r.intake.cals.maxAnglePIDDist){
+                zR = r.intake.cals.kR * (cargoPos.theta - Math.PI/2);//correct for gatherer location
+            } else {
+                zR = 0;
+            }
 
-            zR = r.intake.cals.kR * (cargoPos.theta - Math.PI/2);//correct for gatherer location (y+ or 90deg)
-            x = r.intake.cals.kX * cargoPos.getX();
-            y = Math.max(r.intake.cals.yPower - x - zR, 0);
+            //logic for cargo going too close & out of camera view
+            if(cargoPos.getY() > r.intake.cals.minCargoDist && cargoPos.getX() > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime){
+                x = r.intake.cals.kX * cargoPos.getX();
+                y = Math.max(r.intake.cals.yPower - x - zR, 0);
+                prevR = cargoPos.r;
+                startTimeSet = false;
+            } else {//once the ball is within a certain window of distance, set the power directly
+                if(!startTimeSet){
+                    startTimeSet = true;
+                    startTime = Timer.getFPGATimestamp();
+                }
+                zR = 0;
+                x = 0;
+                y = r.intake.cals.yPower;
+            }
+        
             xy = Vector.fromXY(x, y);
+                
             if(xy.r > r.intake.cals.autoBallMaxPwr){
                 xy.r = r.intake.cals.autoBallMaxPwr;
             }

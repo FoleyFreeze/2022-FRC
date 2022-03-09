@@ -46,6 +46,8 @@ public class CalsCannon {
     public double minVariableShootSpeed = 1000;
     public final double LAYUP_SHOOT_SPEED = 2000;
     public final double LAYUP_SHOOT_ANG = 0;
+    public final double LOW_SHOOT_SPEED = 0;
+    public final double LOW_SHOOT_ANG = 0;
     public final double LAUNCH_PAD_SHOOT_SPEED = 0;
     public final double LAUNCH_PAD_SHOOT_ANG = 0;
     public double jogInitSpeed = 0;
