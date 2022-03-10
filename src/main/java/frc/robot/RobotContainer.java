@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -52,6 +53,7 @@ public class RobotContainer implements AutoCloseable{
 
   public SendableChooser<Integer> posChooser;
   public SendableChooser<Integer> ballCtChooser;
+  public SendableChooser<Double> waitTime;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -78,13 +80,28 @@ public class RobotContainer implements AutoCloseable{
     posChooser.addOption("Right", 2);
 
     ballCtChooser = new SendableChooser<>();
-    ballCtChooser.addOption("1-ball-drive", 0);
-    ballCtChooser.addOption("2-ball", 1);
-    ballCtChooser.addOption("3-ball close", 2);
-    ballCtChooser.addOption("3-ball far", 3);
-    ballCtChooser.addOption("4-ball close", 4);
-    ballCtChooser.addOption("4-ball far", 5);
-    ballCtChooser.addOption("5-ball", 6);
+    ballCtChooser.addOption("nothing!", 0);
+    ballCtChooser.addOption("1-ball", 1);
+    ballCtChooser.addOption("1-ball-drive", 2);
+    ballCtChooser.addOption("2-ball", 3);
+    ballCtChooser.addOption("3-ball close", 4);
+    ballCtChooser.addOption("3-ball far", 5);
+    ballCtChooser.addOption("4-ball close", 6);
+    ballCtChooser.addOption("4-ball far", 7);
+    ballCtChooser.addOption("5-ball", 8);
+
+    waitTime = new SendableChooser<>();
+    waitTime.addOption("0 seconds", 0.0);
+    waitTime.addOption("1 second", 1.0);
+    waitTime.addOption("2 seconds", 2.0);
+    waitTime.addOption("3 seconds", 3.0);
+    waitTime.addOption("4 seconds", 4.0);
+    waitTime.addOption("5 seconds", 5.0);
+    waitTime.addOption("6 seconds", 6.0);
+
+    SmartDashboard.putData(posChooser);
+    SmartDashboard.putData(ballCtChooser);
+    SmartDashboard.putData(waitTime);
   }
 
   /**

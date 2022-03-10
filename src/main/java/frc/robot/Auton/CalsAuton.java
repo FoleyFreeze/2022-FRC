@@ -8,15 +8,17 @@ public class CalsAuton {
     public static double autoShootAngleMaxPwr = 0.3;
     public static double minShootDist = 15;
 
-    public static double primeTime;
-    public static double shootTime;
-    public static double simpleShootFirePwr;
-    public static double simpleShootPrimePwr;
-    public static double simpleShootPrimeAng;
+    public static double primeTime = 0.75;
+    public static double shootTime = 0.5;
+    public static double simpleShootFirePwr = 1;
+    public static double simpleShootPrimeSpeed = 1400;
+    public static double simpleShootPrimeAng = 70;
 
     public static double maxDrivePower = 0.2;
+    public static double maxSwervePower = 0.5;
     public static double minAutoPosError = 12;
     public static double minAutoAngError = 10;
+    public static double autoSwerveKP = 0.01;
 
     public class Position{
         public Vector v;
@@ -31,36 +33,46 @@ public class CalsAuton {
     int arrayLen = 10; //ensure that the position and skip lists are the same length
     Position[][] positionList = {
         { //left start position
-            new Position(Vector.fromXY(0,0), -133.5), //don't move, just shoot (ABS)
+            new Position(Vector.fromXY(-64.5, -64.5), -133.5), //init position
+            null, //simple shoot
+            null, //wait time
+            new Position(Vector.fromXY(48, 0), 0), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(-14.5, -19), -93.6), //grab close ball (REL)
             new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
             new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
         },
 
         { //mid start position
-            new Position(Vector.fromXY(0,0), -46.5), //don't move, just shoot (REL)
+            new Position(Vector.fromXY(64.5, -64.5), -46.5), //init position
+            null, //simple shoot
+            null, //wait time
+            new Position(Vector.fromXY(48, 0), -90), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(16.3, -13.5), -85.0), //grab close ball (REL)
             new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
             new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
         },
 
         { //right start position
-            new Position(Vector.fromXY(0,0), 1.5), //don't move, just shoot (REL)
+            new Position(Vector.fromXY(-14.5, -19), 1.5), //init position
+            null, //simple shoot
+            null, //wait time
+            new Position(Vector.fromXY(48, 0), 90), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(-14.5, -19), -52.0), //grab close ball (REL)
-            new Position(Vector.fromXY(118.3, -77.3), -123),//grab second ball (ABS)
+            new Position(Vector.fromXY(118.3, -77.3), -123), //grab second ball (ABS)
             new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
             new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
         }
     };
     
-    boolean[][] skipLists = {
-        extendFalse(true),
-        extendFalse(),
-        extendFalse(),
-        extendFalse(),
-        extendFalse(),
-        extendFalse(),
-        extendFalse(),
+    boolean[][] todoLists = {
+        extendFalse(true), //do nothing, reset position
+        extendFalse(true, true), //1-ball
+        extendFalse(true, true, true, true), //1-ball, drive
+        extendFalse(true, true, false, false, true), //2-ball
+        extendFalse(true, true, false, false, true, true), //3-ball close
+        extendFalse(true, true, false, false, true, false, true), //3-ball far
+        extendFalse(true, true, false, false, true, true, true, true), //4-ball close
+        extendFalse(true, true, false, false, true, false, true, true), //4-ball far
     };
 
     private boolean[] extendFalse(boolean... val){

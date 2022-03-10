@@ -22,7 +22,7 @@ public class AutonRelDrvGthrShoot extends SequentialCommandGroup{
         this.idx = idx;
         addCommands(getDrive(r, p, idx));
         if(gather) addCommands(new AutonGather(r));
-        if(shoot) addCommands(new AutonShoot(r));  
+        if(shoot) addCommands(new AutonShoot(r));
     }
 
     protected AutonDriveAbsolute getDrive(RobotContainer r, PositionProvider p, int idx){
@@ -31,11 +31,11 @@ public class AutonRelDrvGthrShoot extends SequentialCommandGroup{
 
     @Override
     public void execute(){
-        if(!p.getSkip(idx)) super.execute();
+        if(p.todoList(idx)) super.execute();
     }
 
     @Override
     public boolean isFinished(){
-        return p.getSkip(idx) || super.isFinished();
+        return !p.todoList(idx) || super.isFinished();
     }
 }

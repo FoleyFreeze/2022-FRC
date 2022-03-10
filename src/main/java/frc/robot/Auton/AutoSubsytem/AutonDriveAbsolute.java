@@ -2,7 +2,6 @@ package frc.robot.Auton.AutoSubsytem;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.Auton.AutonSequential;
 import frc.robot.Auton.CalsAuton;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 import frc.robot.Auton.CalsAuton.Position;
@@ -41,7 +40,15 @@ public class AutonDriveAbsolute extends CommandBase {
         if(xy.r > CalsAuton.maxDrivePower){
             xy.r = CalsAuton.maxDrivePower;
         }
-        r.drive.driveSwerve(driveVec, rot);
+        double angle = CalsAuton.autoSwerveKP * (rot - r.sensors.botAng);
+        if(angle > CalsAuton.maxSwervePower){
+            angle = CalsAuton.maxSwervePower;
+        }
+        if(r.inputs.getFieldOrient()){
+            //if we are field oriented, offset so that we stay robot oriented
+            xy.theta += Math.toRadians(r.sensors.botAng);
+        }
+        r.drive.driveSwerve(xy, angle);
     }
 
     @Override

@@ -28,7 +28,7 @@ public class Vision {
     // id, currTime, calcTime, {dist, angle, color} repeat
 
     NetworkTable piTable;
-    CalsSensors cals;
+    public CalsSensors cals;
 
     public Vision(CalsSensors cals){
         this.cals = cals;
