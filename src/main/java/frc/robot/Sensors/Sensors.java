@@ -3,6 +3,7 @@ package frc.robot.Sensors;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -43,6 +44,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public SmartDigitalInput cannonAngleSensor;
 
     public PowerDistribution pdh;
+    public Spark blinken;
 
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
@@ -69,6 +71,8 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         cannonAngleSensor.invert();
 
         pdh = new PowerDistribution();
+
+        blinken = new Spark(9);
     }
 
     @Override
@@ -153,6 +157,23 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putBoolean("Ball Sensor Low", ballSensorLower.get());
         SmartDashboard.putBoolean("Ball Sensor 3", ballSensorTest.get());
         SmartDashboard.putBoolean("Cannon Sensor", cannonAngleSensor.get());
+
+        //lights
+        int ballCt = 0;
+        if(ballSensorLower.get()) ballCt++;
+        if(ballSensorUpper.get()) ballCt++;
+
+        if(DriverStation.isAutonomousEnabled()){
+            blinken.set(LEDs.Fixed_Palette_Pattern_Rainbow_with_Glitter_Pattern_Density_Speed_Brightness);
+        } else if(r.inputs.operatorJoy.climbSwitch()){
+            blinken.set(LEDs.Fixed_Palette_Pattern_Rainbow_Party);
+        } else if(ballCt == 0){
+            blinken.set(LEDs.Solid_Colors_Dark_red);
+        } else if(ballCt == 1){
+            blinken.set(LEDs.Solid_Colors_Orange);
+        } else if(ballCt == 2){
+            blinken.set(LEDs.Solid_Colors_Hot_Pink);
+        }
     }
 
     public void resetAng(){
