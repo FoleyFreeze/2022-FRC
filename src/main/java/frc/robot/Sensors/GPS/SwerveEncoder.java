@@ -80,6 +80,10 @@ public class SwerveEncoder implements AutoCloseable{
         botPos = new Vector(0, botAng);
     }
 
+    public void resetPos(Vector newPos){
+        botPos = new Vector(newPos.r, newPos.theta);
+    }
+
     @Override
     public void close() throws Exception {
 

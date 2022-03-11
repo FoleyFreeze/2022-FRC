@@ -36,7 +36,7 @@ public class AutonSequential extends SequentialCommandGroup{
         };
 
         addCommands(new AutonInitPos(        r, p, 0),              //set initial position
-                    new CmdCannonEasyReset(r),                    //re-zero the shooter
+                    new CmdCannonEasyReset(r),                      //re-zero the shooter
                     new AutonSimpleShoot(    r, p, 1),              //shoot the ball we have
                     new AutonWait(           r, p, 2),              //wait specified time for 1-ball to start driving
                     new AutonRelDrvGthrShoot(r, p, 3, false, false),//move out of zone for 1-ball
@@ -45,6 +45,8 @@ public class AutonSequential extends SequentialCommandGroup{
                     new AutonAbsDrvGthrShoot(r, p, 6, true, false), //move to loading station, gather ball 5
                     new AutonAbsDrvGthrShoot(r, p, 7, false, true)  //move back towards goal, shoot
                     );
+
+        addRequirements(r.cannon, r.intake, r.drive);
     }
 
     @Override

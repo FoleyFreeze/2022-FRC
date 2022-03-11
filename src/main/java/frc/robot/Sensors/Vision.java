@@ -88,7 +88,7 @@ public class Vision {
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
                 data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
 
-                data.location.add(cals.ballCamLocationL);
+                data.location.add(cals.ballCamLocationR);
 
                 if(Integer.parseInt(parts[5]) == 1){
                     data.type = Type.BLUE_CARGO;//blue is true!

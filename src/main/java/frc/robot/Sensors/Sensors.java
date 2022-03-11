@@ -158,6 +158,9 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putBoolean("Ball Sensor 3", ballSensorTest.get());
         SmartDashboard.putBoolean("Cannon Sensor", cannonAngleSensor.get());
 
+        pdh.setSwitchableChannel(false);
+        //pdh.setSwitchableChannel(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon());
+
         //lights
         int ballCt = 0;
         if(ballSensorLower.get()) ballCt++;

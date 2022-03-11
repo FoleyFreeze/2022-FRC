@@ -56,6 +56,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG));
         } else if(r.inputs.driverJoy.layUpShot()){
             prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG));
+        }else if(r.inputs.driverJoy.launchPadShot()){
+                prime(cals.LAUNCH_PAD_SHOOT_SPEED, flip(cals.LAUNCH_PAD_SHOOT_ANG));
         } else{
             prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG));
         }
@@ -218,11 +220,14 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     private double preLoadTimer;
     private int preLoadRan;
+    private boolean climbRan;
     public void periodic(){
         if (cals.DISABLED) return;
 
         SmartDashboard.putNumber("Shooter Angle", getShooterAngle());
         //SmartDashboard.putNumber("Raw ShooterPosition", angleMotor.getPosition());
+        SmartDashboard.putNumber("Shoot jogSpeed", jogSpeed);
+        SmartDashboard.putNumber("Shoot JogAngle", jogAng);
 
         double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
@@ -252,6 +257,14 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         if(Timer.getFPGATimestamp() > timeAngleWasSet + cals.maxAngleSetTime){
             angleMotor.setPower(0);
+        }
+
+
+        if(r.inputs.operatorJoy.climbSwitch() && !climbRan){
+            prime(0, cals.climbCannonAng);
+            climbRan = true;
+        } else if(!r.inputs.operatorJoy.climbSwitch()){
+            climbRan = false;
         }
     }
 

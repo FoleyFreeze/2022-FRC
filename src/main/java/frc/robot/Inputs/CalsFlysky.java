@@ -39,7 +39,7 @@ public class CalsFlysky {
     public final int fieldOrient = TOP_RIGHT_SWITCH;
 
     public final int fireCannon = RIGHT_TRIGGER;
-    public final int cameraShoot = TOP_RIGHT_SWITCH;
+    public final int cameraShoot = TOP_LEFT_SWITCH;
     public final int loadCargo = TOP_RIGHT_LEVER;
     public final int resetCannon = TOP_RIGHT_HAT_RIGHT | TOP_LEFT_HAT_RIGHT;
     public final int sensorResetCannon = TOP_RIGHT_HAT_LEFT | TOP_LEFT_HAT_LEFT;

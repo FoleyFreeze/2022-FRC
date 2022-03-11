@@ -44,13 +44,13 @@ public class CalsCannon {
     public boolean useVariableShootSpeed = false;
     public double maxVariableShootSpeed = 3800;
     public double minVariableShootSpeed = 1000;
-    public final double LAYUP_SHOOT_SPEED = 2000;
-    public final double LAYUP_SHOOT_ANG = 0;
-    public final double LOW_SHOOT_SPEED = 0;
-    public final double LOW_SHOOT_ANG = 0;
-    public final double LAUNCH_PAD_SHOOT_SPEED = 0;
-    public final double LAUNCH_PAD_SHOOT_ANG = 0;
-    public final double TARMAC_SHOOT_SPEED = 1400;
+    public final double LAYUP_SHOOT_SPEED = 1400;
+    public final double LAYUP_SHOOT_ANG = 83;
+    public final double LOW_SHOOT_SPEED = 775;
+    public final double LOW_SHOOT_ANG = 78;
+    public final double LAUNCH_PAD_SHOOT_SPEED = 1800;
+    public final double LAUNCH_PAD_SHOOT_ANG = 57;
+    public final double TARMAC_SHOOT_SPEED = 1375;
     public final double TARMAC_SHOOT_ANG = 70;
     public double jogInitSpeed = 0;
     public double jogSpeedInterval = 25;//rpm
@@ -65,7 +65,7 @@ public class CalsCannon {
     public double wheelOfFirePower = 1;
     public double shootTimeOne = 0.25;
     public double shootTimeTwo = 1;
-    public double minPrimeTime15h = 0.5;
+    public double minPrimeTime15h = 0.7;
     public double minPrimeTimeSpd = 1500;
     public double minPrimeTime21h = 1.1;
     public double maxPrimeTimeSpd = 2100;
@@ -78,6 +78,8 @@ public class CalsCannon {
 
     public double angOffset;
     public double resetAngle = 65;
+
+    public double climbCannonAng = 110;
 
     public double sensorResetAngle = 50;
     public double sensorResetPwr = 0.07;

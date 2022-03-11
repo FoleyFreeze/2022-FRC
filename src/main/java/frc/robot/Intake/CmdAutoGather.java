@@ -172,6 +172,7 @@ public class CmdAutoGather extends CommandBase{
                 //if we are field oriented, offset so that we stay robot oriented
                 xy.theta += Math.toRadians(r.sensors.botAng);
             }
+
         } else {
             zR = r.inputs.getDrivezR();
             x = r.inputs.getDriveX();

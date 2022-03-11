@@ -30,6 +30,12 @@ public class AutonRelDrvGthrShoot extends SequentialCommandGroup{
     }
 
     @Override
+    public void initialize(){
+        super.initialize();
+        System.out.println("Auton " + idx);
+    }
+
+    @Override
     public void execute(){
         if(p.todoList(idx)) super.execute();
     }

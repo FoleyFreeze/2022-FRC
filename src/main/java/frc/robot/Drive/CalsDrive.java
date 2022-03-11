@@ -20,7 +20,7 @@ public class CalsDrive {
 
         public double driveInPerSwerveRotation = -32/18.0 * 15/45.0 * 4*Math.PI;
 
-        public boolean useVelocityControl = true;
+        public boolean useVelocityControl = false;
         public double maxVelocity = 120;//inches per second
     }
 
@@ -46,9 +46,9 @@ public class CalsDrive {
     double kFdr = 0.00017;
     double iLimdr = 0;
     double dFiltdr = 0;
-    public final static double MAX_DRIVE_PWR = 0.6;
+    public final static double MAX_DRIVE_PWR = 1.0;
     public final double MAX_PIT_PWR = 0.2;
-    public double maxDrivePowerClimb = 0.4;
+    public double maxDrivePowerClimb = 0.2;
     double driveRotationsPerInch = 64/18.0 * 18/32.0 * 45/15.0 / 4.0 / Math.PI;
     
     public double climbAngleKp = 0.5 / 90.0; //power per degree of error

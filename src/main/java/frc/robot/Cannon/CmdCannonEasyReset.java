@@ -1,5 +1,6 @@
 package frc.robot.Cannon;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -34,7 +35,7 @@ public class CmdCannonEasyReset extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        if(r.sensors.cannonAngleSensor.get()){
+        if(r.sensors.cannonAngleSensor.get() || DriverStation.isAutonomousEnabled()){
             r.cannon.angleMotor.setEncoderPosition(r.cannon.cals.sensorResetAngle / 360);
             return true;
         } else {
