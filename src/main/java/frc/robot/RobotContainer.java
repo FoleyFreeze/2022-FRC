@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Auton.AutonSequential;
+import frc.robot.Auton.CalsAuton;
 import frc.robot.Cannon.CalsCannon;
 import frc.robot.Cannon.CmdCannonAngleReset;
 import frc.robot.Cannon.CmdLoadSequential;
-import frc.robot.Cannon.CmdCannonSensorReset;
+import frc.robot.Cannon.CmdCannonEasyReset;
 import frc.robot.Cannon.CmdShoot;
 import frc.robot.Cannon.SysCannon;
 import frc.robot.Climber.CalsClimb;
@@ -119,7 +121,13 @@ public class RobotContainer implements AutoCloseable{
     inputs.loadCargo.whileActiveOnce(new CmdLoadSequential(this));
     inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
     inputs.resetCannon.whileActiveOnce(new CmdCannonAngleReset(this));
-    inputs.sensorResetCannon.whenActive(new CmdCannonSensorReset(this));
+    //inputs.sensorResetCannon.whenActive(new CmdCannonSensorReset(this));
+    inputs.sensorResetCannon.whenActive(new CmdCannonEasyReset(this));
+
+    inputs.jogUp.whenActive(new InstantAlwaysCommand(cannon::jogSpeedUp));
+    inputs.jogDn.whenActive(new InstantAlwaysCommand(cannon::jogSpeedDn));
+    inputs.jogLeft.whenActive(new InstantAlwaysCommand(cannon::jogAngBack));
+    inputs.jogRight.whenActive(new InstantAlwaysCommand(cannon::jogAngFwd));
 
     inputs.gather.and(inputs.manualGather.negate()).and(inputs.autoGather.negate()).whileActiveOnce(new CmdGather(this));
     inputs.manualGather.whileActiveOnce(new CmdGatherManual(this));
@@ -133,7 +141,7 @@ public class RobotContainer implements AutoCloseable{
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return new AutonSequential(this, new CalsAuton());
   }
 
   @Override

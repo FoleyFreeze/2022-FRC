@@ -109,6 +109,30 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     };
 
+    public Trigger jogUp = new Trigger(){
+        public boolean get(){
+            return operatorJoy.jogUp();
+        }
+    };
+    
+    public Trigger jogDn = new Trigger(){
+        public boolean get(){
+            return operatorJoy.jogDn();
+        }
+    };
+    
+    public Trigger jogLeft = new Trigger(){
+        public boolean get(){
+            return operatorJoy.jogLeft();
+        }
+    };
+    
+    public Trigger jogRight = new Trigger(){
+        public boolean get(){
+            return operatorJoy.jogRight();
+        }
+    };
+
     public Trigger loadCargo = new Trigger(){
         public boolean get(){
             return driverJoy.loadCargo();

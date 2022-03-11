@@ -41,7 +41,7 @@ public class CalsCannon {
     public double shootMaxAngle = 120;
     public double shootMinAngle = 55;
 
-    public boolean useVariableShootSpeed = true;
+    public boolean useVariableShootSpeed = false;
     public double maxVariableShootSpeed = 3800;
     public double minVariableShootSpeed = 1000;
     public final double LAYUP_SHOOT_SPEED = 2000;
@@ -50,10 +50,12 @@ public class CalsCannon {
     public final double LOW_SHOOT_ANG = 0;
     public final double LAUNCH_PAD_SHOOT_SPEED = 0;
     public final double LAUNCH_PAD_SHOOT_ANG = 0;
+    public final double TARMAC_SHOOT_SPEED = 1400;
+    public final double TARMAC_SHOOT_ANG = 70;
     public double jogInitSpeed = 0;
-    public double jogSpeedInterval = 0;
+    public double jogSpeedInterval = 25;//rpm
     public double jogInitAng = 0;
-    public double jogAngInterval = 0;
+    public double jogAngInterval = 2;//degrees
 
     public double minShootSpeedError = -60;
     public double maxShootSpeedError = 60;

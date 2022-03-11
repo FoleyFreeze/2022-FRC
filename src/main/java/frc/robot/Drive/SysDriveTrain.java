@@ -103,9 +103,9 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
             xy.theta -= Math.toRadians(r.sensors.botAng);
         }
 
-        if(inputs.operatorJoy.climbSwitch()){
+        if(inputs.operatorJoy.climbSwitch() && r.sensors.navX.navX.isConnected()){
             //if climbing, lock orienttion towards drivers station (-90°)
-            double error = Angle.normDeg(-90 - r.sensors.botAng);
+            double error = Angle.normDeg(180 - r.sensors.botAng);
 
             zR = error * cals.climbAngleKp;
         }

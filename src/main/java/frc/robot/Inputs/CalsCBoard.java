@@ -16,6 +16,7 @@ public class CalsCBoard {
     public final int pitMode = 4;
     public final int intake = 3;
     public final int highHubSwitch = 10;
+    
 
     public CalsCBoard(){
 

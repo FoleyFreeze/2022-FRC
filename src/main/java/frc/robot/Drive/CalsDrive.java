@@ -51,7 +51,7 @@ public class CalsDrive {
     public double maxDrivePowerClimb = 0.4;
     double driveRotationsPerInch = 64/18.0 * 18/32.0 * 45/15.0 / 4.0 / Math.PI;
     
-    public double climbAngleKp = -1 / 90.0; //power per degree of error
+    public double climbAngleKp = 0.5 / 90.0; //power per degree of error
 
     public boolean fieldOriented;
     

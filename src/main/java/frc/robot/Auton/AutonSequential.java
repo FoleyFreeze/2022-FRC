@@ -6,7 +6,7 @@ import frc.robot.Auton.AutoSubsytem.AutonInitPos;
 import frc.robot.Auton.AutoSubsytem.AutonSimpleShoot;
 import frc.robot.Auton.AutoSubsytem.AutonWait;
 import frc.robot.Auton.CalsAuton.Position;
-import frc.robot.Cannon.CmdCannonSensorReset;
+import frc.robot.Cannon.CmdCannonEasyReset;
 
 public class AutonSequential extends SequentialCommandGroup{
     
@@ -36,7 +36,7 @@ public class AutonSequential extends SequentialCommandGroup{
         };
 
         addCommands(new AutonInitPos(        r, p, 0),              //set initial position
-                    new CmdCannonSensorReset(r),                    //re-zero the shooter
+                    new CmdCannonEasyReset(r),                    //re-zero the shooter
                     new AutonSimpleShoot(    r, p, 1),              //shoot the ball we have
                     new AutonWait(           r, p, 2),              //wait specified time for 1-ball to start driving
                     new AutonRelDrvGthrShoot(r, p, 3, false, false),//move out of zone for 1-ball
@@ -49,8 +49,7 @@ public class AutonSequential extends SequentialCommandGroup{
 
     @Override
     public void initialize() {
-        super.initialize();
-
+        
         positionList = cals.positionList[r.posChooser.getSelected()];
         todoList = cals.todoLists[r.ballCtChooser.getSelected()];
         waitTime = r.waitTime.getSelected();
@@ -63,6 +62,8 @@ public class AutonSequential extends SequentialCommandGroup{
                 if(r.posChooser.getSelected() != 2) todoList = cals.todoLists[0]; 
             break;
         }
+
+        super.initialize();
     }
 
 }

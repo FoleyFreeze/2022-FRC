@@ -167,6 +167,14 @@ public class DriverControls extends Controls implements AutoCloseable{
         return checkButtons(joystick, activeCals.fireSpin);
     }
 
+    public boolean layUpShot(){
+        return checkButtons(joystick, activeCals.BOT_RIGHT_3POS_UP);
+    }
+    
+    public boolean launchPadShot(){
+        return checkButtons(joystick, activeCals.BOT_RIGHT_3POS_DOWN);
+    }
+
     @Override
     public void close() throws Exception {
         if(joystick != null){

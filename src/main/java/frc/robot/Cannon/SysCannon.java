@@ -52,22 +52,12 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                     (cals.shootMaxAngle - cals.shootMinAngle)
                     + cals.shootMinAngle;
             prime(speed, angle);
-        } else if(r.inputs.operatorJoy.hubSwitch()){
-
-            double ang = cals.LAYUP_SHOOT_ANG;
-            if(r.inputs.operatorJoy.shootForward()){
-                ang = 180 - ang;//point shooter the other way
-            }
-
-            prime(cals.LAYUP_SHOOT_SPEED, ang);
-        } else {
-
-            double ang = cals.LOW_SHOOT_ANG;
-            if(r.inputs.operatorJoy.shootForward()){
-                ang = 180 - ang;//point shooter the other way
-            }
-
-            prime(cals.LOW_SHOOT_SPEED, ang);
+        } else if(!r.inputs.operatorJoy.hubSwitch()){
+            prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG));
+        } else if(r.inputs.driverJoy.layUpShot()){
+            prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG));
+        } else{
+            prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG));
         }
     }
 
@@ -88,6 +78,13 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         setAngle(angle + jogAng - cals.angOffset);
         setSpeed(speed + jogSpeed, speed + jogSpeed);
+    }
+
+    double flip(double ang){
+        if(r.inputs.operatorJoy.shootForward()){
+            return 180 - ang;//point shooter the other way
+        }
+        return ang;
     }
 
     public void fire(double power){
@@ -170,13 +167,29 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         }
     }
 
-    public void jogAng(boolean right){
+    public void jogSpeedUp(){
+        jogSpeed(true);
+    }
+
+    public void jogSpeedDn(){
+        jogSpeed(false);
+    }
+
+    public void jogAng(boolean forward){
         if (cals.DISABLED) return;
-        if(right){
+        if(forward){
             jogAng += cals.jogAngInterval;
         } else {
             jogAng -= cals.jogAngInterval;
         }
+    }
+
+    public void jogAngFwd(){
+        jogAng(true);
+    }
+
+    public void jogAngBack(){
+        jogAng(false);
     }
 
     public double getShooterAngle(){
@@ -209,7 +222,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         if (cals.DISABLED) return;
 
         SmartDashboard.putNumber("Shooter Angle", getShooterAngle());
-        SmartDashboard.putNumber("Raw ShooterPosition", angleMotor.getPosition());
+        //SmartDashboard.putNumber("Raw ShooterPosition", angleMotor.getPosition());
 
         double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)

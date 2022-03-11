@@ -139,7 +139,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     break;
                 case VISION_TARGET:
                     SmartDashboard.putString("LastTargetLoc", vd.location.toStringXY());
-                
+                    target = vd;
                     //maybe do a blend or something based on percieved accuracy of the image
                     camera.updateArray(target.location, r.cannon.getShooterAngle());
 
