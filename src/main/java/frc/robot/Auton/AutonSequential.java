@@ -56,6 +56,7 @@ public class AutonSequential extends SequentialCommandGroup{
         todoList = cals.todoLists[r.ballCtChooser.getSelected()];
         waitTime = r.waitTime.getSelected();
 
+        /*
         switch(r.ballCtChooser.getSelected()){
             case 2: //3ball close
             case 4: //4ball close
@@ -64,6 +65,7 @@ public class AutonSequential extends SequentialCommandGroup{
                 if(r.posChooser.getSelected() != 2) todoList = cals.todoLists[0]; 
             break;
         }
+        */
 
         super.initialize();
     }

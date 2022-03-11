@@ -78,8 +78,14 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void prime(double speed, double angle){
         if (cals.DISABLED) return;
 
+        if(speed == 0){
+            setPower(0, 0);
+        } else {
+            setSpeed(speed + jogSpeed, speed + jogSpeed);
+        }
+
         setAngle(angle + jogAng - cals.angOffset);
-        setSpeed(speed + jogSpeed, speed + jogSpeed);
+        
     }
 
     double flip(double ang){
@@ -123,8 +129,12 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void setSpeed(double ccwSpeed, double cwSpeed){
         if (cals.DISABLED) return;
 
-        ccwMotor.setSpeed(ccwSpeed);
-         cwMotor.setSpeed(cwSpeed);
+        if(ccwSpeed ==0 && cwSpeed == 0){
+            setPower(0, 0);
+        } else {
+            ccwMotor.setSpeed(ccwSpeed);
+            cwMotor.setSpeed(cwSpeed);
+        }
 
         speedSetpoint = Math.max(ccwSpeed, cwSpeed);
     }
@@ -220,7 +230,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     private double preLoadTimer;
     private int preLoadRan;
-    private boolean climbRan;
+    private int climbRan;
     public void periodic(){
         if (cals.DISABLED) return;
 
@@ -260,11 +270,11 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         }
 
 
-        if(r.inputs.operatorJoy.climbSwitch() && !climbRan){
+        if(r.inputs.operatorJoy.climbSwitch() && climbRan < 50){
             prime(0, cals.climbCannonAng);
-            climbRan = true;
+            climbRan++;
         } else if(!r.inputs.operatorJoy.climbSwitch()){
-            climbRan = false;
+            climbRan = 0;
         }
     }
 

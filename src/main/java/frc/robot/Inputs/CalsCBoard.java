@@ -9,7 +9,7 @@ public class CalsCBoard {
     //public final int turboSwitch = 9;
     public final int shift = 7;
     //jog is the pov hat
-    public final int shootSwitchAxis = 3; //+1 is Front, -1 is Back
+    public final int shootSwitchAxis = 1; //+1 is Front, -1 is Back
     public final int shoot = 5;
     public final int kicker = 1;
     public final int transporter = 2;

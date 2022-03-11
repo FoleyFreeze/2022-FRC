@@ -7,6 +7,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
 public class NavX implements AutoCloseable {
@@ -34,7 +35,7 @@ public class NavX implements AutoCloseable {
         if(isDisabled) return 0;
 
         SmartDashboard.putBoolean("NavX connected", navX.isConnected());
-        return -navX.getYaw() + prevAng;
+        return Angle.normDeg(-navX.getYaw() + prevAng);
         /*
         if(navX.isConnected()){
             return -navX.getYaw() + prevAng;

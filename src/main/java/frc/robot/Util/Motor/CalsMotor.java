@@ -25,9 +25,16 @@ public class CalsMotor {
     public boolean invert;
     public boolean brake;
 
+    public double rampRate;
+
     public CalsMotor(MotorType t, int channel){
         type = t;
         this.channel = channel;
+    }
+
+    public CalsMotor setRamp(double r){
+        rampRate = r;
+        return this;
     }
 
     public CalsMotor setEncUnits(double ticksPerUnit){
