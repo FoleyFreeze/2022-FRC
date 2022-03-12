@@ -1,6 +1,7 @@
 package frc.robot.Auton.AutoSubsytem;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.CalsAuton;
@@ -19,7 +20,7 @@ public class AutonDriveAbsolute extends CommandBase {
     PositionProvider p;
     int idx;
 
-    double timer = 2;
+    double timer = 5;
     double starttime = 0;
 
     public AutonDriveAbsolute(RobotContainer r, PositionProvider p, int idx){
@@ -42,6 +43,8 @@ public class AutonDriveAbsolute extends CommandBase {
     @Override
     public void execute(){
         Vector xy = Vector.subVectors(driveVec, r.sensors.botLoc);
+        SmartDashboard.putString("AutoDriveRem",xy.toStringXY());
+
         if(xy.r > CalsAuton.maxDrivePower){
             xy.r = CalsAuton.maxDrivePower;
         }
@@ -50,9 +53,9 @@ public class AutonDriveAbsolute extends CommandBase {
             angle = CalsAuton.maxSwervePower;
         }
 
-        if(r.inputs.getFieldOrient()){
-            //if we are field oriented, offset so that we stay robot oriented
-            xy.theta += Math.toRadians(r.sensors.botAng);
+        if(!r.inputs.getFieldOrient()){
+            //if we are not field oriented, act field oriented
+            xy.theta -= Math.toRadians(r.sensors.botAng);
         }
         r.drive.driveSwerve(xy, angle);
     }

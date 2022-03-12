@@ -44,6 +44,7 @@ public class SparkMotor implements Motor{
         pidController.setOutputRange(-cals.powerLimitMax, cals.powerLimitMax);
 
         motor.setOpenLoopRampRate(cals.rampRate);
+        motor.setClosedLoopRampRate(cals.rampRate);
     }
 
     public void setPower(double power){

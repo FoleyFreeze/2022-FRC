@@ -41,6 +41,7 @@ public class AutonShoot extends SequentialCommandGroup{
                 xy = new Vector(0, -0.3);
             }
 
+        //r.sensors.pdh.setSwitchableChannel(true);
         r.drive.driveSwerve(xy, zR);
     }
 }

@@ -10,6 +10,7 @@ public class AutonGather extends ParallelRaceGroup {
     boolean topBall;
 
     public AutonGather(RobotContainer r){
+        this.r = r;
         addCommands(new CmdAutoGather(r));
     }
 

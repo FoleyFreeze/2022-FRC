@@ -16,9 +16,9 @@ public class CalsAuton {
 
     public static double maxDrivePower = 0.20;
     public static double maxSwervePower = 0.20;
-    public static double minAutoPosError = 12;
+    public static double minAutoPosError = 6;
     public static double minAutoAngError = 10;
-    public static double autoSwerveKP = 0.005;
+    public static double autoSwerveKP = 0.01;
 
     public class Position{
         public Vector v;
@@ -57,11 +57,12 @@ public class CalsAuton {
         },
 
         { //right start position
-            new Position(Vector.fromXY(-14.5, -19), 1.5 - 90), //init position
+            new Position(Vector.fromXY(91.2, 4.9), 1.5 - 90), //init position
             null, //simple shoot
             null, //wait time
             new Position(Vector.fromXY(48, 0), -90), //move after 1-ball auton (REL)
-            new Position(Vector.fromXY(-14.5, -19), -52.0 - 90), //grab close ball (REL)
+            //new Position(Vector.fromXY(27, -4), -52.0 - 90), //grab close ball (REL)
+            new Position(Vector.fromXY(50, -4), 180), //grab close ball (REL)
             new Position(Vector.fromXY(118.3, -77.3), -123 - 90), //grab second ball (ABS)
             new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
             new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
