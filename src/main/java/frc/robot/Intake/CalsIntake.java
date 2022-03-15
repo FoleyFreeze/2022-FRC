@@ -19,13 +19,13 @@ public class CalsIntake {
     public double intakeSpeed = 0.5;
     public double reverseSpeed = -0.5;
 
-    public double kX = 0.05;
+    public double kX = 0.1;
     public double yPower = 0.2;
-    public double kR = 0.7 / Math.PI/2.0;
-    public double autoBallMaxPwr = 0.4;
-    public double maxAnglePIDDist = 0.0;
-    public double minCargoDist;
-    public double minCargoXError;
+    public double kR = 1.5 / Math.PI/2.0;
+    public double autoBallMaxPwr = 0.2;
+    public double maxAnglePIDDist = 36.0;
+    public double minCargoDist = 20;
+    public double minCargoXError = 1;
     public double extraGatherTime = 0.5;
 
     public double intakeTimeOffset = 0.1;

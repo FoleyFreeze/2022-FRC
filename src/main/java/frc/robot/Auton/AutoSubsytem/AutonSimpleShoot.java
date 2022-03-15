@@ -27,13 +27,14 @@ public class AutonSimpleShoot extends CommandBase{
     public void initialize(){
         startTime = Timer.getFPGATimestamp();
         twoBalls = r.sensors.ballSensorLower.get();
+        System.out.println("Auton " + idx);
     }
 
     @Override
     public void execute(){
         if(p.todoList(idx)){
             r.cannon.prime(CalsAuton.simpleShootPrimeSpeed, CalsAuton.simpleShootPrimeAng);
-            if(startTime + Timer.getFPGATimestamp() > CalsAuton.primeTime){
+            if(Timer.getFPGATimestamp() > CalsAuton.primeTime + startTime){
                 r.cannon.fire(CalsAuton.simpleShootFirePwr);
             }
         }
@@ -41,6 +42,12 @@ public class AutonSimpleShoot extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return startTime + Timer.getFPGATimestamp() > CalsAuton.shootTime || !p.todoList(idx);
+        return Timer.getFPGATimestamp() > startTime + CalsAuton.shootTime || !p.todoList(idx);
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        r.cannon.setSpeed(0, 0);
+        r.cannon.fire(0);
     }
 }

@@ -18,7 +18,15 @@ public class AutonInitPos extends CommandBase{
 
     @Override
     public void initialize(){
-        r.sensors.botLoc = p.getPosition(idx).v;
-        r.sensors.botAng = p.getPosition(idx).a;
+        //r.sensors.botLoc = p.getPosition(idx).v;
+        //r.sensors.botAng = p.getPosition(idx).a;
+        r.sensors.navX.overrideAng(p.getPosition(idx).a);
+        r.sensors.encoders.resetPos(p.getPosition(idx).v);
+        System.out.println("Auton " + idx);
+    }
+
+    @Override
+    public boolean isFinished(){
+        return true;
     }
 }

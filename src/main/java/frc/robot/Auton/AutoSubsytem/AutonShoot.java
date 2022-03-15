@@ -1,5 +1,9 @@
 package frc.robot.Auton.AutoSubsytem;
 
+import java.util.function.DoubleSupplier;
+
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.CalsAuton;
@@ -11,13 +15,18 @@ import frc.robot.Util.Vector;
 public class AutonShoot extends SequentialCommandGroup{
 
     RobotContainer r;
+    DoubleSupplier ds = new DoubleSupplier(){
+        public double getAsDouble(){
+            return 0;
+        }
+    };
 
     public AutonShoot(RobotContainer r){
         this.r = r;
         addRequirements(r.cannon);
         addRequirements(r.drive);
 
-        addCommands(new SequentialCommandGroup(new CmdPrime(r), new CmdFire(r)));
+        addCommands(new SequentialCommandGroup(new CmdPrime(r, ds), new CmdFire(r)));
     }
 
     private double getTurnPwr(double tgtAng){
@@ -41,6 +50,7 @@ public class AutonShoot extends SequentialCommandGroup{
                 xy = new Vector(0, -0.3);
             }
 
+        //r.sensors.pdh.setSwitchableChannel(true);
         r.drive.driveSwerve(xy, zR);
     }
 }

@@ -34,26 +34,28 @@ public class CalsCannon {
     public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 12).invert().brake();
     public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5).invert().brake();
     
-    public double[] distances = {0, 0, 0, 0};
-    public double[] angles = {0, 0, 0, 0};
-    public double[] speeds = {0, 0, 0, 0};
+    public double[] distances = {20, 50};
+    public double[] angles = {70,70};
+    public double[] speeds = {1375,1375};
 
     public double shootMaxAngle = 120;
     public double shootMinAngle = 55;
 
-    public boolean useVariableShootSpeed = true;
+    public boolean useVariableShootSpeed = false;
     public double maxVariableShootSpeed = 3800;
     public double minVariableShootSpeed = 1000;
-    public final double LAYUP_SHOOT_SPEED = 2000;
-    public final double LAYUP_SHOOT_ANG = 0;
-    public final double LOW_SHOOT_SPEED = 0;
-    public final double LOW_SHOOT_ANG = 0;
-    public final double LAUNCH_PAD_SHOOT_SPEED = 0;
-    public final double LAUNCH_PAD_SHOOT_ANG = 0;
+    public final double LAYUP_SHOOT_SPEED = 1400;
+    public final double LAYUP_SHOOT_ANG = 83;
+    public final double LOW_SHOOT_SPEED = 775;
+    public final double LOW_SHOOT_ANG = 78;
+    public final double LAUNCH_PAD_SHOOT_SPEED = 1800;
+    public final double LAUNCH_PAD_SHOOT_ANG = 57;
+    public final double TARMAC_SHOOT_SPEED = 1375;
+    public final double TARMAC_SHOOT_ANG = 70;
     public double jogInitSpeed = 0;
-    public double jogSpeedInterval = 0;
+    public double jogSpeedInterval = 25;//rpm
     public double jogInitAng = 0;
-    public double jogAngInterval = 0;
+    public double jogAngInterval = 2;//degrees
 
     public double minShootSpeedError = -60;
     public double maxShootSpeedError = 60;
@@ -63,7 +65,7 @@ public class CalsCannon {
     public double wheelOfFirePower = 1;
     public double shootTimeOne = 0.25;
     public double shootTimeTwo = 1;
-    public double minPrimeTime15h = 0.5;
+    public double minPrimeTime15h = 0.7;
     public double minPrimeTimeSpd = 1500;
     public double minPrimeTime21h = 1.1;
     public double maxPrimeTimeSpd = 2100;
@@ -77,12 +79,16 @@ public class CalsCannon {
     public double angOffset;
     public double resetAngle = 65;
 
+    public double climbCannonAng = 110;
+
     public double sensorResetAngle = 50;
     public double sensorResetPwr = 0.07;
     public double sensorResetTime = 5;
 
     public Vector targetLocation = Vector.fromXY(0, 0);
-    public double kR = 0;
+    public double kR = 0.01;
+    public double maxPower = 0.2;
+    public double kDr = 0;
 
     public CalsCannon(){
 

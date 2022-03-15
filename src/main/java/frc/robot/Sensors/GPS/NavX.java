@@ -4,8 +4,10 @@ import com.kauailabs.navx.frc.AHRS;
 import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
 public class NavX implements AutoCloseable {
@@ -20,19 +22,20 @@ public class NavX implements AutoCloseable {
     public NavX(){
         if(isDisabled) return;
 
-        navX = new AHRS(SerialPort.Port.kUSB, SerialDataType.kProcessedData, (byte)50);
-        
+        //navX = new AHRS(SerialPort.Port.kUSB, SerialDataType.kProcessedData, (byte)50);
+        navX = new AHRS(SPI.Port.kMXP);
+
         if(navX.isConnected()){
             navX.calibrate();
             navX.zeroYaw();
         }
     }
-    
+
     public double getFieldOrientAngle(){
         if(isDisabled) return 0;
 
         SmartDashboard.putBoolean("NavX connected", navX.isConnected());
-        return -navX.getYaw() + prevAng;
+        return Angle.normDeg(-navX.getYaw() + prevAng);
         /*
         if(navX.isConnected()){
             return -navX.getYaw() + prevAng;

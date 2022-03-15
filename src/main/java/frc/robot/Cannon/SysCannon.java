@@ -52,22 +52,14 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                     (cals.shootMaxAngle - cals.shootMinAngle)
                     + cals.shootMinAngle;
             prime(speed, angle);
-        } else if(r.inputs.operatorJoy.hubSwitch()){
-
-            double ang = cals.LAYUP_SHOOT_ANG;
-            if(r.inputs.operatorJoy.shootForward()){
-                ang = 180 - ang;//point shooter the other way
-            }
-
-            prime(cals.LAYUP_SHOOT_SPEED, ang);
-        } else {
-
-            double ang = cals.LOW_SHOOT_ANG;
-            if(r.inputs.operatorJoy.shootForward()){
-                ang = 180 - ang;//point shooter the other way
-            }
-
-            prime(cals.LOW_SHOOT_SPEED, ang);
+        } else if(!r.inputs.operatorJoy.hubSwitch()){
+            prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG));
+        } else if(r.inputs.driverJoy.layUpShot()){
+            prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG));
+        }else if(r.inputs.driverJoy.launchPadShot()){
+                prime(cals.LAUNCH_PAD_SHOOT_SPEED, flip(cals.LAUNCH_PAD_SHOOT_ANG));
+        } else{
+            prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG));
         }
     }
 
@@ -86,8 +78,21 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void prime(double speed, double angle){
         if (cals.DISABLED) return;
 
+        if(speed == 0){
+            setPower(0, 0);
+        } else {
+            setSpeed(speed + jogSpeed, speed + jogSpeed);
+        }
+
         setAngle(angle + jogAng - cals.angOffset);
-        setSpeed(speed + jogSpeed, speed + jogSpeed);
+        
+    }
+
+    double flip(double ang){
+        if(r.inputs.operatorJoy.shootForward()){
+            return 180 - ang;//point shooter the other way
+        }
+        return ang;
     }
 
     public void fire(double power){
@@ -124,8 +129,12 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void setSpeed(double ccwSpeed, double cwSpeed){
         if (cals.DISABLED) return;
 
-        ccwMotor.setSpeed(ccwSpeed);
-         cwMotor.setSpeed(cwSpeed);
+        if(ccwSpeed ==0 && cwSpeed == 0){
+            setPower(0, 0);
+        } else {
+            ccwMotor.setSpeed(ccwSpeed);
+            cwMotor.setSpeed(cwSpeed);
+        }
 
         speedSetpoint = Math.max(ccwSpeed, cwSpeed);
     }
@@ -170,13 +179,29 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         }
     }
 
-    public void jogAng(boolean right){
+    public void jogSpeedUp(){
+        jogSpeed(true);
+    }
+
+    public void jogSpeedDn(){
+        jogSpeed(false);
+    }
+
+    public void jogAng(boolean forward){
         if (cals.DISABLED) return;
-        if(right){
+        if(forward){
             jogAng += cals.jogAngInterval;
         } else {
             jogAng -= cals.jogAngInterval;
         }
+    }
+
+    public void jogAngFwd(){
+        jogAng(true);
+    }
+
+    public void jogAngBack(){
+        jogAng(false);
     }
 
     public double getShooterAngle(){
@@ -205,11 +230,14 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     private double preLoadTimer;
     private int preLoadRan;
+    private int climbRan;
     public void periodic(){
         if (cals.DISABLED) return;
 
         SmartDashboard.putNumber("Shooter Angle", getShooterAngle());
-        SmartDashboard.putNumber("Raw ShooterPosition", angleMotor.getPosition());
+        //SmartDashboard.putNumber("Raw ShooterPosition", angleMotor.getPosition());
+        SmartDashboard.putNumber("Shoot jogSpeed", jogSpeed);
+        SmartDashboard.putNumber("Shoot JogAngle", jogAng);
 
         double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
@@ -239,6 +267,14 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         if(Timer.getFPGATimestamp() > timeAngleWasSet + cals.maxAngleSetTime){
             angleMotor.setPower(0);
+        }
+
+
+        if(r.inputs.operatorJoy.climbSwitch() && climbRan < 50){
+            prime(0, cals.climbCannonAng);
+            climbRan++;
+        } else if(!r.inputs.operatorJoy.climbSwitch()){
+            climbRan = 0;
         }
     }
 

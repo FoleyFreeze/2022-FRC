@@ -9,14 +9,14 @@ public class CalsAuton {
     public static double minShootDist = 15;
 
     public static double primeTime = 0.75;
-    public static double shootTime = 0.5;
+    public static double shootTime = 1.0;
     public static double simpleShootFirePwr = 1;
-    public static double simpleShootPrimeSpeed = 1400;
+    public static double simpleShootPrimeSpeed = 1375;
     public static double simpleShootPrimeAng = 70;
 
-    public static double maxDrivePower = 0.2;
-    public static double maxSwervePower = 0.5;
-    public static double minAutoPosError = 12;
+    public static double maxDrivePower = 0.20;
+    public static double maxSwervePower = 0.20;
+    public static double minAutoPosError = 6;
     public static double minAutoAngError = 10;
     public static double autoSwerveKP = 0.01;
 
@@ -33,34 +33,39 @@ public class CalsAuton {
     int arrayLen = 10; //ensure that the position and skip lists are the same length
     Position[][] positionList = {
         { //left start position
-            new Position(Vector.fromXY(-64.5, -64.5), -133.5), //init position
+            new Position(Vector.fromXY(-64.5, -64.5), -133.5 -90), //init position
             null, //simple shoot
             null, //wait time
-            new Position(Vector.fromXY(48, 0), 0), //move after 1-ball auton (REL)
-            new Position(Vector.fromXY(-14.5, -19), -93.6), //grab close ball (REL)
-            new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
-            new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
+            new Position(Vector.fromXY(-48, -48), 160), //move after 1-ball auton (REL)
+            new Position(Vector.fromXY(-14.5, -19), -93.6 - 90), //grab close ball (REL)
+            //NOTE THE BELOW POSITION MIGHT BE WRONG
+            new Position(Vector.fromXY(118.3, -77.3), -123 - 90), //grab second ball (ABS)
+            new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
+            new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
         },
 
         { //mid start position
-            new Position(Vector.fromXY(64.5, -64.5), -46.5), //init position
+            new Position(Vector.fromXY(64.5, -64.5), -46.5 - 90), //init position
             null, //simple shoot
             null, //wait time
-            new Position(Vector.fromXY(48, 0), -90), //move after 1-ball auton (REL)
-            new Position(Vector.fromXY(16.3, -13.5), -85.0), //grab close ball (REL)
-            new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
-            new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
+            new Position(Vector.fromXY(0, -48), -90 -90), //move after 1-ball auton (REL)
+            new Position(Vector.fromXY(16.3, -13.5), -85.0 - 90), //grab close ball (REL)
+            //NOTE THE BELOW POSITION MIGHT BE WRONG
+            new Position(Vector.fromXY(118.3, -77.3), -123 - 90), //grab second ball (ABS)
+            new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
+            new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
         },
 
         { //right start position
-            new Position(Vector.fromXY(-14.5, -19), 1.5), //init position
+            new Position(Vector.fromXY(91.2, 4.9), 1.5 - 90), //init position
             null, //simple shoot
             null, //wait time
-            new Position(Vector.fromXY(48, 0), 90), //move after 1-ball auton (REL)
-            new Position(Vector.fromXY(-14.5, -19), -52.0), //grab close ball (REL)
-            new Position(Vector.fromXY(118.3, -77.3), -123), //grab second ball (ABS)
-            new Position(Vector.fromXY(76.2, -239.4), -45), //move to loading station (ABS)
-            new Position(Vector.fromXY(40.0, -110.0), 112), //go back to shoot again (ABS)
+            new Position(Vector.fromXY(48, 0), -90), //move after 1-ball auton (REL)
+            //new Position(Vector.fromXY(27, -4), -52.0 - 90), //grab close ball (REL)
+            new Position(Vector.fromXY(50, -4), 180), //grab close ball (REL)
+            new Position(Vector.fromXY(118.3, -77.3), -123 - 90), //grab second ball (ABS)
+            new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
+            new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
         }
     };
     

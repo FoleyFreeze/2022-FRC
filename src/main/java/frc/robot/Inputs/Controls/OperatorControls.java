@@ -83,6 +83,22 @@ public class OperatorControls extends Controls implements AutoCloseable{
         return checkButton(cals.intake);
     }
 
+    public boolean jogUp(){
+        return checkPOV() == 0;
+    }
+
+    public boolean jogDn(){
+        return checkPOV() == 180;
+    }
+
+    public boolean jogLeft(){
+        return checkPOV() == 270;
+    }
+
+    public boolean jogRight(){
+        return checkPOV() == 90;
+    }
+
     public boolean checkButton(int button){
         if(controlBoard != null && controlBoard.isConnected()){
             return controlBoard.getRawButton(button);
@@ -102,6 +118,13 @@ public class OperatorControls extends Controls implements AutoCloseable{
             return controlBoard.getRawAxis(axis);
         }
         return 0;
+    }
+
+    public int checkPOV(){
+        if(controlBoard != null && controlBoard.isConnected()){
+            return controlBoard.getPOV();
+        }
+        return -1;
     }
 
     @Override

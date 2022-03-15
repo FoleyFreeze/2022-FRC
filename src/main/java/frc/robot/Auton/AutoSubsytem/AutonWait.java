@@ -22,6 +22,7 @@ public class AutonWait extends CommandBase{
     @Override
     public void initialize(){
         if(p.todoList(idx)) startTime = Timer.getFPGATimestamp();
+        System.out.println("Auton " + idx);
     }
 
     @Override
