@@ -56,16 +56,21 @@ public class AutonDriveAbsolute extends CommandBase {
         r.drive.driveSwerve(new Vector(0,0), 0);
     }
 
+    Vector prevLoc;
+    double prevDelta;
     @Override
     public boolean isFinished(){
         if(driveVec == null) return true;
 
-        Vector deltaPos = Vector.subVectors(driveVec, r.sensors.botLoc);
-        boolean driveDone = Math.abs(deltaPos.r) < CalsAuton.minAutoPosError;
+        Vector currentLoc = r.sensors.botLoc;
+        double delta = Math.abs(currentLoc.r - prevLoc.r);
+        boolean driveDone = delta > prevDelta;
 
         double deltaAng = Angle.normDeg(rot - r.sensors.botAng);
         boolean angleDone = deltaAng < CalsAuton.minAutoAngError;
 
+        prevLoc = currentLoc;
+        prevDelta = delta;
         return driveDone && angleDone;
     }
 }
