@@ -125,27 +125,40 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         int count = 0;
         while(!vision.visionQueue.isEmpty() && count++ < 1){
             VisionData vd = vision.visionQueue.poll();
-            camera.imgToLocation(vd);
+            //camera.imgToLocation(vd);
             switch(vd.type){
                 case BLUE_CARGO:
+                    camera.imgToLocation(vd);
                     SmartDashboard.putString("LastBlueLoc", vd.location.toStringXY());
                     if(isOnRedTeam) opponentCargo = vd;
                     else alliedCargo = vd;
                     break;
                 case RED_CARGO:
+                    camera.imgToLocation(vd);
                     SmartDashboard.putString("LastRedLoc", vd.location.toStringXY());
                     if(!isOnRedTeam) opponentCargo = vd;
                     else alliedCargo = vd;
                     break;
                 case VISION_TARGET:
                     SmartDashboard.putString("LastTargetLoc", vd.location.toStringXY());
+                    
+
+                    SmartDashboard.putNumber("RawAngle", Math.toDegrees(vd.location.theta));
+
+                    //vd.location.theta += Math.toRadians(botAng);
+                    vd.angle = botAng;
+                    SmartDashboard.putNumber("FieldAngle", Math.toDegrees(vd.location.theta) + vd.angle);
+
                     target = vd;
+                    //reset robot position
+                    //encoders.resetPos(Vector.subVectors(new Vector(0,0), target.location));
+
                     //maybe do a blend or something based on percieved accuracy of the image
-                    camera.updateArray(target.location, r.cannon.getShooterAngle());
+                    //camera.updateArray(target.location, r.cannon.getShooterAngle());
 
                     //also remove any error that was present in the calculated cargo locations
-                    if(alliedCargo != null) alliedCargo.location.add(target.location);
-                    if(opponentCargo != null) opponentCargo.location.add(target.location);
+                    //if(alliedCargo != null) alliedCargo.location.add(target.location);
+                    //if(opponentCargo != null) opponentCargo.location.add(target.location);
                     break;
             }
         }
@@ -158,8 +171,8 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putBoolean("Ball Sensor 3", ballSensorTest.get());
         SmartDashboard.putBoolean("Cannon Sensor", cannonAngleSensor.get());
 
-        pdh.setSwitchableChannel(true);
-        //pdh.setSwitchableChannel(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon());
+        //pdh.setSwitchableChannel(true);
+        pdh.setSwitchableChannel(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon());
 
         //lights
         int ballCt = 0;

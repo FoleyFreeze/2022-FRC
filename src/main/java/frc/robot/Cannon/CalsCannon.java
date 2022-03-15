@@ -34,9 +34,9 @@ public class CalsCannon {
     public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 12).invert().brake();
     public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5).invert().brake();
     
-    public double[] distances = {0, 0, 0, 0};
-    public double[] angles = {0, 0, 0, 0};
-    public double[] speeds = {0, 0, 0, 0};
+    public double[] distances = {20, 50};
+    public double[] angles = {70,70};
+    public double[] speeds = {1375,1375};
 
     public double shootMaxAngle = 120;
     public double shootMinAngle = 55;
@@ -86,7 +86,9 @@ public class CalsCannon {
     public double sensorResetTime = 5;
 
     public Vector targetLocation = Vector.fromXY(0, 0);
-    public double kR = 0;
+    public double kR = 0.01;
+    public double maxPower = 0.2;
+    public double kDr = 0;
 
     public CalsCannon(){
 
