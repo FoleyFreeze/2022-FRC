@@ -133,7 +133,7 @@ public class CmdAutoGather extends CommandBase{
         double startTime = 0;
         boolean startTimeSet = false;
 
-        if(false && r.inputs.cameraDrive() && allowDrive && r.sensors.hasAlliedCargo()){
+        if(r.inputs.cameraDrive() && allowDrive && r.sensors.hasAlliedCargo()){
             
             Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
             cargoPos.theta -= Math.toRadians(r.sensors.botAng);

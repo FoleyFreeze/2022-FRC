@@ -96,6 +96,11 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         }
     }
 
+    public void driveSwerveAng(Vector xy, double ang){
+        if(cals.DISABLED) return;
+        //TODO: Finish this!
+    }
+
     public void driveSwerve(Vector xy, double zR){
         if(cals.DISABLED) return;
         
@@ -109,6 +114,8 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
             zR = error * cals.climbAngleKp;
         }*/
+        //TODO: do we want to lock the angle for a climb
+        //do logic elsewhere w/ power control
 
         //create rotation vectors from wheel angle and rotation axis magnitude
         double max = 0;

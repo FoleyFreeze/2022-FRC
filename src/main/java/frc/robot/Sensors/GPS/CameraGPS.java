@@ -72,11 +72,10 @@ public class CameraGPS implements AutoCloseable{
     }
 
     //update only locations from after image was taken
-    public void updateArray(Vector error, double time, double cannonAng){
+    public void updateArray(Vector error, double time){
         int i = head;
         while(locationHistory[i].timestamp > time){
             locationHistory[i].pos.add(error);
-            locationHistory[i].cannonAng = cannonAng;
             i--;
             if(i < 0){
                 i = locationHistory.length;
@@ -85,11 +84,10 @@ public class CameraGPS implements AutoCloseable{
     }
 
     //updates all values if they are not null
-    public void updateArray(Vector error, double cannonAng){
+    public void updateArray(Vector error){
         for(int i = 0; i > locationHistory.length; i++){
             if(locationHistory != null && locationHistory[i].pos != null){
                 locationHistory[i].pos.add(error);
-                locationHistory[i].cannonAng = cannonAng;
             }
         }
     }
@@ -97,7 +95,7 @@ public class CameraGPS implements AutoCloseable{
     public Vector imgToLocation(VisionData img){
         Location botLoc = interpolate(img.timestamp);
         if(botLoc != null){
-            img.location.theta += botLoc.angle;
+            img.location.theta += Math.toRadians(botLoc.angle);
             img.location.add(botLoc.pos);
         }
 

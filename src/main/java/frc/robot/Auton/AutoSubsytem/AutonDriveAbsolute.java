@@ -21,7 +21,7 @@ public class AutonDriveAbsolute extends CommandBase {
     int idx;
 
     double timer = 5;
-    double starttime = 0;
+    double starttime = 0;//TODO: change time stuff to a cal or input
 
     public AutonDriveAbsolute(RobotContainer r, PositionProvider p, int idx){
         this.r = r;
@@ -48,6 +48,7 @@ public class AutonDriveAbsolute extends CommandBase {
         if(xy.r > CalsAuton.maxDrivePower){
             xy.r = CalsAuton.maxDrivePower;
         }
+        //TODO: replace with driveSwerveAngle
         double angle = CalsAuton.autoSwerveKP * Angle.normDeg(rot - r.sensors.botAng);
         if(angle > CalsAuton.maxSwervePower){
             angle = CalsAuton.maxSwervePower;

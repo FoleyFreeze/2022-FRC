@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
-import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
 public class CmdShoot extends SequentialCommandGroup{
@@ -48,6 +47,7 @@ public class CmdShoot extends SequentialCommandGroup{
             angerror = Math.toDegrees(targetPos.theta) - angleturned;
 
             SmartDashboard.putNumber("TargetAng", angerror);
+            //TODO: replace w/ call to driveSwerveAngle
             zR = r.cannon.cals.kR * angerror;//correct for shooter location
             if(zR > r.cannon.cals.maxPower){
                 zR = r.cannon.cals.maxPower;

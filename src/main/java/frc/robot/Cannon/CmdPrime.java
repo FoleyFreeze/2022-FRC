@@ -5,8 +5,6 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.Inputs.Inputs;
-import frc.robot.Util.Vector;
 
 public class CmdPrime extends CommandBase{
 
@@ -46,7 +44,8 @@ public class CmdPrime extends CommandBase{
     @Override
     public boolean isFinished(){
         if(Math.abs(ds.getAsDouble()) > 5) alignstarttime = Timer.getFPGATimestamp();
-        boolean waitForBotAlign = !r.inputs.cameraDrive() || Timer.getFPGATimestamp() > alignstarttime + 0.3;
+        boolean waitForBotAlign = !r.inputs.cameraDrive() || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
         return waitForBotAlign && r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() && r.sensors.ballSensorUpper.get();
+        //TODO: is ball sensor necessary?
     }
 }

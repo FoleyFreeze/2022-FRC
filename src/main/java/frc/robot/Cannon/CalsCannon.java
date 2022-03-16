@@ -69,6 +69,7 @@ public class CalsCannon {
     public double minPrimeTimeSpd = 1500;
     public double minPrimeTime21h = 1.1;
     public double maxPrimeTimeSpd = 2100;
+    public double alignTime = 0.3;
 
     public double preLoadTime = 1.0; //0.3
     public double preLoadPower = 0.4;

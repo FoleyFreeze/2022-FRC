@@ -30,6 +30,8 @@ public class CalsAuton {
         }
     }
 
+    //zero degrees is forward
+
     int arrayLen = 10; //ensure that the position and skip lists are the same length
     Position[][] positionList = {
         { //left start position

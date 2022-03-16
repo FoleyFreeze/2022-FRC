@@ -129,7 +129,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void setSpeed(double ccwSpeed, double cwSpeed){
         if (cals.DISABLED) return;
 
-        if(ccwSpeed ==0 && cwSpeed == 0){
+        if(ccwSpeed == 0 && cwSpeed == 0){
             setPower(0, 0);
         } else {
             ccwMotor.setSpeed(ccwSpeed);
@@ -269,7 +269,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             angleMotor.setPower(0);
         }
 
-
+        //TODO: is this necessary for new climber? if so, change to timer
         if(r.inputs.operatorJoy.climbSwitch() && climbRan < 50){
             prime(0, cals.climbCannonAng);
             climbRan++;
