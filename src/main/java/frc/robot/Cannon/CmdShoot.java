@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
+import frc.robot.Intake.CmdReload;
 import frc.robot.Util.Vector;
 
 public class CmdShoot extends SequentialCommandGroup{
@@ -18,12 +19,18 @@ public class CmdShoot extends SequentialCommandGroup{
         }
     };
 
+    CmdFire fireCmd;
+
     public CmdShoot(RobotContainer r){
         addRequirements(r.cannon);
         addRequirements(r.drive);
         this.r = r;
 
-        addCommands(new SequentialCommandGroup(new CmdPrime(r, ds), new CmdFire(r)));
+        fireCmd = new CmdFire(r);
+        addCommands(new SequentialCommandGroup(new CmdPrime(r, ds), 
+                                               fireCmd,
+                                               new CmdReload(r),
+                                               new CmdReFire(r)));
     }
 
     @Override
@@ -61,4 +68,8 @@ public class CmdShoot extends SequentialCommandGroup{
         r.drive.driveSwerve(xy, zR);
     } 
 
+    @Override
+    public boolean isFinished(){
+        return super.isFinished() || fireCmd.endEarly;
+    }
 }

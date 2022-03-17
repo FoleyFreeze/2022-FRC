@@ -41,9 +41,13 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void prime(){
+        prime(true);
+    }
+
+    public void prime(boolean setAngle){
         if (cals.DISABLED) return;
         if(r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
-            prime(r.sensors.target.location.r, true);
+            prime(r.sensors.target.location.r, setAngle);
         } else if(cals.useVariableShootSpeed){
             double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
@@ -51,15 +55,15 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             double angle = r.inputs.driverJoy.getDial2() *
                     (cals.shootMaxAngle - cals.shootMinAngle)
                     + cals.shootMinAngle;
-            prime(speed, angle);
+            prime(speed, angle, setAngle);
         } else if(!r.inputs.operatorJoy.hubSwitch()){
-            prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG));
+            prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG), setAngle);
         } else if(r.inputs.driverJoy.layUpShot()){
-            prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG));
+            prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG), setAngle);
         }else if(r.inputs.driverJoy.launchPadShot()){
-                prime(cals.LAUNCH_PAD_SHOOT_SPEED, flip(cals.LAUNCH_PAD_SHOOT_ANG));
+            prime(cals.LAUNCH_PAD_SHOOT_SPEED, flip(cals.LAUNCH_PAD_SHOOT_ANG), setAngle);
         } else{
-            prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG));
+            prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
         }
     }
 
@@ -76,6 +80,10 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     }
 
     public void prime(double speed, double angle){
+        prime(speed, angle, true);
+    }
+
+    public void prime(double speed, double angle, boolean setAngle){
         if (cals.DISABLED) return;
 
         if(speed == 0){
@@ -84,7 +92,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             setSpeed(speed + jogSpeed, speed + jogSpeed);
         }
 
-        setAngle(angle + jogAng - cals.angOffset);
+        if(setAngle) setAngle(angle + jogAng - cals.angOffset);
         
     }
 

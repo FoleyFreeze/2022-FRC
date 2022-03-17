@@ -6,6 +6,6 @@ import frc.robot.RobotContainer;
 public class CmdLoadSequential extends SequentialCommandGroup{
 
     public CmdLoadSequential(RobotContainer r){
-        addCommands(new SequentialCommandGroup(new CmdTransport(r), new CmdKickerLoad(0.25, r)));
+        addCommands(new SequentialCommandGroup(new CmdTransport(r), new CmdKickerLoad(r.cannon.cals.kickLoadTime, r)));
     }
 }

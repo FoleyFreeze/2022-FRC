@@ -16,7 +16,7 @@ public class CmdKickerLoad extends WaitCommand{
     @Override
     public void execute(){
         super.execute();
-        r.cannon.fire(0.2);
+        r.cannon.fire(r.cannon.cals.fireLoadPwr);
     }
 
     @Override

@@ -14,6 +14,18 @@ public class CmdAutoGather extends CommandBase{
 
     RobotContainer r;
 
+    boolean useDrive;
+
+    public CmdAutoGather(RobotContainer r, boolean useDrive){
+        this.r = r;
+        this.useDrive = useDrive;
+        if(useDrive){
+            addRequirements(r.drive);
+        }
+        addRequirements(r.intake);
+        //no cannon requirement even though we use it
+    }
+
     public CmdAutoGather(RobotContainer r){
         this.r = r;
         addRequirements(r.drive);
@@ -43,46 +55,48 @@ public class CmdAutoGather extends CommandBase{
         double time = Timer.getFPGATimestamp();
 
         //gatherer motor
-        if(!lowBall){
-            r.intake.intake();
-            allowDrive = true;
-            intakeDelayStartTime = time;
-        } else if(lowBall && time > intakeDelayStartTime + r.intake.cals.intakeTimeOffset){
-            if(hiBall){
-                //set defensive intake position
-                double currAngle = r.intake.intakeMotor.getPosition() * 360;
-                double setpoint;
-                double angleDiff = (currAngle % 180) + 30;
-                if(angleDiff > 90){
-                    setpoint = currAngle + (180 - angleDiff);
-                } else {
-                    setpoint = currAngle - angleDiff;
-                }
+        if(useDrive){
+            if(!lowBall){
+                r.intake.intake();
+                allowDrive = true;
+                intakeDelayStartTime = time;
+            } else if(lowBall && time > intakeDelayStartTime + r.intake.cals.intakeTimeOffset){
+                if(hiBall){
+                    //set defensive intake position
+                    double currAngle = r.intake.intakeMotor.getPosition() * 360;
+                    double setpoint;
+                    double angleDiff = (currAngle % 180) + 30;
+                    if(angleDiff > 90){
+                        setpoint = currAngle + (180 - angleDiff);
+                    } else {
+                        setpoint = currAngle - angleDiff;
+                    }
 
-                //if a ball is "stuck" with the flaps in the vertical position, remove it
-                if(Math.abs(currAngle - gatherPrevPosition) > 10){
-                    gatherMovementTimer = time;
-                    gatherPrevPosition = currAngle;
-                }
-                if(r.sensors.pdh.getCurrent(r.intake.cals.intakeMotor.channel) < 10){
-                    gatherCurrentTimer = time;
-                }
+                    //if a ball is "stuck" with the flaps in the vertical position, remove it
+                    if(Math.abs(currAngle - gatherPrevPosition) > 10){
+                        gatherMovementTimer = time;
+                        gatherPrevPosition = currAngle;
+                    }
+                    if(r.sensors.pdh.getCurrent(r.intake.cals.intakeMotor.channel) < 10){
+                        gatherCurrentTimer = time;
+                    }
 
-                if(time > gatherFlipTimer + 0.5){
-                    if(time > gatherMovementTimer + 0.5 && time > gatherCurrentTimer + 0.5){
-                        gatherFlipSetpoint = setpoint - 180;
-                        gatherFlipTimer = time;
+                    if(time > gatherFlipTimer + 0.5){
+                        if(time > gatherMovementTimer + 0.5 && time > gatherCurrentTimer + 0.5){
+                            gatherFlipSetpoint = setpoint - 180;
+                            gatherFlipTimer = time;
+                            setpoint = gatherFlipSetpoint;
+                        }
+                    } else {
                         setpoint = gatherFlipSetpoint;
                     }
+                    
+                    r.intake.intakeMotor.setPosition(setpoint / 360.0);
+                    
                 } else {
-                    setpoint = gatherFlipSetpoint;
+                    //one ball gathered, still in lower slot
+                    r.intake.intake(0);
                 }
-                
-                r.intake.intakeMotor.setPosition(setpoint / 360.0);
-                
-            } else {
-                //one ball gathered, still in lower slot
-                r.intake.intake(0);
             }
         }
 
@@ -120,70 +134,72 @@ public class CmdAutoGather extends CommandBase{
 
         //cannon motor
         if(lowBall && !hiBall){
-            r.cannon.setAngle(65);
+            r.cannon.setAngle(r.cannon.cals.resetAngle);
         }
 
         //drive code
-        double x;
-        double y;
-        double zR;
-        Vector xy;
+        if(useDrive){
+            double x;
+            double y;
+            double zR;
+            Vector xy;
 
-        double prevR = 0;
-        double startTime = 0;
-        boolean startTimeSet = false;
+            double prevR = 0;
+            double startTime = 0;
+            boolean startTimeSet = false;
 
-        if(r.inputs.cameraDrive() && allowDrive && r.sensors.hasAlliedCargo()){
-            
-            Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
-            cargoPos.theta -= Math.toRadians(r.sensors.botAng);
-            
-            SmartDashboard.putString("BotRelCargo", cargoPos.toStringXY());
-            
-            if(cargoPos.r > r.intake.cals.maxAnglePIDDist){
-                zR = r.intake.cals.kR * (cargoPos.theta - Math.PI/2);//correct for gatherer location
-            } else {
-                zR = 0;
-            }
-
-            //logic for cargo going too close & out of camera view
-            if(cargoPos.getY() > r.intake.cals.minCargoDist && cargoPos.getX() > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime){
-                x = r.intake.cals.kX * cargoPos.getX();
-                y = Math.max(r.intake.cals.yPower - x - zR, 0);
-                prevR = cargoPos.r;
-                startTimeSet = false;
-            } else {//once the ball is within a certain window of distance, set the power directly
-                if(!startTimeSet){
-                    startTimeSet = true;
-                    startTime = Timer.getFPGATimestamp();
-                }
-                zR = 0;
-                x = 0;
-                y = r.intake.cals.yPower;
-            }
-        
-            xy = Vector.fromXY(x, y);
+            if(r.inputs.cameraDrive() && allowDrive && r.sensors.hasAlliedCargo()){
                 
-            if(xy.r > r.intake.cals.autoBallMaxPwr){
-                xy.r = r.intake.cals.autoBallMaxPwr;
-            }
+                Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
+                cargoPos.theta -= Math.toRadians(r.sensors.botAng);
+                
+                SmartDashboard.putString("BotRelCargo", cargoPos.toStringXY());
+                
+                if(cargoPos.r > r.intake.cals.maxAnglePIDDist){
+                    zR = r.intake.cals.kR * (cargoPos.theta - Math.PI/2);//correct for gatherer location
+                } else {
+                    zR = 0;
+                }
+
+                //logic for cargo going too close & out of camera view
+                if(cargoPos.getY() > r.intake.cals.minCargoDist && cargoPos.getX() > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime){
+                    x = r.intake.cals.kX * cargoPos.getX();
+                    y = Math.max(r.intake.cals.yPower - x - zR, 0);
+                    prevR = cargoPos.r;
+                    startTimeSet = false;
+                } else {//once the ball is within a certain window of distance, set the power directly
+                    if(!startTimeSet){
+                        startTimeSet = true;
+                        startTime = Timer.getFPGATimestamp();
+                    }
+                    zR = 0;
+                    x = 0;
+                    y = r.intake.cals.yPower;
+                }
             
-            if(r.inputs.getFieldOrient()){
-                //if we are field oriented, offset so that we stay robot oriented
-                xy.theta += Math.toRadians(r.sensors.botAng);
+                xy = Vector.fromXY(x, y);
+                    
+                if(xy.r > r.intake.cals.autoBallMaxPwr){
+                    xy.r = r.intake.cals.autoBallMaxPwr;
+                }
+                
+                if(r.inputs.getFieldOrient()){
+                    //if we are field oriented, offset so that we stay robot oriented
+                    xy.theta += Math.toRadians(r.sensors.botAng);
+                }
+
+            } else {
+                zR = r.inputs.getDrivezR();
+                x = r.inputs.getDriveX();
+                y = r.inputs.getDriveY();
+
+                xy = Vector.fromXY(x, y);
+                Inputs.mapSquareToCircle(xy);
             }
 
-        } else {
-            zR = r.inputs.getDrivezR();
-            x = r.inputs.getDriveX();
-            y = r.inputs.getDriveY();
-
-            xy = Vector.fromXY(x, y);
-            Inputs.mapSquareToCircle(xy);
+            
+            r.drive.driveSwerve(xy, zR);
         }
-
-        
-        r.drive.driveSwerve(xy, zR);
     }
 
     @Override

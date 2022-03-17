@@ -2,14 +2,17 @@ package frc.robot.Cannon;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 
 public class CmdFire extends CommandBase{
 
     RobotContainer r;
-    double startTime;
+    
+    boolean canEndEarly;
+    boolean endEarly;
+
     boolean twoBalls;
+    double startTime = Double.POSITIVE_INFINITY;
 
     public CmdFire(RobotContainer r){
         this.r = r;
@@ -20,11 +23,15 @@ public class CmdFire extends CommandBase{
     public void initialize() {
         startTime = Timer.getFPGATimestamp();
         double angleDiff = Math.abs(r.cannon.getShooterAngle() - r.cannon.cals.resetAngle);
-        twoBalls = r.sensors.ballSensorLower.get() && angleDiff < 6;
+        twoBalls = r.sensors.ballSensorLower.get() && angleDiff < 6; //only shoot 2 in a row if we are aligned to do it
+        
+        //we can end early when we are immeditely shooting 2 or there is no second one
+        canEndEarly = twoBalls || r.sensors.ballSensorLower.get(); 
     }
 
     @Override
     public void execute(){
+        //boolean loadAngleReady = angleDiff < r.cannon.cals.minShootAngDiff;
         r.cannon.prime();
         r.cannon.fire();
         if(twoBalls && Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOne){
@@ -43,10 +50,15 @@ public class CmdFire extends CommandBase{
 
     @Override
     public boolean isFinished(){
+        boolean done;
         if(twoBalls){
-            return Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeTwo;
+            done = Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeTwo;
         } else {
-            return Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOne;
+            done = Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOne;
         }
+
+        endEarly = canEndEarly && done;
+
+        return done;
     }
 }

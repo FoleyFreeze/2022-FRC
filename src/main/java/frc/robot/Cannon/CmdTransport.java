@@ -7,13 +7,11 @@ import frc.robot.RobotContainer;
 public class CmdTransport extends CommandBase{
 
     RobotContainer r;
-    SysCannon c;
 
     private double startTime;
 
     public CmdTransport(RobotContainer  r){
         this.r = r;
-        c = r.cannon;
         addRequirements(r.cannon);
     }
 
@@ -24,22 +22,22 @@ public class CmdTransport extends CommandBase{
 
     @Override
     public void execute(){
-        c.setAngle(65);
-        c.setPower(-0.1, -0.1);
-        c.transport();
+        r.cannon.setAngle(r.cannon.cals.resetAngle);
+        r.cannon.setPower(-0.1, -0.1);
+        r.cannon.transport();
     }
 
     @Override
     public void end(boolean interrupted){
-        c.stopTransport();
-        c.fire(0);
-        c.setPower(0, 0);
+        r.cannon.stopTransport();
+        r.cannon.fire(0);
+        r.cannon.setPower(0, 0);
     }
 
     @Override
     public boolean isFinished(){
-        if(c.cals.useTimerStop){
-            return startTime + c.cals.loadTime < Timer.getFPGATimestamp();
+        if(r.cannon.cals.useTimerStop){
+            return startTime + r.cannon.cals.loadTime < Timer.getFPGATimestamp();
         } else {
             return true;
         }

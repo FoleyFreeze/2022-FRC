@@ -62,6 +62,8 @@ public class CalsCannon {
     public double minShootAngleError = -2.5;
     public double maxShootAngleError = 2.5;
 
+    public double minShootAngDiff = 6;//degrees
+
     public double wheelOfFirePower = 1;
     public double shootTimeOne = 0.25;
     public double shootTimeTwo = 1;
@@ -73,7 +75,9 @@ public class CalsCannon {
 
     public double preLoadTime = 1.0; //0.3
     public double preLoadPower = 0.4;
+    public double fireLoadPwr = 0.2;
     public double loadTime = 0.4;
+    public double kickLoadTime = 0.25;
     public double tranPwr = 0.4;
     public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current
 
@@ -90,6 +94,8 @@ public class CalsCannon {
     public double kR = 0.01;
     public double maxPower = 0.2;
     public double kDr = 0;
+
+    public boolean useAutoLoad = false;
 
     public CalsCannon(){
 
