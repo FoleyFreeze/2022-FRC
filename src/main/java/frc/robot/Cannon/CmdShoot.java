@@ -43,6 +43,8 @@ public class CmdShoot extends SequentialCommandGroup{
 
         Vector xy = Vector.fromXY(x, y);
         
+        Inputs.mapSquareToCircle(xy);
+
         if(r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
             //Vector targetPos = Vector.subVectors(r.cannon.cals.targetLocation, r.sensors.botLoc);
             Vector targetPos = r.sensors.target.location;
@@ -54,18 +56,11 @@ public class CmdShoot extends SequentialCommandGroup{
             angerror = Math.toDegrees(targetPos.theta) - angleturned;
 
             SmartDashboard.putNumber("TargetAng", angerror);
-            //TODO: replace w/ call to driveSwerveAngle
-            zR = r.cannon.cals.kR * angerror;//correct for shooter location
-            if(zR > r.cannon.cals.maxPower){
-                zR = r.cannon.cals.maxPower;
-            }
+            r.drive.driveSwerveAng(xy, angerror);
         } else {
             zR = r.inputs.getDrivezR();
+            r.drive.driveSwerve(xy, zR);
         }
-
-        Inputs.mapSquareToCircle(xy);
-
-        r.drive.driveSwerve(xy, zR);
     } 
 
     @Override

@@ -225,7 +225,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         } else if(operatorJoy.climbSwitch()) {
             setMaxDrivePower(r.drive.cals.maxDrivePowerClimb);
         } else {
-            setMaxDrivePower(CalsDrive.MAX_DRIVE_PWR);
+            setMaxDrivePower(r.drive.cals.MAX_DRIVE_PWR);
         }
 
         Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, true, "has FlySky");

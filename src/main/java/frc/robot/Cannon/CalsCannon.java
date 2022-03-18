@@ -91,9 +91,7 @@ public class CalsCannon {
     public double sensorResetTime = 5;
 
     public Vector targetLocation = Vector.fromXY(0, 0);
-    public double kR = 0.01;
     public double maxPower = 0.2;
-    public double kDr = 0;
 
     public boolean useAutoLoad = false;
 
