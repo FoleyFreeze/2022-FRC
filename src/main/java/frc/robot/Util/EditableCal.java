@@ -1,6 +1,7 @@
 package frc.robot.Util;
 
 import java.util.ArrayList;
+import java.util.function.DoubleConsumer;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,6 +17,7 @@ public class EditableCal {
     
     public double cal;
     public String name;
+    public ArrayList<DoubleConsumer> callbacks = new ArrayList<>();
 
     public EditableCal(String nombre, double value){
         cal = value;
@@ -35,7 +37,14 @@ public class EditableCal {
         if (value != cal){
             cal = value;
 
+            for (DoubleConsumer dc : callbacks) {
+                dc.accept(value);
+            }
         }
             
+    }
+
+    public void addCallback(DoubleConsumer callMeMaybe){
+        callbacks.add(callMeMaybe);
     }
 }
