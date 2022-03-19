@@ -27,10 +27,7 @@ public class CmdAutoGather extends CommandBase{
     }
 
     public CmdAutoGather(RobotContainer r){
-        this.r = r;
-        addRequirements(r.drive);
-        addRequirements(r.intake);
-        //no cannon requirement even though we use it
+        this(r, true);
     }
 
     @Override
@@ -165,6 +162,7 @@ public class CmdAutoGather extends CommandBase{
                 if(cargoPos.getY() > r.intake.cals.minCargoDist && cargoPos.getX() > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime.get()){
                     x = r.intake.cals.kX.get() * cargoPos.getX();
                     y = Math.max(r.intake.cals.yPower.get() - x - zR, 0);
+                    y += r.intake.cals.kY.get() * cargoPos.getY();
                     prevR = cargoPos.r;
                     startTimeSet = false;
                 } else {//once the ball is within a certain window of distance, set the power directly
@@ -196,7 +194,6 @@ public class CmdAutoGather extends CommandBase{
                 xy = Vector.fromXY(x, y);
                 Inputs.mapSquareToCircle(xy);
             }
-
             
             r.drive.driveSwerve(xy, zR);
         }

@@ -174,7 +174,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public boolean angleAligned(){
         if(cals.DISABLED) return false;
 
-        double error = angleMotor.getClosedLoopError();
+        double error = angleMotor.getClosedLoopError() * 360;
         return error > cals.minShootAngleError && error < cals.maxShootAngleError;
     }
 

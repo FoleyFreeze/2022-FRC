@@ -35,6 +35,8 @@ public class CmdShoot extends SequentialCommandGroup{
 
     @Override
     public void initialize(){
+        System.out.println("Cmd Shoot Init");
+        super.initialize();
         r.sensors.enableTgtLights(true);
     }
 
@@ -70,7 +72,10 @@ public class CmdShoot extends SequentialCommandGroup{
 
     @Override
     public void end(boolean interrupted){
+        super.end(interrupted);
         r.sensors.enableTgtLights(false);
+        System.out.println("Cmd Shoot End");
+        r.cannon.setPower(0, 0); 
     }
 
     @Override

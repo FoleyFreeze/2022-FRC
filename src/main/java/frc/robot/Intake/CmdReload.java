@@ -6,6 +6,7 @@ import frc.robot.RobotContainer;
 public class CmdReload extends CmdAutoGather{
 
     RobotContainer r;
+
     double startTime;
 
     public CmdReload(RobotContainer r){
@@ -14,17 +15,26 @@ public class CmdReload extends CmdAutoGather{
     }
 
     @Override
+    public void initialize(){
+        super.initialize();
+        System.out.println("Cmd Reload Init");
+        startTime = Timer.getFPGATimestamp();
+    }
+
+    @Override
     public void execute(){
         super.execute();
         r.cannon.prime(false); //keep speed up but dont set the angle
+    }
 
-        if (r.sensors.ballSensorUpper.risingEdge()){
-            startTime = Timer.getFPGATimestamp();
-        }
+    @Override
+    public void end(boolean interrupted){
+        System.out.println("Cmd Reload End");
+        super.end(interrupted);
     }
 
     @Override
     public boolean isFinished(){
-        return startTime + r.intake.cals.reloadTime < Timer.getFPGATimestamp();
+        return Timer.getFPGATimestamp() > startTime + 0.5 && r.sensors.ballSensorUpper.get();
     }
 }

@@ -79,12 +79,12 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         pdh = new PowerDistribution();
 
         blinken = new Spark(9);
-
+        /*
         pcm = new PneumaticHub();
         tgtLights = pcm.makeSolenoid(7);
         ballLightsL = pcm.makeSolenoid(5);
         ballLightsR = pcm.makeSolenoid(6);
-
+        */
     }
 
     @Override
@@ -249,14 +249,16 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public void enableCargoLights(boolean on){
         if(r.inputs.cameraDrive()){
-            ballLightsR.set(on);
-            ballLightsL.set(on);
+            //ballLightsR.set(on);
+            //ballLightsL.set(on);
+            pdh.setSwitchableChannel(on);
         }
     }
 
     public void enableTgtLights(boolean on){
         if(r.inputs.cameraDrive()){
-            tgtLights.set(on);
+            //tgtLights.set(on);
+            pdh.setSwitchableChannel(on);
         }
     }
 

@@ -21,6 +21,7 @@ public class CalsIntake {
     public double reverseSpeed = -0.5;
 
     public EditableCal kX = new EditableCal("gather kX", 0.03);
+    public EditableCal kY = new EditableCal("gather kY", 0.015);
     public EditableCal yPower = new EditableCal("gather yPwr", 0.5);
     public EditableCal kR = new EditableCal("gather kR", 0.0);
     public EditableCal autoBallMaxPwr = new EditableCal("autoballMaxPwr", 0.5);

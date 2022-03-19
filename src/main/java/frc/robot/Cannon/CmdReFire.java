@@ -19,6 +19,7 @@ public class CmdReFire extends CmdFire{
 
     @Override
     public void initialize(){
+        System.out.println("Cmd ReFire Init");
         ran = false;
     }
 
@@ -31,6 +32,12 @@ public class CmdReFire extends CmdFire{
         }
 
         if(!ran) startTime = Timer.getFPGATimestamp();
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        super.end(interrupted);
+        System.out.println("Cmd Refire End");
     }
 
     @Override

@@ -21,6 +21,7 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public void initialize(){
+        System.out.println("Cmd Prime Init");
         timer = Timer.getFPGATimestamp();
     }
 
@@ -34,8 +35,9 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public void end(boolean interrupted){
+        System.out.println("Cmd Prime End");
         if(interrupted){
-            //only stop shooting if we exit early
+            //only stop shooting if we exit early   
             r.cannon.setSpeed(0,0);
         }
     }
@@ -45,7 +47,7 @@ public class CmdPrime extends CommandBase{
     public boolean isFinished(){
         if(Math.abs(ds.getAsDouble()) > 5) alignstarttime = Timer.getFPGATimestamp();
         boolean waitForBotAlign = !r.inputs.cameraDrive() || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
-        return waitForBotAlign && r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() && r.sensors.ballSensorUpper.get();
+        return waitForBotAlign && r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() /*&& r.sensors.ballSensorUpper.get()*/;
         //TODO: is ball sensor necessary?
     }
 }
