@@ -1,10 +1,12 @@
 package frc.robot.Intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotContainer;
 
 public class CmdReload extends CmdAutoGather{
 
     RobotContainer r;
+    double startTime;
 
     public CmdReload(RobotContainer r){
         super(r, false);
@@ -15,11 +17,14 @@ public class CmdReload extends CmdAutoGather{
     public void execute(){
         super.execute();
         r.cannon.prime(false); //keep speed up but dont set the angle
+
+        if (r.sensors.ballSensorUpper.risingEdge()){
+            startTime = Timer.getFPGATimestamp();
+        }
     }
 
     @Override
     public boolean isFinished(){
-        //TODO: add a time limit here too
-        return r.sensors.ballSensorUpper.get();
+        return startTime + r.intake.cals.reloadTime < Timer.getFPGATimestamp();
     }
 }

@@ -20,9 +20,13 @@ public class Vision {
         public double timestamp;
         public Type type;
         public double angle;
+        public Camera camLocation;
     }
     public enum Type {
         RED_CARGO, BLUE_CARGO, VISION_TARGET
+    }
+    public enum Camera {
+        LEFT, RIGHT
     }
 
     //vision packet from the pi
@@ -89,7 +93,13 @@ public class Vision {
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
                 data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
 
-                data.location.add(cals.ballCamLocationR);
+                if(Integer.parseInt(parts[6]) == 1){
+                    data.camLocation = Camera.RIGHT;
+                    data.location.add(cals.ballCamLocationR);
+                } else {
+                    data.camLocation = Camera.LEFT;
+                    data.location.add(cals.ballCamLocationL);
+                }
 
                 if(Integer.parseInt(parts[5]) == 1){
                     data.type = Type.BLUE_CARGO;//blue is true!

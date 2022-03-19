@@ -2,8 +2,6 @@ package frc.robot.Auton.AutoSubsytem.CameraCommands;
 
 import java.util.function.DoubleSupplier;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.CalsAuton;

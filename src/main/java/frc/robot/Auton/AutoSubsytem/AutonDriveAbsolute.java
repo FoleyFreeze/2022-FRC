@@ -48,17 +48,11 @@ public class AutonDriveAbsolute extends CommandBase {
         if(xy.r > CalsAuton.maxDrivePower){
             xy.r = CalsAuton.maxDrivePower;
         }
-        //TODO: replace with driveSwerveAngle
-        double angle = CalsAuton.autoSwerveKP * Angle.normDeg(rot - r.sensors.botAng);
-        if(angle > CalsAuton.maxSwervePower){
-            angle = CalsAuton.maxSwervePower;
-        }
-
         if(!r.inputs.getFieldOrient()){
             //if we are not field oriented, act field oriented
             xy.theta -= Math.toRadians(r.sensors.botAng);
         }
-        r.drive.driveSwerve(xy, angle);
+        r.drive.driveSwerve(xy, rot);
     }
 
     @Override

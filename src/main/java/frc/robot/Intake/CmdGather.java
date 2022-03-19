@@ -64,7 +64,7 @@ public class CmdGather extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return r.sensors.hasGatheredCargo();
+        return r.sensors.ballSensorLower.get();
     }
 }
 

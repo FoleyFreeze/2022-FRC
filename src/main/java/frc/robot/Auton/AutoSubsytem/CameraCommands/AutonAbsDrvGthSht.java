@@ -1,17 +1,16 @@
 package frc.robot.Auton.AutoSubsytem.CameraCommands;
 
 import frc.robot.RobotContainer;
-import frc.robot.Auton.AutonSequential;
 import frc.robot.Auton.AutoSubsytem.AutonDriveAbsolute;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 
-public class AutonAbsDrvGthrShoot extends AutonRelDrvGthrShoot{
+public class AutonAbsDrvGthSht extends AutonRelDrvGthSht{
     
-    public AutonAbsDrvGthrShoot(RobotContainer r, PositionProvider p, int idx, boolean gather, boolean shoot){
+    public AutonAbsDrvGthSht(RobotContainer r, PositionProvider p, int idx, boolean gather, boolean shoot){
         super(r,p,idx,true,true);
     }
 
-    public AutonAbsDrvGthrShoot(RobotContainer r, PositionProvider p, int idx){
+    public AutonAbsDrvGthSht(RobotContainer r, PositionProvider p, int idx){
         super(r,p,idx);
     }
 

@@ -31,9 +31,9 @@ public class IntakeTest {
         Vector cargoPos = Vector.subVectors(new Vector(1, Math.toRadians(-90)), new Vector(1.41, Math.toRadians(-45)));
         cargoPos.theta -= Math.toRadians(-45);
         
-        double zR = intake.cals.kR * cargoPos.theta;
-        double x = intake.cals.kX * cargoPos.getX();
-        double y = Math.max(intake.cals.yPower - x - zR, 0);
+        double zR = intake.cals.kR.get() * cargoPos.theta;
+        double x = intake.cals.kX.get() * cargoPos.getX();
+        double y = Math.max(intake.cals.yPower.get() - x - zR, 0);
         Vector xy = Vector.fromXY(x, y);
 
         System.out.println("DriveVec: " + xy.toStringXY());

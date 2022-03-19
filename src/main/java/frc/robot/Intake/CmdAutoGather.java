@@ -27,7 +27,10 @@ public class CmdAutoGather extends CommandBase{
     }
 
     public CmdAutoGather(RobotContainer r){
-        this(r, true);
+        this.r = r;
+        addRequirements(r.drive);
+        addRequirements(r.intake);
+        //no cannon requirement even though we use it
     }
 
     @Override

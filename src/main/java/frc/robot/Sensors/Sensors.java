@@ -259,12 +259,6 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT;
     }
 
-    public boolean hasGatheredCargo(){
-        //TODO: this is utterly useless. make it work
-        return false;
-
-    }
-
     @Override
     public void close() throws Exception {
         encoders.close();

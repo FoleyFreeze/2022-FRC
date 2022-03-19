@@ -33,6 +33,8 @@ public class CalsIntake {
     public double lowFallingTime = 0.3;
     public double lowFallingKickerTimeOffset = 0.2;
 
+    public double reloadTime = 0.3;
+
     public CalsIntake(){
 
     }

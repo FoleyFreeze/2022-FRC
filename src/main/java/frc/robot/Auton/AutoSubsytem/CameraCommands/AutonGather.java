@@ -1,4 +1,4 @@
-package frc.robot.Auton.AutoSubsytem;
+package frc.robot.Auton.AutoSubsytem.CameraCommands;
 
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import frc.robot.RobotContainer;
