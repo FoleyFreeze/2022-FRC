@@ -36,9 +36,9 @@ public class CmdGather extends CommandBase{
             Vector cargoPos = Vector.subVectors(r.sensors.alliedCargo.location, r.sensors.botLoc);
             cargoPos.theta -= Math.toRadians(r.sensors.botAng);
             
-            zR = r.intake.cals.kR * cargoPos.theta;
-            x = r.intake.cals.kX * cargoPos.getX();
-            y = Math.max(r.intake.cals.yPower - x - zR, 0);
+            zR = r.intake.cals.kR.get() * cargoPos.theta;
+            x = r.intake.cals.kX.get() * cargoPos.getX();
+            y = Math.max(r.intake.cals.yPower.get() - x - zR, 0);
             xy = Vector.fromXY(x, y);
         } else {
             zR = r.inputs.getDrivezR();

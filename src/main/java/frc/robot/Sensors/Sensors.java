@@ -1,7 +1,10 @@
 package frc.robot.Sensors;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PowerDistribution;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,6 +48,11 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public PowerDistribution pdh;
     public Spark blinken;
 
+    public PneumaticHub pcm;
+    Solenoid tgtLights;
+    Solenoid ballLightsL;
+    Solenoid ballLightsR;
+
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
         this.r = r;
@@ -71,6 +79,12 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         pdh = new PowerDistribution();
 
         blinken = new Spark(9);
+
+        pcm = new PneumaticHub();
+        tgtLights = pcm.makeSolenoid(7);
+        ballLightsL = pcm.makeSolenoid(5);
+        ballLightsR = pcm.makeSolenoid(6);
+
     }
 
     @Override
@@ -166,7 +180,24 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putBoolean("Cannon Sensor", cannonAngleSensor.get());
 
         //pdh.setSwitchableChannel(false);
-        pdh.setSwitchableChannel(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon());
+        //pdh.setSwitchableChannel(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon());
+        /*if(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon()){
+            tgtLights.set(true);
+        } else {
+            tgtLights.set(false);
+        }
+
+        if(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.intake()){
+            ballLightsL.set(true);
+            ballLightsR.set(true);
+        } else {
+            ballLightsL.set(false);
+            ballLightsR.set(false);
+        }*/
+
+        ballLightsR.set(true);
+        ballLightsL.set(false);
+        tgtLights.set(false);
 
         //lights
         int ballCt = 0;

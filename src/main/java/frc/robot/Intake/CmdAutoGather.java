@@ -27,10 +27,7 @@ public class CmdAutoGather extends CommandBase{
     }
 
     public CmdAutoGather(RobotContainer r){
-        this.r = r;
-        addRequirements(r.drive);
-        addRequirements(r.intake);
-        //no cannon requirement even though we use it
+        this(r, true);
     }
 
     @Override
@@ -155,16 +152,16 @@ public class CmdAutoGather extends CommandBase{
                 
                 SmartDashboard.putString("BotRelCargo", cargoPos.toStringXY());
                 
-                if(cargoPos.r > r.intake.cals.maxAnglePIDDist){
-                    zR = r.intake.cals.kR * (cargoPos.theta - Math.PI/2);//correct for gatherer location
+                if(cargoPos.r > r.intake.cals.maxAnglePIDDist.get()){
+                    zR = r.intake.cals.kR.get() * (cargoPos.theta - Math.PI/2);//correct for gatherer location
                 } else {
                     zR = 0;
                 }
 
                 //logic for cargo going too close & out of camera view
-                if(cargoPos.getY() > r.intake.cals.minCargoDist && cargoPos.getX() > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime){
-                    x = r.intake.cals.kX * cargoPos.getX();
-                    y = Math.max(r.intake.cals.yPower - x - zR, 0);
+                if(cargoPos.getY() > r.intake.cals.minCargoDist && cargoPos.getX() > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime.get()){
+                    x = r.intake.cals.kX.get() * cargoPos.getX();
+                    y = Math.max(r.intake.cals.yPower.get() - x - zR, 0);
                     prevR = cargoPos.r;
                     startTimeSet = false;
                 } else {//once the ball is within a certain window of distance, set the power directly
@@ -174,13 +171,13 @@ public class CmdAutoGather extends CommandBase{
                     }
                     zR = 0;
                     x = 0;
-                    y = r.intake.cals.yPower;
+                    y = r.intake.cals.yPower.get();
                 }
             
                 xy = Vector.fromXY(x, y);
                     
-                if(xy.r > r.intake.cals.autoBallMaxPwr){
-                    xy.r = r.intake.cals.autoBallMaxPwr;
+                if(xy.r > r.intake.cals.autoBallMaxPwr.get()){
+                    xy.r = r.intake.cals.autoBallMaxPwr.get();
                 }
                 
                 if(r.inputs.getFieldOrient()){

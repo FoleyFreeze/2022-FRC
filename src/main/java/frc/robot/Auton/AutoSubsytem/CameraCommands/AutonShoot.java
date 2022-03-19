@@ -1,4 +1,4 @@
-package frc.robot.Auton.AutoSubsytem;
+package frc.robot.Auton.AutoSubsytem.CameraCommands;
 
 import java.util.function.DoubleSupplier;
 

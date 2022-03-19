@@ -1,6 +1,7 @@
-package frc.robot.Auton;
+package frc.robot.Auton.AutoSubsytem.CameraCommands;
 
 import frc.robot.RobotContainer;
+import frc.robot.Auton.AutonSequential;
 import frc.robot.Auton.AutoSubsytem.AutonDriveAbsolute;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 

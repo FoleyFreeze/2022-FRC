@@ -23,7 +23,8 @@ public class EditableCal {
         cal = value;
         name = nombre;
 
-        SmartDashboard.getNumber(nombre, value);
+
+        SmartDashboard.putNumber(nombre, value);
 
         allCals.add(this);
     } 

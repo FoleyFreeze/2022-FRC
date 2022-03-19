@@ -1,11 +1,11 @@
-package frc.robot.Auton;
+package frc.robot.Auton.AutoSubsytem.CameraCommands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.Auton.AutonSequential;
 import frc.robot.Auton.AutoSubsytem.AutonDriveAbsolute;
 import frc.robot.Auton.AutoSubsytem.AutonDriveRelative;
 import frc.robot.Auton.AutoSubsytem.AutonGather;
-import frc.robot.Auton.AutoSubsytem.AutonShoot;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 
 public class AutonRelDrvGthrShoot extends SequentialCommandGroup{
