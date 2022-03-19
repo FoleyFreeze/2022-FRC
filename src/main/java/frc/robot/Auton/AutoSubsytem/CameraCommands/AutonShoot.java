@@ -36,6 +36,11 @@ public class AutonShoot extends SequentialCommandGroup{
     }
 
     @Override
+    public void initialize(){
+        r.sensors.enableTgtLights(true);
+    }
+
+    @Override
     public void execute(){
         super.execute();
 
@@ -50,5 +55,10 @@ public class AutonShoot extends SequentialCommandGroup{
 
         //r.sensors.pdh.setSwitchableChannel(true);
         r.drive.driveSwerve(xy, zR);
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        r.sensors.enableTgtLights(false);
     }
 }

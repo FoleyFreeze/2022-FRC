@@ -16,6 +16,7 @@ public class AutonGather extends ParallelRaceGroup {
 
     @Override
     public void initialize(){
+        super.initialize();
         topBall = r.sensors.ballSensorUpper.get();
     }
 

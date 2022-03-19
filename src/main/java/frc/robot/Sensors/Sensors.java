@@ -185,19 +185,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
             tgtLights.set(true);
         } else {
             tgtLights.set(false);
-        }
-
-        if(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.intake()){
-            ballLightsL.set(true);
-            ballLightsR.set(true);
-        } else {
-            ballLightsL.set(false);
-            ballLightsR.set(false);
         }*/
-
-        ballLightsR.set(true);
-        ballLightsL.set(false);
-        tgtLights.set(false);
 
         //lights
         int ballCt = 0;
@@ -257,6 +245,19 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public boolean hasTargetImage(){
         if(cals.DISABLED) return false;
         return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT;
+    }
+
+    public void enableCargoLights(boolean on){
+        if(r.inputs.cameraDrive()){
+            ballLightsR.set(on);
+            ballLightsL.set(on);
+        }
+    }
+
+    public void enableTgtLights(boolean on){
+        if(r.inputs.cameraDrive()){
+            tgtLights.set(on);
+        }
     }
 
     @Override

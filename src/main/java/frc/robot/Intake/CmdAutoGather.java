@@ -35,7 +35,7 @@ public class CmdAutoGather extends CommandBase{
 
     @Override
     public void initialize(){
-        
+        r.sensors.enableCargoLights(true);
     }
 
     double intakeDelayStartTime;
@@ -206,6 +206,7 @@ public class CmdAutoGather extends CommandBase{
     public void end(boolean isFinished){
         r.cannon.transport(0);
         r.intake.intake(0);
+        r.sensors.enableCargoLights(false);
     }
 
     @Override

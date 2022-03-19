@@ -34,6 +34,11 @@ public class CmdShoot extends SequentialCommandGroup{
     }
 
     @Override
+    public void initialize(){
+        r.sensors.enableTgtLights(true);
+    }
+
+    @Override
     public void execute(){
         super.execute();
 
@@ -61,7 +66,12 @@ public class CmdShoot extends SequentialCommandGroup{
             zR = r.inputs.getDrivezR();
             r.drive.driveSwerve(xy, zR);
         }
-    } 
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        r.sensors.enableTgtLights(false);
+    }
 
     @Override
     public boolean isFinished(){
