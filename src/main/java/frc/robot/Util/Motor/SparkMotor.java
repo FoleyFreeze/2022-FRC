@@ -38,7 +38,6 @@ public class SparkMotor implements Motor{
         setBrake(cals.brake);
 
         //this is in units/tick
-        //TODO(1): do this later, but for now the 2019 bot assumes conversion outside the spark
         //encoder.setPositionConversionFactor(1 / cals.ticksPerUnit);
 
         pidController.setOutputRange(-cals.powerLimitMax, cals.powerLimitMax);
@@ -61,7 +60,7 @@ public class SparkMotor implements Motor{
     }
 
     public double getPosition(){
-        ////TODO(1): remove the scaling
+        //TODO(1): remove the scaling
         return encoder.getPosition() / cals.ticksPerUnit;
     }
 

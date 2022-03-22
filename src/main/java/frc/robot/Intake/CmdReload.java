@@ -10,7 +10,7 @@ public class CmdReload extends CmdAutoGather{
     double startTime;
 
     public CmdReload(RobotContainer r){
-        super(r, false);
+        super(r, true);
         this.r = r;
     }
 

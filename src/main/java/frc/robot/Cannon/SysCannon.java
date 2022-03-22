@@ -2,10 +2,8 @@ package frc.robot.Cannon;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.Util.Angle;
 import frc.robot.Util.Interpolate;
 import frc.robot.Util.Motor.Motor;
 

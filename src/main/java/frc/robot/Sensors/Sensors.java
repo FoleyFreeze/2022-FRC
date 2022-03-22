@@ -2,7 +2,6 @@ package frc.robot.Sensors;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticHub;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
@@ -125,7 +124,6 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         Log.logDouble(navX.getFieldOrientAngle(), Log.LOG_GROUPS.SENSORS, 1, true, "navx angle");
         Log.logString(navX.getFieldOrientDisplacement(isMoving).toStringXY(), Log.LOG_GROUPS.SENSORS, 1, true, "navx X, Y");
 
-        //TODO: figure out a better filtering strategy?
         botLoc = new Vector(encoders.botPos);
         botAng = navX.getFieldOrientAngle();
 

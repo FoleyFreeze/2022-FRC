@@ -21,6 +21,7 @@ public class CalsAuton {
     public static double minAutoPosError = 6;
     public static double minAutoAngError = 10;
     public static double autoSwerveKP = 0.01;
+    public static double autonDriveTime = 5;
 
     public class Position{
         public Vector v;
@@ -34,7 +35,7 @@ public class CalsAuton {
 
     //zero degrees is forward
 
-    int arrayLen = 10; //ensure that the position and skip lists are the same length
+    int arrayLen = 12; //ensure that the position and todo lists are the same length
     Position[][] positionList = {
         { //left start position
             new Position(Vector.fromXY(-64.5, -64.5), -133.5 -90), //init position
@@ -84,13 +85,60 @@ public class CalsAuton {
         extendFalse(true, true, false, false, true, false, true, true), //4-ball far
     };
 
+    //TODO: set manual positions & skip lists based on CAD models
+    int manArrayLen = 12; //ensure that the position and skip lists are the same length
+    Position[][] manPositionList = {
+        { //left start position
+            new Position(Vector.fromXY(-64.5, -64.5), -133.5 -90), //init position
+            null, //simple shoot
+            null, //wait time
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+        },
+
+        { //mid start position
+            new Position(Vector.fromXY(64.5, -64.5), -46.5 - 90), //init position
+            null, //simple shoot
+            null, //wait time
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+        },
+
+        { //right start position
+            new Position(Vector.fromXY(91.2, 4.9), 1.5 - 90), //init position
+            null, //simple shoot
+            null, //wait time
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90),
+        }
+    };
+    
+    boolean[][] manTodoLists = {
+        extendFalse(true), //do nothing, reset position
+        extendFalse(true, true), //1-ball
+        extendFalse(true, true, true, true), //1-ball, drive
+        extendFalse(true, true, false, false, true), //2-ball
+        extendFalse(true, true, false, false, true, true), //3-ball close
+        extendFalse(true, true, false, false, true, false, true), //3-ball far
+        extendFalse(true, true, false, false, true, true, true, true), //4-ball close
+        extendFalse(true, true, false, false, true, false, true, true), //4-ball far
+    };
+
     private boolean[] extendFalse(boolean... val){
-        boolean[] array = new boolean[arrayLen];
+        int arrayLength = useCamera ? arrayLen : manArrayLen;
+
+        boolean[] array = new boolean[arrayLength];
         int i=0;
         for(;i<val.length;i++){
             array[i] = val[i];
         }
-        for(;i<arrayLen;i++){
+        for(;i<arrayLength;i++){
             array[i] = false;
         }
 

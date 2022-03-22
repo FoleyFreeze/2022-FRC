@@ -1,11 +1,9 @@
 package frc.robot.Sensors.GPS;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.kauailabs.navx.frc.AHRS.SerialDataType;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.SPI;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;

@@ -5,9 +5,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Util.Angle;
 import frc.robot.Util.FileManager;
-import frc.robot.Util.Log;
 import frc.robot.Util.Vector;
-import frc.robot.Util.Log.LOG_GROUPS;
 
 public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     

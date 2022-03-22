@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
-import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.Wheel;
 import frc.robot.Inputs.Controls.DriverControls;
 import frc.robot.Inputs.Controls.OperatorControls;
@@ -77,7 +76,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     public Trigger resetNavXPos = new Trigger(){
         public boolean get(){
-            return driverJoy.getResetPos();
+            return driverJoy.resetFieldPos();
         }
     };
 
@@ -192,8 +191,8 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         if(driverJoy != null){
             double val = driverJoy.getY();
             val = deadBand(val, cals.FS_DEADBAND_LOWER, 
-                                  cals.FS_DEADBAND_UPPER, 
-                                  cals.FS_INIT_VALUE);
+                                cals.FS_DEADBAND_UPPER, 
+                                cals.FS_INIT_VALUE);
             return -expo(val, cals.FS_EXPO);
         }
         return 0;
@@ -230,9 +229,6 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
         Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, true, "has FlySky");
         Log.logBool(hasGamePad, Log.LOG_GROUPS.INPUTS, 5, true, "has gamepad");
-
-        Log.logDouble(getDriveY(), Log.LOG_GROUPS.INPUTS, 1, true, "input Y");
-        Log.logDouble(getDriveX(), Log.LOG_GROUPS.INPUTS, 1, true, "input X");
     }
 
     public void setMaxDrivePower(double power){

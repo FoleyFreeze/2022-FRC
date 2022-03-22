@@ -44,13 +44,9 @@ public class AutonSequential extends SequentialCommandGroup{
         };
 
         PositionProvider manualP = new PositionProvider(){
-
-            @Override
             public Position getPosition(int index) {
                 return manualPList[index];
             }
-
-            @Override
             public boolean todoList(int index) {
                 return manualTodoList[index];
             }  
@@ -70,11 +66,11 @@ public class AutonSequential extends SequentialCommandGroup{
                         new AutonAbsDrvGthSht(  r, p, 7, false, true)  //move back towards goal, shoot
                         );
         } else {//no-camera-only commands
-            addCommands(new ManAutonRelDrGthSht(r, manualP, 1, false, false),//move out of zone for 1-ball
-                        new ManAutonRelDrGthSht(r, manualP, 2),              //gather & shoot ball 2 (and ball 1 if we still have it), in front of our auton zone
-                        new ManAutonRelDrGthSht(r, manualP, 3),              //gather & shoot ball 3 in front of allied auton zone
-                        new ManAutonRelDrGthSht(r, manualP, 4, true, false), //move to loading station, gather ball 5
-                        new ManAutonAbsDrGthSht(r, manualP, 5, false, true)  //move back towards goal, shoot
+            addCommands(new ManAutonRelDrGthSht(r, manualP, 3, false, false),//move out of zone for 1-ball
+                        new ManAutonRelDrGthSht(r, manualP, 4),              //gather & shoot ball 2 (and ball 1 if we still have it), in front of our auton zone
+                        new ManAutonRelDrGthSht(r, manualP, 5),              //gather & shoot ball 3 in front of allied auton zone
+                        new ManAutonRelDrGthSht(r, manualP, 6, true, false), //move to loading station, gather ball 5
+                        new ManAutonAbsDrGthSht(r, manualP, 7, false, true)  //move back towards goal, shoot
                         );
         }
 
@@ -88,17 +84,17 @@ public class AutonSequential extends SequentialCommandGroup{
         todoList = cals.todoLists[r.ballCtChooser.getSelected()];
         waitTime = r.waitTime.getSelected();
 
-        /*
+        manualPList = cals.manPositionList[r.posChooser.getSelected()];
+        manualTodoList = cals.manTodoLists[r.ballCtChooser.getSelected()];
+
         switch(r.ballCtChooser.getSelected()){
-            case 2: //3ball close
-            case 4: //4ball close
-            case 6: //5ball
-                //if in an incompatable position then force single ball auton
-                if(r.posChooser.getSelected() != 2) todoList = cals.todoLists[0]; 
+            case 4: //3ball close
+            case 6: //4ball close
+            case 8: //5ball
+                //if in an incompatable position then force single ball-drive auton
+                if(r.posChooser.getSelected() != 2) todoList = cals.todoLists[2]; 
             break;
         }
-        */
-        //TODO: make this work!
 
         super.initialize();
     }

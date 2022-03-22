@@ -1,6 +1,7 @@
 package frc.robot.Cannon;
 
 import frc.robot.Robot;
+import frc.robot.Auton.CalsAuton;
 import frc.robot.Util.Vector;
 import frc.robot.Util.Motor.CalsMotor;
 import frc.robot.Util.Motor.CalsMotor.MotorType;
@@ -50,8 +51,8 @@ public class CalsCannon {
     public final double LOW_SHOOT_ANG = 78;
     public final double LAUNCH_PAD_SHOOT_SPEED = 1800;
     public final double LAUNCH_PAD_SHOOT_ANG = 57;
-    public final double TARMAC_SHOOT_SPEED = 1375;
-    public final double TARMAC_SHOOT_ANG = 70;
+    public final double TARMAC_SHOOT_SPEED = CalsAuton.simpleShootPrimeSpeed;
+    public final double TARMAC_SHOOT_ANG = CalsAuton.simpleShootPrimeAng;
     public double jogInitSpeed = 0;
     public double jogSpeedInterval = 25;//rpm
     public double jogInitAng = 0;

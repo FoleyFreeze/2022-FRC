@@ -20,8 +20,7 @@ public class AutonDriveAbsolute extends CommandBase {
     PositionProvider p;
     int idx;
 
-    double timer = 5;
-    double starttime = 0;//TODO: change time stuff to a cal or input
+    double starttime = 0;
 
     public AutonDriveAbsolute(RobotContainer r, PositionProvider p, int idx){
         this.r = r;
@@ -75,6 +74,6 @@ public class AutonDriveAbsolute extends CommandBase {
 
         prevLoc = currentLoc;
         prevDelta = delta;
-        return driveDone && angleDone || Timer.getFPGATimestamp() > starttime + timer;
+        return driveDone && angleDone || Timer.getFPGATimestamp() > starttime + CalsAuton.autonDriveTime;
     }
 }

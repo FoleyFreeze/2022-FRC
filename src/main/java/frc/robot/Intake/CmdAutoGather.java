@@ -1,25 +1,22 @@
 package frc.robot.Intake;
 
-import java.util.Currency;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
-import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
 public class CmdAutoGather extends CommandBase{
 
     RobotContainer r;
 
-    boolean useDrive;
+    boolean reloadMode;
 
-    public CmdAutoGather(RobotContainer r, boolean useDrive){
+    public CmdAutoGather(RobotContainer r, boolean reloadMode){
         this.r = r;
-        this.useDrive = useDrive;
-        if(useDrive){
+        this.reloadMode = reloadMode;
+        if(reloadMode){
             addRequirements(r.drive);
         }
         addRequirements(r.intake);
@@ -52,7 +49,7 @@ public class CmdAutoGather extends CommandBase{
         double time = Timer.getFPGATimestamp();
 
         //gatherer motor
-        if(useDrive){
+        if(!reloadMode){
             if(!lowBall){
                 r.intake.intake();
                 allowDrive = true;
@@ -135,13 +132,12 @@ public class CmdAutoGather extends CommandBase{
         }
 
         //drive code
-        if(useDrive){
+        if(!reloadMode){
             double x;
             double y;
             double zR;
             Vector xy;
 
-            double prevR = 0;
             double startTime = 0;
             boolean startTimeSet = false;
 
@@ -163,7 +159,6 @@ public class CmdAutoGather extends CommandBase{
                     x = r.intake.cals.kX.get() * cargoPos.getX();
                     y = Math.max(r.intake.cals.yPower.get() - x - zR, 0);
                     y += r.intake.cals.kY.get() * cargoPos.getY();
-                    prevR = cargoPos.r;
                     startTimeSet = false;
                 } else {//once the ball is within a certain window of distance, set the power directly
                     if(!startTimeSet){

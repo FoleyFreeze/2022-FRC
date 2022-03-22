@@ -48,6 +48,5 @@ public class CmdPrime extends CommandBase{
         if(Math.abs(ds.getAsDouble()) > 5) alignstarttime = Timer.getFPGATimestamp();
         boolean waitForBotAlign = !r.inputs.cameraDrive() || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
         return waitForBotAlign && r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() /*&& r.sensors.ballSensorUpper.get()*/;
-        //TODO: is ball sensor necessary?
     }
 }

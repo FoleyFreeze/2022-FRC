@@ -21,10 +21,6 @@ public class DriverControls extends Controls implements AutoCloseable{
     public void detectJoystick(){
         //for each potential joystick port
         if(!isFlySky || !joystick.isConnected()){
-            /*
-            isFlySky = true;
-            joystick = new Joystick(0);
-            */
             
             for(int i=0; i<DriverStation.kJoystickPorts; i++){
                 String name = DriverStation.getJoystickName(i);
@@ -53,7 +49,8 @@ public class DriverControls extends Controls implements AutoCloseable{
     }
 
 
-    //drive joystick buttons
+
+    //drive
     public double getX(){
         return checkAxis(joystick, activeCals.X_AXIS);
     }
@@ -66,30 +63,27 @@ public class DriverControls extends Controls implements AutoCloseable{
         return checkAxis(joystick, activeCals.Z_AXIS);
     }
 
-    double dial1Val = 0.154;
-    public double getDial1(){
-        if(checkButtons(joystick, activeCals.BOT_RIGHT_3POS_UP)){
-            dial1Val = (checkAxis(joystick, activeCals.RIGHT_DIAL) + 1) / 2.0;
-        }
-        return dial1Val;
-    }
-
-    double dial2Val;
-    public double getDial2(){
-        if(checkButtons(joystick, activeCals.BOT_RIGHT_3POS_DOWN)){
-            dial2Val = (checkAxis(joystick, activeCals.RIGHT_DIAL) + 1) / 2.0;
-        }
-        return dial2Val;
-    }
-
-    public double getDial3(){
-        return checkAxis(joystick, activeCals.RIGHT_DIAL);
-    }
-
     public boolean getFieldOrient(){
         return checkButtons(joystick, activeCals.fieldOrient);
     }
 
+    public boolean resetFieldPos(){
+        return checkButtons(joystick, activeCals.resetPosition);
+    }
+
+    double swerveAngTimer;
+    public boolean learnSwerveAngles(){
+        if(checkButtons(joystick, activeCals.learnWheelPositions)){
+            return Timer.getFPGATimestamp() - activeCals.wheelLearnWaitTime > swerveAngTimer;
+        } else {
+            swerveAngTimer = Timer.getFPGATimestamp();
+            return false;
+        }
+    }
+
+
+
+    //cannon
     public boolean getResetAngle(){
         return checkButtons(joystick, activeCals.resetAngle);
     }
@@ -104,21 +98,6 @@ public class DriverControls extends Controls implements AutoCloseable{
         }
     }
 
-    public boolean getResetPos(){
-        return checkButtons(joystick, activeCals.resetPosition);
-    }
-
-    double swerveAngTimer;
-    public boolean learnSwerveAngles(){
-        if(checkButtons(joystick, activeCals.learnWheelPositions)){
-            return Timer.getFPGATimestamp() - activeCals.wheelLearnWaitTime > swerveAngTimer;
-        } else {
-            swerveAngTimer = Timer.getFPGATimestamp();
-            return false;
-        }
-    }
-
-    //cannon joystick buttons
     public boolean fireCannon(){
         if(joystick != null){
             return joystick.getRawAxis(activeCals.fireCannon) > 0.5;
@@ -131,12 +110,27 @@ public class DriverControls extends Controls implements AutoCloseable{
         return checkButtons(joystick, activeCals.cameraShoot);
     }
 
-    public boolean loadCargo(){
-        return checkButtons(joystick, activeCals.loadCargo);
-    }
-
     public boolean resetCannonAng(){
         return checkButtons(joystick, activeCals.resetCannon);
+    }
+
+    public boolean fireSpin(){
+        return checkButtons(joystick, activeCals.fireSpin);
+    }
+
+    public boolean layUpShot(){
+        return checkButtons(joystick, activeCals.BOT_RIGHT_3POS_UP);
+    }
+    
+    public boolean launchPadShot(){
+        return checkButtons(joystick, activeCals.BOT_RIGHT_3POS_DOWN);
+    }
+
+
+
+    //intake buttons
+    public boolean loadCargo(){
+        return checkButtons(joystick, activeCals.loadCargo);
     }
 
     public boolean intakeAxis(){
@@ -163,17 +157,30 @@ public class DriverControls extends Controls implements AutoCloseable{
         return !intakeSpin() && !fireSpin();
     }
 
-    public boolean fireSpin(){
-        return checkButtons(joystick, activeCals.fireSpin);
+
+
+    //misc
+    double dial1Val = 0.154;
+    public double getDial1(){
+        if(checkButtons(joystick, activeCals.BOT_RIGHT_3POS_UP)){
+            dial1Val = (checkAxis(joystick, activeCals.RIGHT_DIAL) + 1) / 2.0;
+        }
+        return dial1Val;
     }
 
-    public boolean layUpShot(){
-        return checkButtons(joystick, activeCals.BOT_RIGHT_3POS_UP);
+    double dial2Val;
+    public double getDial2(){
+        if(checkButtons(joystick, activeCals.BOT_RIGHT_3POS_DOWN)){
+            dial2Val = (checkAxis(joystick, activeCals.RIGHT_DIAL) + 1) / 2.0;
+        }
+        return dial2Val;
     }
+
+    public double getDial3(){
+        return checkAxis(joystick, activeCals.RIGHT_DIAL);
+    }
+
     
-    public boolean launchPadShot(){
-        return checkButtons(joystick, activeCals.BOT_RIGHT_3POS_DOWN);
-    }
 
     @Override
     public void close() throws Exception {
