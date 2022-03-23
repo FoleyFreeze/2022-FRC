@@ -12,9 +12,9 @@ public class CalsAuton {
 
     public static double primeTime = 0.75;
     public static double shootTime = 1.0;
-    public static double simpleShootFirePwr = 1;
-    public static double simpleShootPrimeSpeed = 1375;
-    public static double simpleShootPrimeAng = 70;
+    public static double joeShotFirePwr = 1; //simple shoot
+    public static double joeShotPrimeSpeed = 1375; //simple shoot
+    public static double joeShotPrimeAng = 70; //simple shoot
 
     public static double maxDrivePower = 0.20;
     public static double maxSwervePower = 0.20;

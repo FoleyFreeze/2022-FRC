@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_robotContainer.sensors.pdh.setSwitchableChannel(true);
+    m_robotContainer.sensors.pdh.setSwitchableChannel(false);
   }
 
   /**
@@ -56,7 +56,7 @@ public class Robot extends TimedRobot {
     double time = Timer.getFPGATimestamp();
 
     double dt = time - prevTime;
-    SmartDashboard.putNumber("dT",dt);
+    //SmartDashboard.putNumber("dT",dt);
     prevTime = time;
 
   }

@@ -2,6 +2,7 @@ package frc.robot.Cannon;
 
 import frc.robot.Robot;
 import frc.robot.Auton.CalsAuton;
+import frc.robot.Util.EditableCal;
 import frc.robot.Util.Vector;
 import frc.robot.Util.Motor.CalsMotor;
 import frc.robot.Util.Motor.CalsMotor.MotorType;
@@ -51,8 +52,8 @@ public class CalsCannon {
     public final double LOW_SHOOT_ANG = 78;
     public final double LAUNCH_PAD_SHOOT_SPEED = 1800;
     public final double LAUNCH_PAD_SHOOT_ANG = 57;
-    public final double TARMAC_SHOOT_SPEED = CalsAuton.simpleShootPrimeSpeed;
-    public final double TARMAC_SHOOT_ANG = CalsAuton.simpleShootPrimeAng;
+    public final double TARMAC_SHOOT_SPEED = CalsAuton.joeShotPrimeSpeed;
+    public final double TARMAC_SHOOT_ANG = CalsAuton.joeShotPrimeAng;
     public double jogInitSpeed = 0;
     public double jogSpeedInterval = 25;//rpm
     public double jogInitAng = 0;
@@ -93,6 +94,7 @@ public class CalsCannon {
 
     public Vector targetLocation = Vector.fromXY(0, 0);
     public double maxPower = 0.2;
+    public EditableCal drivekR = new EditableCal("shootDrive kR", 0.03);
 
     public boolean useAutoLoad = false;
 

@@ -3,6 +3,7 @@ package frc.robot.Util;
 import java.util.ArrayList;
 import java.util.function.DoubleConsumer;
 
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class EditableCal {

@@ -1,5 +1,7 @@
 package frc.robot.Util;
 
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Log {
@@ -10,6 +12,7 @@ public class Log {
     private static int[] VALUES = {
         4,      0,      5,     5,       0
     };
+    ShuffleboardTab editableCalsTab;
 
     /* 
      * All log functions take the inputted importance integer and checks it
@@ -55,5 +58,9 @@ public class Log {
                 System.out.println(keyName + ":  " + value);
             }
         }
+    }
+
+    public static void logEditableCals(double val, String keyName){
+
     }
 }

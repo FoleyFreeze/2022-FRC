@@ -164,8 +164,8 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     camera.updateArray(target.location);
 
                     //also remove any error that was present in the calculated cargo locations
-                    if(alliedCargo != null) alliedCargo.location.add(target.location);
-                    if(opponentCargo != null) opponentCargo.location.add(target.location);
+                    if(alliedCargo.location != null) alliedCargo.location.add(target.location);
+                    if(opponentCargo.location != null) opponentCargo.location.add(target.location);
                     break;
             }
         }

@@ -33,9 +33,9 @@ public class AutonSimpleShoot extends CommandBase{
     @Override
     public void execute(){
         if(p.todoList(idx)){
-            r.cannon.prime(CalsAuton.simpleShootPrimeSpeed, CalsAuton.simpleShootPrimeAng);
+            r.cannon.prime(CalsAuton.joeShotPrimeSpeed, CalsAuton.joeShotPrimeAng);
             if(Timer.getFPGATimestamp() > CalsAuton.primeTime + startTime){
-                r.cannon.fire(CalsAuton.simpleShootFirePwr);
+                r.cannon.fire(CalsAuton.joeShotFirePwr);
             }
         }
     }

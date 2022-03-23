@@ -94,10 +94,10 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         }
     }
 
-    public void driveSwerveAng(Vector xy, double tgtAng){
+    public void driveSwerveAng(Vector xy, double tgtAng, double maxPwr, double kR){
         if(cals.DISABLED) return;
-        double zR = Angle.normDeg(tgtAng - r.sensors.botAng) * cals.kR;
-        if(zR > cals.MAX_DRIVE_PWR) zR = cals.MAX_DRIVE_PWR;
+        double zR = Angle.normDeg(tgtAng - r.sensors.botAng) * kR;
+        if(zR > maxPwr) zR = maxPwr;
 
         driveSwerve(xy, zR);
     }

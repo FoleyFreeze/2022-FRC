@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
+import frc.robot.Auton.CalsAuton;
 import frc.robot.Drive.Wheel;
 import frc.robot.Inputs.Controls.DriverControls;
 import frc.robot.Inputs.Controls.OperatorControls;
@@ -87,7 +88,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
     };
 
     public boolean cameraDrive(){
-        return driverJoy.cameraShoot();
+        return driverJoy.cameraShoot() || (DriverStation.isAutonomous() && CalsAuton.useCamera);
     }
     
     public Trigger fireCannon = new Trigger(){
