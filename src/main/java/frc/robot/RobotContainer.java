@@ -19,6 +19,7 @@ import frc.robot.Cannon.CmdCannonEasyReset;
 import frc.robot.Cannon.CmdShoot;
 import frc.robot.Cannon.SysCannon;
 import frc.robot.Climber.CalsClimb;
+import frc.robot.Climber.CmdClimb;
 import frc.robot.Climber.SysClimb;
 import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.CmdDrive;
@@ -63,7 +64,7 @@ public class RobotContainer implements AutoCloseable{
     inputs = new Inputs(new CalsInputs(), new CalsFlysky(), new CalsCBoard(), this);
     drive = new SysDriveTrain(new CalsDrive(), this);
     intake = new SysIntake(new CalsIntake());
-    climb = new SysClimb(new CalsClimb());
+    climb = new SysClimb(new CalsClimb(), this);
     cannon = new SysCannon(new CalsCannon(), this);
     sensors = new Sensors(new CalsSensors(), this); //needs to run after drive is created
     
@@ -118,7 +119,7 @@ public class RobotContainer implements AutoCloseable{
     inputs.resetNavXPos.whileActiveOnce(new InstantAlwaysCommand(sensors::resetPos));
       
     inputs.loadCargo.whileActiveOnce(new CmdLoadSequential(this));
-    inputs.fireCannon.whileActiveOnce(new CmdShoot(this));
+    inputs.fireCannon.and(inputs.getClimbMode.negate()).whileActiveOnce(new CmdShoot(this));
     inputs.resetCannon.whileActiveOnce(new CmdCannonAngleReset(this));
     //inputs.sensorResetCannon.whenActive(new CmdCannonSensorReset(this));
     inputs.sensorResetCannon.whenActive(new CmdCannonEasyReset(this));
@@ -131,6 +132,8 @@ public class RobotContainer implements AutoCloseable{
     inputs.gather.and(inputs.manualGather.negate()).and(inputs.autoGather.negate()).whileActiveOnce(new CmdGather(this));
     inputs.manualGather.whileActiveOnce(new CmdGatherManual(this));
     inputs.autoGather.and(inputs.gather).whileActiveOnce(new CmdAutoGather(this));
+
+    inputs.fireCannon.and(inputs.getClimbMode).whileActiveOnce(new CmdClimb(this));
   }
 
   /**

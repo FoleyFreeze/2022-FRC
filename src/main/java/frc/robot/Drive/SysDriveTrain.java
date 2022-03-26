@@ -94,9 +94,10 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         }
     }
 
-    public void driveSwerveAng(Vector xy, double tgtAng, double maxPwr, double kR){
+    public void driveSwerveAng(Vector xy, double tgtAng, double maxPwr, double kR, double kD){
         if(cals.DISABLED) return;
-        double zR = Angle.normDeg(tgtAng - r.sensors.botAng) * kR;
+        
+        double zR = (tgtAng - r.sensors.botAng) * kR;
         if(zR > maxPwr) zR = maxPwr;
 
         driveSwerve(xy, zR);
@@ -154,10 +155,6 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
     public void periodic(){
         if(cals.DISABLED) return;
-        //Log.logDouble(wheels[0].rawAbsEncOffset, LOG_GROUPS.DRIVE, 1, true, "Wheel 0 Abs Enc");
-        //Log.logDouble(wheels[1].rawAbsEncOffset, LOG_GROUPS.DRIVE, 1, true, "Wheel 1 Abs Enc");
-        //Log.logDouble(wheels[2].rawAbsEncOffset, LOG_GROUPS.DRIVE, 1, true, "Wheel 2 Abs Enc");
-        //Log.logDouble(wheels[3].rawAbsEncOffset, LOG_GROUPS.DRIVE, 1, true, "Wheel 3 Abs Enc");
     }
 
     @Override

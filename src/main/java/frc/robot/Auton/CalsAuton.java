@@ -7,7 +7,8 @@ public class CalsAuton {
     public static boolean useCamera = true;
 
     public static double autoShootAngleKP = 0.01;
-    public static double autoShootAngleMaxPwr = 0.3;
+    public static double autoShootAngleKD = 0.0;
+    public static double autoShootTurnMaxPwr = 0.3;
     public static double minShootDist = 15;
 
     public static double primeTime = 0.75;

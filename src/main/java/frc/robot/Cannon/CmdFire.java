@@ -9,7 +9,7 @@ public class CmdFire extends CommandBase{
     RobotContainer r;
     
     boolean canEndEarly;
-    boolean endEarly;
+    public boolean endEarly;
 
     boolean twoBalls;
     double startTime = Double.POSITIVE_INFINITY;

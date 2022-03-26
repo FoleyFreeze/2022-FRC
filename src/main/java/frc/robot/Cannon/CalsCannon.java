@@ -95,6 +95,7 @@ public class CalsCannon {
     public Vector targetLocation = Vector.fromXY(0, 0);
     public double maxPower = 0.2;
     public EditableCal drivekR = new EditableCal("shootDrive kR", 0.03);
+    public EditableCal drivekD = new EditableCal("shootDrive kD", 0.0);
 
     public boolean useAutoLoad = false;
 

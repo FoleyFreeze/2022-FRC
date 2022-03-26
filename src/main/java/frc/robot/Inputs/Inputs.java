@@ -69,6 +69,12 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         return driverJoy.getFieldOrient() && !DriverStation.isAutonomousEnabled();
     }
 
+    public Trigger getClimbMode = new Trigger(){
+        public boolean get(){
+            return operatorJoy.climbSwitch();
+        }
+    };
+
     public Trigger resetNavXAng = new Trigger(){
         public boolean get(){
             return driverJoy.getResetAngle();

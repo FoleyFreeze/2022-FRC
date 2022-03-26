@@ -3,7 +3,6 @@ package frc.robot.Util;
 import java.util.ArrayList;
 import java.util.function.DoubleConsumer;
 
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class EditableCal {
@@ -46,6 +45,7 @@ public class EditableCal {
         return cal;
     }
 
+    //sets the cal value to an inputted number on the dashboard
     public void check(){
         if(!enabled) return;
         double value = SmartDashboard.getNumber(name, cal);

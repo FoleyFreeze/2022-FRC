@@ -7,7 +7,8 @@ import frc.robot.RobotContainer;
 import frc.robot.Auton.CalsAuton;
 import frc.robot.Cannon.CmdFire;
 import frc.robot.Cannon.CmdPrime;
-import frc.robot.Util.Angle;
+import frc.robot.Cannon.CmdReFire;
+import frc.robot.Intake.CmdReload;
 import frc.robot.Util.Vector;
 
 public class AutonShoot extends SequentialCommandGroup{
@@ -19,24 +20,24 @@ public class AutonShoot extends SequentialCommandGroup{
         }
     };
 
+    CmdFire fireCmd;
+
     public AutonShoot(RobotContainer r){
-        this.r = r;
         addRequirements(r.cannon);
         addRequirements(r.drive);
+        this.r = r;
 
-        addCommands(new SequentialCommandGroup(new CmdPrime(r, ds), new CmdFire(r)));
-    }
-
-    private double getTurnPwr(double tgtAng){
-        double val = (Angle.normDeg(Math.toDegrees(tgtAng)) - r.sensors.botAng) * CalsAuton.autoShootAngleKP;
-        if(val > CalsAuton.autoShootAngleMaxPwr){
-            val = CalsAuton.autoShootAngleMaxPwr;
-        }
-        return val;
+        fireCmd = new CmdFire(r);
+        addCommands(new SequentialCommandGroup(new CmdPrime(r, ds), 
+                                               fireCmd,
+                                               new CmdReload(r),
+                                               new CmdReFire(r)));
     }
 
     @Override
     public void initialize(){
+        System.out.println("Cmd Shoot Init");
+        super.initialize();
         r.sensors.enableTgtLights(true);
     }
 
@@ -44,21 +45,27 @@ public class AutonShoot extends SequentialCommandGroup{
     public void execute(){
         super.execute();
 
-        double zR = getTurnPwr(r.sensors.botLoc.theta);
         Vector xy;
 
-            if(r.sensors.target.location.r < CalsAuton.minShootDist){
-                xy = new Vector(0, 0);
-            } else {
-                xy = new Vector(0, -0.3);
-            }
+        if(r.sensors.target.location.r < CalsAuton.minShootDist){
+            xy = new Vector(0, 0);
+        } else {
+            xy = new Vector(0, -0.3);
+        }
 
-        //r.sensors.pdh.setSwitchableChannel(true);
-        r.drive.driveSwerve(xy, zR);
+        r.drive.driveSwerveAng(xy, r.sensors.botLoc.theta, CalsAuton.autoShootTurnMaxPwr, CalsAuton.autoShootAngleKP, CalsAuton.autoShootAngleKD);
     }
 
     @Override
     public void end(boolean interrupted){
+        super.end(interrupted);
         r.sensors.enableTgtLights(false);
+        System.out.println("Cmd Shoot End");
+        r.cannon.setPower(0, 0); 
+    }
+
+    @Override
+    public boolean isFinished(){
+        return super.isFinished() || fireCmd.endEarly;
     }
 }

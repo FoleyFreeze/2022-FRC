@@ -1,6 +1,5 @@
 package frc.robot.Util;
 
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardContainer;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -58,9 +57,5 @@ public class Log {
                 System.out.println(keyName + ":  " + value);
             }
         }
-    }
-
-    public static void logEditableCals(double val, String keyName){
-
     }
 }
