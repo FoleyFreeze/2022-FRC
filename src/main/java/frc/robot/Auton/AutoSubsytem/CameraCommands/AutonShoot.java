@@ -1,7 +1,5 @@
 package frc.robot.Auton.AutoSubsytem.CameraCommands;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.CalsAuton;
@@ -14,11 +12,6 @@ import frc.robot.Util.Vector;
 public class AutonShoot extends SequentialCommandGroup{
 
     RobotContainer r;
-    DoubleSupplier ds = new DoubleSupplier(){
-        public double getAsDouble(){
-            return 0;
-        }
-    };
 
     CmdFire fireCmd;
 
@@ -28,7 +21,7 @@ public class AutonShoot extends SequentialCommandGroup{
         this.r = r;
 
         fireCmd = new CmdFire(r);
-        addCommands(new SequentialCommandGroup(new CmdPrime(r, ds), 
+        addCommands(new SequentialCommandGroup(new CmdPrime(r), 
                                                fireCmd,
                                                new CmdReload(r),
                                                new CmdReFire(r)));
@@ -52,15 +45,15 @@ public class AutonShoot extends SequentialCommandGroup{
         } else {
             xy = new Vector(0, -0.3);
         }
+        double angleTgt = Math.toDegrees(r.sensors.botLoc.theta);
 
-        r.drive.driveSwerveAng(xy, r.sensors.botLoc.theta, CalsAuton.autoShootTurnMaxPwr, CalsAuton.autoShootAngleKP, CalsAuton.autoShootAngleKD);
+        r.drive.driveSwerveAng(xy, angleTgt, CalsAuton.autoShootTurnMaxPwr, CalsAuton.autoShootAngleKP, CalsAuton.autoShootAngleKD);
     }
 
     @Override
     public void end(boolean interrupted){
         super.end(interrupted);
         r.sensors.enableTgtLights(false);
-        System.out.println("Cmd Shoot End");
         r.cannon.setPower(0, 0); 
     }
 

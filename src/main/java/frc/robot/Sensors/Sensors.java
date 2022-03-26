@@ -49,8 +49,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public PneumaticHub pcm;
     Solenoid tgtLights;
-    Solenoid ballLightsL;
-    Solenoid ballLightsR;
+    Solenoid ballLights;
 
     public Sensors(CalsSensors cals, RobotContainer r){
         this.cals = cals;
@@ -78,12 +77,10 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         pdh = new PowerDistribution();
 
         blinken = new Spark(9);
-        /*
+
         pcm = new PneumaticHub();
-        tgtLights = pcm.makeSolenoid(7);
-        ballLightsL = pcm.makeSolenoid(5);
-        ballLightsR = pcm.makeSolenoid(6);
-        */
+        tgtLights = pcm.makeSolenoid(1);
+        ballLights = pcm.makeSolenoid(2);
     }
 
     @Override
@@ -152,9 +149,6 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                 case VISION_TARGET:
                     camera.imgToLocation(vd);
                     SmartDashboard.putString("LastTargetLoc", vd.location.toStringXY());
-
-                    //vd.location.theta += Math.toRadians(botAng);
-                    vd.angle = botAng;
 
                     target = vd;
                     //reset robot position based on goal
@@ -247,16 +241,15 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public void enableCargoLights(boolean on){
         if(r.inputs.cameraDrive()){
-            //ballLightsR.set(on);
-            //ballLightsL.set(on);
-            pdh.setSwitchableChannel(on);
+            ballLights.set(on);
+            //pdh.setSwitchableChannel(on);
         }
     }
 
     public void enableTgtLights(boolean on){
         if(r.inputs.cameraDrive()){
-            //tgtLights.set(on);
-            pdh.setSwitchableChannel(on);
+            tgtLights.set(on);
+            //pdh.setSwitchableChannel(on);
         }
     }
 

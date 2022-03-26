@@ -19,7 +19,6 @@ public class Vision {
         public Vector location;
         public double timestamp;
         public Type type;
-        public double angle;
         public Camera camLocation;
     }
     public enum Type {

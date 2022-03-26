@@ -20,7 +20,7 @@ public class CalsIntake {
     public double intakeSpeed = 0.5;
     public double reverseSpeed = -0.5;
 
-    public EditableCal kX = new EditableCal("gather kX", 0.03, false);
+    public EditableCal kX = new EditableCal("gather kX", 0.03);
     public EditableCal kY = new EditableCal("gather kY", 0.015, false);
     public EditableCal yPower = new EditableCal("gather yPwr", 0.5, false);
     public EditableCal kR = new EditableCal("gather kR", 0.0, false);

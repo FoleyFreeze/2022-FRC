@@ -19,6 +19,8 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     double fieldOrientOffset;
     FileManager fm = new FileManager("/home/lvuser/WheelEncoderOffsets.txt");
 
+    public double angerror;
+
     public SysDriveTrain(CalsDrive cals, RobotContainer r){
         this.r = r;
         this.cals = cals;
@@ -97,7 +99,8 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     public void driveSwerveAng(Vector xy, double tgtAng, double maxPwr, double kR, double kD){
         if(cals.DISABLED) return;
         
-        double zR = (tgtAng - r.sensors.botAng) * kR;
+        angerror = Angle.normDeg(tgtAng - r.sensors.botAng);
+        double zR = angerror * kR;
         if(zR > maxPwr) zR = maxPwr;
 
         driveSwerve(xy, zR);

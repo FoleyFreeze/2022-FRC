@@ -1,9 +1,11 @@
 package frc.robot.Util;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Log {
+public class Log extends SubsystemBase{
 
     public static enum LOG_GROUPS{
         INPUTS, INTAKE, DRIVE, SENSORS, SHOOTER
@@ -11,7 +13,6 @@ public class Log {
     private static int[] VALUES = {
         4,      0,      5,     5,       0
     };
-    ShuffleboardTab editableCalsTab;
 
     /* 
      * All log functions take the inputted importance integer and checks it
@@ -58,4 +59,30 @@ public class Log {
             }
         }
     }
+
+
+    /*
+     * These functions log to specific shuffleboard tabs.
+     * Make all new tabs in this class.
+     */
+    public static ShuffleboardTab editableCalsTab;
+    public static ShuffleboardTab compTab;
+
+    public Log(){
+        editableCalsTab = Shuffleboard.getTab("editable cals");
+        compTab = Shuffleboard.getTab("comp");
+    }
+
+    public static void addValue(double val, String name, ShuffleboardTab tab){
+        tab.add(name, val);
+    }
+
+    public static void addValue(boolean val, String name, ShuffleboardTab tab){
+        tab.add(name, val);
+    }
+
+    public static void addValue(String val, String name, ShuffleboardTab tab){
+        tab.add(name, val);
+    }
+
 }

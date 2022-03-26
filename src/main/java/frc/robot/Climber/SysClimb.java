@@ -9,7 +9,8 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     RobotContainer r;
     public CalsClimb cals;
 
-    public Motor climbArms;
+    public Motor climbArmL;
+    public Motor climbArmR;
     public Motor climbWinch;
 
     public SysClimb(CalsClimb cals, RobotContainer r){
@@ -17,16 +18,22 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         this.cals = cals;
         if (cals.DISABLED) return;
 
-        climbArms = Motor.create(cals.climbArms);
+        climbArmL = Motor.create(cals.climbArmL);
+        climbArmR = Motor.create(cals.climbArmR);
         climbWinch = Motor.create(cals.climbWinch);
     }
 
     public void driveArms(double pwr){
-        climbArms.setPower(pwr);
+        climbArmL.setPower(pwr);
+        climbArmR.setPower(pwr);
     }
 
     public void driveArms(){
         driveArms(cals.armPower);
+    }
+
+    public void releaseArms(){
+        driveArms(cals.releaseArmsPower);
     }
 
     public void driveWinch(double pwr){
@@ -34,7 +41,11 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     }
 
     public void driveWinch(){
-        driveArms(cals.winchPower);
+        driveWinch(cals.winchPower);
+    }
+
+    public void releaseWinch(){
+        driveWinch(cals.releaseWinchPower);
     }
 
     boolean prevState = false;
@@ -50,7 +61,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
 
     @Override
     public void close() throws Exception {
-        climbArms.close();
+        climbArmL.close();
         climbWinch.close();
     }
 }

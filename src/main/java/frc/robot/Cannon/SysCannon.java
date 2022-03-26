@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Util.Interpolate;
+import frc.robot.Util.Log;
 import frc.robot.Util.Motor.Motor;
 
 public class SysCannon extends SubsystemBase implements AutoCloseable{
@@ -240,10 +241,9 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void periodic(){
         if (cals.DISABLED) return;
 
-        SmartDashboard.putNumber("Shooter Angle", getShooterAngle());
-        //SmartDashboard.putNumber("Raw ShooterPosition", angleMotor.getPosition());
-        SmartDashboard.putNumber("Shoot jogSpeed", jogSpeed);
-        SmartDashboard.putNumber("Shoot JogAngle", jogAng);
+        Log.addValue(getShooterAngle(), "Shooter Angle", Log.compTab);
+        Log.addValue(jogSpeed, "Shoot jogSpeed", Log.compTab);
+        Log.addValue(jogAng, "Shoot jogAngle", Log.compTab);
 
         double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)

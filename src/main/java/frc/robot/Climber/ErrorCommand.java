@@ -15,6 +15,7 @@ public abstract class ErrorCommand extends CommandBase{
     public void execute(){
         if(isError()){
             sCG.cancel();
+            System.out.println("ERROR: Something went wrong with the climber");
         }
     }
     

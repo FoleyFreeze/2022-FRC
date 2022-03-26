@@ -3,15 +3,27 @@
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Inputs": "Subsystem",
+      "/LiveWindow/Log": "Subsystem",
       "/LiveWindow/Sensors": "Subsystem",
       "/LiveWindow/SysCannon": "Subsystem",
       "/LiveWindow/SysClimb": "Subsystem",
       "/LiveWindow/SysDriveTrain": "Subsystem",
       "/LiveWindow/SysIntake": "Subsystem",
       "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[20]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[8]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[9]": "Digital Input",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Spark[9]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[2]": "Gyro",
-      "/LiveWindow/Vision": "Subsystem"
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/LiveWindow/Vision": "Subsystem",
+      "/Shuffleboard/comp/SendableChooser[0]": "String Chooser",
+      "/Shuffleboard/comp/SendableChooser[1]": "String Chooser",
+      "/Shuffleboard/comp/SendableChooser[2]": "String Chooser",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/SendableChooser[1]": "String Chooser",
+      "/SmartDashboard/SendableChooser[2]": "String Chooser"
     }
   }
 }

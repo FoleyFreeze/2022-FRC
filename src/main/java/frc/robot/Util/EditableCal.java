@@ -25,7 +25,7 @@ public class EditableCal {
         cal = value;
         name = nombre;
 
-        SmartDashboard.putNumber(nombre, value);
+        Log.addValue(value, nombre, Log.editableCalsTab);
 
         allCals.add(this);
     }
@@ -34,7 +34,7 @@ public class EditableCal {
         cal = value;
         name = nombre;
         if(enabled){
-            SmartDashboard.putNumber(nombre, value);
+            Log.addValue(value, nombre, Log.editableCalsTab);
         }
         this.enabled = enabled;
 

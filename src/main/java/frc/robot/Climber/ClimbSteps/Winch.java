@@ -61,30 +61,28 @@ public class Winch extends ErrorCommand{
     @Override
     public void execute(){
         super.execute();
-        updatePositionArray(r.climb.climbWinch.getPosition() * 360);
+        updatePositionArray(r.climb.climbWinch.getPosition());
 
-        if(posCheckDelayStart + r.climb.cals.posCheckDelayWinch > Timer.getFPGATimestamp()){//initial delay before checking position diff
+        if(currentStage > stage){
             r.climb.driveWinch();
-        } else if(Math.abs(getPosition(idx) - getPosition(idx - 10)) > r.climb.cals.minRotDiffWinch){//when we have travelled enough distance to be acceptable
-            r.climb.driveWinch();
-        } else {//winch has stopped
-            attached = true;//TODO: add extra end condition based on navX tilt
-            if(extraTimeStartSet){
-                extraTimeStartSet = true;
-                extraTimeStart = Timer.getFPGATimestamp();
-            }
+            r.climb.releaseArms();
         }
     }
 
     @Override
     public void end(boolean interrupted){
+        r.climb.driveArms(0);
         r.climb.driveWinch(0);
-        sv.set(currentStage + 1);
+        if(!interrupted){
+            sv.set(stage + 1);
+        }
     }
 
     @Override
     public boolean isFinished(){
-        return currentStage > stage || (attached && extraTimeStart + r.climb.cals.extraTimeWinch < Timer.getFPGATimestamp());
+        boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxWinch)) > r.climb.cals.minRotDiffWinch;
+        boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayWinch > Timer.getFPGATimestamp();
+        return currentStage > stage || (startTimePassed && stoppedMoving);
     }
 
     @Override

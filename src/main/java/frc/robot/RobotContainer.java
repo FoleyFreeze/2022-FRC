@@ -36,6 +36,7 @@ import frc.robot.Intake.SysIntake;
 import frc.robot.Sensors.CalsSensors;
 import frc.robot.Sensors.Sensors;
 import frc.robot.Util.InstantAlwaysCommand;
+import frc.robot.Util.Log;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -46,6 +47,7 @@ import frc.robot.Util.InstantAlwaysCommand;
 public class RobotContainer implements AutoCloseable{
   // The robot's subsystems and commands are defined here...
 
+  public final Log log;
   public final Inputs inputs;
   public final SysCannon cannon;
   public final SysDriveTrain drive;
@@ -61,6 +63,7 @@ public class RobotContainer implements AutoCloseable{
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    log = new Log();
     inputs = new Inputs(new CalsInputs(), new CalsFlysky(), new CalsCBoard(), this);
     drive = new SysDriveTrain(new CalsDrive(), this);
     intake = new SysIntake(new CalsIntake());
@@ -101,9 +104,9 @@ public class RobotContainer implements AutoCloseable{
     waitTime.addOption("5 seconds", 5.0);
     waitTime.addOption("6 seconds", 6.0);
 
-    SmartDashboard.putData(posChooser);
-    SmartDashboard.putData(ballCtChooser);
-    SmartDashboard.putData(waitTime);
+    Log.compTab.add(posChooser);
+    Log.compTab.add(ballCtChooser);
+    Log.compTab.add(waitTime);
   }
 
   /**

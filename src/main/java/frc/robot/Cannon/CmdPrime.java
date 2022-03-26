@@ -1,7 +1,5 @@
 package frc.robot.Cannon;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -9,14 +7,11 @@ import frc.robot.RobotContainer;
 public class CmdPrime extends CommandBase{
 
     RobotContainer r;
-    DoubleSupplier ds;
 
     double timer;
-    public CmdPrime(RobotContainer r, DoubleSupplier ds){
+    public CmdPrime(RobotContainer r){
         this.r = r;
-        this.ds = ds;
         addRequirements(r.cannon);
-        addRequirements(r.drive);
     }
 
     @Override
@@ -45,7 +40,7 @@ public class CmdPrime extends CommandBase{
     double alignstarttime;
     @Override
     public boolean isFinished(){
-        if(Math.abs(ds.getAsDouble()) > 5) alignstarttime = Timer.getFPGATimestamp();
+        if(Math.abs(r.drive.angerror) > 5) alignstarttime = Timer.getFPGATimestamp();
         boolean waitForBotAlign = !r.inputs.cameraDrive() || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
         return waitForBotAlign && r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() /*&& r.sensors.ballSensorUpper.get()*/;
     }

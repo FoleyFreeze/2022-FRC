@@ -14,7 +14,7 @@ public class Arms extends ErrorCommand{
     int currentStage;
     int stage;
 
-    double[] armPositionList = new double[20];
+    double[] armPositionList = new double[10];
     int idx = -1;
 
     double startTime;
@@ -61,30 +61,28 @@ public class Arms extends ErrorCommand{
     @Override
     public void execute(){
         super.execute();
-        updatePositionArray(r.climb.climbArms.getPosition() * 360);
+        updatePositionArray(r.climb.climbArmL.getPosition() * 360);
 
-        if(posCheckDelayStart + r.climb.cals.posCheckDelayArms > Timer.getFPGATimestamp()){//initial delay before checking position diff
+        if(currentStage > stage){
             r.climb.driveArms();
-        } else if(Math.abs(getPosition(idx) - getPosition(idx - 10)) > r.climb.cals.minRotDiffArms){//when we have travelled enough distance to be acceptable
-            r.climb.driveArms();
-        } else {//robot arms have stopped
-            attached = true;
-            if(extraTimeStartSet){
-                extraTimeStartSet = true;
-                extraTimeStart = Timer.getFPGATimestamp();
-            }
+            r.climb.releaseWinch();
         }
     }
 
     @Override
     public void end(boolean interrupted){
         r.climb.driveArms(0);
-        sv.set(currentStage + 1);
+        r.climb.driveWinch(0);
+        if(!interrupted){
+            sv.set(stage + 1);
+        }
     }
 
     @Override
     public boolean isFinished(){
-        return currentStage > stage || (attached && extraTimeStart + r.climb.cals.extraTimeArms < Timer.getFPGATimestamp());
+        boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxArms)) > r.climb.cals.minRotDiffArms;
+        boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayArms > Timer.getFPGATimestamp();
+        return currentStage > stage || (startTimePassed && stoppedMoving);
     }
 
     @Override
