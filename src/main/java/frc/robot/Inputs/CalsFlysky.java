@@ -50,6 +50,9 @@ public class CalsFlysky {
     public final int manualIntake = TOP_LEFT_3POS_DOWN;
     public final int intakeSpin = BOT_LEFT_3POS_DOWN;
     public final int fireSpin = BOT_LEFT_3POS_UP;
+
+    public final int resetClimbEncoder = TOP_LEFT_HAT_RIGHT | TOP_RIGHT_HAT_RIGHT;
+    public final int climbResetWaitTime = 1;
         
 
     public CalsFlysky(){

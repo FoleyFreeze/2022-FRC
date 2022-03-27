@@ -1,6 +1,7 @@
 package frc.robot.Climber;
 
 import frc.robot.Robot;
+import frc.robot.Util.EditableCal;
 import frc.robot.Util.Motor.CalsMotor;
 import frc.robot.Util.Motor.CalsMotor.MotorType;;
 
@@ -8,9 +9,9 @@ public class CalsClimb {
 
     public boolean DISABLED = false && Robot.isReal();
 
-    public CalsMotor climbArmL = new CalsMotor(MotorType.SPARK, 13).invert().setRamp(0.1).setEncUnits(45.0);
-    public CalsMotor climbArmR = new CalsMotor(MotorType.SPARK, 14).setRamp(0.1).setEncUnits(45.0);
-    public CalsMotor climbWinch = new CalsMotor(MotorType.TALON, 3).setRamp(0.1).setEncUnits(64.0/36.0);
+    public CalsMotor climbArmL = new CalsMotor(MotorType.SPARK, 13).invert().setRamp(0.4).setEncUnits(45.0).brake();
+    public CalsMotor climbArmR = new CalsMotor(MotorType.SPARK, 14).setRamp(0.4).setEncUnits(45.0).brake();
+    public CalsMotor climbWinch = new CalsMotor(MotorType.TALON, 3).invert().setRamp(0.2).setEncUnits(64.0/36.0).brake();
 
     //arms command cals
     public double posCheckDelayArms = 0.25;
@@ -18,8 +19,19 @@ public class CalsClimb {
     public double maxRunTimeArms = 10;
     public int prevIdxArms = 5;
 
-    public double armPower = 0.15;
+    public double armBasePower = 0.1;
+    public double armPower = 0.2;
     public double releaseArmsPower = -0.1;
+
+    public double armStartPoint = 10;
+    public double armHoldPoint = 77; //degrees
+    public double armHoldKp = 0.03; //2% per degree
+    public double winchOutRevs = -19;
+    public double winchBreakRevs = -30;
+    public double targetWinchOutRevs = -36.5;
+    public double winchKp = 0.1; //7% per rev
+    public double maxWinchPIDpwr = 0.8;
+    public double closeToWinchedPos = -5;
 
     //winch command cals
     public double posCheckDelayWinch = 0.1;
@@ -27,8 +39,8 @@ public class CalsClimb {
     public double maxRunTimeWinch = 10;
     public int prevIdxWinch = 5;
 
-    public double winchPower = 0.25;
-    public double releaseWinchPower = -0.2;
+    public EditableCal winchPower = new EditableCal("WinchPower", 0.5);
+    public double releaseWinchPower = -1.0;//FULL POWER!!!
 
     //release command cals
     public double releaseTime = 1;

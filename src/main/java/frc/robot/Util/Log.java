@@ -1,7 +1,11 @@
 package frc.robot.Util;
 
+import java.util.HashMap;
+import java.util.HashSet;
+
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -65,24 +69,41 @@ public class Log extends SubsystemBase{
      * These functions log to specific shuffleboard tabs.
      * Make all new tabs in this class.
      */
-    public static ShuffleboardTab editableCalsTab;
+    
     public static ShuffleboardTab compTab;
 
+    private static HashMap<String,SimpleWidget> names = new HashMap<>();
+
     public Log(){
-        editableCalsTab = Shuffleboard.getTab("editable cals");
         compTab = Shuffleboard.getTab("comp");
     }
 
     public static void addValue(double val, String name, ShuffleboardTab tab){
-        tab.add(name, val);
+        if(names.containsKey(name)){
+            names.get(name).getEntry().setValue(val);
+        } else {
+            //cant call add twice
+            SimpleWidget w = tab.add(name, val);
+            names.put(name, w);
+        }
     }
 
     public static void addValue(boolean val, String name, ShuffleboardTab tab){
-        tab.add(name, val);
+        if(names.containsKey(name)){
+            names.get(name).getEntry().setValue(val);
+        } else {
+            SimpleWidget w = tab.add(name, val);
+            names.put(name, w);
+        }
     }
 
     public static void addValue(String val, String name, ShuffleboardTab tab){
-        tab.add(name, val);
+        if(names.containsKey(name)){
+            names.get(name).getEntry().setValue(val);
+        } else {
+            SimpleWidget w = tab.add(name, val);
+            names.put(name, w);
+        }
     }
 
 }

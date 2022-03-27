@@ -1,13 +1,19 @@
 package frc.robot.Util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.function.DoubleConsumer;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 
 public class EditableCal {
 
     public static ArrayList<EditableCal> allCals = new ArrayList<>();
+
+    public static ShuffleboardTab calsTab = Shuffleboard.getTab("Cals");
+    public static HashMap<String,SimpleWidget> map = new HashMap<>();
 
     public static void periodic(){
         for (EditableCal c : allCals) {
@@ -19,13 +25,13 @@ public class EditableCal {
     public String name;
     public ArrayList<DoubleConsumer> callbacks = new ArrayList<>();
 
-    boolean enabled = true;
-
     public EditableCal(String nombre, double value){
         cal = value;
         name = nombre;
 
-        Log.addValue(value, nombre, Log.editableCalsTab);
+        //Log.addValue(value, nombre, Log.editableCalsTab);
+        SimpleWidget w = calsTab.add(nombre, value);
+        map.put(nombre, w);
 
         allCals.add(this);
     }
@@ -34,11 +40,12 @@ public class EditableCal {
         cal = value;
         name = nombre;
         if(enabled){
-            Log.addValue(value, nombre, Log.editableCalsTab);
-        }
-        this.enabled = enabled;
+            //Log.addValue(value, nombre, Log.editableCalsTab);
+            SimpleWidget w = calsTab.add(nombre, value);
+            map.put(nombre, w);
 
-        allCals.add(this);
+            allCals.add(this);
+        }
     }
 
     public double get(){
@@ -47,8 +54,9 @@ public class EditableCal {
 
     //sets the cal value to an inputted number on the dashboard
     public void check(){
-        if(!enabled) return;
-        double value = SmartDashboard.getNumber(name, cal);
+        //double value = SmartDashboard.getNumber(name, cal);
+        double value = map.get(name).getEntry().getNumber(0).doubleValue();
+
         if (value != cal){
             cal = value;
 
@@ -59,7 +67,6 @@ public class EditableCal {
     }
 
     public void addCallback(DoubleConsumer callMeMaybe){
-        if(!enabled) return;
         callbacks.add(callMeMaybe);
     }
 }
