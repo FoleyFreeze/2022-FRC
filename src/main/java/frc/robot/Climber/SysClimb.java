@@ -1,7 +1,9 @@
 package frc.robot.Climber;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Climber.ClimbSteps.Winch;
 import frc.robot.Util.Motor.Motor;
 
 public class SysClimb extends SubsystemBase implements AutoCloseable{
@@ -23,9 +25,20 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         climbWinch = Motor.create(cals.climbWinch);
     }
 
+    public void resetEncoders(){
+        climbArmL.resetEncoder();
+        climbArmR.resetEncoder();
+        climbWinch.resetEncoder();
+    }
+
     public void driveArms(double pwr){
         climbArmL.setPower(pwr);
         climbArmR.setPower(pwr);
+    }
+
+    public void driveArms(double left, double right){
+        climbArmL.setPower(left);
+        climbArmR.setPower(right);
     }
 
     public void driveArms(){
@@ -41,7 +54,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     }
 
     public void driveWinch(){
-        driveWinch(cals.winchPower);
+        driveWinch(cals.winchPower.get());
     }
 
     public void releaseWinch(){
@@ -57,6 +70,11 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         boolean currState = r.inputs.getClimbMode.get();
         CmdClimb.resetStage(!currState && prevState);
         prevState = currState;
+
+        SmartDashboard.putNumber("Left Arm", climbArmL.getPosition()*360);
+        SmartDashboard.putNumber("Right Arm", climbArmR.getPosition()*360);
+        SmartDashboard.putNumber("Winch Pos", climbWinch.getPosition());
+        SmartDashboard.putNumber("DialPower", r.inputs.driverJoy.getDial3());
     }
 
     @Override

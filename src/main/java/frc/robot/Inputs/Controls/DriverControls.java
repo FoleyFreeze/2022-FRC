@@ -81,7 +81,15 @@ public class DriverControls extends Controls implements AutoCloseable{
         }
     }
 
-
+    double climbResetTime;
+    public boolean resetClimber(){
+        if(checkButtons(joystick, activeCals.resetClimbEncoder)){
+            return Timer.getFPGATimestamp() - activeCals.climbResetWaitTime > climbResetTime;
+        } else {
+            climbResetTime = Timer.getFPGATimestamp();
+            return false;
+        }
+    }
 
     //cannon
     public boolean getResetAngle(){

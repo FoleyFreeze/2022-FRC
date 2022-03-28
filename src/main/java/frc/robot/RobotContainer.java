@@ -20,6 +20,7 @@ import frc.robot.Cannon.CmdShoot;
 import frc.robot.Cannon.SysCannon;
 import frc.robot.Climber.CalsClimb;
 import frc.robot.Climber.CmdClimb;
+import frc.robot.Climber.CmdManualClimb;
 import frc.robot.Climber.SysClimb;
 import frc.robot.Drive.CalsDrive;
 import frc.robot.Drive.CmdDrive;
@@ -120,10 +121,11 @@ public class RobotContainer implements AutoCloseable{
     inputs.resetSwerveAngles.whileActiveOnce(new InstantAlwaysCommand(drive::learnWheelAngs));
     inputs.resetNavXAng.whileActiveOnce(new InstantAlwaysCommand(sensors::resetAng));
     inputs.resetNavXPos.whileActiveOnce(new InstantAlwaysCommand(sensors::resetPos));
+    inputs.resetClimberEnc.whileActiveOnce(new InstantAlwaysCommand(climb::resetEncoders));
       
     inputs.loadCargo.whileActiveOnce(new CmdLoadSequential(this));
     inputs.fireCannon.and(inputs.getClimbMode.negate()).whileActiveOnce(new CmdShoot(this));
-    inputs.resetCannon.whileActiveOnce(new CmdCannonAngleReset(this));
+    //inputs.resetCannon.whileActiveOnce(new CmdCannonAngleReset(this));
     //inputs.sensorResetCannon.whenActive(new CmdCannonSensorReset(this));
     inputs.sensorResetCannon.whenActive(new CmdCannonEasyReset(this));
 
@@ -134,9 +136,10 @@ public class RobotContainer implements AutoCloseable{
 
     inputs.gather.and(inputs.manualGather.negate()).and(inputs.autoGather.negate()).whileActiveOnce(new CmdGather(this));
     inputs.manualGather.whileActiveOnce(new CmdGatherManual(this));
-    inputs.autoGather.and(inputs.gather).whileActiveOnce(new CmdAutoGather(this));
+    inputs.autoGather.and(inputs.gather).and(inputs.getClimbMode.negate()).whileActiveOnce(new CmdAutoGather(this));
 
-    inputs.fireCannon.and(inputs.getClimbMode).whileActiveOnce(new CmdClimb(this));
+    inputs.fireCannon.and(inputs.getClimbMode).and(inputs.manualClimber.negate()).whileActiveOnce(new CmdClimb(this));
+    inputs.fireCannon.and(inputs.manualClimber).whileActiveOnce(new CmdManualClimb(this));
   }
 
   /**

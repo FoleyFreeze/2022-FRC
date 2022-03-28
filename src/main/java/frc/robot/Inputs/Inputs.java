@@ -2,6 +2,7 @@ package frc.robot.Inputs;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.RobotContainer;
@@ -72,6 +73,12 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
     public Trigger getClimbMode = new Trigger(){
         public boolean get(){
             return operatorJoy.climbSwitch();
+        }
+    };
+
+    public Trigger resetClimberEnc = new Trigger(){
+        public boolean get(){
+            return driverJoy.resetClimber();
         }
     };
 
@@ -183,6 +190,12 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         }
     };
 
+    public Trigger manualClimber = new Trigger(){
+        public boolean get(){
+            return driverJoy.manualIntake() && operatorJoy.climbSwitch();
+        }
+    };
+
     public double getDriveX(){
         if(driverJoy != null){
             double val = driverJoy.getX();
@@ -236,11 +249,14 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
         Log.logBool(hasFlySky, Log.LOG_GROUPS.INPUTS, 5, true, "has FlySky");
         Log.logBool(hasGamePad, Log.LOG_GROUPS.INPUTS, 5, true, "has gamepad");
+        SmartDashboard.putNumber("MatchTime", DriverStation.getMatchTime());
     }
 
     public void setMaxDrivePower(double power){
-        for (Wheel w : r.drive.wheels){
-            w.cals.maxPower = power;
+        if(!r.drive.cals.DISABLED){
+            for (Wheel w : r.drive.wheels){
+                w.cals.maxPower = power;
+            }
         }
     }
 

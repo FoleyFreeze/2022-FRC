@@ -111,7 +111,9 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         //Log.logBool(navX.navX.isConnected(), Log.LOG_GROUPS.SENSORS, 1, true, "navX Connected");
 
         //update robot orientation and location
-        encoders.updateRobotLocation(navX.getFieldOrientAngle());
+        if(!r.drive.cals.DISABLED){
+            encoders.updateRobotLocation(navX.getFieldOrientAngle());
+        }
 
         Log.logString(encoders.botPos.toStringXY(), Log.LOG_GROUPS.SENSORS, 1, true, "encoder X, Y");
         Log.logDouble(encoders.botAng, Log.LOG_GROUPS.SENSORS, 1, true, "encoder angle");
@@ -125,8 +127,9 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         botAng = navX.getFieldOrientAngle();
 
         //update history array of robot positions and orientations
-        camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
-
+        if(!r.cannon.cals.DISABLED){
+            camera.addLocation(botLoc, botAng, Timer.getFPGATimestamp(), r.cannon.angleMotor.getPosition() * 360);
+        }
         //process all camera data (and update robot location again?)
 
         int count = 0;
@@ -171,7 +174,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putBoolean("Ball Sensor Low", ballSensorLower.get());
         SmartDashboard.putBoolean("Cannon Sensor", cannonAngleSensor.get());
 
-        //pdh.setSwitchableChannel(false);
+        pdh.setSwitchableChannel(cals.switchablePower.get() > 0);
         //pdh.setSwitchableChannel(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon());
         /*if(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon()){
             tgtLights.set(true);

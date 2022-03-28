@@ -1,6 +1,7 @@
 package frc.robot.Sensors;
 
 import frc.robot.Robot;
+import frc.robot.Util.EditableCal;
 import frc.robot.Util.Vector;
 
 public class CalsSensors {
@@ -19,6 +20,8 @@ public class CalsSensors {
     public Vector tgtCamLocation = Vector.fromXY(0, 0);
     public double ballCamAngleL = 90;
     public double tgtCamAngle = -90;
+
+    public EditableCal switchablePower = new EditableCal("SwitchedPwr", 1);
 
     public CalsSensors(){
 

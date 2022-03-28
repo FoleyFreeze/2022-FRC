@@ -9,7 +9,7 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsCannon {
     
-    public final boolean DISABLED = false && Robot.isReal();
+    public final boolean DISABLED = true && Robot.isReal();
 
     double maxAnglePwr = 0.25;
     double maxShootPower = 0.9;
@@ -86,7 +86,7 @@ public class CalsCannon {
     public double angOffset;
     public double resetAngle = 65;
 
-    public double climbCannonAng = 110;
+    public double climbCannonAng = 55; //110 was for the passive climb
 
     public double sensorResetAngle = 50;
     public double sensorResetPwr = 0.07;

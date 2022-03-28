@@ -27,7 +27,15 @@ public class TalonMotor implements Motor{
         motor.configPeakOutputForward(cals.powerLimitMax);
         motor.configPeakOutputReverse(cals.powerLimitMin);
 
-        motor.configClosedloopRamp(0.3);
+        motor.configClosedloopRamp(cals.rampRate);
+        motor.configOpenloopRamp(cals.rampRate);
+
+        if(cals.brake){
+            motor.setNeutralMode(NeutralMode.Brake);
+        } else {
+            motor.setNeutralMode(NeutralMode.Coast);
+        }
+        
     }
 
     public void setPower(double power){
@@ -39,7 +47,7 @@ public class TalonMotor implements Motor{
     }
 
     public double getPosition(){
-        return motor.getSelectedSensorPosition() / cals.ticksPerUnit;
+        return motor.getSelectedSensorPosition() / cals.ticksPerUnit / 2048.0;
     }
 
     public boolean getBrake(){

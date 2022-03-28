@@ -31,11 +31,14 @@ public class Release extends ErrorCommand{
 
     @Override
     public void execute(){
-        r.climb.driveArms(r.climb.cals.releasePwr);
+        if(currentStage <= stage){
+            r.climb.resetEncoders();
+        }
     }
 
     @Override
     public boolean isFinished(){
-        return currentStage > stage || startTime + r.climb.cals.releaseTime > Timer.getFPGATimestamp();
+        return true;
+        //return currentStage > stage || startTime + r.climb.cals.releaseTime > Timer.getFPGATimestamp();
     }
 }

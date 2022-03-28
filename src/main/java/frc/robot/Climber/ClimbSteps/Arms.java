@@ -32,7 +32,7 @@ public class Arms extends ErrorCommand{
         this.stage = stage;
     }
 
-    private void updatePositionArray(double val){
+    protected void updatePositionArray(double val){
         idx++;
         if(idx > armPositionList.length){
             idx = 0;
@@ -40,7 +40,7 @@ public class Arms extends ErrorCommand{
         armPositionList[idx] = val;
     }
 
-    private double getPosition(int idx){
+    protected double getPosition(int idx){
         int length = armPositionList.length;
         if(idx < 0){
             return armPositionList[length + idx];
@@ -56,6 +56,8 @@ public class Arms extends ErrorCommand{
         startTime = Timer.getFPGATimestamp();
         posCheckDelayStart = Timer.getFPGATimestamp();
         currentStage = sv.get();
+        System.out.println("Stage " + stage + " init");
+        System.out.println(currentStage + " " + stage);
     }
 
     @Override
@@ -63,9 +65,10 @@ public class Arms extends ErrorCommand{
         super.execute();
         updatePositionArray(r.climb.climbArmL.getPosition() * 360);
 
-        if(currentStage > stage){
+        if(currentStage <= stage){
             r.climb.driveArms();
-            r.climb.releaseWinch();
+            //r.climb.releaseWinch();
+            r.climb.climbWinch.setBrake(false);
         }
     }
 
@@ -73,9 +76,11 @@ public class Arms extends ErrorCommand{
     public void end(boolean interrupted){
         r.climb.driveArms(0);
         r.climb.driveWinch(0);
+        r.climb.climbWinch.setBrake(true);
         if(!interrupted){
             sv.set(stage + 1);
         }
+        System.out.println("Stage " + stage + " ended");
     }
 
     @Override
