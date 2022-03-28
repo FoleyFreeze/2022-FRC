@@ -1,6 +1,7 @@
 package frc.robot.Drive;
 
 import frc.robot.Robot;
+import frc.robot.Util.EditableCal;
 import frc.robot.Util.Vector;
 import frc.robot.Util.Motor.CalsMotor;
 import frc.robot.Util.Motor.CalsMotor.MotorType;
@@ -29,13 +30,13 @@ public class CalsDrive {
 
     //Swerve Motor PID
     public double[] angleEncoderOffsets = {4.896, 1.298, 0.544, 2.170};
-    double kPsw = 0.2;
-    double kIsw = 0.005;
-    double kDsw = 0.3;
-    double kFsw = 0.0;
+    EditableCal kPsw = new EditableCal("kP Swerve", 0.2);
+    EditableCal kIsw = new EditableCal("kI Swerve", 0.005);
+    EditableCal kDsw = new EditableCal("kD Swerve", 0.3);
+    EditableCal kFsw = new EditableCal("", 0.0, false);
     double iLimsw = 3;
     double dFiltsw = 0.00;
-    public  double maxSwervePwr = 0.6;
+    private EditableCal maxSwervePwr = new EditableCal("max swerve pwr", 0.5);
     
     double swerveRotationsPer360 = 60.0;
 

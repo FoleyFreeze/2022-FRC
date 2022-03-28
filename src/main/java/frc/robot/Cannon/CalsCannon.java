@@ -14,10 +14,10 @@ public class CalsCannon {
     double maxAnglePwr = 0.25;
     double maxShootPower = 0.9;
 
-    double shoot_kP = 0.25;
-    double shoot_kI = 0.0001;
-    double shoot_kD = 0.0;
-    double shoot_kF = 0.0507;
+    EditableCal shoot_kP = new EditableCal("shoot kP", 0.25);
+    EditableCal shoot_kI = new EditableCal("shoot kI", 0.0001);
+    EditableCal shoot_kD = new EditableCal("shoot kD", 0.0);
+    EditableCal shoot_kF = new EditableCal("shoot kF", 0.0507);
     double shoot_izone = 300;
 
     double angle_kP = 0.05;

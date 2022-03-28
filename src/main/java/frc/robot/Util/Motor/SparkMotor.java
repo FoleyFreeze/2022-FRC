@@ -1,5 +1,7 @@
 package frc.robot.Util.Motor;
 
+import java.util.function.DoubleConsumer;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
@@ -26,10 +28,37 @@ public class SparkMotor implements Motor{
         pidController = motor.getPIDController();
         encoder = motor.getEncoder();
 
-        pidController.setP(cals.kP);
-        pidController.setI(cals.kI);
-        pidController.setD(cals.kD);
-        pidController.setFF(cals.kF);
+        if(cals.eCkP != null){
+            setP(cals.eCkP.get());
+            cals.eCkP.addCallback(new DoubleConsumer() {
+                public void accept(double d){
+                    setP(d);
+                }
+            });
+            setI(cals.eCkI.get());
+            cals.eCkP.addCallback(new DoubleConsumer() {
+                public void accept(double d){
+                    setI(d);
+                }
+            });
+            setD(cals.eCkD.get());
+            cals.eCkP.addCallback(new DoubleConsumer() {
+                public void accept(double d){
+                    setD(d);
+                }
+            });
+            setF(cals.eCkF.get());
+            cals.eCkP.addCallback(new DoubleConsumer() {
+                public void accept(double d){
+                    setF(d);
+                }
+            });
+        } else {
+            pidController.setP(cals.kP);
+            pidController.setI(cals.kI);
+            pidController.setD(cals.kD);
+            pidController.setFF(cals.kF);
+        }
         pidController.setIZone(cals.kIlim);
         pidController.setDFilter(cals.dFilt);
 
@@ -40,10 +69,51 @@ public class SparkMotor implements Motor{
         //this is in units/tick
         //encoder.setPositionConversionFactor(1 / cals.ticksPerUnit);
 
-        pidController.setOutputRange(-cals.powerLimitMax, cals.powerLimitMax);
+        if(cals.eCpowerLimitMax != null){
+            cals.powerLimitMax = cals.eCpowerLimitMax.get();
+            if(cals.eCpowerLimitMin == null){
+                cals.powerLimitMin = -cals.eCpowerLimitMax.get();
+                cals.eCpowerLimitMax.addCallback(new DoubleConsumer() {
+                    public void accept(double d){
+                        setOutputRange(-d, d);
+                    }
+                });
+            } else {
+                cals.powerLimitMin = cals.eCpowerLimitMin.get();
+                cals.eCpowerLimitMax.addCallback(new DoubleConsumer() {
+                    public void accept(double d){
+                        cals.powerLimitMax = d;
+                        setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
+                    }
+                });
+                cals.eCpowerLimitMin.addCallback(new DoubleConsumer() {
+                    public void accept(double d){
+                        cals.powerLimitMin = d;
+                        setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
+                    }
+                });
+            }
+        }
+        setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
 
         motor.setOpenLoopRampRate(cals.rampRate);
         motor.setClosedLoopRampRate(cals.rampRate);
+    }
+
+    private void setP(double p){
+        pidController.setP(p);
+    }
+    private void setI(double p){
+        pidController.setI(p);
+    }
+    private void setD(double p){
+        pidController.setD(p);
+    }
+    private void setF(double p){
+        pidController.setFF(p);
+    }
+    private void setOutputRange(double min, double max){
+        pidController.setOutputRange(min, max);
     }
 
     public void setPower(double power){

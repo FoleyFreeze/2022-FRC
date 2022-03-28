@@ -1,5 +1,7 @@
 package frc.robot.Util.Motor;
 
+import frc.robot.Util.EditableCal;
+
 public class CalsMotor {
     
     public enum MotorType{
@@ -21,6 +23,14 @@ public class CalsMotor {
     public double kIlim = 0;
     public double dFilt = 0;
     public double izone = 0;
+
+    public EditableCal eCpowerLimitMax;
+    public EditableCal eCpowerLimitMin;
+
+    public EditableCal eCkP;
+    public EditableCal eCkI;
+    public EditableCal eCkD;
+    public EditableCal eCkF;
 
     public boolean invert;
     public boolean brake;
@@ -50,6 +60,14 @@ public class CalsMotor {
         return this;
     }
 
+    public CalsMotor setPIDF(EditableCal p, EditableCal i, EditableCal d, EditableCal f){
+        this.eCkP = p;
+        this.eCkI = i;
+        this.eCkD = d;
+        this.eCkF = f;
+        return this;
+    }
+
     public CalsMotor setDfilt(double filt){
         this.dFilt = filt;
         return this;
@@ -69,6 +87,18 @@ public class CalsMotor {
     public CalsMotor setPIDPwrLim(double min, double max){
         powerLimitMax = max;
         powerLimitMin = min;
+        return this;
+    }
+
+    public CalsMotor setPIDPwrLim(EditableCal max){
+        eCpowerLimitMax = max;
+        eCpowerLimitMin = null;
+        return this;
+    }
+
+    public CalsMotor setPIDPwrLim(EditableCal min, EditableCal max){
+        eCpowerLimitMax = max;
+        eCpowerLimitMin = min;
         return this;
     }
 
