@@ -97,6 +97,7 @@ public class CalsAuton {
             new Position(Vector.fromXY(0, 0), 0 - 90),
             new Position(Vector.fromXY(0, 0), 0 - 90),
             new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90)
         },
 
         { //mid start position
@@ -107,6 +108,7 @@ public class CalsAuton {
             new Position(Vector.fromXY(0, 0), 0 - 90),
             new Position(Vector.fromXY(0, 0), 0 - 90),
             new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90)
         },
 
         { //right start position
@@ -117,6 +119,7 @@ public class CalsAuton {
             new Position(Vector.fromXY(0, 0), 0 - 90),
             new Position(Vector.fromXY(0, 0), 0 - 90),
             new Position(Vector.fromXY(0, 0), 0 - 90),
+            new Position(Vector.fromXY(0, 0), 0 - 90)
         }
     };
     

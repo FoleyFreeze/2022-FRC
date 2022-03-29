@@ -1,5 +1,7 @@
 package frc.robot.Util.Motor;
 
+import java.util.function.DoubleConsumer;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -16,14 +18,66 @@ public class TalonMotor implements Motor{
 
         motor.setInverted(cals.invert);
 
-        motor.config_kP(0, cals.kP);
-        motor.config_kI(0, cals.kI);
-        motor.config_kD(0, cals.kD);
-        motor.config_kF(0, cals.kF);
+        if(cals.eCkP != null){
+            motor.config_kP(0, cals.eCkP.get());
+            cals.eCkP.addCallback(new DoubleConsumer() {
+                public void accept(double d){
+                    motor.config_kP(0, d);
+                }
+            });
+            motor.config_kI(0, cals.eCkI.get());
+            cals.eCkI.addCallback(new DoubleConsumer() {
+                public void accept(double d){
+                    motor.config_kP(0, d);
+                }
+            });
+            motor.config_kD(0, cals.eCkD.get());
+            cals.eCkD.addCallback(new DoubleConsumer() {
+                public void accept(double d){
+                    motor.config_kP(0, d);
+                }
+            });
+            motor.config_kF(0, cals.eCkF.get());
+            cals.eCkF.addCallback(new DoubleConsumer() {
+                public void accept(double d){
+                    motor.config_kP(0, d);
+                }
+            });
+
+        } else {
+            motor.config_kP(0, cals.kP);
+            motor.config_kI(0, cals.kI);
+            motor.config_kD(0, cals.kD);
+            motor.config_kF(0, cals.kF);
+        }
         if(cals.izone > 0){
             motor.config_IntegralZone(0, cals.izone);
         }
 
+        if(cals.eCpowerLimitMax != null){
+            cals.powerLimitMax = cals.eCpowerLimitMax.get();
+            if(cals.eCpowerLimitMin == null){
+                cals.powerLimitMin = -cals.eCpowerLimitMax.get();
+                cals.eCpowerLimitMax.addCallback(new DoubleConsumer() {
+                    public void accept(double d){
+                        motor.configPeakOutputForward(d);
+                        motor.configPeakOutputReverse(-d);
+                    }
+                });
+            } else {
+                cals.powerLimitMin = cals.eCpowerLimitMin.get();
+                cals.eCpowerLimitMax.addCallback(new DoubleConsumer() {
+                    public void accept(double d){
+                        motor.configPeakOutputForward(d);
+                    }
+                });
+                cals.eCpowerLimitMin.addCallback(new DoubleConsumer() {
+                    public void accept(double d){
+                        motor.configPeakOutputReverse(d);
+                    }
+                });
+            }
+        }
         motor.configPeakOutputForward(cals.powerLimitMax);
         motor.configPeakOutputReverse(cals.powerLimitMin);
 

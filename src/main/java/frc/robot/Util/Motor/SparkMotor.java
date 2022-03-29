@@ -29,28 +29,28 @@ public class SparkMotor implements Motor{
         encoder = motor.getEncoder();
 
         if(cals.eCkP != null){
-            setP(cals.eCkP.get());
+            pidController.setP(cals.eCkP.get());
             cals.eCkP.addCallback(new DoubleConsumer() {
                 public void accept(double d){
-                    setP(d);
+                    pidController.setP(d);
                 }
             });
-            setI(cals.eCkI.get());
+            pidController.setI(cals.eCkI.get());
             cals.eCkP.addCallback(new DoubleConsumer() {
                 public void accept(double d){
-                    setI(d);
+                    pidController.setI(d);
                 }
             });
-            setD(cals.eCkD.get());
+            pidController.setD(cals.eCkD.get());
             cals.eCkP.addCallback(new DoubleConsumer() {
                 public void accept(double d){
-                    setD(d);
+                    pidController.setD(d);
                 }
             });
-            setF(cals.eCkF.get());
+            pidController.setFF(cals.eCkF.get());
             cals.eCkP.addCallback(new DoubleConsumer() {
                 public void accept(double d){
-                    setF(d);
+                    pidController.setFF(d);
                 }
             });
         } else {
@@ -75,7 +75,7 @@ public class SparkMotor implements Motor{
                 cals.powerLimitMin = -cals.eCpowerLimitMax.get();
                 cals.eCpowerLimitMax.addCallback(new DoubleConsumer() {
                     public void accept(double d){
-                        setOutputRange(-d, d);
+                        pidController.setOutputRange(-d, d);
                     }
                 });
             } else {
@@ -83,37 +83,21 @@ public class SparkMotor implements Motor{
                 cals.eCpowerLimitMax.addCallback(new DoubleConsumer() {
                     public void accept(double d){
                         cals.powerLimitMax = d;
-                        setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
+                        pidController.setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
                     }
                 });
                 cals.eCpowerLimitMin.addCallback(new DoubleConsumer() {
                     public void accept(double d){
                         cals.powerLimitMin = d;
-                        setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
+                        pidController.setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
                     }
                 });
             }
         }
-        setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
+        pidController.setOutputRange(cals.powerLimitMin, cals.powerLimitMax);
 
         motor.setOpenLoopRampRate(cals.rampRate);
         motor.setClosedLoopRampRate(cals.rampRate);
-    }
-
-    private void setP(double p){
-        pidController.setP(p);
-    }
-    private void setI(double p){
-        pidController.setI(p);
-    }
-    private void setD(double p){
-        pidController.setD(p);
-    }
-    private void setF(double p){
-        pidController.setFF(p);
-    }
-    private void setOutputRange(double min, double max){
-        pidController.setOutputRange(min, max);
     }
 
     public void setPower(double power){

@@ -11,26 +11,26 @@ public class CalsCannon {
     
     public final boolean DISABLED = true && Robot.isReal();
 
-    double maxAnglePwr = 0.25;
-    double maxShootPower = 0.9;
+    EditableCal maxAnglePwr = new EditableCal("shoot angle pwr", 0.25);
+    EditableCal maxShootPower = new EditableCal("shoot pwr", 0.9);
 
     EditableCal shoot_kP = new EditableCal("shoot kP", 0.25);
     EditableCal shoot_kI = new EditableCal("shoot kI", 0.0001);
     EditableCal shoot_kD = new EditableCal("shoot kD", 0.0);
-    EditableCal shoot_kF = new EditableCal("shoot kF", 0.0507);
+    EditableCal shoot_kF = new EditableCal("shoot kF", 0.0507, false);
     double shoot_izone = 300;
 
-    double angle_kP = 0.05;
-    double angle_kI = 0.000;
-    double angle_kD = 0.05;
-    double angle_kF = 0.0;
+    EditableCal angle_kP = new EditableCal("angle kP", 0.05);
+    EditableCal angle_kI = new EditableCal("angle kI", 0.000);
+    EditableCal angle_kD = new EditableCal("angle kD", 0.05);
+    EditableCal angle_kF = new EditableCal("angle kF", 0.0, false);
     double angle_iLim = 0;
     double maxAngleSetTime = 0.25; //the amount of time the shooter is allowed to move after you release the command
 
     double angleGearRatio = 60 * 59 / 24;
 
-    public CalsMotor cwMotor = new CalsMotor(MotorType.TALON, 2).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,maxShootPower).setIzone(shoot_izone);
-    public CalsMotor ccwMotor = new CalsMotor(MotorType.TALON, 17).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(0,maxShootPower).setIzone(shoot_izone);
+    public CalsMotor cwMotor = new CalsMotor(MotorType.TALON, 2).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(EditableCal.ZERO,maxShootPower).setIzone(shoot_izone);
+    public CalsMotor ccwMotor = new CalsMotor(MotorType.TALON, 17).invert().setPIDF(shoot_kP, shoot_kI, shoot_kD, shoot_kF).setPIDPwrLim(EditableCal.ZERO,maxShootPower).setIzone(shoot_izone);
     public CalsMotor angleMotor = new CalsMotor(MotorType.SPARK, 15).setEncUnits(angleGearRatio).setPIDF(angle_kP, angle_kI, angle_kD, angle_kF).setkIlim(angle_iLim).setPIDPwrLim(maxAnglePwr).brake();
     public CalsMotor leftFireMotor = new CalsMotor(MotorType.SPARK, 7).invert().brake();
     public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 12).invert().brake();

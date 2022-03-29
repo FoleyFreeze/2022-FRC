@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 
 public class EditableCal {
 
+    public static final EditableCal ZERO = new EditableCal("zero", 0, false);
+
     public static ArrayList<EditableCal> allCals = new ArrayList<>();
 
     public static ShuffleboardTab calsTab = Shuffleboard.getTab("Cals");
