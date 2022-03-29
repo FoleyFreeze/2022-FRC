@@ -70,14 +70,33 @@ public class ManArms extends ErrorCommand {
         super.execute();
 
         if(currentStage <= stage){
-            
+            double armSetPoint;
+
             double winchPos = r.climb.climbWinch.getPosition();
-            if(winchPos > r.climb.cals.winchOutRevs){
+            double winchTarget;
+            if(stage == 1){
+                winchTarget = r.climb.cals.winchOutRevs;
+            } else {
+                winchTarget = r.climb.cals.winchOutRevsFar;
+            }
+
+            if(winchPos > winchTarget){
+                armSetPoint = r.climb.cals.armLowPoint;
+
                 r.climb.climbWinch.setBrake(false);
                 r.climb.driveWinch(r.climb.cals.releaseWinchPower);
             } else {
+                double tgt;
+                if(stage == 1){
+                    tgt = r.climb.cals.targetWinchOutRevs;
+                    armSetPoint = r.climb.cals.armHoldPoint;
+                } else {
+                    tgt = r.climb.cals.targetWinchOutRevsFar;
+                    armSetPoint = r.climb.cals.armLowHoldPoint;
+                }
+
                 //pid to target position
-                double wErr = r.climb.cals.targetWinchOutRevs - winchPos;
+                double wErr = tgt - winchPos;
                 double pwr = r.climb.cals.winchKp * wErr;
                 if(pwr > r.climb.cals.maxWinchPIDpwr) pwr = r.climb.cals.maxWinchPIDpwr;
                 else if(pwr < -r.climb.cals.maxWinchPIDpwr) pwr = -r.climb.cals.maxWinchPIDpwr;
@@ -88,8 +107,8 @@ public class ManArms extends ErrorCommand {
             
             double armL = r.climb.climbArmL.getPosition() * 360;
             double armR = r.climb.climbArmR.getPosition() * 360;
-            double errorL = r.climb.cals.armHoldPoint - armL;
-            double errorR = r.climb.cals.armHoldPoint - armR;
+            double errorL = armSetPoint - armL;
+            double errorR = armSetPoint - armR;
             double pwrL = errorL * r.climb.cals.armHoldKp;
             double pwrR = errorR * r.climb.cals.armHoldKp;
             
@@ -100,12 +119,17 @@ public class ManArms extends ErrorCommand {
             else if(winchPos < r.climb.cals.winchOutRevs) maxArmPower = r.climb.cals.armPower;
             else maxArmPower = r.climb.cals.armBasePower;
             
+            double minPwr = 0;
+            if(armSetPoint > 50 && stage != 1) minPwr = 0.1;
+
             if(pwrL > maxArmPower) pwrL = maxArmPower;
-            else if(pwrL < 0) pwrL = 0;
+            else if(pwrL < 0) pwrL = minPwr;
             if(pwrR > maxArmPower) pwrR = maxArmPower;
-            else if(pwrR < 0) pwrR = 0;
+            else if(pwrR < 0) pwrR = minPwr;
 
             r.climb.driveArms(pwrL, pwrR);
+        } else {
+            System.out.println("Stage " + stage + " skipped");
         }
     }
 
@@ -114,7 +138,7 @@ public class ManArms extends ErrorCommand {
         r.climb.driveArms(0);
         r.climb.driveWinch(0);
         r.climb.climbWinch.setBrake(true);
-        if(!interrupted){
+        if(!interrupted && currentStage == stage){
             sv.set(stage + 1);
         }
         System.out.println("Stage " + stage + " ended");

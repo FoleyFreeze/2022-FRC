@@ -27,13 +27,25 @@ public class Release extends ErrorCommand{
     public void initialize(){
         currentStage = sv.get();
         startTime = Timer.getFPGATimestamp();
+        System.out.println("Stage " + stage + " init");
+        System.out.println(currentStage + " " + stage);
     }
 
     @Override
     public void execute(){
         if(currentStage <= stage){
             r.climb.resetEncoders();
+        } else {
+            System.out.println("Stage " + stage + " skipped");
         }
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        if(!interrupted && currentStage == stage){
+            sv.set(stage + 1);
+        }
+        System.out.println("Stage " + stage + " ended");
     }
 
     @Override

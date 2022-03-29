@@ -1,9 +1,9 @@
 package frc.robot.Climber;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.Climber.ClimbSteps.Winch;
 import frc.robot.Util.Motor.Motor;
 
 public class SysClimb extends SubsystemBase implements AutoCloseable{
@@ -15,6 +15,8 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     public Motor climbArmR;
     public Motor climbWinch;
 
+    public DigitalInput limSwitch;
+
     public SysClimb(CalsClimb cals, RobotContainer r){
         this.r = r;
         this.cals = cals;
@@ -23,6 +25,8 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         climbArmL = Motor.create(cals.climbArmL);
         climbArmR = Motor.create(cals.climbArmR);
         climbWinch = Motor.create(cals.climbWinch);
+
+        limSwitch = new DigitalInput(0);
     }
 
     public void resetEncoders(){
@@ -75,6 +79,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putNumber("Right Arm", climbArmR.getPosition()*360);
         SmartDashboard.putNumber("Winch Pos", climbWinch.getPosition());
         SmartDashboard.putNumber("DialPower", r.inputs.driverJoy.getDial3());
+        SmartDashboard.putBoolean("winch lim sw", r.climb.limSwitch.get());
     }
 
     @Override

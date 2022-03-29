@@ -36,7 +36,7 @@ public class CalsAuton {
 
     //zero degrees is forward
 
-    int arrayLen = 12; //ensure that the position and todo lists are the same length
+    int arrayLen = 8; //ensure that the position and todo lists are the same length
     Position[][] positionList = {
         { //left start position
             new Position(Vector.fromXY(-64.5, -64.5), -133.5 -90), //init position
@@ -87,7 +87,7 @@ public class CalsAuton {
     };
 
     //TODO: set manual positions & skip lists based on CAD models
-    int manArrayLen = 12; //ensure that the position and skip lists are the same length
+    int manArrayLen = 7; //ensure that the position and skip lists are the same length
     Position[][] manPositionList = {
         { //left start position
             new Position(Vector.fromXY(-64.5, -64.5), -133.5 -90), //init position

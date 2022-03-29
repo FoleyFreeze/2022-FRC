@@ -67,7 +67,7 @@ public class Winch extends ErrorCommand{
 
         if(currentStage <= stage){
             double winchPos = r.climb.climbWinch.getPosition();
-            double wErr = 0 - winchPos;
+            double wErr = 5 - winchPos;
             double pwr = r.climb.cals.winchKp * wErr;
             if(pwr > r.climb.cals.winchPower.get()) pwr = r.climb.cals.winchPower.get();
             else if(pwr < -r.climb.cals.winchPower.get()) pwr = -r.climb.cals.winchPower.get();
@@ -87,14 +87,16 @@ public class Winch extends ErrorCommand{
                 double maxArmPower = r.climb.cals.releaseArmsPower;
                 //all flipped because maxpower is negative
                 if(pwrL < maxArmPower) pwrL = maxArmPower;
-                else if(pwrL > 0) pwrL = 0;
+                else if(pwrL > 0) pwrL = -maxArmPower;
                 if(pwrR < maxArmPower) pwrR = maxArmPower;
-                else if(pwrR > 0) pwrR = 0;
+                else if(pwrR > 0) pwrR = -maxArmPower;
 
                 r.climb.driveArms(pwrL, pwrR);
             } else {
-                r.climb.driveArms(0);
+                r.climb.driveArms(0.1);
             }
+        } else {
+            System.out.println("Stage " + stage + " skipped");
         }
     }
 
@@ -104,7 +106,7 @@ public class Winch extends ErrorCommand{
         r.climb.driveWinch(0);
         //r.climb.climbArmL.setBrake(true);
         //r.climb.climbArmR.setBrake(true);
-        if(!interrupted){
+        if(!interrupted && currentStage == stage){
             sv.set(stage + 1);
         }
         System.out.println("Stage " + stage + " ended");
@@ -116,6 +118,7 @@ public class Winch extends ErrorCommand{
         boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxWinch)) > r.climb.cals.minRotDiffWinch;
         boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayWinch > Timer.getFPGATimestamp();
         return currentStage > stage || (startTimePassed && stoppedMoving && correctPosition && r.inputs.gather.get());
+        //return currentStage > stage || !r.climb.limSwitch.get();
     }
 
     @Override

@@ -125,7 +125,7 @@ public class TalonMotor implements Motor{
 
     @Override
     public void resetEncoder() {
-        
+        motor.setSelectedSensorPosition(0);
     }
 
     @Override
