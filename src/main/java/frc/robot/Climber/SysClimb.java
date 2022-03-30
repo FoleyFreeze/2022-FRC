@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Util.SmartDigitalInput;
 import frc.robot.Util.Motor.Motor;
 
 public class SysClimb extends SubsystemBase implements AutoCloseable{
@@ -15,7 +16,8 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     public Motor climbArmR;
     public Motor climbWinch;
 
-    public DigitalInput limSwitch;
+    public SmartDigitalInput limSwitchL;
+    public SmartDigitalInput limSwitchR;
 
     public SysClimb(CalsClimb cals, RobotContainer r){
         this.r = r;
@@ -26,7 +28,10 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         climbArmR = Motor.create(cals.climbArmR);
         climbWinch = Motor.create(cals.climbWinch);
 
-        limSwitch = new DigitalInput(0);
+        limSwitchL = new SmartDigitalInput(18);
+        limSwitchR = new SmartDigitalInput(19);
+        limSwitchL.invert();
+        limSwitchR.invert();
     }
 
     public void resetEncoders(){
@@ -79,7 +84,8 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putNumber("Right Arm", climbArmR.getPosition()*360);
         SmartDashboard.putNumber("Winch Pos", climbWinch.getPosition());
         SmartDashboard.putNumber("DialPower", r.inputs.driverJoy.getDial3());
-        SmartDashboard.putBoolean("winch lim sw", r.climb.limSwitch.get());
+        SmartDashboard.putBoolean("L climb lim sw", r.climb.limSwitchL.get());
+        SmartDashboard.putBoolean("R climb lim sw", r.climb.limSwitchR.get());
     }
 
     @Override

@@ -74,28 +74,31 @@ public class ManArms extends ErrorCommand {
 
             double winchPos = r.climb.climbWinch.getPosition();
             double winchTarget;
-            if(stage == 1){
+            if(stage == 1){ //unroll the winch further when traversing bars vs climbing from the ground
                 winchTarget = r.climb.cals.winchOutRevs;
             } else {
                 winchTarget = r.climb.cals.winchOutRevsFar;
             }
 
+            //start by rolling out the winch at full speed
             if(winchPos > winchTarget){
                 armSetPoint = r.climb.cals.armLowPoint;
 
                 r.climb.climbWinch.setBrake(false);
                 r.climb.driveWinch(r.climb.cals.releaseWinchPower);
             } else {
+                //then transition to targeting a specific winch length
                 double tgt;
                 if(stage == 1){
                     tgt = r.climb.cals.targetWinchOutRevs;
                     armSetPoint = r.climb.cals.armHoldPoint;
                 } else {
+                    //more extention for traversals, also lower arm positions
                     tgt = r.climb.cals.targetWinchOutRevsFar;
                     armSetPoint = r.climb.cals.armLowHoldPoint;
                 }
 
-                //pid to target position
+                //pid to target winch position
                 double wErr = tgt - winchPos;
                 double pwr = r.climb.cals.winchKp * wErr;
                 if(pwr > r.climb.cals.maxWinchPIDpwr) pwr = r.climb.cals.maxWinchPIDpwr;
@@ -104,7 +107,7 @@ public class ManArms extends ErrorCommand {
                 r.climb.climbWinch.setBrake(true);
             }
 
-            
+            //pid to target arm position
             double armL = r.climb.climbArmL.getPosition() * 360;
             double armR = r.climb.climbArmR.getPosition() * 360;
             double errorL = armSetPoint - armL;
@@ -114,6 +117,7 @@ public class ManArms extends ErrorCommand {
             
             if(Math.abs(errorL + errorR) < 5) hasReachedThreshold = true;
 
+            //slow the arms when they are close to the target
             double maxArmPower;
             if(hasReachedThreshold) maxArmPower = r.climb.cals.armBasePower;
             else if(winchPos < r.climb.cals.winchOutRevs) maxArmPower = r.climb.cals.armPower;
@@ -146,9 +150,9 @@ public class ManArms extends ErrorCommand {
 
     @Override
     public boolean isFinished(){
-        //boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxArms)) > r.climb.cals.minRotDiffArms;
-        //boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayArms > Timer.getFPGATimestamp();
-        return currentStage > stage || r.inputs.gather.get();
+        boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxArms)) > r.climb.cals.minRotDiffArms;
+        boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayArms > Timer.getFPGATimestamp();
+        return currentStage > stage || (stoppedMoving && startTimePassed && stage != 1) || r.inputs.gather.get();
     }
 
     @Override

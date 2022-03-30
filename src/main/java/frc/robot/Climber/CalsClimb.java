@@ -15,7 +15,7 @@ public class CalsClimb {
     public CalsMotor climbWinch = new CalsMotor(MotorType.TALON, 3).invert().setRamp(0.2).setEncUnits(64.0/36.0).brake();
 
     //arms command cals
-    public double posCheckDelayArms = 0.25;
+    public double posCheckDelayArms = 0.5;
     public double minRotDiffArms = 5;//degrees
     public double maxRunTimeArms = 10;
     public int prevIdxArms = 5;
@@ -46,6 +46,10 @@ public class CalsClimb {
 
     public EditableCal winchPower = new EditableCal("WinchPower", 0.75);
     public double releaseWinchPower = -1.0;//FULL POWER!!!
+
+    //hook command cals
+    public double maxHookTime = 0.25;
+    public double allowedFallDist = 8;
 
     //release command cals
     public double releaseTime = 1;

@@ -66,6 +66,7 @@ public class Winch extends ErrorCommand{
         updatePositionArray(r.climb.climbWinch.getPosition());
 
         if(currentStage <= stage){
+            //winch PID
             double winchPos = r.climb.climbWinch.getPosition();
             double wErr = 5 - winchPos;
             double pwr = r.climb.cals.winchKp * wErr;
@@ -77,6 +78,7 @@ public class Winch extends ErrorCommand{
             r.climb.climbArmR.setBrake(false);
 
             if(winchPos > -25) {
+                //arm PID
                 double armL = r.climb.climbArmL.getPosition() * 360;
                 double armR = r.climb.climbArmR.getPosition() * 360;
                 double errorL = r.climb.cals.armStartPoint - armL;
@@ -117,8 +119,8 @@ public class Winch extends ErrorCommand{
         boolean correctPosition = r.climb.climbWinch.getPosition() > r.climb.cals.closeToWinchedPos;
         boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxWinch)) > r.climb.cals.minRotDiffWinch;
         boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayWinch > Timer.getFPGATimestamp();
-        return currentStage > stage || (startTimePassed && stoppedMoving && correctPosition && r.inputs.gather.get());
-        //return currentStage > stage || !r.climb.limSwitch.get();
+        //return currentStage > stage || (startTimePassed && stoppedMoving && correctPosition && r.inputs.gather.get());
+        return currentStage > stage || (r.climb.limSwitchR.get() && r.climb.limSwitchL.get() && startTimePassed) || r.inputs.gather.get();
     }
 
     @Override
