@@ -88,6 +88,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         if(cals.DISABLED) return;
 
         vision.periodic();
+        navX.periodic();
 
         ballSensorLower.update();
         ballSensorUpper.update();
@@ -173,6 +174,9 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putBoolean("Ball Sensor High", ballSensorUpper.get());
         SmartDashboard.putBoolean("Ball Sensor Low", ballSensorLower.get());
         SmartDashboard.putBoolean("Cannon Sensor", cannonAngleSensor.get());
+
+        SmartDashboard.putNumber("Pitch", navX.pitch);
+        SmartDashboard.putNumber("Pitch Rate", navX.pitchRate);
 
         pdh.setSwitchableChannel(cals.switchablePower.get() > 0);
         //pdh.setSwitchableChannel(r.inputs.driverJoy.cameraShoot() && r.inputs.driverJoy.fireCannon());

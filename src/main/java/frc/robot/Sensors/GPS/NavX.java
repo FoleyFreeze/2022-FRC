@@ -101,6 +101,18 @@ public class NavX implements AutoCloseable {
         }
     }
 
+
+    public double pitch;
+    private double prevPitch;
+    public double pitchRate;
+    public void periodic(){
+        if(isDisabled) return;
+
+        pitch = navX.getRoll();
+        pitchRate = pitch - prevPitch;
+        prevPitch = pitch;
+    }
+
     @Override
     public void close() throws Exception {
         navX.close();

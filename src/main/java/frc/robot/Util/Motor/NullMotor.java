@@ -52,5 +52,10 @@ public class NullMotor implements Motor{
     public void setEncoderPosition(double position) {
         
     }
+
+    @Override
+    public double getMotorSideCurrent() {
+        return 0;
+    }
     
 }

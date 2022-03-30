@@ -170,4 +170,9 @@ public class SparkMotor implements Motor{
     public void setEncoderPosition(double position){
         encoder.setPosition(position * cals.ticksPerUnit);
     }
+
+    @Override
+    public double getMotorSideCurrent() {
+        return 0;
+    }
 }

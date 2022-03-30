@@ -61,7 +61,6 @@ public class CmdClimb extends SequentialCommandGroup{
     @Override
     public void execute(){
         super.execute();
-        SmartDashboard.putNumber("climb stage", stage);
     }
 
     @Override

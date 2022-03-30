@@ -115,21 +115,21 @@ public class ManArms extends ErrorCommand {
             double pwrL = errorL * r.climb.cals.armHoldKp;
             double pwrR = errorR * r.climb.cals.armHoldKp;
             
-            if(Math.abs(errorL + errorR) < 5) hasReachedThreshold = true;
+            //if(Math.abs(errorL + errorR) < 5) hasReachedThreshold = true;
 
             //slow the arms when they are close to the target
-            double maxArmPower;
-            if(hasReachedThreshold) maxArmPower = r.climb.cals.armBasePower;
-            else if(winchPos < r.climb.cals.winchOutRevs) maxArmPower = r.climb.cals.armPower;
-            else maxArmPower = r.climb.cals.armBasePower;
+            double maxArmPower = 0.2;
+            //if(hasReachedThreshold) maxArmPower = r.climb.cals.armBasePower;
+            //else if(winchPos < r.climb.cals.winchOutRevs) maxArmPower = r.climb.cals.armPower;
+            //else maxArmPower = r.climb.cals.armBasePower;
             
             double minPwr = 0;
             if(armSetPoint > 50 && stage != 1) minPwr = 0.1;
 
             if(pwrL > maxArmPower) pwrL = maxArmPower;
-            else if(pwrL < 0) pwrL = minPwr;
+            else if(pwrL < minPwr) pwrL = minPwr;
             if(pwrR > maxArmPower) pwrR = maxArmPower;
-            else if(pwrR < 0) pwrR = minPwr;
+            else if(pwrR < minPwr) pwrR = minPwr;
 
             r.climb.driveArms(pwrL, pwrR);
         } else {
@@ -150,9 +150,10 @@ public class ManArms extends ErrorCommand {
 
     @Override
     public boolean isFinished(){
+        boolean outofphase1;
         boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxArms)) > r.climb.cals.minRotDiffArms;
-        boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayArms > Timer.getFPGATimestamp();
-        return currentStage > stage || (stoppedMoving && startTimePassed && stage != 1) || r.inputs.gather.get();
+        boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayArms < Timer.getFPGATimestamp();
+        return currentStage > stage || /*(stoppedMoving && startTimePassed && stage != 1) ||*/ r.inputs.leftTriggerRisingEdge;
     }
 
     @Override

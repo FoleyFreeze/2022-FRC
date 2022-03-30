@@ -28,10 +28,8 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         climbArmR = Motor.create(cals.climbArmR);
         climbWinch = Motor.create(cals.climbWinch);
 
-        limSwitchL = new SmartDigitalInput(18);
-        limSwitchR = new SmartDigitalInput(19);
-        limSwitchL.invert();
-        limSwitchR.invert();
+        limSwitchL = new SmartDigitalInput(6);
+        limSwitchR = new SmartDigitalInput(7);
     }
 
     public void resetEncoders(){
@@ -71,6 +69,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     }
 
     boolean prevState = false;
+    boolean manualClimb = false;
     @Override
     public void periodic(){
         if (cals.DISABLED) return;
@@ -86,6 +85,21 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putNumber("DialPower", r.inputs.driverJoy.getDial3());
         SmartDashboard.putBoolean("L climb lim sw", r.climb.limSwitchL.get());
         SmartDashboard.putBoolean("R climb lim sw", r.climb.limSwitchR.get());
+
+        //manual winch climb control
+        if(r.inputs.operatorJoy.climbUp() && r.inputs.operatorJoy.shift()){
+            manualClimb = true;
+            driveWinch(0.25);
+        } else if(r.inputs.operatorJoy.climbDn() && r.inputs.operatorJoy.shift()){
+            manualClimb = true;
+            driveWinch(-0.25);
+        } else if(manualClimb){
+            manualClimb = false;
+            driveWinch(0);
+        }
+
+        SmartDashboard.putNumber("ClimbCurr",climbWinch.getMotorSideCurrent());
+        SmartDashboard.putNumber("climb stage", CmdClimb.stage);
     }
 
     @Override

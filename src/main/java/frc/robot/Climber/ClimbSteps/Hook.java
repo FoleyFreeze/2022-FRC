@@ -15,6 +15,7 @@ public class Hook extends ErrorCommand {
     double winchInitPos;
 
     double startTime;
+    boolean fallenTooFar;
 
     public Hook(RobotContainer r, SharedVariables sv, int stage, SequentialCommandGroup sCG){
         super(sCG);
@@ -36,8 +37,32 @@ public class Hook extends ErrorCommand {
 
     @Override
     public void execute(){
+
+        //drive the arms to 10 degrees
+        double armL = r.climb.climbArmL.getPosition() * 360;
+        double armR = r.climb.climbArmR.getPosition() * 360;
+        double errorL = r.climb.cals.armStartPoint - armL;
+        double errorR = r.climb.cals.armStartPoint - armR;
+        double pwrL = errorL * r.climb.cals.armHoldKp;
+        double pwrR = errorR * r.climb.cals.armHoldKp;
+
+        double maxArmPower = r.climb.cals.releaseArmsPower;
+        //all flipped because maxpower is negative
+        if(pwrL < maxArmPower) pwrL = maxArmPower;
+        else if(pwrL > -maxArmPower) pwrL = -maxArmPower;
+        if(pwrR < maxArmPower) pwrR = maxArmPower;
+        else if(pwrR > -maxArmPower) pwrR = -maxArmPower;
+        r.climb.driveArms(pwrL, pwrR);
+
+
+        fallenTooFar = Math.abs(r.climb.climbWinch.getPosition() - winchInitPos) > r.climb.cals.allowedFallDist;
+        if(fallenTooFar){
+            System.out.println("Fell: " + (r.climb.climbWinch.getPosition() - winchInitPos) + " revs");
+        }
+        
+        super.execute();
         if(currentStage <= stage){
-            if(Math.abs(r.climb.climbWinch.getPosition() - winchInitPos) > r.climb.cals.allowedFallDist){
+            if(fallenTooFar){
                 r.climb.climbWinch.setBrake(true);
             } else {
                 r.climb.climbWinch.setBrake(false);
@@ -49,9 +74,14 @@ public class Hook extends ErrorCommand {
 
     @Override
     public void end(boolean interrupted){
+        r.climb.driveArms(0);
+        r.climb.driveWinch(0);
         r.climb.climbWinch.setBrake(true);
-
-        if(!interrupted && currentStage == stage){
+        
+        if(fallenTooFar){
+            //if we fell, go back to the winch stage
+            sv.set(stage-1);
+        } else if(!interrupted && currentStage == stage){
             sv.set(stage + 1);
         }
         System.out.println("Stage " + stage + " ended");
@@ -59,7 +89,13 @@ public class Hook extends ErrorCommand {
 
     @Override
     public boolean isFinished(){
-        return currentStage > stage || startTime + r.climb.cals.maxHookTime < Timer.getFPGATimestamp();
+        boolean time = startTime + r.climb.cals.maxHookTime < Timer.getFPGATimestamp();
+        return currentStage > stage || r.inputs.leftTriggerRisingEdge || (time && !fallenTooFar);
+    }
+
+    @Override
+    public boolean isError(){
+        return fallenTooFar;
     }
 
 

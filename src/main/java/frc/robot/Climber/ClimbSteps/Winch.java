@@ -114,13 +114,18 @@ public class Winch extends ErrorCommand{
         System.out.println("Stage " + stage + " ended");
     }
 
+    double stoppedTime;
+
     @Override
     public boolean isFinished(){
+        boolean startTimePassed = startTime + r.climb.cals.posCheckDelayWinch < Timer.getFPGATimestamp();
         boolean correctPosition = r.climb.climbWinch.getPosition() > r.climb.cals.closeToWinchedPos;
-        boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxWinch)) > r.climb.cals.minRotDiffWinch;
-        boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayWinch > Timer.getFPGATimestamp();
+        boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxWinch)) < r.climb.cals.minRotDiffWinch;
+        if(!stoppedMoving) stoppedTime = Timer.getFPGATimestamp();
+        boolean stoppedTimePassed = Timer.getFPGATimestamp() > stoppedTime + r.climb.cals.winchStallTime;
+        boolean pitchAndPitchRate = (r.sensors.navX.pitch < 10 && r.sensors.navX.pitchRate < 0) || stage == 2;
         //return currentStage > stage || (startTimePassed && stoppedMoving && correctPosition && r.inputs.gather.get());
-        return currentStage > stage || (r.climb.limSwitchR.get() && r.climb.limSwitchL.get() && startTimePassed) || r.inputs.gather.get();
+        return currentStage > stage || (/*r.climb.limSwitchR.get() && r.climb.limSwitchL.get()*/ stoppedMoving && stoppedTimePassed && startTimePassed && pitchAndPitchRate) || r.inputs.leftTriggerRisingEdge;
     }
 
     @Override

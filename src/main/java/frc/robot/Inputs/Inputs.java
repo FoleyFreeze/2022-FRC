@@ -229,7 +229,13 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
         return 0;
     }
 
+    private boolean prevLeftTrig = false;
+    public boolean leftTriggerRisingEdge = false;
     public void periodic(){
+
+        boolean leftTrig = driverJoy.intake();
+        leftTriggerRisingEdge = leftTrig && !prevLeftTrig;
+        prevLeftTrig = leftTrig;
 
         if(Timer.getFPGATimestamp() > time){
             

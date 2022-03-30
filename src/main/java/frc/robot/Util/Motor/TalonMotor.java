@@ -118,6 +118,10 @@ public class TalonMotor implements Motor{
         }
     }
 
+    public double getMotorSideCurrent(){
+        return motor.getStatorCurrent();
+    }
+
     @Override
     public void close() throws Exception {
         throw new NoSuchMethodException();
