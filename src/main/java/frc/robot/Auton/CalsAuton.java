@@ -4,7 +4,7 @@ import frc.robot.Util.Vector;
 
 public class CalsAuton {
 
-    public static boolean useCamera = true;
+    public static boolean useCamera = false;
 
     public static double autoShootAngleKP = 0.01;
     public static double autoShootAngleKD = 0.0;
@@ -17,7 +17,7 @@ public class CalsAuton {
     public static double joeShotPrimeSpeed = 1375; //simple shoot
     public static double joeShotPrimeAng = 70; //simple shoot
 
-    public static double maxDrivePower = 0.20;
+    public static double maxDrivePower = 0.25;
     public static double maxSwervePower = 0.20;
     public static double minAutoPosError = 6;
     public static double minAutoAngError = 10;
@@ -36,7 +36,7 @@ public class CalsAuton {
 
     //zero degrees is forward
 
-    int arrayLen = 8; //ensure that the position and todo lists are the same length
+    static final int arrayLen = 8; //ensure that the position and todo lists are the same length
     Position[][] positionList = {
         { //left start position
             new Position(Vector.fromXY(-64.5, -64.5), -133.5 -90), //init position
@@ -68,7 +68,7 @@ public class CalsAuton {
             null, //wait time
             new Position(Vector.fromXY(48, 0), -90), //move after 1-ball auton (REL)
             //new Position(Vector.fromXY(27, -4), -52.0 - 90), //grab close ball (REL)
-            new Position(Vector.fromXY(50, -4), 180), //grab close ball (REL)
+            new Position(Vector.fromXY(50, -32), -118), //grab close ball (REL)
             new Position(Vector.fromXY(118.3, -77.3), -123 - 90), //grab second ball (ABS)
             new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
             new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
@@ -87,39 +87,45 @@ public class CalsAuton {
     };
 
     //TODO: set manual positions & skip lists based on CAD models
-    int manArrayLen = 7; //ensure that the position and skip lists are the same length
+    static final int manArrayLen = 10; //ensure that the position and skip lists are the same length
     Position[][] manPositionList = {
-        { //left start position
-            new Position(Vector.fromXY(-64.5, -64.5), -133.5 -90), //init position
+        { //left start position MANUAL, NO CAMERA
+            new Position(Vector.fromXY(-64.5, -64.5), 136.5), //init position
             null, //simple shoot
             null, //wait time
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90)
+            new Position(Vector.fromXY(-48, -48), 136.5), //move after 1-ball auton (REL)
+            new Position(Vector.fromXY(162-244+5, -129), 136.5), //grab close ball (ABS)
+            new Position(Vector.fromXY(-64.5-7,-64.5-15), 136.5),//shoot for 2 ball
+            null,
+            null,
+            null,
+            null
         },
 
-        { //mid start position
+        { //mid start position MANUAL, NO CAMERA
             new Position(Vector.fromXY(64.5, -64.5), -46.5 - 90), //init position
             null, //simple shoot
             null, //wait time
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90)
+            new Position(Vector.fromXY(0, -48), -46.5 - 90), //move after 1-ball auton (REL)
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
         },
 
-        { //right start position
+        { //right start position MANUAL, NO CAMERA
             new Position(Vector.fromXY(91.2, 4.9), 1.5 - 90), //init position
             null, //simple shoot
             null, //wait time
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90),
-            new Position(Vector.fromXY(0, 0), 0 - 90)
+            new Position(Vector.fromXY(40, 0), -90), //move after 1-ball auton (REL)
+            new Position(Vector.fromXY(91.2+50-1, 4.9-32-5), -90), //grab close ball (ABS)
+            new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball
+            new Position(Vector.fromXY(162-74-19, -125), 155), //grab second ball (ABS)
+            new Position(Vector.fromXY(75,-75), -132),//move then shoot
+            new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
+            new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
         }
     };
     
@@ -127,17 +133,18 @@ public class CalsAuton {
         extendFalse(true), //do nothing, reset position
         extendFalse(true, true), //1-ball
         extendFalse(true, true, true, true), //1-ball, drive
-        extendFalse(true, true, false, false, true), //2-ball
-        extendFalse(true, true, false, false, true, true), //3-ball close
+        extendFalse(true, true, false, false, true, true), //2-ball
+        extendFalse(true, true, false, false, true, false, true, true), //3-ball close
         extendFalse(true, true, false, false, true, false, true), //3-ball far
-        extendFalse(true, true, false, false, true, true, true, true), //4-ball close
-        extendFalse(true, true, false, false, true, false, true, true), //4-ball far
+        extendFalse(true, true, false, false, true, true, true), //4-ball close
+        extendFalse(true, true, false, false, true, false, true), //4-ball far
     };
 
     private boolean[] extendFalse(boolean... val){
-        int arrayLength = useCamera ? arrayLen : manArrayLen;
+        int arrayLength = Math.max(arrayLen, manArrayLen);
 
         boolean[] array = new boolean[arrayLength];
+        //System.out.println(val.length + " " + arrayLength + " " + manArrayLen);
         int i=0;
         for(;i<val.length;i++){
             array[i] = val[i];

@@ -13,13 +13,10 @@ public class ManAutonAbsDrGthSht extends ManAutonRelDrGthSht{
 
     public ManAutonAbsDrGthSht(RobotContainer r, PositionProvider p, int idx){
         super(r, p, idx);
-        this.r = r;
-        this.p = p;
-        this.idx = idx;
     }
 
     @Override
     protected AutonDriveAbsolute getDrive(){
-        return new AutonDriveRelative(r, p, idx);
+        return new AutonDriveAbsolute(r, p, idx);
     }
 }

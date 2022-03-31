@@ -45,7 +45,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void prime(boolean setAngle){
         if (cals.DISABLED) return;
-        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
+        if(false/*r.inputs.cameraDrive() && r.sensors.hasTargetImage()*/){
             prime(r.sensors.target.location.r, setAngle);
         } else if(cals.useVariableShootSpeed){
             double speed = r.inputs.driverJoy.getDial1() * 
@@ -241,6 +241,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void periodic(){
         if (cals.DISABLED) return;
 
+        SmartDashboard.putNumber("ShootSpeed", cwMotor.getSpeed());
+
         Log.addValue(getShooterAngle(), "Shooter Angle", Log.compTab);
         Log.addValue(jogSpeed, "Shoot jogSpeed", Log.compTab);
         Log.addValue(jogAng, "Shoot jogAngle", Log.compTab);
@@ -265,6 +267,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             //transport();
             //System.out.println("Ran preload");
             fire(cals.preLoadPower);
+            //preLoadRan = 0;
         } else if(preLoadRan < 5) {
             //System.out.println("Stopped preload");
             fire(0);

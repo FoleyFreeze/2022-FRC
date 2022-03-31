@@ -1,10 +1,12 @@
 package frc.robot.Drive;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Util.Angle;
 import frc.robot.Util.FileManager;
+import frc.robot.Util.Log;
 import frc.robot.Util.Vector;
 
 public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
@@ -98,10 +100,13 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
     public void driveSwerveAng(Vector xy, double tgtAng, double maxPwr, double kR, double kD){
         if(cals.DISABLED) return;
-        
+
         angerror = Angle.normDeg(tgtAng - r.sensors.botAng);
-        double zR = angerror * kR;
+        SmartDashboard.putNumber("RotAngleErr", angerror);
+
+        double zR = angerror * kR + r.sensors.dBotAng * kD;
         if(zR > maxPwr) zR = maxPwr;
+        else if(zR < -maxPwr) zR = -maxPwr;
 
         driveSwerve(xy, zR);
     }
@@ -158,6 +163,18 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
     public void periodic(){
         if(cals.DISABLED) return;
+
+        double maxDriveTemp = 0;
+        double maxSwerveTemp = 0;
+        for(Wheel w : wheels){
+            double t = w.getDriveTemp();
+            if(t > maxDriveTemp) maxDriveTemp = t;
+            t = w.getSwerveTemp();
+            if(t > maxSwerveTemp) maxSwerveTemp = t;
+        }
+
+        Log.addValue(maxDriveTemp, "DriveTemp", Log.compTab);
+        Log.addValue(maxSwerveTemp, "SwerveTemp", Log.compTab);
     }
 
     @Override

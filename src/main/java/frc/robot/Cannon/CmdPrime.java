@@ -22,7 +22,6 @@ public class CmdPrime extends CommandBase{
 
     @Override
     public void execute(){
-
         if(!r.inputs.autoGather.get() || r.sensors.ballSensorUpper.get() || r.sensors.ballSensorLower.get()){
             r.cannon.prime();
         }
@@ -40,8 +39,9 @@ public class CmdPrime extends CommandBase{
     double alignstarttime;
     @Override
     public boolean isFinished(){
-        if(Math.abs(r.drive.angerror) > 5) alignstarttime = Timer.getFPGATimestamp();
-        boolean waitForBotAlign = !r.inputs.cameraDrive() || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
+        boolean isLayup = r.inputs.driverJoy.layUpShot();
+        if(Math.abs(r.drive.angerror) > 3) alignstarttime = Timer.getFPGATimestamp();
+        boolean waitForBotAlign = !r.inputs.cameraDrive() || isLayup || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
         return waitForBotAlign && r.cannon.upToSpeed() && r.cannon.angleAligned() && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() /*&& r.sensors.ballSensorUpper.get()*/;
     }
 }

@@ -134,7 +134,7 @@ public class RobotContainer implements AutoCloseable{
     inputs.jogLeft.whenActive(new InstantAlwaysCommand(cannon::jogAngBack));
     inputs.jogRight.whenActive(new InstantAlwaysCommand(cannon::jogAngFwd));
 
-    inputs.gather.and(inputs.manualGather.negate()).and(inputs.autoGather.negate()).whileActiveOnce(new CmdGather(this));
+    //inputs.gather.and(inputs.manualGather.negate()).and(inputs.autoGather.negate()).whileActiveOnce(new CmdGather(this));
     inputs.manualGather.whileActiveOnce(new CmdGatherManual(this));
     inputs.autoGather.and(inputs.gather).and(inputs.getClimbMode.negate()).whileActiveOnce(new CmdAutoGather(this));
 

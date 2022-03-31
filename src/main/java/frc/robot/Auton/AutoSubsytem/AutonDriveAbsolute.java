@@ -47,11 +47,13 @@ public class AutonDriveAbsolute extends CommandBase {
         if(xy.r > CalsAuton.maxDrivePower){
             xy.r = CalsAuton.maxDrivePower;
         }
+         
         if(!r.inputs.getFieldOrient()){
             //if we are not field oriented, act field oriented
             xy.theta -= Math.toRadians(r.sensors.botAng);
         }
-        r.drive.driveSwerve(xy, rot);
+
+        r.drive.driveSwerveAng(xy, rot, CalsAuton.maxSwervePower, CalsAuton.autoSwerveKP, 0);
     }
 
     @Override
@@ -59,21 +61,20 @@ public class AutonDriveAbsolute extends CommandBase {
         r.drive.driveSwerve(new Vector(0,0), 0);
     }
 
-    Vector prevLoc;
     double prevDelta;
     @Override
     public boolean isFinished(){
         if(driveVec == null) return true;
 
-        Vector currentLoc = r.sensors.botLoc;
-        double delta = Math.abs(currentLoc.r - prevLoc.r);
-        boolean driveDone = delta > prevDelta;
+        Vector toTarget = Vector.subVectors(driveVec, r.sensors.botLoc);
+        double dist = Math.abs(toTarget.r);
+        boolean driveDone = prevDelta < dist && Timer.getFPGATimestamp() > starttime + 0.5;
+        //System.out.println("DeltaDelta " + (dist - prevDelta));
+        prevDelta = dist;
 
         double deltaAng = Angle.normDeg(rot - r.sensors.botAng);
-        boolean angleDone = deltaAng < CalsAuton.minAutoAngError;
+        boolean angleDone = Math.abs(deltaAng) < CalsAuton.minAutoAngError;
 
-        prevLoc = currentLoc;
-        prevDelta = delta;
         return driveDone && angleDone || Timer.getFPGATimestamp() > starttime + CalsAuton.autonDriveTime;
     }
 }

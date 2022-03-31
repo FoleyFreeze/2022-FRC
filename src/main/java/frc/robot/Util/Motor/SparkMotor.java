@@ -175,4 +175,9 @@ public class SparkMotor implements Motor{
     public double getMotorSideCurrent() {
         return 0;
     }
+
+    @Override
+    public double getTemp() {
+        return motor.getMotorTemperature();
+    }
 }

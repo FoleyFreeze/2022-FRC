@@ -9,14 +9,14 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsCannon {
     
-    public final boolean DISABLED = true && Robot.isReal();
+    public final boolean DISABLED = false && Robot.isReal();
 
     EditableCal maxAnglePwr = new EditableCal("shoot angle pwr", 0.25);
     EditableCal maxShootPower = new EditableCal("shoot pwr", 0.9);
 
-    EditableCal shoot_kP = new EditableCal("shoot kP", 0.25);
-    EditableCal shoot_kI = new EditableCal("shoot kI", 0.0001);
-    EditableCal shoot_kD = new EditableCal("shoot kD", 0.0);
+    EditableCal shoot_kP = new EditableCal("shoot kP", 0.1, false);
+    EditableCal shoot_kI = new EditableCal("shoot kI", 0.002, false);
+    EditableCal shoot_kD = new EditableCal("shoot kD", 0.0, false);
     EditableCal shoot_kF = new EditableCal("shoot kF", 0.0507, false);
     double shoot_izone = 300;
 
@@ -50,7 +50,7 @@ public class CalsCannon {
     public final double LAYUP_SHOOT_ANG = 83;
     public final double LOW_SHOOT_SPEED = 775;
     public final double LOW_SHOOT_ANG = 78;
-    public final double LAUNCH_PAD_SHOOT_SPEED = 1800;
+    public final double LAUNCH_PAD_SHOOT_SPEED = 1850;
     public final double LAUNCH_PAD_SHOOT_ANG = 57;
     public final double TARMAC_SHOOT_SPEED = CalsAuton.joeShotPrimeSpeed;
     public final double TARMAC_SHOOT_ANG = CalsAuton.joeShotPrimeAng;
@@ -75,7 +75,7 @@ public class CalsCannon {
     public double maxPrimeTimeSpd = 2100;
     public double alignTime = 0.3;
 
-    public double preLoadTime = 1.0; //0.3
+    public double preLoadTime = 0.4; //0.3
     public double preLoadPower = 0.4;
     public double fireLoadPwr = 0.2;
     public double loadTime = 0.4;
@@ -94,8 +94,8 @@ public class CalsCannon {
 
     public Vector targetLocation = Vector.fromXY(0, 0);
     public double maxPower = 0.2;
-    public EditableCal drivekR = new EditableCal("shootDrive kR", 0.03);
-    public EditableCal drivekD = new EditableCal("shootDrive kD", 0.0);
+    public EditableCal drivekR = new EditableCal("shootDrive kR", 0.02);
+    public EditableCal drivekD = new EditableCal("shootDrive kD", -0.0008);
 
     public boolean useAutoLoad = false;
 

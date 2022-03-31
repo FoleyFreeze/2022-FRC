@@ -28,19 +28,19 @@ public class TalonMotor implements Motor{
             motor.config_kI(0, cals.eCkI.get());
             cals.eCkI.addCallback(new DoubleConsumer() {
                 public void accept(double d){
-                    motor.config_kP(0, d);
+                    motor.config_kI(0, d);
                 }
             });
             motor.config_kD(0, cals.eCkD.get());
             cals.eCkD.addCallback(new DoubleConsumer() {
                 public void accept(double d){
-                    motor.config_kP(0, d);
+                    motor.config_kD(0, d);
                 }
             });
             motor.config_kF(0, cals.eCkF.get());
             cals.eCkF.addCallback(new DoubleConsumer() {
                 public void accept(double d){
-                    motor.config_kP(0, d);
+                    motor.config_kF(0, d);
                 }
             });
 
@@ -153,5 +153,10 @@ public class TalonMotor implements Motor{
     @Override
     public void setEncoderPosition(double position) {
         
+    }
+
+    @Override
+    public double getTemp() {
+        return motor.getTemperature();
     }
 }

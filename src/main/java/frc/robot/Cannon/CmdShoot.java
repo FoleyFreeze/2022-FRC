@@ -2,10 +2,12 @@ package frc.robot.Cannon;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Intake.CmdReload;
+import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
 public class CmdShoot extends SequentialCommandGroup{
@@ -31,7 +33,13 @@ public class CmdShoot extends SequentialCommandGroup{
         System.out.println("Cmd Shoot Init");
         super.initialize();
         r.sensors.enableTgtLights(true);
+        first = true;
     }
+
+    double filtAngle;
+    double prevAngle;
+    double kU = 0.1;
+    boolean first;
 
     @Override
     public void execute(){
@@ -45,12 +53,20 @@ public class CmdShoot extends SequentialCommandGroup{
         
         Inputs.mapSquareToCircle(xy);
 
-        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
+        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage() && !r.inputs.driverJoy.layUpShot()){
             Vector targetPos = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
-            
-            double tgtAngle = Math.toDegrees(targetPos.theta);
+            SmartDashboard.putString("BotRelTgt", targetPos.toStringXY());
 
-            r.drive.driveSwerveAng(xy, tgtAngle, r.cannon.cals.maxPower, r.cannon.cals.drivekR.get(), r.cannon.cals.drivekD.get());
+            double tgtAngle = Math.toDegrees(targetPos.theta);
+            if(first) {
+                first = false;
+                filtAngle = tgtAngle;
+            } else if(tgtAngle != prevAngle) {
+                filtAngle = filtAngle * (1-kU) + tgtAngle * kU;
+            }
+            prevAngle = tgtAngle;
+
+            r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, r.cannon.cals.drivekR.get(), r.cannon.cals.drivekD.get());
         } else {
             zR = r.inputs.getDrivezR();
             if(zR > r.cannon.cals.maxPower) zR = r.cannon.cals.maxPower;
@@ -64,6 +80,7 @@ public class CmdShoot extends SequentialCommandGroup{
         r.sensors.enableTgtLights(false);
         System.out.println("Cmd Shoot End");
         r.cannon.setPower(0, 0); 
+        r.cannon.fire(0);
     }
 
     @Override

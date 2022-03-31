@@ -1,5 +1,7 @@
 package frc.robot.Sensors;
 
+import java.util.function.DoubleConsumer;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -35,6 +37,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public Vector botLoc;
     public Vector prevBotLoc;
     public double botAng;
+    public double dBotAng;
     public double prevBotAng;
 
     public boolean isOnRedTeam;
@@ -81,10 +84,28 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         pcm = new PneumaticHub();
         tgtLights = pcm.makeSolenoid(1);
         ballLights = pcm.makeSolenoid(2);
+
+        cals.forceTgtLights.addCallback(new DoubleConsumer() {
+            public void accept(double d){
+                enableTgtLights(d > 0);
+            }
+        });
+        cals.forceBallLights.addCallback(new DoubleConsumer() {
+            public void accept(double d){
+                enableCargoLights(d > 0);
+            }
+        });
     }
+
+    double dt;
+    double prevTime;
 
     @Override
     public void periodic(){
+        double time = Timer.getFPGATimestamp();
+        dt = time - prevTime;
+        prevTime = time;
+
         if(cals.DISABLED) return;
 
         vision.periodic();
@@ -126,6 +147,9 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         botLoc = new Vector(encoders.botPos);
         botAng = navX.getFieldOrientAngle();
+        dBotAng = Angle.normDeg(botAng - prevBotAng) / dt;
+        prevBotAng = botAng;
+        SmartDashboard.putNumber("dAngle", dBotAng);
 
         //update history array of robot positions and orientations
         if(!r.cannon.cals.DISABLED){
@@ -141,14 +165,44 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                 case BLUE_CARGO:
                     camera.imgToLocation(vd);
                     SmartDashboard.putString("LastBlueLoc", vd.location.toStringXY());
-                    if(isOnRedTeam) opponentCargo = vd;
-                    else alliedCargo = vd;
+                    if(isOnRedTeam) {
+                        if(!hasOpponentCargo()) opponentCargo = vd;
+                        else if(opponentCargo.camLocation == vd.camLocation) opponentCargo = vd;
+                        else {
+                            Vector v1 = Vector.subVectors(opponentCargo.location, botLoc);
+                            Vector v2 = Vector.subVectors(vd.location, botLoc);
+                            if(v1.r > v2.r) opponentCargo = vd;
+                        }
+                    } else {
+                        if(!hasAlliedCargo()) alliedCargo = vd;
+                        else if(alliedCargo.camLocation == vd.camLocation) alliedCargo = vd;
+                        else {
+                            Vector v1 = Vector.subVectors(alliedCargo.location, botLoc);
+                            Vector v2 = Vector.subVectors(vd.location, botLoc);
+                            if(v1.r > v2.r) alliedCargo = vd;
+                        }
+                    }
                     break;
                 case RED_CARGO:
                     camera.imgToLocation(vd);
                     SmartDashboard.putString("LastRedLoc", vd.location.toStringXY());
-                    if(!isOnRedTeam) opponentCargo = vd;
-                    else alliedCargo = vd;
+                    if(!isOnRedTeam) {
+                        if(!hasOpponentCargo()) opponentCargo = vd;
+                        else if(opponentCargo.camLocation == vd.camLocation) opponentCargo = vd;
+                        else {
+                            Vector v1 = Vector.subVectors(opponentCargo.location, botLoc);
+                            Vector v2 = Vector.subVectors(vd.location, botLoc);
+                            if(v1.r > v2.r) opponentCargo = vd;
+                        }
+                    } else {
+                        if(!hasAlliedCargo()) alliedCargo = vd;
+                        else if(alliedCargo.camLocation == vd.camLocation) alliedCargo = vd;
+                        else {
+                            Vector v1 = Vector.subVectors(alliedCargo.location, botLoc);
+                            Vector v2 = Vector.subVectors(vd.location, botLoc);
+                            if(v1.r > v2.r) alliedCargo = vd;
+                        }
+                    }
                     break;
                 case VISION_TARGET:
                     camera.imgToLocation(vd);
@@ -156,7 +210,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
                     target = vd;
                     //reset robot position based on goal
-                    encoders.resetPos(Vector.subVectors(new Vector(0,0), target.location));
+                    //encoders.resetPos(Vector.subVectors(new Vector(0,0), target.location));
 
                     //maybe do a blend or something based on percieved accuracy of the image
                     camera.updateArray(target.location);
@@ -196,11 +250,11 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         } else if(r.inputs.operatorJoy.climbSwitch()){
             blinken.set(LEDs.Fixed_Palette_Pattern_Rainbow_Party);
         } else if(ballCt == 0){
-            blinken.set(LEDs.Solid_Colors_Dark_red);
+            blinken.set(LEDs.Solid_Colors_Red);
         } else if(ballCt == 1){
-            blinken.set(LEDs.Solid_Colors_Orange);
+            blinken.set(LEDs.Solid_Colors_Yellow);
         } else if(ballCt == 2){
-            blinken.set(LEDs.Solid_Colors_Hot_Pink);
+            blinken.set(LEDs.Solid_Colors_White);
         }
     }
 
@@ -238,26 +292,25 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public boolean hasAlliedCargo(){
         if(cals.DISABLED) return false;
-        return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT;
+        return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT.get();
+    }
+
+    public boolean hasOpponentCargo(){
+        if(cals.DISABLED) return false;
+        return Timer.getFPGATimestamp() - opponentCargo.timestamp < cals.VISION_DATA_TIMEOUT.get();
     }
 
     public boolean hasTargetImage(){
         if(cals.DISABLED) return false;
-        return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT;
+        return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT.get();
     }
 
     public void enableCargoLights(boolean on){
-        if(r.inputs.cameraDrive()){
-            ballLights.set(on);
-            //pdh.setSwitchableChannel(on);
-        }
+        ballLights.set(on && r.inputs.cameraDrive());
     }
 
     public void enableTgtLights(boolean on){
-        if(r.inputs.cameraDrive()){
-            tgtLights.set(on);
-            //pdh.setSwitchableChannel(on);
-        }
+        tgtLights.set(on && r.inputs.cameraDrive());
     }
 
     @Override

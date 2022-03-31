@@ -1,6 +1,7 @@
 package frc.robot.Drive;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Drive.CalsDrive.CalsWheel;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
@@ -103,6 +104,14 @@ public class Wheel implements AutoCloseable {
         } else{
             drive.setPower(magnitude * cals.maxPower);
         }
+    }
+
+    public double getDriveTemp(){
+        return drive.getTemp();
+    }
+
+    public double getSwerveTemp(){
+        return swerve.getTemp();
     }
 
     @Override

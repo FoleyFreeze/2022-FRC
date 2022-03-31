@@ -57,5 +57,11 @@ public class NullMotor implements Motor{
     public double getMotorSideCurrent() {
         return 0;
     }
+
+    @Override
+    public double getTemp() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
     
 }

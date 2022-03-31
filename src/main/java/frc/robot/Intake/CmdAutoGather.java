@@ -1,5 +1,6 @@
 package frc.robot.Intake;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -16,7 +17,7 @@ public class CmdAutoGather extends CommandBase{
     public CmdAutoGather(RobotContainer r, boolean reloadMode){
         this.r = r;
         this.reloadMode = reloadMode;
-        if(reloadMode){
+        if(!reloadMode && !DriverStation.isAutonomous()){
             addRequirements(r.drive);
         }
         addRequirements(r.intake);
@@ -24,12 +25,13 @@ public class CmdAutoGather extends CommandBase{
     }
 
     public CmdAutoGather(RobotContainer r){
-        this(r, true);
+        this(r, false);
     }
 
     @Override
     public void initialize(){
-        r.sensors.enableCargoLights(true);
+        System.out.println("AutoGather init");
+        if(!reloadMode) r.sensors.enableCargoLights(true);
     }
 
     double intakeDelayStartTime;
@@ -132,7 +134,7 @@ public class CmdAutoGather extends CommandBase{
         }
 
         //drive code
-        if(!reloadMode){
+        if(!reloadMode && !DriverStation.isAutonomous()){
             double x;
             double y;
             double zR;
@@ -196,6 +198,7 @@ public class CmdAutoGather extends CommandBase{
 
     @Override
     public void end(boolean isFinished){
+        System.out.println("AutoGather end");
         r.cannon.transport(0);
         r.intake.intake(0);
         r.sensors.enableCargoLights(false);

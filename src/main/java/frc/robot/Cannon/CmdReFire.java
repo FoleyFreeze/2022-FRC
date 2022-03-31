@@ -38,6 +38,7 @@ public class CmdReFire extends CmdFire{
     public void end(boolean interrupted){
         super.end(interrupted);
         System.out.println("Cmd Refire End");
+        r.cannon.fire(0);
     }
 
     @Override
