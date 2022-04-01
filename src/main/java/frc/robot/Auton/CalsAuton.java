@@ -84,10 +84,11 @@ public class CalsAuton {
         extendFalse(true, true, false, false, true, false, true), //3-ball far
         extendFalse(true, true, false, false, true, true, true, true), //4-ball close
         extendFalse(true, true, false, false, true, false, true, true), //4-ball far
+        extendFalse(true, true, false, false, true, false, true, true), //5-ball
     };
 
     //TODO: set manual positions & skip lists based on CAD models
-    static final int manArrayLen = 10; //ensure that the position and skip lists are the same length
+    static final int manArrayLen = 11; //ensure that the position and skip lists are the same length
     Position[][] manPositionList = {
         { //left start position MANUAL, NO CAMERA
             new Position(Vector.fromXY(-64.5, -64.5), 136.5), //init position
@@ -96,6 +97,7 @@ public class CalsAuton {
             new Position(Vector.fromXY(-48, -48), 136.5), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(162-244+5, -129), 136.5), //grab close ball (ABS)
             new Position(Vector.fromXY(-64.5-7,-64.5-15), 136.5),//shoot for 2 ball
+            null,
             null,
             null,
             null,
@@ -112,6 +114,7 @@ public class CalsAuton {
             null,
             null,
             null,
+            null,
             null
         },
 
@@ -123,9 +126,10 @@ public class CalsAuton {
             new Position(Vector.fromXY(91.2+50-1, 4.9-32-5), -90), //grab close ball (ABS)
             new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball (ABS)
             new Position(Vector.fromXY(162-74-19, -125), 155), //grab second ball (ABS)
-            new Position(Vector.fromXY(75,-75), -132),//move then shoot (ABS)
-            new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
-            new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
+            new Position(Vector.fromXY(75,-75), -132),//move then shoot balls 2-3 (ABS)
+            new Position(Vector.fromXY(76.2, -239.4), -135), //move to loading station (ABS)
+            null,
+            new Position(Vector.fromXY(75.0, -75), -132), //go back to shoot again (ABS)
         }
     };
     
@@ -135,9 +139,10 @@ public class CalsAuton {
         extendFalse(true, true, true, true), //1-ball, drive
         extendFalse(true, true, false, false, true, true), //2-ball
         extendFalse(true, true, false, false, true, false, true, true), //3-ball close
-        extendFalse(true, true, false, false, true, false, true), //3-ball far
-        extendFalse(true, true, false, false, true, true, true), //4-ball close
+        extendFalse(true, true, false, false, true, false, true), //NO WORK 3-ball far
+        extendFalse(true, true, false, false, true, true, true), //NO WORK 4-ball close
         extendFalse(true, true, false, false, true, false, true), //4-ball far
+        extendFalse(true, true, false, false, true, false, true, true, true, true, true)// 5-ball
     };
 
     private boolean[] extendFalse(boolean... val){

@@ -35,6 +35,7 @@ public class CmdReload extends CmdAutoGather{
 
     @Override
     public boolean isFinished(){
-        return Timer.getFPGATimestamp() > startTime + 0.5 && r.sensors.ballSensorUpper.get();
+                                                                                                //added finish logic so we cant get stuck
+        return Timer.getFPGATimestamp() > startTime + 0.5 && r.sensors.ballSensorUpper.get() || Timer.getFPGATimestamp() > startTime + 1.5;
     }
 }

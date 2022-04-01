@@ -8,6 +8,7 @@ import frc.robot.Auton.AutoSubsytem.AutonWait;
 import frc.robot.Auton.AutoSubsytem.CameraCommands.AutonAbsDrvGthSht;
 import frc.robot.Auton.AutoSubsytem.CameraCommands.AutonRelDrvGthSht;
 import frc.robot.Auton.AutoSubsytem.ManualCommands.ManAutonAbsDrGthSht;
+import frc.robot.Auton.AutoSubsytem.ManualCommands.ManAutonGatherOnly;
 import frc.robot.Auton.AutoSubsytem.ManualCommands.ManAutonRelDrGthSht;
 import frc.robot.Auton.CalsAuton.Position;
 import frc.robot.Cannon.CmdCannonEasyReset;
@@ -71,8 +72,9 @@ public class AutonSequential extends SequentialCommandGroup{
                         new ManAutonAbsDrGthSht(r, manualP, 5, true, true), //shoot ball 2 (in 2 ball only)
                         new ManAutonAbsDrGthSht(r, manualP, 6, true, false), //gather ball 3 in front of allied auton zone
                         new ManAutonAbsDrGthSht(r, manualP, 7, false, true), //shoot 2 and 3
-                        new ManAutonRelDrGthSht(r, manualP, 8, true, false), //move to loading station, gather ball 5
-                        new ManAutonAbsDrGthSht(r, manualP, 9, false, true)  //move back towards goal, shoot
+                        new ManAutonAbsDrGthSht(r, manualP, 8, true, false), //move to loading station, gather ball 4-5
+                        new ManAutonGatherOnly(r, manualP, 9),               //gather ball 5
+                        new ManAutonAbsDrGthSht(r, manualP, 10, false, true)  //move back towards goal, shoot
                         );
         }
 
