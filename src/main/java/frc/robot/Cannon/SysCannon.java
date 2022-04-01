@@ -1,5 +1,6 @@
 package frc.robot.Cannon;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -47,7 +48,9 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         if (cals.DISABLED) return;
         if(false/*r.inputs.cameraDrive() && r.sensors.hasTargetImage()*/){
             prime(r.sensors.target.location.r, setAngle);
-        } else if(cals.useVariableShootSpeed){
+        } else if(DriverStation.isAutonomousEnabled()){
+            prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
+        }else if(cals.useVariableShootSpeed){
             double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
                      + cals.minVariableShootSpeed;

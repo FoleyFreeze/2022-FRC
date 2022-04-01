@@ -46,8 +46,7 @@ public class OperatorControls extends Controls implements AutoCloseable{
     }
 
     public boolean climbSwitch(){
-        //prevents early selection of climb mode (AKA me-being-an-idiot protection)
-        return checkButton(cals.climbSwitch) && !DriverStation.isAutonomousEnabled() && DriverStation.getMatchTime() < 60;
+        return checkButton(cals.climbSwitch);
     }
 
     public boolean ejectSwitch(){

@@ -51,7 +51,7 @@ public class CalsClimb {
 
     //hook command cals
     public double maxHookTime = 0.75;
-    public double allowedFallDist = 8;
+    public double allowedFallDist = 15;
 
     //release command cals
     public double releaseTime = 1;

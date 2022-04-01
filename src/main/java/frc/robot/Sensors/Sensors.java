@@ -88,13 +88,13 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         cals.forceTgtLights.addCallback(new DoubleConsumer() {
             public void accept(double d){
                 //enableTgtLights(d > 0);
-                ballLights.set(d > 0);
+                tgtLights.set(d > 0);
             }
         });
         cals.forceBallLights.addCallback(new DoubleConsumer() {
             public void accept(double d){
                 //enableCargoLights(d > 0);
-                tgtLights.set(d > 0);
+                ballLights.set(d > 0);
             }
         });
     }
@@ -116,6 +116,8 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         ballSensorLower.update();
         ballSensorUpper.update();
         cannonAngleSensor.update();
+
+        Log.addValue(hasAlliedCargo(), "Cargo Detected", Log.compTab);
 
         if(!checkedAlliance){
             switch(DriverStation.getAlliance()){

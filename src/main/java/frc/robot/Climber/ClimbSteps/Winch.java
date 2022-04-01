@@ -68,7 +68,7 @@ public class Winch extends ErrorCommand{
         if(currentStage <= stage){
             //winch PID
             double winchPos = r.climb.climbWinch.getPosition();
-            double wErr = 5 - winchPos;
+            double wErr = 10 - winchPos;
             double pwr = r.climb.cals.winchKp * wErr;
             if(pwr > r.climb.cals.winchPower.get()) pwr = r.climb.cals.winchPower.get();
             else if(pwr < -r.climb.cals.winchPower.get()) pwr = -r.climb.cals.winchPower.get();

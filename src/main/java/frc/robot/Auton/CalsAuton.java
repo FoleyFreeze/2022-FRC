@@ -17,7 +17,7 @@ public class CalsAuton {
     public static double joeShotPrimeSpeed = 1375; //simple shoot
     public static double joeShotPrimeAng = 70; //simple shoot
 
-    public static double maxDrivePower = 0.25;
+    public static double maxDrivePower = 0.27;
     public static double maxSwervePower = 0.20;
     public static double minAutoPosError = 6;
     public static double minAutoAngError = 10;
@@ -96,7 +96,7 @@ public class CalsAuton {
             null, //wait time
             new Position(Vector.fromXY(-48, -48), 136.5), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(162-244+5, -129), 136.5), //grab close ball (ABS)
-            new Position(Vector.fromXY(-64.5-7,-64.5-15), 136.5),//shoot for 2 ball
+            new Position(Vector.fromXY(-64.5-5,-64.5-18), 136.5),//shoot for 2 ball
             null,
             null,
             null,
@@ -125,7 +125,7 @@ public class CalsAuton {
             new Position(Vector.fromXY(40, 0), -90), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(91.2+50-1, 4.9-32-5), -90), //grab close ball (ABS)
             new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball (ABS)
-            new Position(Vector.fromXY(162-74-19, -125), 155), //grab second ball (ABS)
+            new Position(Vector.fromXY(162-74-15, -125), 155), //grab second ball (ABS)
             new Position(Vector.fromXY(75,-75), -132),//move then shoot balls 2-3 (ABS)
             new Position(Vector.fromXY(76.2, -239.4), -135), //move to loading station (ABS)
             null,
