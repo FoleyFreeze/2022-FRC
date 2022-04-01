@@ -121,9 +121,9 @@ public class CalsAuton {
             null, //wait time
             new Position(Vector.fromXY(40, 0), -90), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(91.2+50-1, 4.9-32-5), -90), //grab close ball (ABS)
-            new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball
+            new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball (ABS)
             new Position(Vector.fromXY(162-74-19, -125), 155), //grab second ball (ABS)
-            new Position(Vector.fromXY(75,-75), -132),//move then shoot
+            new Position(Vector.fromXY(75,-75), -132),//move then shoot (ABS)
             new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
             new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
         }

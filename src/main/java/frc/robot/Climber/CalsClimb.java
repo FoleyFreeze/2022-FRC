@@ -50,7 +50,7 @@ public class CalsClimb {
     public double winchStallTime = 0.0;
 
     //hook command cals
-    public double maxHookTime = 2;
+    public double maxHookTime = 0.75;
     public double allowedFallDist = 8;
 
     //release command cals

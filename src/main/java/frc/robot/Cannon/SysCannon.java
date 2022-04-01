@@ -243,7 +243,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         SmartDashboard.putNumber("ShootSpeed", cwMotor.getSpeed());
 
-        Log.addValue(getShooterAngle(), "Shooter Angle", Log.compTab);
+        SmartDashboard.putNumber("Shooter Angle", getShooterAngle());
         Log.addValue(jogSpeed, "Shoot jogSpeed", Log.compTab);
         Log.addValue(jogAng, "Shoot jogAngle", Log.compTab);
 
