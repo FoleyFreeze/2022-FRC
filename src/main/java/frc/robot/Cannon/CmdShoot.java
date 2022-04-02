@@ -53,7 +53,7 @@ public class CmdShoot extends SequentialCommandGroup{
         
         Inputs.mapSquareToCircle(xy);
 
-        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage() && !r.inputs.driverJoy.layUpShot()){
+        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage() && !r.inputs.driverJoy.layUpShot() && r.inputs.operatorJoy.hubSwitch()){
             Vector targetPos = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
             SmartDashboard.putString("BotRelTgt", targetPos.toStringXY());
 
