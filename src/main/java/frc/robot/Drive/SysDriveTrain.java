@@ -32,7 +32,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
         wheels = new Wheel[cals.wheelCals.length];
         for(int i=0; i < cals.wheelCals.length; i++){
-            wheels[i] = new Wheel(cals.wheelCals[i]);
+            wheels[i] = new Wheel(cals.wheelCals[i], r);
         }
 
         try{
@@ -163,6 +163,15 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
 
     public void periodic(){
         if(cals.DISABLED) return;
+
+        for(Wheel w : wheels){
+            w.periodic();
+        }
+
+        Log.addValue(String.format("%d, %d, %d, %d",
+                                   wheels[0].errorCount, wheels[1].errorCount,
+                                   wheels[2].errorCount, wheels[3].errorCount),
+                                   "Swerve Error #", Log.compTab);
 
         double maxDriveTemp = 0;
         double maxSwerveTemp = 0;

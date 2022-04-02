@@ -1,7 +1,9 @@
 package frc.robot.Drive;
 
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.RobotContainer;
 import frc.robot.Drive.CalsDrive.CalsWheel;
 import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
@@ -10,6 +12,7 @@ import frc.robot.Util.Motor.Motor;
 public class Wheel implements AutoCloseable {
     
     public CalsWheel cals;
+    RobotContainer r;
 
     public Motor drive; //driving power motor
     public Motor swerve; //wheel angle motor
@@ -23,8 +26,13 @@ public class Wheel implements AutoCloseable {
     double prevPos = 0;
     double prevAng = 0;
 
-    public Wheel(CalsWheel c){
+    double lastUpdateTime;
+    int errorCount = 0;
+    double prevSwerveSetpoint;
+
+    public Wheel(CalsWheel c, RobotContainer r){
         cals = c;
+        this.r = r;
         
         drive = Motor.create(c.driveMotor);
         drive.resetEncoder();
@@ -95,8 +103,10 @@ public class Wheel implements AutoCloseable {
         
         //SmartDashboard.putNumber(cals.name + " wheel setpoint", rotationsSetpoint);
 
-        if(!allZero){
+        if(!allZero && rotationsSetpoint != prevSwerveSetpoint){
             swerve.setPosition(rotationsSetpoint);
+            prevSwerveSetpoint = rotationsSetpoint;
+            lastUpdateTime = Timer.getFPGATimestamp();
         }
         
         if(cals.useVelocityControl){
@@ -112,6 +122,17 @@ public class Wheel implements AutoCloseable {
 
     public double getSwerveTemp(){
         return swerve.getTemp();
+    }
+
+    public void periodic(){
+        if(Timer.getFPGATimestamp() > lastUpdateTime + 1){
+            swerve.setPower(0);
+            int channel = cals.swerveMotor.channel;
+            if(channel == 20) channel = 0;
+            if(r.sensors.pdh.getCurrent(channel) > 5){
+                errorCount++;
+            }
+        }
     }
 
     @Override
