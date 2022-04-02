@@ -54,7 +54,7 @@ public class OperatorControls extends Controls implements AutoCloseable{
     }
 
     public boolean hubSwitch(){
-        return checkButtonInverse(cals.highHubSwitch);
+        return !checkButton(cals.highHubSwitch);
     }
 
     public boolean shift(){

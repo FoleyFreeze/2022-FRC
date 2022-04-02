@@ -52,8 +52,8 @@ public class CalsCannon {
     public final double LOW_SHOOT_ANG = 78;
     public final double LAUNCH_PAD_SHOOT_SPEED = 1850;
     public final double LAUNCH_PAD_SHOOT_ANG = 57;
-    public final double TARMAC_SHOOT_SPEED = CalsAuton.joeShotPrimeSpeed;
-    public final double TARMAC_SHOOT_ANG = CalsAuton.joeShotPrimeAng;
+    public final double TARMAC_SHOOT_SPEED = CalsAuton.joeShotPrimeSpeed + 50;
+    public final double TARMAC_SHOOT_ANG = CalsAuton.joeShotPrimeAng + 2;
     public double jogInitSpeed = 0;
     public double jogSpeedInterval = 25;//rpm
     public double jogInitAng = 0;

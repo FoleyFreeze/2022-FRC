@@ -1,11 +1,12 @@
 package frc.robot.Sensors.GPS;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Sensors.Vision.VisionData;
 import frc.robot.Util.Vector;
 
 public class CameraGPS implements AutoCloseable{
     
-    public int head = -1;
+    public int head = 0;
 
     public static class Location{
         public Vector pos;
@@ -52,6 +53,9 @@ public class CameraGPS implements AutoCloseable{
             }
         }
 
+        //additional protection because apparently this is possible
+        if(i < 0 || i >= locationHistory.length) return null;
+
         Location before = locationHistory[i];
         i++;
         if(i >= locationHistory.length) i = 0;
@@ -93,10 +97,15 @@ public class CameraGPS implements AutoCloseable{
     }
 
     public Vector imgToLocation(VisionData img){
-        Location botLoc = interpolate(img.timestamp);
-        if(botLoc != null){
-            img.location.theta += Math.toRadians(botLoc.angle);
-            img.location.add(botLoc.pos);
+        try{
+            Location botLoc = interpolate(img.timestamp);
+            if(botLoc != null){
+                img.location.theta += Math.toRadians(botLoc.angle);
+                img.location.add(botLoc.pos);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            SmartDashboard.putString("Crash Reason: ", e.getMessage());
         }
 
         return img.location;

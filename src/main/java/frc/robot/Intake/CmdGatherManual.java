@@ -32,7 +32,10 @@ public class CmdGatherManual extends CommandBase{
         //if shift is pressed, run backwards
         if(r.inputs.operatorJoy.shift()) value = -value;
 
-        if(r.inputs.operatorJoy.ejectSwitch()){
+        if(r.inputs.operatorJoy.ejectSwitch() && r.inputs.operatorJoy.shift()){
+            r.cannon.prime(500, 55, false);
+            r.cannon.fire(1);
+        } else if(r.inputs.operatorJoy.ejectSwitch()){
             r.intake.intake(-0.5);
             r.cannon.transport(-0.5);
         } else if(r.inputs.intakeSpin.get()){
@@ -49,6 +52,7 @@ public class CmdGatherManual extends CommandBase{
         r.cannon.fire(0);
         r.cannon.transport(0);
         r.intake.intake(0);
+        r.cannon.prime(0, 55, false);
     }
 
     @Override

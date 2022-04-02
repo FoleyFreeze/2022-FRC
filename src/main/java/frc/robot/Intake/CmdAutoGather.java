@@ -160,7 +160,7 @@ public class CmdAutoGather extends CommandBase{
                 if(cargoPos.getY() > r.intake.cals.minCargoDist && cargoPos.getX() > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime.get()){
                     x = r.intake.cals.kX.get() * cargoPos.getX();
                     y = Math.max(r.intake.cals.yPower.get() - x - zR, 0);
-                    y += r.intake.cals.kY.get() * cargoPos.getY();
+                    y += r.intake.cals.kY.get() * (cargoPos.getY() - r.sensors.cals.ballCamLocationR.getY());
                     startTimeSet = false;
                 } else {//once the ball is within a certain window of distance, set the power directly
                     if(!startTimeSet){

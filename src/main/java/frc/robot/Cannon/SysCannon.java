@@ -50,7 +50,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             prime(r.sensors.target.location.r, setAngle);
         } else if(DriverStation.isAutonomousEnabled()){
             prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
-        }else if(cals.useVariableShootSpeed){
+        } else if(cals.useVariableShootSpeed){
             double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
                      + cals.minVariableShootSpeed;

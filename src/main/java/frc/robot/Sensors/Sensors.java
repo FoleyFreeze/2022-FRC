@@ -119,7 +119,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         Log.addValue(hasAlliedCargo(), "Cargo Detected", Log.compTab);
 
-        if(!checkedAlliance){
+        //if(!checkedAlliance){
             switch(DriverStation.getAlliance()){
                 case Blue:
                     isOnRedTeam = false;
@@ -132,7 +132,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     checkedAlliance = true;
                     break;
             }
-        }
+        //}
 
         //Log.logBool(navX.navX.isConnected(), Log.LOG_GROUPS.SENSORS, 1, true, "navX Connected");
 

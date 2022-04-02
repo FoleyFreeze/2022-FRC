@@ -36,7 +36,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     public void resetEncoders(){
         climbArmL.resetEncoder();
         climbArmR.resetEncoder();
-        climbWinch.resetEncoder();
+        //climbWinch.resetEncoder();
     }
 
     public void driveArms(double pwr){
@@ -71,6 +71,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
 
     boolean prevState = false;
     boolean manualClimb = false;
+    boolean manualClimbArms = false;
     @Override
     public void periodic(){
         if (cals.DISABLED) return;
@@ -97,6 +98,18 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         } else if(manualClimb){
             manualClimb = false;
             driveWinch(0);
+        }
+
+        //manual arms climb control
+        if(r.inputs.operatorJoy.climbUp() && !r.inputs.operatorJoy.shift()){
+            manualClimbArms = true;
+            driveArms(0.2);
+        } else if(r.inputs.operatorJoy.climbDn() && !r.inputs.operatorJoy.shift()){
+            manualClimbArms = true;
+            driveArms(-0.2);
+        } else {
+            manualClimbArms = false;
+            driveArms(0);
         }
 
         SmartDashboard.putNumber("ClimbCurr",climbWinch.getMotorSideCurrent());
