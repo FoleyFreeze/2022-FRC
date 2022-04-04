@@ -34,12 +34,14 @@ public class CmdShoot extends SequentialCommandGroup{
         super.initialize();
         r.sensors.enableTgtLights(true);
         first = true;
+        imgCt = 0;
     }
 
     double filtAngle;
     double prevAngle;
     double kU = 0.1;
     boolean first;
+    int imgCt;
 
     @Override
     public void execute(){
@@ -61,7 +63,8 @@ public class CmdShoot extends SequentialCommandGroup{
             if(first) {
                 first = false;
                 filtAngle = tgtAngle;
-            } else if(tgtAngle != prevAngle) {
+            } else if(tgtAngle != prevAngle && imgCt < r.cannon.cals.maxTgtImgs.get()) {
+                imgCt++;
                 filtAngle = filtAngle * (1-kU) + tgtAngle * kU;
             }
             prevAngle = tgtAngle;

@@ -14,6 +14,8 @@ public class CalsCannon {
     EditableCal maxAnglePwr = new EditableCal("shoot angle pwr", 0.25);
     EditableCal maxShootPower = new EditableCal("shoot pwr", 0.9);
 
+    public EditableCal maxTgtImgs = new EditableCal("max tgt imgs", 5);
+
     EditableCal shoot_kP = new EditableCal("shoot kP", 0.1, false);
     EditableCal shoot_kI = new EditableCal("shoot kI", 0.002, false);
     EditableCal shoot_kD = new EditableCal("shoot kD", 0.0, false);

@@ -125,7 +125,7 @@ public class Wheel implements AutoCloseable {
     }
 
     public void periodic(){
-        if(Timer.getFPGATimestamp() > lastUpdateTime + 1){
+        if(Timer.getFPGATimestamp() > lastUpdateTime + 0.6){
             swerve.setPower(0);
             int channel = cals.swerveMotor.channel;
             if(channel == 20) channel = 0;
