@@ -92,20 +92,12 @@ public class Vision {
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
                 data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
 
-                if(false /*Integer.parseInt(parts[6]) == 1*/){
-                    data.camLocation = Camera.RIGHT;
-                    data.location.add(cals.ballCamLocationR);
-                } else {
-                    data.camLocation = Camera.LEFT;
-                    data.location.add(cals.ballCamLocationL);
-                }
+                data.camLocation = Camera.LEFT;
 
-                if(true /*Integer.parseInt(parts[5]) == 1*/){
-                    data.type = Type.BLUE_CARGO;//blue is true!
-                } else {
-                    data.type = Type.RED_CARGO;//red is dead!
-                }
+                data.location.add(cals.ballCamLocationL);
 
+                data.type = Type.BLUE_CARGO;//blue is true!
+                
                 if(x > 0) visionQueue.add(data);
                 else {
                     System.out.println("Pi sent negative distance: " + x);
@@ -152,19 +144,11 @@ public class Vision {
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
                 data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
 
-                if(true /*Integer.parseInt(parts[6]) == 1*/){
-                    data.camLocation = Camera.RIGHT;
-                    data.location.add(cals.ballCamLocationR);
-                } else {
-                    data.camLocation = Camera.LEFT;
-                    data.location.add(cals.ballCamLocationL);
-                }
+                data.camLocation = Camera.RIGHT;
 
-                if(true /*Integer.parseInt(parts[5]) == 1*/){
-                    data.type = Type.BLUE_CARGO;//blue is true!
-                } else {
-                    data.type = Type.RED_CARGO;//red is dead!
-                }
+                data.location.add(cals.ballCamLocationR);
+
+                data.type = Type.BLUE_CARGO;//blue is true!
 
                 if(x > 0) visionQueue.add(data);
                 else {
@@ -212,19 +196,11 @@ public class Vision {
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
                 data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
 
-                if(false /*Integer.parseInt(parts[6]) == 1*/){
-                    data.camLocation = Camera.RIGHT;
-                    data.location.add(cals.ballCamLocationR);
-                } else {
-                    data.camLocation = Camera.LEFT;
-                    data.location.add(cals.ballCamLocationL);
-                }
+                data.camLocation = Camera.LEFT;
 
-                if(false /*Integer.parseInt(parts[5]) == 1*/){
-                    data.type = Type.BLUE_CARGO;//blue is true!
-                } else {
-                    data.type = Type.RED_CARGO;//red is dead!
-                }
+                data.location.add(cals.ballCamLocationL);
+
+                data.type = Type.RED_CARGO;//red is dead!
 
                 if(x > 0) visionQueue.add(data);
                 else {
@@ -272,19 +248,10 @@ public class Vision {
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
                 data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
 
-                if(true /*Integer.parseInt(parts[6]) == 1*/){
-                    data.camLocation = Camera.RIGHT;
-                    data.location.add(cals.ballCamLocationR);
-                } else {
-                    data.camLocation = Camera.LEFT;
-                    data.location.add(cals.ballCamLocationL);
-                }
+                data.camLocation = Camera.RIGHT;
+                data.location.add(cals.ballCamLocationR);
 
-                if(false /*Integer.parseInt(parts[5]) == 1*/){
-                    data.type = Type.BLUE_CARGO;//blue is true!
-                } else {
-                    data.type = Type.RED_CARGO;//red is dead!
-                }
+                data.type = Type.RED_CARGO;//red is dead!
 
                 if(x > 0) visionQueue.add(data);
                 else {

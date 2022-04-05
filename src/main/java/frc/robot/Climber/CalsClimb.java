@@ -9,6 +9,8 @@ public class CalsClimb {
 
     public boolean DISABLED = false && Robot.isReal();
 
+    public double cannonAngTime = 0.5;
+
     //climb arm ratio is actually 45 * 42 / 44; but we cal'd for 45:1 so w/e
     public CalsMotor climbArmL = new CalsMotor(MotorType.SPARK, 13).invert().setRamp(0.4).setEncUnits(45.0).brake();
     public CalsMotor climbArmR = new CalsMotor(MotorType.SPARK, 14).setRamp(0.4).setEncUnits(45.0).brake();
@@ -44,7 +46,7 @@ public class CalsClimb {
     public double maxRunTimeWinch = 10;
     public int prevIdxWinch = 5;
 
-    public EditableCal winchPower = new EditableCal("WinchPower", 0.75);
+    public EditableCal winchPower = new EditableCal("WinchPower", 0.75, false);
     public double releaseWinchPower = -1.0;//FULL POWER!!!
 
     public double winchStallTime = 0.0;

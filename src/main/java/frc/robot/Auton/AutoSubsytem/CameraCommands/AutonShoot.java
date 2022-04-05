@@ -3,13 +3,10 @@ package frc.robot.Auton.AutoSubsytem.CameraCommands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
-import frc.robot.Auton.CalsAuton;
 import frc.robot.Cannon.CmdFire;
 import frc.robot.Cannon.CmdPrime;
 import frc.robot.Cannon.CmdReFire;
 import frc.robot.Intake.CmdReload;
-import frc.robot.Util.Angle;
-import frc.robot.Util.Vector;
 
 public class AutonShoot extends SequentialCommandGroup{
 

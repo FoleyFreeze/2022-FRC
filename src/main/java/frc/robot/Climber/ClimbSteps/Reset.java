@@ -6,7 +6,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Climber.ErrorCommand;
 import frc.robot.Climber.CmdClimb.SharedVariables;
 
-public class Release extends ErrorCommand{
+public class Reset extends ErrorCommand{
 
     RobotContainer r;
 
@@ -16,7 +16,7 @@ public class Release extends ErrorCommand{
 
     double startTime;
 
-    public Release(RobotContainer r, SharedVariables sv, int stage, SequentialCommandGroup sCG){
+    public Reset(RobotContainer r, SharedVariables sv, int stage, SequentialCommandGroup sCG){
         super(sCG);
         this.r = r;
         this.sv = sv;

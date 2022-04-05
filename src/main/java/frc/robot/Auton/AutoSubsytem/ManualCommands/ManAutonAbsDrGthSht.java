@@ -2,7 +2,6 @@ package frc.robot.Auton.AutoSubsytem.ManualCommands;
 
 import frc.robot.RobotContainer;
 import frc.robot.Auton.AutoSubsytem.AutonDriveAbsolute;
-import frc.robot.Auton.AutoSubsytem.AutonDriveRelative;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 
 public class ManAutonAbsDrGthSht extends ManAutonRelDrGthSht{

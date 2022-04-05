@@ -1,13 +1,10 @@
 package frc.robot.Cannon;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Intake.CmdReload;
-import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
 public class CmdShoot extends SequentialCommandGroup{

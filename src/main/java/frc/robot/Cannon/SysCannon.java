@@ -240,7 +240,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     private double preLoadTimer;
     private int preLoadRan;
-    private int climbRan;
+    private double climbStartTime = 0;
+    private boolean climbStartTimeRan;
     public void periodic(){
         if (cals.DISABLED) return;
 
@@ -281,12 +282,14 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             angleMotor.setPower(0);
         }
 
-        //TODO: is this necessary for new climber? if so, change to timer
-        if(r.inputs.operatorJoy.climbSwitch() && climbRan < 50){
+        if(r.inputs.operatorJoy.climbSwitch() && climbStartTime + r.climb.cals.cannonAngTime > Timer.getFPGATimestamp()){
+            if(!climbStartTimeRan){
+                climbStartTime = Timer.getFPGATimestamp();
+            }
+            climbStartTimeRan = true;
             prime(0, cals.climbCannonAng);
-            climbRan++;
         } else if(!r.inputs.operatorJoy.climbSwitch()){
-            climbRan = 0;
+            climbStartTimeRan = false;
         }
     }
 

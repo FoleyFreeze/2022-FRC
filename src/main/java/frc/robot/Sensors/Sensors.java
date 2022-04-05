@@ -41,7 +41,6 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public double prevBotAng;
 
     public boolean isOnRedTeam;
-    private boolean checkedAlliance;
 
     public SmartDigitalInput ballSensorUpper;
     public SmartDigitalInput ballSensorLower;
@@ -59,7 +58,6 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         this.r = r;
         vision = new Vision(cals);
         if(cals.DISABLED == true) return;
-        checkedAlliance = false;
 
         alliedCargo = new VisionData(); 
         alliedCargo.timestamp = -10;
@@ -117,22 +115,16 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         ballSensorUpper.update();
         cannonAngleSensor.update();
 
-        Log.addValue(hasAlliedCargo(), "Cargo Detected", Log.compTab);
-
-        //if(!checkedAlliance){
-            switch(DriverStation.getAlliance()){
-                case Blue:
-                    isOnRedTeam = false;
-                    checkedAlliance = true;
-                    break;
-                case Invalid: 
-                    break;
-                case Red:
-                    isOnRedTeam = true;
-                    checkedAlliance = true;
-                    break;
-            }
-        //}
+        switch(DriverStation.getAlliance()){
+            case Blue:
+                isOnRedTeam = false;
+                break;
+            case Invalid: 
+                break;
+            case Red:
+                isOnRedTeam = true;
+                break;
+        }
 
         //Log.logBool(navX.navX.isConnected(), Log.LOG_GROUPS.SENSORS, 1, true, "navX Connected");
 

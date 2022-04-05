@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.AutoSubsytem.AutonDriveAbsolute;
 import frc.robot.Auton.AutoSubsytem.AutonDriveRelative;
-import frc.robot.Auton.AutoSubsytem.AutonSimpleShoot;
 import frc.robot.Auton.AutoSubsytem.CameraCommands.AutonShoot;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 import frc.robot.Intake.CmdAutoGather;

@@ -119,7 +119,7 @@ public class Winch extends ErrorCommand{
     @Override
     public boolean isFinished(){
         boolean startTimePassed = startTime + r.climb.cals.posCheckDelayWinch < Timer.getFPGATimestamp();
-        boolean correctPosition = r.climb.climbWinch.getPosition() > r.climb.cals.closeToWinchedPos;
+        //boolean correctPosition = r.climb.climbWinch.getPosition() > r.climb.cals.closeToWinchedPos;
         boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxWinch)) < r.climb.cals.minRotDiffWinch;
         if(!stoppedMoving) stoppedTime = Timer.getFPGATimestamp();
         boolean stoppedTimePassed = Timer.getFPGATimestamp() > stoppedTime + r.climb.cals.winchStallTime;

@@ -1,6 +1,5 @@
 package frc.robot.Climber;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -20,6 +19,13 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     public SmartDigitalInput limSwitchL;
     public SmartDigitalInput limSwitchR;
 
+    public SmartDigitalInput barSensorL;
+    public SmartDigitalInput barSensorR;
+
+    static enum CLIMB_STAGE{
+        RESET, ARMS, WINCH, HOOK, DONE
+    }
+
     public SysClimb(CalsClimb cals, RobotContainer r){
         this.r = r;
         this.cals = cals;
@@ -31,6 +37,9 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
 
         limSwitchL = new SmartDigitalInput(6);
         limSwitchR = new SmartDigitalInput(7);
+
+        barSensorL = new SmartDigitalInput(0);
+        barSensorR = new SmartDigitalInput(0);
     }
 
     public void resetEncoders(){
@@ -113,12 +122,27 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         }
 
         SmartDashboard.putNumber("ClimbCurr",climbWinch.getMotorSideCurrent());
-        Log.addValue(CmdClimb.stage, "climb stage", Log.compTab);
+
+        Log.addValue(getStage(CmdClimb.stage).toString(), "climb stage", Log.compTab);
     }
 
     @Override
     public void close() throws Exception {
         climbArmL.close();
         climbWinch.close();
+    }
+
+    private CLIMB_STAGE getStage(int stage){
+        if(stage == 0){
+            return CLIMB_STAGE.RESET;
+        } else if(stage == 1 || stage == 4 || stage == 7){
+            return CLIMB_STAGE.ARMS;
+        } else if(stage == 2 || stage == 5 || stage == 8){
+            return CLIMB_STAGE.WINCH;
+        } else if(stage == 3 || stage == 6 || stage == 9){
+            return CLIMB_STAGE.HOOK;
+        } else {
+            return CLIMB_STAGE.DONE;
+        }
     }
 }
