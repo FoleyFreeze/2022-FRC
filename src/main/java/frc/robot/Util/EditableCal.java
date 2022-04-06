@@ -54,6 +54,10 @@ public class EditableCal {
         return cal;
     }
 
+    public int getAsInt(){
+        return (int) (cal + 0.5);
+    }
+
     //sets the cal value to an inputted number on the dashboard
     public void check(){
         //double value = SmartDashboard.getNumber(name, cal);

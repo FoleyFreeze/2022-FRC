@@ -32,6 +32,7 @@ public class CmdShoot extends SequentialCommandGroup{
         r.sensors.enableTgtLights(true);
         first = true;
         imgCt = 0;
+        prevAngles = new double[r.cannon.cals.maxTgtImgs.getAsInt()];
     }
 
     double filtAngle;
@@ -39,6 +40,7 @@ public class CmdShoot extends SequentialCommandGroup{
     double kU = 0.1;
     boolean first;
     int imgCt;
+    double[] prevAngles;
 
     @Override
     public void execute(){
@@ -57,6 +59,29 @@ public class CmdShoot extends SequentialCommandGroup{
             SmartDashboard.putString("BotRelTgt", targetPos.toStringXY());
 
             double tgtAngle = Math.toDegrees(targetPos.theta);
+            
+            if(imgCt < prevAngles.length){
+                prevAngles[imgCt] = tgtAngle;
+                filtAngle = r.sensors.botAng;
+                imgCt++;
+            } else {
+                int idx = imgCt % prevAngles.length;
+                prevAngles[idx] = tgtAngle;
+                imgCt++;
+                double minAng = 361;
+                double maxAng = -361;
+                double sum = 0;
+                for(double d : prevAngles){
+                    sum += d;
+                    if(d > maxAng) maxAng = d;
+                    if(d < minAng) minAng = d;
+                }
+                sum -= maxAng;
+                sum -= minAng;
+                sum /= prevAngles.length - 2;
+                filtAngle = sum;
+            }
+            /*
             if(first) {
                 first = false;
                 filtAngle = tgtAngle;
@@ -65,6 +90,8 @@ public class CmdShoot extends SequentialCommandGroup{
                 filtAngle = filtAngle * (1-kU) + tgtAngle * kU;
             }
             prevAngle = tgtAngle;
+            */
+            
 
             r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, r.cannon.cals.drivekR.get(), r.cannon.cals.drivekD.get());
         } else {

@@ -15,10 +15,11 @@ public class CalsSensors {
     public final int HISTORY_SIZE = 25;
 
     //distance from center of robot
-    public Vector ballCamLocationL = Vector.fromXY(-8, 12.5);
-    public Vector ballCamLocationR = Vector.fromXY(8, 12.5);
+    public Vector ballCamLocationL = Vector.fromXY(-11, 12.5);
+    public Vector ballCamLocationR = Vector.fromXY(11, 12.5);
     public Vector tgtCamLocation = Vector.fromXY(0, 0);
     public double ballCamAngleL = 90;
+    public double ballCamAngleR = 85;
     public double tgtCamAngle = -90;
 
     public EditableCal switchablePower = new EditableCal("SwitchedPwr", 1);

@@ -38,8 +38,8 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         limSwitchL = new SmartDigitalInput(6);
         limSwitchR = new SmartDigitalInput(7);
 
-        barSensorL = new SmartDigitalInput(0);
-        barSensorR = new SmartDigitalInput(0);
+        //barSensorL = new SmartDigitalInput(0);
+        //barSensorR = new SmartDigitalInput(0);
     }
 
     public void resetEncoders(){
@@ -93,9 +93,9 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         SmartDashboard.putNumber("Left Arm", climbArmL.getPosition()*360);
         SmartDashboard.putNumber("Right Arm", climbArmR.getPosition()*360);
         SmartDashboard.putNumber("Winch Pos", climbWinch.getPosition());
-        SmartDashboard.putNumber("DialPower", r.inputs.driverJoy.getDial3());
-        SmartDashboard.putBoolean("L climb lim sw", r.climb.limSwitchL.get());
-        SmartDashboard.putBoolean("R climb lim sw", r.climb.limSwitchR.get());
+        //SmartDashboard.putNumber("DialPower", r.inputs.driverJoy.getDial3());
+        //SmartDashboard.putBoolean("L climb lim sw", r.climb.limSwitchL.get());
+        //SmartDashboard.putBoolean("R climb lim sw", r.climb.limSwitchR.get());
 
         //manual winch climb control
         if(r.inputs.operatorJoy.climbUp() && r.inputs.operatorJoy.shift()){

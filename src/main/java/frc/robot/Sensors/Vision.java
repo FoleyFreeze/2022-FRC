@@ -142,7 +142,7 @@ public class Vision {
                 double angle = Double.parseDouble(parts[4]);
                 
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
-                data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
+                data.location.theta += Math.toRadians(cals.ballCamAngleR); //camera faces "x"+
 
                 data.camLocation = Camera.RIGHT;
 
@@ -246,7 +246,7 @@ public class Vision {
                 double angle = Double.parseDouble(parts[4]);
                 
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
-                data.location.theta += Math.toRadians(cals.ballCamAngleL); //camera faces "x"+
+                data.location.theta += Math.toRadians(cals.ballCamAngleR); //camera faces "x"+
 
                 data.camLocation = Camera.RIGHT;
                 data.location.add(cals.ballCamLocationR);
