@@ -157,10 +157,10 @@ public class CmdAutoGather extends CommandBase{
                 }
 
                 //logic for cargo going too close & out of camera view
-                if(cargoPos.getY() > r.intake.cals.minCargoDist && Math.abs(cargoPos.getX()) > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime.get()){
+                if(cargoPos.getY() > r.intake.cals.minCargoDist.get() && Math.abs(cargoPos.getX()) > r.intake.cals.minCargoXError && Timer.getFPGATimestamp() > startTime + r.intake.cals.extraGatherTime.get()){
                     x = r.intake.cals.kX.get() * cargoPos.getX();
                     y = Math.max(r.intake.cals.yPower.get() - Math.abs(x) - Math.abs(zR), 0);
-                    y += r.intake.cals.kY.get() * (cargoPos.getY() - r.sensors.cals.ballCamLocationR.getY());
+                    y += r.intake.cals.kY.get() * (cargoPos.getY() - r.intake.cals.gatherYOffset.get());
                     startTimeSet = false;
                 } else {//once the ball is within a certain window of distance, set the power directly
                     if(!startTimeSet){

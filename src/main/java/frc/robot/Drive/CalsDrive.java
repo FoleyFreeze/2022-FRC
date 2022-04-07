@@ -30,13 +30,13 @@ public class CalsDrive {
 
     //Swerve Motor PID
     public double[] angleEncoderOffsets = {4.896, 1.298, 0.544, 2.170};
-    EditableCal kPsw = new EditableCal("kP Swerve", 0.2);
-    EditableCal kIsw = new EditableCal("kI Swerve", 0.005);
-    EditableCal kDsw = new EditableCal("kD Swerve", 0.3);
+    EditableCal kPsw = new EditableCal("kP Swerve", 0.2, false);
+    EditableCal kIsw = new EditableCal("kI Swerve", 0.005, false);
+    EditableCal kDsw = new EditableCal("kD Swerve", 0.3, false);
     EditableCal kFsw = new EditableCal("", 0.0, false);
     double iLimsw = 3;
     double dFiltsw = 0.00;
-    private EditableCal maxSwervePwr = new EditableCal("max swerve pwr", 0.5);
+    private EditableCal maxSwervePwr = new EditableCal("max swerve pwr", 0.5, false);
     
     double swerveRotationsPer360 = 60.0;
 

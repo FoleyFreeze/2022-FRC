@@ -22,7 +22,7 @@ public class CalsSensors {
     public double ballCamAngleR = 85;
     public double tgtCamAngle = -90;
 
-    public EditableCal switchablePower = new EditableCal("SwitchedPwr", 1);
+    public EditableCal switchablePower = new EditableCal("SwitchedPwr", 1, false);
 
     public EditableCal forceTgtLights = new EditableCal("ForceTgtLghts", 0);
     public EditableCal forceBallLights = new EditableCal("ForceBallLghts", 0);

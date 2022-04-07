@@ -26,9 +26,10 @@ public class CalsIntake {
     public EditableCal kR = new EditableCal("gather kR", 0.0, false);
     public EditableCal autoBallMaxPwr = new EditableCal("autoballMaxPwr", 0.5, false);
     public EditableCal maxAnglePIDDist = new EditableCal("maxAnglePIDDist", 5, false);
-    public double minCargoDist = 20;
+    public EditableCal minCargoDist = new EditableCal("minCargoTimeDriveDist", 20);
     public double minCargoXError = 1;
     public EditableCal extraGatherTime = new EditableCal("extra gather time", 0.9, false);
+    public EditableCal gatherYOffset = new EditableCal("gather y offset", 15);
 
     public double intakeTimeOffset = 0.1;
     public double lowFallingTime = 0.3;

@@ -11,10 +11,10 @@ public class CalsCannon {
     
     public final boolean DISABLED = false && Robot.isReal();
 
-    EditableCal maxAnglePwr = new EditableCal("shoot angle pwr", 0.25);
-    EditableCal maxShootPower = new EditableCal("shoot pwr", 0.9);
+    EditableCal maxAnglePwr = new EditableCal("shoot angle pwr", 0.25, false);
+    EditableCal maxShootPower = new EditableCal("shoot pwr", 0.9, false);
 
-    public EditableCal maxTgtImgs = new EditableCal("max tgt imgs", 5);
+    public EditableCal maxTgtImgs = new EditableCal("max tgt imgs", 5, false);
 
     EditableCal shoot_kP = new EditableCal("shoot kP", 0.1, false);
     EditableCal shoot_kI = new EditableCal("shoot kI", 0.002, false);
@@ -22,9 +22,9 @@ public class CalsCannon {
     EditableCal shoot_kF = new EditableCal("shoot kF", 0.0507, false);
     double shoot_izone = 300;
 
-    EditableCal angle_kP = new EditableCal("angle kP", 0.05);
-    EditableCal angle_kI = new EditableCal("angle kI", 0.000);
-    EditableCal angle_kD = new EditableCal("angle kD", 0.05);
+    EditableCal angle_kP = new EditableCal("angle kP", 0.05, false);
+    EditableCal angle_kI = new EditableCal("angle kI", 0.000, false);
+    EditableCal angle_kD = new EditableCal("angle kD", 0.05, false);
     EditableCal angle_kF = new EditableCal("angle kF", 0.0, false);
     double angle_iLim = 0;
     double maxAngleSetTime = 0.25; //the amount of time the shooter is allowed to move after you release the command
@@ -96,8 +96,8 @@ public class CalsCannon {
 
     public Vector targetLocation = Vector.fromXY(0, 0);
     public double maxPower = 0.2;
-    public EditableCal drivekR = new EditableCal("shootDrive kR", 0.02);
-    public EditableCal drivekD = new EditableCal("shootDrive kD", -0.0008);
+    public EditableCal drivekR = new EditableCal("shootDrive kR", 0.02, false);
+    public EditableCal drivekD = new EditableCal("shootDrive kD", -0.0008, false);
 
     public boolean useAutoLoad = false;
 

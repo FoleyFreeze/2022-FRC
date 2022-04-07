@@ -12,15 +12,15 @@ import frc.robot.Util.Vector;
 
 public class AutonDriveAbsolute extends CommandBase {
     
-    RobotContainer r;
+    protected RobotContainer r;
 
-    Vector driveVec;
-    double rot;
+    protected Vector driveVec;
+    protected double rot;
 
-    PositionProvider p;
-    int idx;
+    protected PositionProvider p;
+    protected int idx;
 
-    double starttime = 0;
+    protected double starttime = 0;
 
     public AutonDriveAbsolute(RobotContainer r, PositionProvider p, int idx){
         this.r = r;

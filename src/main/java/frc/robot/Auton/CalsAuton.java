@@ -1,5 +1,6 @@
 package frc.robot.Auton;
 
+import frc.robot.Util.EditableCal;
 import frc.robot.Util.Vector;
 
 public class CalsAuton {
@@ -23,6 +24,15 @@ public class CalsAuton {
     public static double minAutoAngError = 10;
     public static double autoSwerveKP = 0.01;
     public static double autonDriveTime = 5;
+
+    //motion profiling
+    static boolean motionProfileEditable = false;
+
+    public static EditableCal accelPwr = new EditableCal("accelPwr", 0.2, motionProfileEditable);
+    public static EditableCal decelPwr = new EditableCal("decelPwr", 0.15, motionProfileEditable);
+    public static EditableCal accelSlope = new EditableCal("accelSlope", 0.5/120.0, motionProfileEditable);
+    public static EditableCal decelSlope = new EditableCal("decelSlope", 1/120.0, motionProfileEditable);
+    public static EditableCal maxPwr = new EditableCal("maxMPPwr", 0.5, motionProfileEditable);
 
     public class Position{
         public Vector v;
