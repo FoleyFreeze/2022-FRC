@@ -26,7 +26,7 @@ public class CalsAuton {
     public static double autonDriveTime = 5;
 
     //motion profiling
-    static boolean motionProfileEditable = false;
+    static boolean motionProfileEditable = true;
 
     public static EditableCal accelPwr = new EditableCal("accelPwr", 0.2, motionProfileEditable);
     public static EditableCal decelPwr = new EditableCal("decelPwr", 0.15, motionProfileEditable);
@@ -137,7 +137,7 @@ public class CalsAuton {
             new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball (ABS)
             new Position(Vector.fromXY(162-74-10, -125), 155+3), //grab second ball (ABS)
             new Position(Vector.fromXY(75,-75), -132),//move then shoot balls 2-3 (ABS)
-            new Position(Vector.fromXY(76.2, -239.4), -135), //move to loading station (ABS)
+            new Position(Vector.fromXY(119, -283), -135), //move to loading station (ABS)
             null,
             new Position(Vector.fromXY(75.0, -75), -132), //go back to shoot again (ABS)
         }

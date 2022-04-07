@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Auton.CalsAuton;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Util.Vector;
 
@@ -91,7 +92,7 @@ public class CmdAutoGather extends CommandBase{
                     
                 } else {
                     //one ball gathered, still in lower slot
-                    r.intake.intake(0);
+                    r.intake.intake();
                 }
             }
         }
@@ -134,7 +135,7 @@ public class CmdAutoGather extends CommandBase{
         }
 
         //drive code
-        if(!reloadMode && !DriverStation.isAutonomous()){
+        if(!reloadMode && (!DriverStation.isAutonomous() || CalsAuton.useCamera)){
             double x;
             double y;
             double zR;

@@ -290,15 +290,16 @@ public class Vision {
                 //gets image start time
                 data.timestamp = now - (((now - currTime) / 2) + 0.5 * calcTime);
 
-                double x = Double.parseDouble(parts[5]);
+                double x = Double.parseDouble(parts[3]);
                 double angle = Double.parseDouble(parts[4]);
 
                 //TODO: remove
-                x = 70; //default this so it works for now
+                //x = 70; //default this so it works for now
 
-                //data.location = Vector.fromXT(x, Math.toRadians(angle));
-                data.location = new Vector(x, Math.toRadians(angle));
-                //data.location.theta += Math.toRadians(cals.tgtCamAngle); //shooter faces "x"-
+                data.location = Vector.fromXT(x, Math.toRadians(angle));
+                //data.location = new Vector(x, Math.toRadians(angle));
+
+                data.location.theta += Math.toRadians(cals.tgtCamAngle); //shooter faces "x"-
 
                 data.location.add(cals.tgtCamLocation);
 

@@ -20,7 +20,7 @@ public class EditableCal {
     public static void periodic(){
         for (EditableCal c : allCals) {
             c.check();
-        }
+        }   
     }
     
     public double cal;

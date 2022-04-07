@@ -17,7 +17,7 @@ public class CalsSensors {
     //distance from center of robot
     public Vector ballCamLocationL = Vector.fromXY(-11, 12.5);
     public Vector ballCamLocationR = Vector.fromXY(11, 12.5);
-    public Vector tgtCamLocation = Vector.fromXY(0, 0);
+    public Vector tgtCamLocation = Vector.fromXY(0, -11.5);
     public double ballCamAngleL = 90;
     public double ballCamAngleR = 85;
     public double tgtCamAngle = -90;

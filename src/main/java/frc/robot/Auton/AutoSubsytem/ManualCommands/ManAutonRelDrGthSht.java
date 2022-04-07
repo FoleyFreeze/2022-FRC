@@ -7,6 +7,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Auton.AutoSubsytem.AutonDriveAbsolute;
 import frc.robot.Auton.AutoSubsytem.AutonDriveRelative;
 import frc.robot.Auton.AutoSubsytem.CameraCommands.AutonShoot;
+import frc.robot.Auton.AutoSubsytem.MotionProfiling.MPAutonDriveRelative;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 import frc.robot.Intake.CmdAutoGather;
 
@@ -33,7 +34,7 @@ public class ManAutonRelDrGthSht extends SequentialCommandGroup{
     }   
 
     protected AutonDriveAbsolute getDrive(){
-        return new AutonDriveRelative(r, p, idx);
+        return new MPAutonDriveRelative(r, p, idx);
     }
 
     @Override

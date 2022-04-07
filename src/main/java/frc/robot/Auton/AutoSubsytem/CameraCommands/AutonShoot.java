@@ -1,5 +1,6 @@
 package frc.robot.Auton.AutoSubsytem.CameraCommands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
@@ -74,6 +75,6 @@ public class AutonShoot extends SequentialCommandGroup{
 
     @Override
     public boolean isFinished(){
-        return super.isFinished() || fireCmd.endEarly || Timer.getFPGATimestamp() > startTime + 4;
+        return super.isFinished() || fireCmd.endEarly || (Timer.getFPGATimestamp() > startTime + 2 && DriverStation.isAutonomous());
     }
 }

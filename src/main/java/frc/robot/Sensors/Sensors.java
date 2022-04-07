@@ -97,7 +97,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         });
     }
 
-    double dt;
+    public double dt;
     double prevTime;
 
     @Override
@@ -105,6 +105,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         double time = Timer.getFPGATimestamp();
         dt = time - prevTime;
         prevTime = time;
+        SmartDashboard.putNumber("dt", dt);
 
         if(cals.DISABLED) return;
 
@@ -209,11 +210,11 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     //encoders.resetPos(Vector.subVectors(new Vector(0,0), target.location));
 
                     //maybe do a blend or something based on percieved accuracy of the image
-                    camera.updateArray(target.location);
+                    //camera.updateArray(target.location);
 
                     //also remove any error that was present in the calculated cargo locations
-                    if(alliedCargo.location != null) alliedCargo.location.add(target.location);
-                    if(opponentCargo.location != null) opponentCargo.location.add(target.location);
+                    //if(alliedCargo.location != null) alliedCargo.location.add(target.location);
+                    //if(opponentCargo.location != null) opponentCargo.location.add(target.location);
                     break;
             }
         }

@@ -68,13 +68,16 @@ public class AutonDriveAbsolute extends CommandBase {
 
         Vector toTarget = Vector.subVectors(driveVec, r.sensors.botLoc);
         double dist = Math.abs(toTarget.r);
-        boolean driveDone = prevDelta < dist && Timer.getFPGATimestamp() > starttime + 0.5;
+        boolean driveDone = prevDelta <= dist && Timer.getFPGATimestamp() > starttime + 0.5;
         //System.out.println("DeltaDelta " + (dist - prevDelta));
         prevDelta = dist;
 
         double deltaAng = Angle.normDeg(rot - r.sensors.botAng);
         boolean angleDone = Math.abs(deltaAng) < CalsAuton.minAutoAngError;
 
+        if(driveDone && !angleDone){
+            System.out.println("Drive beat the angle: " + Math.abs(deltaAng));
+        }
         return driveDone && angleDone || Timer.getFPGATimestamp() > starttime + CalsAuton.autonDriveTime;
     }
 }

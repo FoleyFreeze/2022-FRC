@@ -56,7 +56,13 @@ public class CmdShoot extends SequentialCommandGroup{
 
         if(r.inputs.cameraDrive() && r.sensors.hasTargetImage() && !r.inputs.driverJoy.layUpShot() && r.inputs.operatorJoy.hubSwitch()){
             Vector targetPos = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
-            SmartDashboard.putString("BotRelTgt", targetPos.toStringXY());
+            
+            //correct for shooter location
+            targetPos.theta += Math.PI/2;
+
+            targetPos.theta -= Math.toRadians(r.sensors.botAng);
+            SmartDashboard.putString("BotRelTgt", targetPos.toStringPolar());
+            targetPos.theta += Math.toRadians(r.sensors.botAng);
 
             double tgtAngle = Math.toDegrees(targetPos.theta);
             

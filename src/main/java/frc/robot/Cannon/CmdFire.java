@@ -24,7 +24,7 @@ public class CmdFire extends CommandBase{
         System.out.println("Cmd Fire Init");
         startTime = Timer.getFPGATimestamp();
         double angleDiff = Math.abs(r.cannon.getShooterAngle() - r.cannon.cals.resetAngle);
-        twoBalls = r.sensors.ballSensorLower.get() && angleDiff < 6; //only shoot 2 in a row if we are aligned to do it
+        twoBalls = r.sensors.ballSensorLower.get() && angleDiff < r.cannon.cals.max2shootAngle.get(); //only shoot 2 in a row if we are aligned to do it
         
         //we can end early when we are immeditely shooting 2 or there is no second one
         canEndEarly = twoBalls || !r.sensors.ballSensorLower.get(); 
@@ -35,8 +35,8 @@ public class CmdFire extends CommandBase{
         //boolean loadAngleReady = angleDiff < r.cannon.cals.minShootAngDiff;
         r.cannon.prime();
         r.cannon.fire();
-        if(twoBalls && Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOne){
-            r.cannon.transport(0.6);
+        if(twoBalls && Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOneToTwo){
+            r.cannon.transport(1);
         }
     }
 

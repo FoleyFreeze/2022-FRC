@@ -2,6 +2,7 @@ package frc.robot.Auton.AutoSubsytem.ManualCommands;
 
 import frc.robot.RobotContainer;
 import frc.robot.Auton.AutoSubsytem.AutonDriveAbsolute;
+import frc.robot.Auton.AutoSubsytem.MotionProfiling.MPAutonDriveAbsolute;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 
 public class ManAutonAbsDrGthSht extends ManAutonRelDrGthSht{
@@ -16,6 +17,6 @@ public class ManAutonAbsDrGthSht extends ManAutonRelDrGthSht{
 
     @Override
     protected AutonDriveAbsolute getDrive(){
-        return new AutonDriveAbsolute(r, p, idx);
+        return new MPAutonDriveAbsolute(r, p, idx);
     }
 }

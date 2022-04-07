@@ -14,7 +14,7 @@ public class CalsCannon {
     EditableCal maxAnglePwr = new EditableCal("shoot angle pwr", 0.25, false);
     EditableCal maxShootPower = new EditableCal("shoot pwr", 0.9, false);
 
-    public EditableCal maxTgtImgs = new EditableCal("max tgt imgs", 5, false);
+    public EditableCal maxTgtImgs = new EditableCal("max tgt imgs", 3, true);
 
     EditableCal shoot_kP = new EditableCal("shoot kP", 0.1, false);
     EditableCal shoot_kI = new EditableCal("shoot kI", 0.002, false);
@@ -70,7 +70,8 @@ public class CalsCannon {
 
     public double wheelOfFirePower = 1;
     public double shootTimeOne = 0.25;
-    public double shootTimeTwo = 1;
+    public double shootTimeOneToTwo = 0.0;
+    public double shootTimeTwo = 0.5;
     public double minPrimeTime15h = 0.7;
     public double minPrimeTimeSpd = 1500;
     public double minPrimeTime21h = 1.1;
@@ -85,7 +86,7 @@ public class CalsCannon {
     public double tranPwr = 0.4;
     public boolean useTimerStop = true;//using a time-based transporter as opposed to detecting current
 
-    public double angOffset;
+    public double angOffset; //this is jog
     public double resetAngle = 65;
 
     public double climbCannonAng = 55; //110 was for the passive climb
@@ -100,6 +101,8 @@ public class CalsCannon {
     public EditableCal drivekD = new EditableCal("shootDrive kD", -0.0008, false);
 
     public boolean useAutoLoad = false;
+
+    public EditableCal max2shootAngle = new EditableCal("Max2ShootAng", 20, false);
 
     public CalsCannon(){
 
