@@ -29,13 +29,17 @@ public class AutonDriveAbsolute extends CommandBase {
         addRequirements(r.drive);
     }
 
-    @Override
-    public void initialize(){
+    public void getPosition(){
         Position pos = p.getPosition(idx);
         if(pos != null){
             driveVec = pos.v;
             rot = pos.a;
         }
+    }
+
+    @Override
+    public void initialize(){
+        getPosition();
         starttime = Timer.getFPGATimestamp();
     }
 

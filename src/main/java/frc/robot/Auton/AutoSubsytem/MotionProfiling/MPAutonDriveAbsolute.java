@@ -26,7 +26,10 @@ public class MPAutonDriveAbsolute extends AutonDriveAbsolute {
 
     @Override
     public void execute(){
+        double elapsedTime = Timer.getFPGATimestamp() - starttime;
+
         Vector xy = Vector.subVectors(driveVec, r.sensors.botLoc);
+        
         double distDriven = initialVec.r - xy.r;
         double distRemaining = xy.r;
         double vel = (prevR - xy.r) / r.sensors.dt;

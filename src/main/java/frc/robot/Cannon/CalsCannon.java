@@ -38,9 +38,10 @@ public class CalsCannon {
     public CalsMotor rightFireMotor = new CalsMotor(MotorType.SPARK, 12).invert().brake();
     public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5).invert().brake();
     
-    public double[] distances = {20, 50};
-    public double[] angles = {70,70};
-    public double[] speeds = {1375,1375};
+    public EditableCal useDistanceLookup = new EditableCal("UseImgDist", 1);
+    public double[] distances = {  59,   69,   77,   86,   93,  114,  120,  127,  135,  145,  157,  175,  197,  205};
+    public double[] angles =    {  80,   78,   76,   74,   74,   70,   70,   70,   70,   70,   70,   70,   66,   66};
+    public double[] speeds =    {1350, 1350, 1350, 1375, 1375, 1375, 1400, 1425, 1450, 1500, 1550, 1650, 1775, 1800};
 
     public double shootMaxAngle = 120;
     public double shootMinAngle = 55;

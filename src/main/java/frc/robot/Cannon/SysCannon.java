@@ -46,7 +46,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void prime(boolean setAngle){
         if (cals.DISABLED) return;
-        if(false/*r.inputs.cameraDrive() && r.sensors.hasTargetImage()*/){
+        if(cals.useDistanceLookup.get() != 0 && r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
             prime(r.sensors.target.location.r, setAngle);
         } else if(DriverStation.isAutonomousEnabled()){
             prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
@@ -77,6 +77,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             speed = Interpolate.interpolate(cals.distances, cals.speeds, dist);
         }
         double angle = Interpolate.interpolate(cals.distances, cals.angles, dist);
+
+        SmartDashboard.putString("ShooterSetpoint", String.format("%.0f, %.0f", speed, angle));
 
         prime(speed, angle);
     }

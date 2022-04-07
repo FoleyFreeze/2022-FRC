@@ -12,13 +12,11 @@ public class AutonDriveRelative extends AutonDriveAbsolute{
     }
 
     @Override
-    public void initialize(){
+    public void getPosition(){
         Position pos = p.getPosition(idx);
         if(pos != null){
             driveVec = pos.v.add(r.sensors.botLoc);
             rot = pos.a;
         }
-
-        starttime = Timer.getFPGATimestamp();
     }
 }
