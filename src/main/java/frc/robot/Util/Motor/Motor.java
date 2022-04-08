@@ -33,4 +33,5 @@ public interface Motor extends AutoCloseable {
     public void setEncoderPosition(double revs);
     public double getMotorSideCurrent();
     public double getTemp();
+    public void setVoltage(double volts);
 }

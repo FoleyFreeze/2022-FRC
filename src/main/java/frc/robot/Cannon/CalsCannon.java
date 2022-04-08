@@ -73,9 +73,9 @@ public class CalsCannon {
     public double shootTimeOne = 0.25;
     public double shootTimeOneToTwo = 0.0;
     public double shootTimeTwo = 0.5;
-    public double minPrimeTime15h = 0.7;
+    public double minPrimeTime15h = 0.7-0.25;
     public double minPrimeTimeSpd = 1500;
-    public double minPrimeTime21h = 1.1;
+    public double minPrimeTime21h = 1.1-0.25;
     public double maxPrimeTimeSpd = 2100;
     public double alignTime = 0.3;
 

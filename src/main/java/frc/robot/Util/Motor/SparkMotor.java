@@ -180,4 +180,9 @@ public class SparkMotor implements Motor{
     public double getTemp() {
         return motor.getMotorTemperature();
     }
+
+    @Override
+    public void setVoltage(double volts){
+        motor.setVoltage(volts);
+    }
 }

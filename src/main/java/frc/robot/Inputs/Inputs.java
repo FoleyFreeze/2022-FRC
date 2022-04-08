@@ -101,7 +101,7 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
     };
 
     public boolean cameraDrive(){
-        return driverJoy.cameraShoot() || (DriverStation.isAutonomous() && CalsAuton.useCamera);
+        return driverJoy.cameraShoot() && !DriverStation.isAutonomous() || (DriverStation.isAutonomous() && CalsAuton.useCamera);
     }
     
     public Trigger fireCannon = new Trigger(){

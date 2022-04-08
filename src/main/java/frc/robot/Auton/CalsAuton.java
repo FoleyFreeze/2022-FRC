@@ -12,29 +12,29 @@ public class CalsAuton {
     public static double autoShootTurnMaxPwr = 0.3;
     public static double minShootDist = 15;
 
-    public static double primeTime = 0.75;
-    public static double shootTime = 1.0;
+    public static double primeTime = 0.5;
+    public static double shootTime = 0.75;
     public static double joeShotFirePwr = 1; //simple shoot
     public static double joeShotPrimeSpeed = 1375; //simple shoot
     public static double joeShotPrimeAng = 70; //simple shoot
 
     public static double maxDrivePower = 0.27;
-    public static double maxSwervePower = 0.20;
+    public static double maxSwervePower = 0.25;
     public static double minAutoPosError = 6;
     public static double minAutoAngError = 10;
-    public static double autoSwerveKP = 0.01;
+    public static double autoSwerveKP = 0.010;
     public static double autonDriveTime = 5;
 
     //motion profiling
     static boolean motionProfileEditable = true;
 
-    public static EditableCal mp_kA = new EditableCal("MP_kA", 0.005, motionProfileEditable); //power per in/sec^2
-    public static EditableCal mp_kV = new EditableCal("MP_kV", 0.003, motionProfileEditable); //power per in/sec
-    public static EditableCal mp_kS = new EditableCal("MP_kS", 0.02, motionProfileEditable);  //power
-    public static EditableCal mp_MaxVel = new EditableCal("MP_MaxVel", 120, motionProfileEditable);
-    public static EditableCal mp_MaxAccel = new EditableCal("MP_MaxVel", 100, motionProfileEditable);
-    public static EditableCal mp_kP = new EditableCal("MP_kP", 0.05, motionProfileEditable);
-    public static EditableCal mp_MaxPwr = new EditableCal("MP_MaxPwr", 0.5, motionProfileEditable);
+    public static EditableCal mp_kA = new EditableCal("MP_kA", 0.0010, motionProfileEditable); //power per in/sec^2
+    public static EditableCal mp_kV = new EditableCal("MP_kV", 0.0053, motionProfileEditable); //power per in/sec
+    public static EditableCal mp_kS = new EditableCal("MP_kS", 0.0247, motionProfileEditable);  //power
+    public static EditableCal mp_MaxVel = new EditableCal("MP_MaxVel", 90, motionProfileEditable);
+    public static EditableCal mp_MaxAccel = new EditableCal("MP_MaxAccel", 50, motionProfileEditable);
+    public static EditableCal mp_kP = new EditableCal("MP_kP", 0.01, motionProfileEditable);
+    public static EditableCal mp_MaxPwr = new EditableCal("MP_MaxPwr", 1, motionProfileEditable);
 
     public class Position{
         public Vector v;
@@ -84,6 +84,17 @@ public class CalsAuton {
             new Position(Vector.fromXY(118.3, -77.3), -123 - 90), //grab second ball (ABS)
             new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
             new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
+        },
+
+        { //test start positions
+            new Position(Vector.fromXY(0,120), 0),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
         }
     };
     
@@ -137,16 +148,31 @@ public class CalsAuton {
             new Position(Vector.fromXY(40, 0), -90), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(91.2+50-1, 4.9-32-5), -90), //grab close ball (ABS)
             new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball (ABS)
-            new Position(Vector.fromXY(162-74-10, -125), 155+3), //grab second ball (ABS)
+            new Position(Vector.fromXY(162-74-15, -125), 155+3), //grab second ball (ABS)
             new Position(Vector.fromXY(75,-75), -132),//move then shoot balls 2-3 (ABS)
-            new Position(Vector.fromXY(119, -283), -135), //move to loading station (ABS)
+            new Position(Vector.fromXY(119+3, -283), -165), //move to loading station (ABS)
             null,
             new Position(Vector.fromXY(75.0, -75), -132), //go back to shoot again (ABS)
+        },
+
+        { //test start positions
+            null,
+            null,
+            null,
+            new Position(Vector.fromXY(0,120), 0),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null
         }
     };
     
     boolean[][] manTodoLists = {
-        extendFalse(true), //do nothing, reset position
+        //extendFalse(true), //do nothing, reset position
+        extendFalse(false, false, false, true), //temp for testing only, TODO:remove, uncomment above
         extendFalse(true, true), //1-ball
         extendFalse(true, true, true, true), //1-ball, drive
         extendFalse(true, true, false, false, true, true), //2-ball

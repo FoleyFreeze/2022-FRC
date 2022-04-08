@@ -108,9 +108,11 @@ public class Wheel implements AutoCloseable {
             lastUpdateTime = Timer.getFPGATimestamp();
         }
         
-        if(cals.useVelocityControl){
+        if(r.drive.cals.useVelocityControl){
             drive.setSpeed(magnitude * cals.maxPower * cals.maxVelocity);
-        } else{
+        } else if(r.drive.cals.useVoltageControl){
+            drive.setVoltage(magnitude * cals.maxPower * 12); //12 Volts
+        } else {
             drive.setPower(magnitude * cals.maxPower);
         }
     }

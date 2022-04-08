@@ -26,7 +26,7 @@ public class ManAutonRelDrGthSht extends SequentialCommandGroup{
         } else {
             addCommands(getDrive());
         }
-        if(shoot) addCommands(new WaitCommand(0.2), new AutonShoot(r));
+        if(shoot) addCommands(new WaitCommand(0.0), new AutonShoot(r));
     }
 
     public ManAutonRelDrGthSht(RobotContainer r, PositionProvider p, int idx){

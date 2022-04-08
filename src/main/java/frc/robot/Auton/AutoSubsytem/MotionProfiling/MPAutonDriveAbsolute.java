@@ -24,7 +24,10 @@ public class MPAutonDriveAbsolute extends AutonDriveAbsolute {
     @Override
     public void initialize(){
         super.initialize();
+        if(!p.todoList(idx)) return;
+
         initialVec = Vector.subVectors(driveVec, r.sensors.botLoc);
+        r.drive.cals.useVoltageControl = true;
 
         //dX = (Vf^2 - Vi^2) / 2a
         double vf = CalsAuton.mp_MaxVel.get();
@@ -76,9 +79,9 @@ public class MPAutonDriveAbsolute extends AutonDriveAbsolute {
 
         //traveled + remaining = total
         //traveled = total - remaining;
-        double error = (initialVec.r - xy.r) - x;
+        double error = x - (initialVec.r - xy.r);
         xy.r = CalsAuton.mp_kS.get() + a * CalsAuton.mp_kA.get() + v * CalsAuton.mp_kV.get() + error * CalsAuton.mp_kP.get(); 
-        if(Math.abs(xy.r) > 1){
+        if(Math.abs(xy.r) > CalsAuton.mp_MaxPwr.get()){
             SmartDashboard.putNumber("isTooPowerful", elapsedTime);
         }
          
@@ -87,6 +90,14 @@ public class MPAutonDriveAbsolute extends AutonDriveAbsolute {
             xy.theta -= Math.toRadians(r.sensors.botAng);
         }
 
+        System.out.format("t:%.2f, err:%.0f, p:%.0f, v:%.0f, a:%.0f, pwr:%.2f, t1:%.1f, t2:%.1f\n", elapsedTime, error, x, v, a, xy.r, startConstVelTime, startDecelTime);
+
         r.drive.driveSwerveAng(xy, rot, CalsAuton.maxSwervePower, CalsAuton.autoSwerveKP, 0);
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        super.end(interrupted);
+        r.drive.cals.useVoltageControl = false;
     }
 }

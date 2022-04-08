@@ -11,6 +11,7 @@ public class TalonMotor implements Motor{
     CalsMotor cals;
     TalonFX motor;
     boolean brake;
+    boolean voltageCompensation;
 
     public TalonMotor(CalsMotor cals){
         this.cals = cals;
@@ -93,6 +94,10 @@ public class TalonMotor implements Motor{
     }
 
     public void setPower(double power){
+        if(voltageCompensation){
+            motor.enableVoltageCompensation(false);
+            voltageCompensation = false;
+        }
         motor.set(ControlMode.PercentOutput, power);
     }
 
@@ -158,5 +163,15 @@ public class TalonMotor implements Motor{
     @Override
     public double getTemp() {
         return motor.getTemperature();
+    }
+
+    @Override
+    public void setVoltage(double volts){
+        if(!voltageCompensation){
+            motor.enableVoltageCompensation(true);
+            voltageCompensation = true;
+        }
+
+        motor.set(ControlMode.PercentOutput, volts / 12.0);
     }
 }

@@ -66,6 +66,7 @@ public class AutonDriveAbsolute extends CommandBase {
     }
 
     double prevDelta;
+    double doneTimer;
     @Override
     public boolean isFinished(){
         if(driveVec == null) return true;
@@ -73,6 +74,13 @@ public class AutonDriveAbsolute extends CommandBase {
         Vector toTarget = Vector.subVectors(driveVec, r.sensors.botLoc);
         double dist = Math.abs(toTarget.r);
         boolean driveDone = prevDelta <= dist && Timer.getFPGATimestamp() > starttime + 0.5;
+        
+        if(driveDone){
+            driveDone &= Timer.getFPGATimestamp() > doneTimer + 0.06;
+        } else {
+            doneTimer = Timer.getFPGATimestamp();
+        }
+        
         //System.out.println("DeltaDelta " + (dist - prevDelta));
         prevDelta = dist;
 

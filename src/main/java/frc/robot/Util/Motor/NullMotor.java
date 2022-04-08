@@ -63,5 +63,10 @@ public class NullMotor implements Motor{
         // TODO Auto-generated method stub
         return 0;
     }
+
+    @Override
+    public void setVoltage(double volts){
+        
+    }
     
 }

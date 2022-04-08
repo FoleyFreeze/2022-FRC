@@ -21,12 +21,14 @@ public class CalsDrive {
 
         public double driveInPerSwerveRotation = -32/18.0 * 15/45.0 * 4*Math.PI;
 
-        public boolean useVelocityControl = false;
         public double maxVelocity = 120;//inches per second
     }
 
     @SuppressWarnings("unused")
     public final boolean DISABLED = false && Robot.isReal();
+
+    public boolean useVelocityControl = false;
+    public boolean useVoltageControl = false;
 
     //Swerve Motor PID
     public double[] angleEncoderOffsets = {4.896, 1.298, 0.544, 2.170};
