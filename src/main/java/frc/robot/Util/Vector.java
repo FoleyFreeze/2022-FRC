@@ -97,7 +97,7 @@ public class Vector {
 
     //returns a string of r, theta
     public String toStringPolar(){
-        return String.format("%.2f,%.0f\u00b0", r, Math.toDegrees(theta));
+        return String.format("%.2f, %.0f\u00b0", r, Math.toDegrees(theta));
     }
 
     //returns a string of x, y

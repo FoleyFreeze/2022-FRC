@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Inputs.Inputs;
 import frc.robot.Intake.CmdReload;
+import frc.robot.Util.Angle;
 import frc.robot.Util.Vector;
 
 public class CmdShoot extends SequentialCommandGroup{
@@ -60,9 +61,9 @@ public class CmdShoot extends SequentialCommandGroup{
             //correct for shooter location
             targetPos.theta += Math.PI/2;
 
-            targetPos.theta -= Math.toRadians(r.sensors.botAng);
+            targetPos.theta = Angle.normRad(targetPos.theta - Math.toRadians(r.sensors.botAng));
             SmartDashboard.putString("BotRelTgt", targetPos.toStringPolar());
-            targetPos.theta += Math.toRadians(r.sensors.botAng);
+            targetPos.theta = Angle.normRad(targetPos.theta + Math.toRadians(r.sensors.botAng));
 
             double tgtAngle = Math.toDegrees(targetPos.theta);
             
