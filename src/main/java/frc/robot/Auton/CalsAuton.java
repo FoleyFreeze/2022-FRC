@@ -29,12 +29,12 @@ public class CalsAuton {
     //motion profiling
     static boolean motionProfileEditable = true;
 
-    public static EditableCal mp_kA = new EditableCal("MP_kA", 0.0010, motionProfileEditable); //power per in/sec^2
-    public static EditableCal mp_kV = new EditableCal("MP_kV", 0.0053, motionProfileEditable); //power per in/sec
+    public static EditableCal mp_kA = new EditableCal("MP_kA", 0.0009, motionProfileEditable); //power per in/sec^2
+    public static EditableCal mp_kV = new EditableCal("MP_kV", 0.006, motionProfileEditable); //power per in/sec
     public static EditableCal mp_kS = new EditableCal("MP_kS", 0.0247, motionProfileEditable);  //power
-    public static EditableCal mp_MaxVel = new EditableCal("MP_MaxVel", 90, motionProfileEditable);
-    public static EditableCal mp_MaxAccel = new EditableCal("MP_MaxAccel", 50, motionProfileEditable);
-    public static EditableCal mp_kP = new EditableCal("MP_kP", 0.01, motionProfileEditable);
+    public static EditableCal mp_MaxVel = new EditableCal("MP_MaxVel", 140, motionProfileEditable);
+    public static EditableCal mp_MaxAccel = new EditableCal("MP_MaxAccel", 115, motionProfileEditable);
+    public static EditableCal mp_kP = new EditableCal("MP_kP", 0.025, motionProfileEditable);
     public static EditableCal mp_MaxPwr = new EditableCal("MP_MaxPwr", 1, motionProfileEditable);
 
     public class Position{
