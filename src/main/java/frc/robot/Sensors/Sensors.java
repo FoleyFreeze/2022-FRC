@@ -314,5 +314,13 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
     public void close() throws Exception {
         encoders.close();
         navX.close();
+        tgtLights.close();
+        ballLights.close();
+        blinken.close();
+        ballSensorLower.close();
+        ballSensorUpper.close();
+        cannonAngleSensor.close();
+        pdh.close();
+        pcm.close();
     }
 }

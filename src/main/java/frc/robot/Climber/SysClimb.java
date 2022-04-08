@@ -35,8 +35,8 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         climbArmR = Motor.create(cals.climbArmR);
         climbWinch = Motor.create(cals.climbWinch);
 
-        limSwitchL = new SmartDigitalInput(6);
-        limSwitchR = new SmartDigitalInput(7);
+        //limSwitchL = new SmartDigitalInput(6);
+        //limSwitchR = new SmartDigitalInput(7);
 
         //barSensorL = new SmartDigitalInput(0);
         //barSensorR = new SmartDigitalInput(0);
@@ -129,6 +129,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
     @Override
     public void close() throws Exception {
         climbArmL.close();
+        climbArmR.close();
         climbWinch.close();
     }
 
