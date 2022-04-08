@@ -28,14 +28,7 @@ public class EditableCal {
     public ArrayList<DoubleConsumer> callbacks = new ArrayList<>();
 
     public EditableCal(String nombre, double value){
-        cal = value;
-        name = nombre;
-
-        //Log.addValue(value, nombre, Log.editableCalsTab);
-        SimpleWidget w = calsTab.add(nombre, value);
-        map.put(nombre, w);
-
-        allCals.add(this);
+        this(nombre, value, true);
     }
 
     public EditableCal(String nombre, double value, boolean enabled){

@@ -67,14 +67,14 @@ public class AutonSequential extends SequentialCommandGroup{
                         new AutonAbsDrvGthSht(  r, p, 7, false, true)  //move back towards goal, shoot
                         );
         } else {//no-camera-only commands
-            addCommands(new ManAutonRelDrGthSht(r, manualP, 3, false, false),//move out of zone for 1-ball
-                        new ManAutonAbsDrGthSht(r, manualP, 4, true, false), //gather ball 2 (and ball 1 if we still have it), in front of our auton zone
-                        new ManAutonAbsDrGthSht(r, manualP, 5, true, true), //shoot ball 2 (in 2 ball only)
-                        new ManAutonAbsDrGthSht(r, manualP, 6, true, false), //gather ball 3 in front of allied auton zone
-                        new ManAutonAbsDrGthSht(r, manualP, 7, false, true), //shoot 2 and 3
-                        new ManAutonAbsDrGthSht(r, manualP, 8, true, false), //move to loading station, gather ball 4-5
-                        new ManAutonGatherOnly( r, manualP, 9),               //gather ball 5
-                        new ManAutonAbsDrGthSht(r, manualP, 10, false, true)  //move back towards goal, shoot
+            addCommands(new ManAutonRelDrGthSht(r, manualP, 3, false, 0),  //move out of zone for 1-ball
+                        new ManAutonAbsDrGthSht(r, manualP, 4, true, 0),   //gather ball 2 (and ball 1 if we still have it), in front of our auton zone
+                        new ManAutonAbsDrGthSht(r, manualP, 5, true, 114), //shoot ball 2 (in 2 ball only)
+                        new ManAutonAbsDrGthSht(r, manualP, 6, true, 0),   //gather ball 3 in front of allied auton zone
+                        new ManAutonAbsDrGthSht(r, manualP, 7, false, 114),//shoot 2 and 3
+                        new ManAutonAbsDrGthSht(r, manualP, 8, true, 0),   //move to loading station, gather ball 4-5
+                        new ManAutonGatherOnly( r, manualP, 9),            //gather ball 5
+                        new ManAutonAbsDrGthSht(r, manualP, 10, false, 114)//move back towards goal, shoot
                         );
         }
 

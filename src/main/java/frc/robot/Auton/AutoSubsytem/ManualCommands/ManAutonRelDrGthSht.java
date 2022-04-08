@@ -17,7 +17,7 @@ public class ManAutonRelDrGthSht extends SequentialCommandGroup{
     PositionProvider p;
     int idx;
 
-    public ManAutonRelDrGthSht(RobotContainer r, PositionProvider p, int idx, boolean gather, boolean shoot){
+    public ManAutonRelDrGthSht(RobotContainer r, PositionProvider p, int idx, boolean gather, double shootDist){
         this.r = r;
         this.p = p;
         this.idx = idx;
@@ -26,12 +26,8 @@ public class ManAutonRelDrGthSht extends SequentialCommandGroup{
         } else {
             addCommands(getDrive());
         }
-        if(shoot) addCommands(new WaitCommand(0.0), new AutonShoot(r));
+        if(shootDist != 0) addCommands(new AutonShoot(r, shootDist));
     }
-
-    public ManAutonRelDrGthSht(RobotContainer r, PositionProvider p, int idx){
-        this(r, p, idx, true, true);
-    }   
 
     protected AutonDriveAbsolute getDrive(){
         return new MPAutonDriveRelative(r, p, idx);

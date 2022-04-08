@@ -7,12 +7,8 @@ import frc.robot.Auton.AutonSequential.PositionProvider;
 
 public class ManAutonAbsDrGthSht extends ManAutonRelDrGthSht{
 
-    public ManAutonAbsDrGthSht(RobotContainer r, PositionProvider p, int idx, boolean gather, boolean shoot){
-        super(r, p, idx, gather, shoot);
-    }
-
-    public ManAutonAbsDrGthSht(RobotContainer r, PositionProvider p, int idx){
-        super(r, p, idx);
+    public ManAutonAbsDrGthSht(RobotContainer r, PositionProvider p, int idx, boolean gather, double shootDist){
+        super(r, p, idx, gather, shootDist);
     }
 
     @Override

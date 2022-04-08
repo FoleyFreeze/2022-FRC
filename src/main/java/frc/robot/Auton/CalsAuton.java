@@ -6,6 +6,7 @@ import frc.robot.Util.Vector;
 public class CalsAuton {
 
     public static boolean useCamera = false;
+    public static double autonDist;
 
     public static double autoShootAngleKP = 0.01;
     public static double autoShootAngleKD = 0.0;

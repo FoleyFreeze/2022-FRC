@@ -20,7 +20,7 @@ public class AutonRelDrvGthSht extends SequentialCommandGroup{
         this.idx = idx;
         addCommands(getDrive(r, p, idx));
         if(gather) addCommands(new AutonGather(r));
-        if(shoot) addCommands(new AutonShoot(r));
+        if(shoot) addCommands(new AutonShoot(r, 0));
     }
 
     protected AutonDriveAbsolute getDrive(RobotContainer r, PositionProvider p, int idx){

@@ -5,8 +5,10 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Auton.CalsAuton;
 import frc.robot.Util.Interpolate;
 import frc.robot.Util.Log;
+import frc.robot.Util.Vector;
 import frc.robot.Util.Motor.Motor;
 
 public class SysCannon extends SubsystemBase implements AutoCloseable{
@@ -47,9 +49,11 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void prime(boolean setAngle){
         if (cals.DISABLED) return;
         if(cals.useDistanceLookup.get() != 0 && r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
-            prime(r.sensors.target.location.r, setAngle);
+            Vector v = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
+            prime(v.r, setAngle);
         } else if(DriverStation.isAutonomousEnabled()){
-            prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
+            //prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
+            prime(CalsAuton.autonDist, setAngle);
         } else if(cals.useVariableShootSpeed){
             double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
