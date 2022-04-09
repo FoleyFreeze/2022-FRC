@@ -9,13 +9,15 @@ public class CalsCBoard {
     //public final int turboSwitch = 9;
     public final int shift = 7;
     //jog is the pov hat
-    public final int shootSwitchAxis = 1; //+1 is Front, -1 is Back
+    //public final int shootSwitchAxis = 1; //+1 is Front, -1 is Back
+    public final int shootForward = 10;
+    public final int distAxis = 1;
     public final int shoot = 5;
     public final int kicker = 1;
     public final int transporter = 2;
     public final int pitMode = 4;
     public final int intake = 3;
-    public final int highHubSwitch = 10;
+    public final int highHubSwitch = 11;//TODO: find button #
     
 
     public CalsCBoard(){

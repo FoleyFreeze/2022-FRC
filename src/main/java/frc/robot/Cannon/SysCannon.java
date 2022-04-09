@@ -59,7 +59,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void prime(boolean setAngle){
         if (cals.DISABLED) return;
-        if(r.inputs.driverJoy.layUpShot() && !DriverStation.isAutonomous()){//layup
+        if(r.inputs.operatorJoy.layUpShot() && !DriverStation.isAutonomous()){//layup
             prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG), setAngle);
         }else if(cals.useDistanceLookup.get() != 0 && r.inputs.cameraDrive() && r.sensors.hasTargetImage()){//using dist look-up table
             Vector v = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
@@ -78,7 +78,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             prime(speed, angle, setAngle);
         } else if(!r.inputs.operatorJoy.hubSwitch()){//low shot selected
             prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG), setAngle);
-        }else if(r.inputs.driverJoy.launchPadShot()){//launch pad
+        }else if(r.inputs.operatorJoy.launchPadShot()){//launch pad
             prime(cals.LAUNCH_PAD_SHOOT_SPEED, flip(cals.LAUNCH_PAD_SHOOT_ANG), setAngle);
         } else{//joe shot
             prime(cals.TARMAC_SHOOT_SPEED.get(), flip(cals.TARMAC_SHOOT_ANG.get()), setAngle);

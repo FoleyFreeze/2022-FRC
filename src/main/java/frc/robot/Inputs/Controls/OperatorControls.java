@@ -29,6 +29,8 @@ public class OperatorControls extends Controls implements AutoCloseable{
         }
     }
 
+
+    //climb buttons
     public boolean climbUp(){
         return checkAxis(cals.climbAxis) > 0.5;
     }
@@ -37,28 +39,30 @@ public class OperatorControls extends Controls implements AutoCloseable{
         return checkAxis(cals.climbAxis) < -0.5;
     }
 
+
+    //shooter buttons
+    public boolean layUpShot(){
+        return checkAxis(cals.distAxis) < -0.5;
+    }
+    
+    public boolean launchPadShot(){
+        return checkAxis(cals.distAxis) > 0.5;
+    }
+
     public boolean shootForward(){
-        return checkAxis(cals.shootSwitchAxis) > 0.5;
+        return checkButton(cals.shootForward);
     }
 
     public boolean shootBackward(){
-        return checkAxis(cals.shootSwitchAxis) < -0.5;
+        return !checkButton(cals.shootForward);
     }
 
     public boolean climbSwitch(){
         return checkButton(cals.climbSwitch);
     }
 
-    public boolean ejectSwitch(){
-        return checkButton(cals.ejectSwitch);
-    }
-
     public boolean hubSwitch(){
         return !checkButton(cals.highHubSwitch);
-    }
-
-    public boolean shift(){
-        return checkButton(cals.shift);
     }
 
     public boolean fire(){
@@ -67,20 +71,6 @@ public class OperatorControls extends Controls implements AutoCloseable{
 
     public boolean kicker(){
         return checkButton(cals.kicker);
-    }
-
-    public boolean transporter(){
-        return checkButton(cals.transporter);
-    }
-
-    public boolean pitMode(){
-        //field mode is true, so invert this, but also force it false when the FMS is active
-        //also use button inverse which forces it to true when the control board is not plugged in
-        return !checkButtonInverse(cals.pitMode) && !DriverStation.isFMSAttached();
-    }
-
-    public boolean intake(){
-        return checkButton(cals.intake);
     }
 
     public boolean jogUp(){
@@ -98,6 +88,34 @@ public class OperatorControls extends Controls implements AutoCloseable{
     public boolean jogRight(){
         return checkPOV() == 90;
     }
+
+
+    //intake buttons
+    public boolean intake(){
+        return checkButton(cals.intake);
+    }
+
+    public boolean ejectSwitch(){
+        return checkButton(cals.ejectSwitch);
+    }
+
+    public boolean transporter(){
+        return checkButton(cals.transporter);
+    }
+    
+
+    //misc buttons
+    public boolean shift(){
+        return checkButton(cals.shift);
+    }
+
+    public boolean pitMode(){
+        //field mode is true, so invert this, but also force it false when the FMS is active
+        //also use button inverse which forces it to true when the control board is not plugged in
+        return !checkButtonInverse(cals.pitMode) && !DriverStation.isFMSAttached();
+    }
+
+    
 
     public boolean checkButton(int button){
         if(controlBoard != null && controlBoard.isConnected()){

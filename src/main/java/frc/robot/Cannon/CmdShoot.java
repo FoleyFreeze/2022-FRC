@@ -55,7 +55,7 @@ public class CmdShoot extends SequentialCommandGroup{
         
         Inputs.mapSquareToCircle(xy);
 
-        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage() && !r.inputs.driverJoy.layUpShot() && r.inputs.operatorJoy.hubSwitch()){
+        if(r.inputs.cameraDrive() && r.sensors.hasTargetImage() && !r.inputs.operatorJoy.layUpShot() && r.inputs.operatorJoy.hubSwitch()){
             Vector targetPos = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
             
             //correct for shooter location

@@ -35,7 +35,7 @@ public class CmdFire extends CommandBase{
         canEndEarly = twoBalls || !r.sensors.ballSensorLower.get(); 
 
         //checks if layup
-        boolean layup = r.inputs.driverJoy.layUpShot() && !DriverStation.isAutonomous();
+        boolean layup = r.inputs.operatorJoy.layUpShot() && !DriverStation.isAutonomous();
         if(layup) betweenWait = r.cannon.cals.shootTimeOneToTwoLayup.get();
         else betweenWait = r.cannon.cals.shootTimeOneToTwo.get();
     }
