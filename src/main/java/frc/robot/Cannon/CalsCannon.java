@@ -46,12 +46,12 @@ public class CalsCannon {
 
     public double shootMaxAngle = 120;
     public double shootMinAngle = 55;
-    public double potMaxAngle = 0;
-    public double potMinAngle = 0;
-    public double voltsPerDegree = 5/270.0;
-    public double potResetDeltaAngle = 5;
+    public double potMaxAngle = 122;
+    public double potMinAngle = 45;
+    public double voltsPerDegree = 5/270.0 * 1.1609;//0.01819;
+    public double potResetDeltaAngle = 2;
     public double potMaxMovement = 10;
-    public double potVoltOffset = 0; //set this to the analog voltage when the limit switch is pressed
+    public double potVoltOffset = 1.672; //set this to the analog voltage when the limit switch is pressed
 
     public boolean useVariableShootSpeed = false;
     public double maxVariableShootSpeed = 3800;

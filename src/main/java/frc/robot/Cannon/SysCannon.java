@@ -272,10 +272,13 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                 //out of bounds
                 potDisabled = true;
             }
+            Log.addValue(potDisabled, "Pot Broke", Log.compTab);
 
             //determine if we should rezero neo encoder
             double deltaAngle = Math.abs(angleMotor.getPosition() * 360 - analogAngle);
             boolean rezeroNeeded = deltaAngle > cals.potResetDeltaAngle;
+
+            SmartDashboard.putNumber("analogShootErr", deltaAngle);
             
             //rezero
             if(rezeroNeeded){
