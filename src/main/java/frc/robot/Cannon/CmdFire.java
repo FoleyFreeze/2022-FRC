@@ -1,5 +1,6 @@
 package frc.robot.Cannon;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -14,6 +15,8 @@ public class CmdFire extends CommandBase{
     boolean twoBalls;
     double startTime = Double.POSITIVE_INFINITY;
 
+    double betweenWait;
+
     public CmdFire(RobotContainer r){
         this.r = r;
         addRequirements(r.cannon);
@@ -24,10 +27,17 @@ public class CmdFire extends CommandBase{
         System.out.println("Cmd Fire Init");
         startTime = Timer.getFPGATimestamp();
         double angleDiff = Math.abs(r.cannon.getShooterAngle() - r.cannon.cals.resetAngle);
-        twoBalls = r.sensors.ballSensorLower.get() && angleDiff < r.cannon.cals.max2shootAngle.get(); //only shoot 2 in a row if we are aligned to do it
+        //only shoot 2 in a row if we are aligned to do it
+        //force 2 shots in auton since we either have 2 or we dont care about the time
+        twoBalls = DriverStation.isAutonomous() || r.sensors.ballSensorLower.get() && angleDiff < r.cannon.cals.max2shootAngle.get(); 
         
         //we can end early when we are immeditely shooting 2 or there is no second one
         canEndEarly = twoBalls || !r.sensors.ballSensorLower.get(); 
+
+        //checks if layup
+        boolean layup = r.inputs.driverJoy.layUpShot() && !DriverStation.isAutonomous();
+        if(layup) betweenWait = r.cannon.cals.shootTimeOneToTwoLayup.get();
+        else betweenWait = r.cannon.cals.shootTimeOneToTwo.get();
     }
 
     @Override
@@ -35,7 +45,7 @@ public class CmdFire extends CommandBase{
         //boolean loadAngleReady = angleDiff < r.cannon.cals.minShootAngDiff;
         r.cannon.prime();
         r.cannon.fire();
-        if(twoBalls && Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOneToTwo){
+        if(twoBalls && Timer.getFPGATimestamp() > startTime + betweenWait){
             r.cannon.transport(1);
         }
     }
@@ -53,7 +63,7 @@ public class CmdFire extends CommandBase{
     public boolean isFinished(){
         boolean done;
         if(twoBalls){
-            done = Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeTwo;
+            done = Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeTwo + betweenWait;
         } else {
             done = Timer.getFPGATimestamp() > startTime + r.cannon.cals.shootTimeOne;
         }

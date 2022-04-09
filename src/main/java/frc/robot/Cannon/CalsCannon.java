@@ -39,9 +39,9 @@ public class CalsCannon {
     public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5).invert().brake();
     
     public EditableCal useDistanceLookup = new EditableCal("UseImgDist", 1);
-    public double[] distances = {  59,   69,   77,   86,   93,  114,  120,  127,  135,  145,  157,  175,  197,  205};
-    public double[] angles =    {  80,   78,   76,   74,   74,   70,   70,   70,   70,   70,   70,   70,   66,   66};
-    public double[] speeds =    {1350, 1350, 1350, 1375, 1375, 1375, 1400, 1425, 1450, 1500, 1550, 1650, 1775, 1800};
+    public double[] distances = {  59,   69,   77,   86,   93,  114,  120,  127,     135,     145,     157,          175,         197,        205,      218};
+    public double[] angles =    {  80,   78,   76,   74,   74,   70,   70,   70,      70,      70,      70,           70,         66,         66,        66};
+    public double[] speeds =    {1350, 1350, 1350, 1375, 1375, 1375, 1400, 1425+25, 1450+25, 1500+25, 1550+25+25, 1650+25+25, 1775+25+25, 1800+25+25, 1900+50};
 
     public double shootMaxAngle = 120;
     public double shootMinAngle = 55;
@@ -49,14 +49,16 @@ public class CalsCannon {
     public boolean useVariableShootSpeed = false;
     public double maxVariableShootSpeed = 3800;
     public double minVariableShootSpeed = 1000;
-    public final double LAYUP_SHOOT_SPEED = 1400;
-    public final double LAYUP_SHOOT_ANG = 83;
+    public final double LAYUP_SHOOT_SPEED = 1450;
+    public final double LAYUP_SHOOT_ANG = 84;
     public final double LOW_SHOOT_SPEED = 775;
     public final double LOW_SHOOT_ANG = 78;
     public final double LAUNCH_PAD_SHOOT_SPEED = 1850;
     public final double LAUNCH_PAD_SHOOT_ANG = 57;
-    public final double TARMAC_SHOOT_SPEED = CalsAuton.joeShotPrimeSpeed + 50;
-    public final double TARMAC_SHOOT_ANG = CalsAuton.joeShotPrimeAng + 2;
+    public EditableCal TARMAC_SHOOT_SPEED = new EditableCal("ShootSpeed", 1000);
+    public EditableCal TARMAC_SHOOT_ANG = new EditableCal("ShootAng", 70);
+    //public final double TARMAC_SHOOT_SPEED = CalsAuton.joeShotPrimeSpeed + 50;
+    //public final double TARMAC_SHOOT_ANG = CalsAuton.joeShotPrimeAng + 2;
     public double jogInitSpeed = 0;
     public double jogSpeedInterval = 25;//rpm
     public double jogInitAng = 0;
@@ -71,7 +73,8 @@ public class CalsCannon {
 
     public double wheelOfFirePower = 1;
     public double shootTimeOne = 0.25;
-    public double shootTimeOneToTwo = 0.0;
+    public EditableCal shootTimeOneToTwo = new EditableCal("shot_spacing_time", 0.2);
+    public EditableCal shootTimeOneToTwoLayup = new EditableCal("layup_spacing", 0.4);
     public double shootTimeTwo = 0.5;
     public double minPrimeTime15h = 0.7-0.25;
     public double minPrimeTimeSpd = 1500;
@@ -103,7 +106,7 @@ public class CalsCannon {
 
     public boolean useAutoLoad = false;
 
-    public EditableCal max2shootAngle = new EditableCal("Max2ShootAng", 20, false);
+    public EditableCal max2shootAngle = new EditableCal("Max2ShootAng", 25, false);
 
     public CalsCannon(){
 

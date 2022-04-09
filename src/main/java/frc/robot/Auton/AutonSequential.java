@@ -1,5 +1,7 @@
 package frc.robot.Auton;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.AutoSubsytem.AutonInitPos;
@@ -15,6 +17,8 @@ import frc.robot.Cannon.CmdCannonEasyReset;
 
 public class AutonSequential extends SequentialCommandGroup{
     
+    double autonStartTime;
+
     RobotContainer r;
     CalsAuton cals;
 
@@ -71,10 +75,10 @@ public class AutonSequential extends SequentialCommandGroup{
                         new ManAutonAbsDrGthSht(r, manualP, 4, true, 0),   //gather ball 2 (and ball 1 if we still have it), in front of our auton zone
                         new ManAutonAbsDrGthSht(r, manualP, 5, true, 114), //shoot ball 2 (in 2 ball only)
                         new ManAutonAbsDrGthSht(r, manualP, 6, true, 0),   //gather ball 3 in front of allied auton zone
-                        new ManAutonAbsDrGthSht(r, manualP, 7, false, 114),//shoot 2 and 3
+                        new ManAutonAbsDrGthSht(r, manualP, 7, true, 160),//shoot 2 and 3
                         new ManAutonAbsDrGthSht(r, manualP, 8, true, 0),   //move to loading station, gather ball 4-5
                         new ManAutonGatherOnly( r, manualP, 9),            //gather ball 5
-                        new ManAutonAbsDrGthSht(r, manualP, 10, false, 114)//move back towards goal, shoot
+                        new ManAutonAbsDrGthSht(r, manualP, 10, true, 160)//move back towards goal, shoot
                         );
         }
 
@@ -83,6 +87,7 @@ public class AutonSequential extends SequentialCommandGroup{
 
     @Override
     public void initialize() {
+        autonStartTime = Timer.getFPGATimestamp();
         
         positionList = cals.positionList[r.posChooser.getSelected()];
         todoList = cals.todoLists[r.ballCtChooser.getSelected()];
@@ -101,6 +106,14 @@ public class AutonSequential extends SequentialCommandGroup{
         }
 
         super.initialize();
+    }
+
+    @Override
+    public void end(boolean interrupted){
+        super.end(interrupted);
+        double totalTime = Timer.getFPGATimestamp() - autonStartTime;
+        System.out.println("AUTON COMPLETED IN: " + totalTime);
+        SmartDashboard.putNumber("Auton Time", totalTime);
     }
 
 }

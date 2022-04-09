@@ -48,8 +48,11 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void prime(boolean setAngle){
         if (cals.DISABLED) return;
-        if(cals.useDistanceLookup.get() != 0 && r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
+        if(r.inputs.driverJoy.layUpShot() && !DriverStation.isAutonomous()){
+            prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG), setAngle);
+        }else if(cals.useDistanceLookup.get() != 0 && r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
             Vector v = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
+            SmartDashboard.putNumber("PrimeDist", v.r);
             prime(v.r, setAngle);
         } else if(DriverStation.isAutonomousEnabled()){
             //prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
@@ -64,12 +67,10 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             prime(speed, angle, setAngle);
         } else if(!r.inputs.operatorJoy.hubSwitch()){
             prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG), setAngle);
-        } else if(r.inputs.driverJoy.layUpShot()){
-            prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG), setAngle);
         }else if(r.inputs.driverJoy.launchPadShot()){
             prime(cals.LAUNCH_PAD_SHOOT_SPEED, flip(cals.LAUNCH_PAD_SHOOT_ANG), setAngle);
         } else{
-            prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
+            prime(cals.TARMAC_SHOOT_SPEED.get(), flip(cals.TARMAC_SHOOT_ANG.get()), setAngle);
         }
     }
 

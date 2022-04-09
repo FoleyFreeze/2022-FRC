@@ -17,7 +17,7 @@ public class CalsAuton {
     public static double shootTime = 0.75;
     public static double joeShotFirePwr = 1; //simple shoot
     public static double joeShotPrimeSpeed = 1375; //simple shoot
-    public static double joeShotPrimeAng = 70; //simple shoot
+    public static double joeShotPrimeAng = 70+2; //simple shoot
 
     public static double maxDrivePower = 0.27;
     public static double maxSwervePower = 0.25;
@@ -147,13 +147,15 @@ public class CalsAuton {
             null, //simple shoot
             null, //wait time
             new Position(Vector.fromXY(40, 0), -90), //move after 1-ball auton (REL)
-            new Position(Vector.fromXY(91.2+50-1, 4.9-32-5), -90), //grab close ball (ABS)
+            new Position(Vector.fromXY(91.2+50-1, 4.9-32-3), -90), //grab close ball (ABS)
             new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball (ABS)
-            new Position(Vector.fromXY(162-74-15, -125), 155+3), //grab second ball (ABS)
-            new Position(Vector.fromXY(75,-75), -132),//move then shoot balls 2-3 (ABS)
-            new Position(Vector.fromXY(119+3, -283), -165), //move to loading station (ABS)
+            new Position(Vector.fromXY(162-74-15, -125), 155+8), //grab second ball (ABS)
+            new Position(Vector.fromXY(77.5, -140), -151), //better shooting position
+            //new Position(Vector.fromXY(75,-75), -132),//move then shoot balls 2-3 (ABS)
+            new Position(Vector.fromXY(119-3, -283), -165), //move to loading station (ABS)
             null,
-            new Position(Vector.fromXY(75.0, -75), -132), //go back to shoot again (ABS)
+            //new Position(Vector.fromXY(75.0, -75), -132), //go back to shoot again (ABS)
+            new Position(Vector.fromXY(77.5, -140), -151)
         },
 
         { //test start positions
