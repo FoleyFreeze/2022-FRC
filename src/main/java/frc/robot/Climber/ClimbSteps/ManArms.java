@@ -153,8 +153,6 @@ public class ManArms extends ErrorCommand {
         //boolean stoppedMoving = Math.abs(getPosition(idx) - getPosition(idx - r.climb.cals.prevIdxArms)) > r.climb.cals.minRotDiffArms;
         //boolean startTimePassed = posCheckDelayStart + r.climb.cals.posCheckDelayArms < Timer.getFPGATimestamp();
 
-        boolean grabbed = r.climb.barSensorL.get() && r.climb.barSensorR.get();//TODO: make bar distance sensors work: more advanced logic?
-
         return currentStage > stage || /*(stoppedMoving && startTimePassed && stage != 1) ||*/ r.inputs.leftTriggerRisingEdge;
     }
 

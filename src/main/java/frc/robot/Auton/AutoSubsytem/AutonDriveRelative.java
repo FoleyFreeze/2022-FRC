@@ -1,6 +1,5 @@
 package frc.robot.Auton.AutoSubsytem;
 
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.AutonSequential.PositionProvider;
 import frc.robot.Auton.CalsAuton.Position;

@@ -6,6 +6,7 @@ import frc.robot.Util.Vector;
 
 public class CalsSensors {
 
+    @SuppressWarnings("unused")
     public final boolean DISABLED = false && Robot.isReal();
 
     public final EditableCal VISION_DATA_TIMEOUT = new EditableCal("VisionTimeout", 0.2);

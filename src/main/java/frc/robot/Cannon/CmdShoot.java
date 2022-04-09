@@ -98,9 +98,16 @@ public class CmdShoot extends SequentialCommandGroup{
             }
             prevAngle = tgtAngle;
             */
-            
 
-            r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, r.cannon.cals.drivekR.get(), r.cannon.cals.drivekD.get());
+            double kR;
+            double angDiff = Math.abs(Angle.normDeg(filtAngle - r.sensors.botAng));
+            if(angDiff < 45){
+                double blendRatio = (45 - angDiff) / 45;
+                kR = r.cannon.cals.drivekR45.get() * blendRatio + r.cannon.cals.drivekR0.get() * (1 - blendRatio);
+            } else {
+                kR = r.cannon.cals.drivekR45.get();
+            }
+            r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, kR, r.cannon.cals.drivekD.get());
         } else {
             zR = r.inputs.getDrivezR();
             if(zR > r.cannon.cals.maxPower) zR = r.cannon.cals.maxPower;

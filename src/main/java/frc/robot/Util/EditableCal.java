@@ -35,7 +35,6 @@ public class EditableCal {
         cal = value;
         name = nombre;
         if(enabled){
-            //Log.addValue(value, nombre, Log.editableCalsTab);
             SimpleWidget w = calsTab.add(nombre, value);
             map.put(nombre, w);
 
@@ -53,7 +52,6 @@ public class EditableCal {
 
     //sets the cal value to an inputted number on the dashboard
     public void check(){
-        //double value = SmartDashboard.getNumber(name, cal);
         double value = map.get(name).getEntry().getNumber(0).doubleValue();
 
         if (value != cal){

@@ -1,11 +1,13 @@
 package frc.robot.Cannon;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.CalsAuton;
+import frc.robot.Util.Angle;
 import frc.robot.Util.Interpolate;
 import frc.robot.Util.Log;
 import frc.robot.Util.Vector;
@@ -23,8 +25,13 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     Motor rightFireMotor;
     Motor transpMotor;
 
+    AnalogInput anglePot;
+
     double jogSpeed;
     double jogAng;
+
+    boolean first;
+    boolean potDisabled = false;
 
     public SysCannon(CalsCannon cals, RobotContainer r){
         this.cals = cals;
@@ -40,6 +47,10 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         leftFireMotor = Motor.create(cals.leftFireMotor);
         rightFireMotor = Motor.create(cals.rightFireMotor);
         transpMotor = Motor.create(cals.transpMotor);
+
+        anglePot = new AnalogInput(7);
+        
+        first = true;
     }
 
     public void prime(){
@@ -48,16 +59,16 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void prime(boolean setAngle){
         if (cals.DISABLED) return;
-        if(r.inputs.driverJoy.layUpShot() && !DriverStation.isAutonomous()){
+        if(r.inputs.driverJoy.layUpShot() && !DriverStation.isAutonomous()){//layup
             prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG), setAngle);
-        }else if(cals.useDistanceLookup.get() != 0 && r.inputs.cameraDrive() && r.sensors.hasTargetImage()){
+        }else if(cals.useDistanceLookup.get() != 0 && r.inputs.cameraDrive() && r.sensors.hasTargetImage()){//using dist look-up table
             Vector v = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
             SmartDashboard.putNumber("PrimeDist", v.r);
             prime(v.r, setAngle);
-        } else if(DriverStation.isAutonomousEnabled()){
+        } else if(DriverStation.isAutonomousEnabled()){//auton shot
             //prime(cals.TARMAC_SHOOT_SPEED, flip(cals.TARMAC_SHOOT_ANG), setAngle);
             prime(CalsAuton.autonDist, setAngle);
-        } else if(cals.useVariableShootSpeed){
+        } else if(cals.useVariableShootSpeed){//dial speeds
             double speed = r.inputs.driverJoy.getDial1() * 
                     (cals.maxVariableShootSpeed - cals.minVariableShootSpeed)
                      + cals.minVariableShootSpeed;
@@ -65,11 +76,11 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                     (cals.shootMaxAngle - cals.shootMinAngle)
                     + cals.shootMinAngle;
             prime(speed, angle, setAngle);
-        } else if(!r.inputs.operatorJoy.hubSwitch()){
+        } else if(!r.inputs.operatorJoy.hubSwitch()){//low shot selected
             prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG), setAngle);
-        }else if(r.inputs.driverJoy.launchPadShot()){
+        }else if(r.inputs.driverJoy.launchPadShot()){//launch pad
             prime(cals.LAUNCH_PAD_SHOOT_SPEED, flip(cals.LAUNCH_PAD_SHOOT_ANG), setAngle);
-        } else{
+        } else{//joe shot
             prime(cals.TARMAC_SHOOT_SPEED.get(), flip(cals.TARMAC_SHOOT_ANG.get()), setAngle);
         }
     }
@@ -245,12 +256,42 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         cargoReadyToTP = true;
     }
 
+    double prevAnalogAngle;
+    public void resetShooterAngle(){
+        if(!potDisabled){
+            double analogAngle = (anglePot.getVoltage() - cals.potVoltOffset)  / cals.voltsPerDegree + cals.sensorResetAngle;
+            SmartDashboard.putNumber("AnalogShootAngle", analogAngle);
+            if(first) prevAnalogAngle = analogAngle;
+
+            //check if pot value is reasonable
+            if(Math.abs(analogAngle - prevAnalogAngle) > cals.potMaxMovement){
+                //moved too fast
+                potDisabled = true;
+            }
+            if(analogAngle > cals.potMaxAngle || analogAngle < cals.potMinAngle){
+                //out of bounds
+                potDisabled = true;
+            }
+
+            //determine if we should rezero neo encoder
+            double deltaAngle = Math.abs(angleMotor.getPosition() * 360 - analogAngle);
+            boolean rezeroNeeded = deltaAngle > cals.potResetDeltaAngle;
+            
+            //rezero
+            if(rezeroNeeded){
+                angleMotor.setEncoderPosition(analogAngle / 360);
+            }
+        }
+    }
+
     private double preLoadTimer;
     private int preLoadRan;
     private double climbStartTime = 0;
     private boolean climbStartTimeRan;
     public void periodic(){
         if (cals.DISABLED) return;
+
+        resetShooterAngle();
 
         SmartDashboard.putNumber("ShootSpeed", cwMotor.getSpeed());
 
@@ -298,6 +339,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         } else if(!r.inputs.operatorJoy.climbSwitch()){
             climbStartTimeRan = false;
         }
+
+        first = false;
     }
 
     @Override

@@ -9,6 +9,7 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;
 
 public class CalsCannon {
     
+    @SuppressWarnings("unused")
     public final boolean DISABLED = false && Robot.isReal();
 
     EditableCal maxAnglePwr = new EditableCal("shoot angle pwr", 0.25, false);
@@ -45,6 +46,12 @@ public class CalsCannon {
 
     public double shootMaxAngle = 120;
     public double shootMinAngle = 55;
+    public double potMaxAngle = 0;
+    public double potMinAngle = 0;
+    public double voltsPerDegree = 5/270.0;
+    public double potResetDeltaAngle = 5;
+    public double potMaxMovement = 10;
+    public double potVoltOffset = 0; //set this to the analog voltage when the limit switch is pressed
 
     public boolean useVariableShootSpeed = false;
     public double maxVariableShootSpeed = 3800;
@@ -101,7 +108,8 @@ public class CalsCannon {
 
     public Vector targetLocation = Vector.fromXY(0, 0);
     public double maxPower = 0.2;
-    public EditableCal drivekR = new EditableCal("shootDrive kR", 0.02, false);
+    public EditableCal drivekR0 = new EditableCal("shootDrive0 kR", 0.02);
+    public EditableCal drivekR45 = new EditableCal("shootDrive45 kR", 0.005);
     public EditableCal drivekD = new EditableCal("shootDrive kD", -0.0008, false);
 
     public boolean useAutoLoad = false;

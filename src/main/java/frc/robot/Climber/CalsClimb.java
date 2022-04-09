@@ -7,6 +7,7 @@ import frc.robot.Util.Motor.CalsMotor.MotorType;;
 
 public class CalsClimb {
 
+    @SuppressWarnings("unused")
     public boolean DISABLED = false && Robot.isReal();
 
     public double cannonAngTime = 0.5;
