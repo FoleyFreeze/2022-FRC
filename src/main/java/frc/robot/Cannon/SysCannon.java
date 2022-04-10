@@ -260,7 +260,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void resetShooterAngle(){
         if(!potDisabled){
             double analogAngle = (anglePot.getVoltage() - cals.potVoltOffset)  / cals.voltsPerDegree + cals.sensorResetAngle;
-            SmartDashboard.putNumber("AnalogShootAngle", analogAngle);
+            //SmartDashboard.putNumber("AnalogShootAngle", analogAngle);
             if(first) prevAnalogAngle = analogAngle;
 
             //check if pot value is reasonable
@@ -278,7 +278,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             double deltaAngle = Math.abs(angleMotor.getPosition() * 360 - analogAngle);
             boolean rezeroNeeded = deltaAngle > cals.potResetDeltaAngle;
 
-            SmartDashboard.putNumber("analogShootErr", deltaAngle);
+            //SmartDashboard.putNumber("analogShootErr", deltaAngle);
             
             //rezero
             if(rezeroNeeded){
@@ -308,8 +308,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         double angle = r.inputs.driverJoy.getDial2() *
                     (cals.shootMaxAngle - cals.shootMinAngle)
                     + cals.shootMinAngle;
-        SmartDashboard.putNumber("Speed Dial Shoot", speed);
-        SmartDashboard.putNumber("Angle Dial Shoot", angle);
+        //SmartDashboard.putNumber("Speed Dial Shoot", speed);
+        //SmartDashboard.putNumber("Angle Dial Shoot", angle);
         SmartDashboard.putNumber("ShooterSpeedError", cwMotor.getClosedLoopError() + ccwMotor.getClosedLoopError());
 
         if(cargoReadyToTP){

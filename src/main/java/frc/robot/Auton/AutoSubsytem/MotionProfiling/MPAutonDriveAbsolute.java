@@ -90,7 +90,7 @@ public class MPAutonDriveAbsolute extends AutonDriveAbsolute {
             xy.theta -= Math.toRadians(r.sensors.botAng);
         }
 
-        System.out.format("t:%.2f, err:%.0f, p:%.0f, v:%.0f, a:%.0f, pwr:%.2f, t1:%.1f, t2:%.1f\n", elapsedTime, error, x, v, a, xy.r, startConstVelTime, startDecelTime);
+        if(CalsAuton.DEBUG) System.out.format("t:%.2f, err:%.0f, p:%.0f, v:%.0f, a:%.0f, pwr:%.2f, t1:%.1f, t2:%.1f\n", elapsedTime, error, x, v, a, xy.r, startConstVelTime, startDecelTime);
 
         r.drive.driveSwerveAng(xy, rot, CalsAuton.maxSwervePower, CalsAuton.autoSwerveKP, 0);
     }

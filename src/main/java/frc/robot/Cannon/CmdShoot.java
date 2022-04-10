@@ -60,12 +60,10 @@ public class CmdShoot extends SequentialCommandGroup{
             
             //correct for shooter location
             targetPos.theta += Math.PI/2;
+            double tgtAngle = Math.toDegrees(targetPos.theta);
 
             targetPos.theta = Angle.normRad(targetPos.theta - Math.toRadians(r.sensors.botAng));
             SmartDashboard.putString("BotRelTgt", targetPos.toStringPolar());
-            targetPos.theta = Angle.normRad(targetPos.theta + Math.toRadians(r.sensors.botAng));
-
-            double tgtAngle = Math.toDegrees(targetPos.theta);
             
             if(imgCt < prevAngles.length){
                 prevAngles[imgCt] = tgtAngle;
@@ -107,7 +105,20 @@ public class CmdShoot extends SequentialCommandGroup{
             } else {
                 kR = r.cannon.cals.drivekR45.get();
             }
-            r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, kR, r.cannon.cals.drivekD.get());
+
+            //determine angle feed forward
+            Vector xyDist = new Vector(xy);
+            xyDist.r *= r.drive.cals.FFangleDist.get();
+            if(!r.inputs.getFieldOrient()){
+                xyDist.theta = Angle.normRad(xyDist.theta + Math.toRadians(r.sensors.botAng));
+            }
+            double origAngle = Math.toDegrees(targetPos.theta);
+            xyDist.add(targetPos);
+            double finalAngle = Math.toDegrees(xyDist.theta);
+            double angleDelta = Angle.normDeg(finalAngle - origAngle);
+            double ffPwr = angleDelta * r.drive.cals.FFanglePwrPerDeg.get();
+
+            r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, kR, r.cannon.cals.drivekD.get(), ffPwr);
         } else {
             zR = r.inputs.getDrivezR();
             if(zR > r.cannon.cals.maxPower) zR = r.cannon.cals.maxPower;

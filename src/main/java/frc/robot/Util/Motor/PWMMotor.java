@@ -70,7 +70,6 @@ public class PWMMotor implements Motor{
 
     @Override
     public double getTemp() {
-        // TODO Auto-generated method stub
         return 0;
     }
 

@@ -63,6 +63,9 @@ public class Winch extends ErrorCommand{
     @Override
     public void execute(){
         super.execute();
+
+
+
         updatePositionArray(r.climb.climbWinch.getPosition());
 
         if(currentStage <= stage){

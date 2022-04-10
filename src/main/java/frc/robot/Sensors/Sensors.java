@@ -146,7 +146,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
         botAng = navX.getFieldOrientAngle();
         dBotAng = Angle.normDeg(botAng - prevBotAng) / dt;
         prevBotAng = botAng;
-        SmartDashboard.putNumber("dAngle", dBotAng);
+        //SmartDashboard.putNumber("dAngle", dBotAng);
 
         //update history array of robot positions and orientations
         if(!r.cannon.cals.DISABLED){

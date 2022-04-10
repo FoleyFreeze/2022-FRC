@@ -5,6 +5,7 @@ import frc.robot.Util.Vector;
 
 public class CalsAuton {
 
+    public static boolean DEBUG = false;
     public static boolean useCamera = false;
     public static double autonDist;
 
@@ -111,7 +112,6 @@ public class CalsAuton {
         extendFalse(true, true, false, false, true, false, true, true), //5-ball
     };
 
-    //TODO: set manual positions & skip lists based on CAD models
     static final int manArrayLen = 11; //ensure that the position and skip lists are the same length
     Position[][] manPositionList = {
         { //left start position MANUAL, NO CAMERA
@@ -174,8 +174,8 @@ public class CalsAuton {
     };
     
     boolean[][] manTodoLists = {
-        //extendFalse(true), //do nothing, reset position
-        extendFalse(false, false, false, true), //temp for testing only, TODO:remove, uncomment above
+        extendFalse(true), //do nothing, reset position
+        //extendFalse(false, false, false, true), //temp for testing only
         extendFalse(true, true), //1-ball
         extendFalse(true, true, true, true), //1-ball, drive
         extendFalse(true, true, false, false, true, true), //2-ball

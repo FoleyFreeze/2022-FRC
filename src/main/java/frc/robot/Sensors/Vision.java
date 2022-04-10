@@ -293,7 +293,6 @@ public class Vision {
                 double x = Double.parseDouble(parts[3]);
                 double angle = Double.parseDouble(parts[4]);
 
-                //TODO: remove
                 //x = 70; //default this so it works for now
 
                 data.location = Vector.fromXT(x, Math.toRadians(angle));
