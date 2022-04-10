@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Auton.CalsAuton;
-import frc.robot.Util.Angle;
 import frc.robot.Util.Interpolate;
 import frc.robot.Util.Log;
 import frc.robot.Util.Vector;

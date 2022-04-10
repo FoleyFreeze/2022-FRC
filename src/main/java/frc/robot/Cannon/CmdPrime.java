@@ -42,6 +42,8 @@ public class CmdPrime extends CommandBase{
         boolean isLayup = r.inputs.operatorJoy.layUpShot();
         if(Math.abs(r.drive.angerror) > 3) alignstarttime = Timer.getFPGATimestamp();
         boolean waitForBotAlign = !r.inputs.cameraDrive() || isLayup || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
+        
+        System.out.format("%.1f %.1f %b\n", Timer.getFPGATimestamp()-alignstarttime, r.drive.angerror, r.cannon.upToSpeed());
         return waitForBotAlign && r.cannon.upToSpeed() /*&& r.cannon.angleAligned()*/ && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() /*&& r.sensors.ballSensorUpper.get()*/;
     }
 }

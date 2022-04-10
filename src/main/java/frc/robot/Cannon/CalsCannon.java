@@ -62,8 +62,8 @@ public class CalsCannon {
     public final double LOW_SHOOT_ANG = 78;
     public final double LAUNCH_PAD_SHOOT_SPEED = 1850;
     public final double LAUNCH_PAD_SHOOT_ANG = 57;
-    public EditableCal TARMAC_SHOOT_SPEED = new EditableCal("ShootSpeed", 1000);
-    public EditableCal TARMAC_SHOOT_ANG = new EditableCal("ShootAng", 70);
+    public EditableCal TARMAC_SHOOT_SPEED = new EditableCal("ShootSpeed", CalsAuton.joeShotPrimeSpeed+50);
+    public EditableCal TARMAC_SHOOT_ANG = new EditableCal("ShootAng", CalsAuton.joeShotPrimeAng);
     //public final double TARMAC_SHOOT_SPEED = CalsAuton.joeShotPrimeSpeed + 50;
     //public final double TARMAC_SHOOT_ANG = CalsAuton.joeShotPrimeAng + 2;
     public double jogInitSpeed = 0;
@@ -80,7 +80,7 @@ public class CalsCannon {
 
     public double wheelOfFirePower = 1;
     public double shootTimeOne = 0.25;
-    public EditableCal shootTimeOneToTwo = new EditableCal("shot_spacing_time", 0.2);
+    public EditableCal shootTimeOneToTwo = new EditableCal("shot_spacing_time", 0.0);
     public EditableCal shootTimeOneToTwoLayup = new EditableCal("layup_spacing", 0.4);
     public double shootTimeTwo = 0.5;
     public double minPrimeTime15h = 0.7-0.25;

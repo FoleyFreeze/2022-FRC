@@ -21,7 +21,7 @@ public class OperatorControls extends Controls implements AutoCloseable{
             String name = DriverStation.getJoystickName(i);
             
             boolean hasIPAC = name.contains("I-PAC");
-            if(hasIPAC && !hadIPAConPrev && (controlBoard==null || controlBoard.getPort() != i)) {
+            if(hasIPAC && !hadIPAConPrev && (controlBoard==null /*|| controlBoard.getPort() != i*/)) {
                 controlBoard = new Joystick(i);
                 Log.logString(name, Log.LOG_GROUPS.INPUTS, 1, false, "control board found on port: " + i);
             }
@@ -50,11 +50,11 @@ public class OperatorControls extends Controls implements AutoCloseable{
     }
 
     public boolean shootForward(){
-        return checkButton(cals.shootForward);
+        return checkButton(cals.shootBackward);
     }
 
     public boolean shootBackward(){
-        return !checkButton(cals.shootForward);
+        return !checkButton(cals.shootBackward);
     }
 
     public boolean climbSwitch(){

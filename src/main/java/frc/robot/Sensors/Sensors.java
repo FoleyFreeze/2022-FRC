@@ -289,17 +289,17 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public boolean hasAlliedCargo(){
         if(cals.DISABLED) return false;
-        return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT.get();
-    }
+        return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT_CARGO.get();
+    }   
 
     public boolean hasOpponentCargo(){
         if(cals.DISABLED) return false;
-        return Timer.getFPGATimestamp() - opponentCargo.timestamp < cals.VISION_DATA_TIMEOUT.get();
+        return Timer.getFPGATimestamp() - opponentCargo.timestamp < cals.VISION_DATA_TIMEOUT_CARGO.get();
     }
 
     public boolean hasTargetImage(){
         if(cals.DISABLED) return false;
-        return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT.get();
+        return Timer.getFPGATimestamp() - target.timestamp < cals.VISION_DATA_TIMEOUT_TGT.get();
     }
 
     public void enableCargoLights(boolean on){

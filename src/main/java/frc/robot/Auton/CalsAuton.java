@@ -28,7 +28,7 @@ public class CalsAuton {
     public static double autonDriveTime = 5;
 
     //motion profiling
-    static boolean motionProfileEditable = true;
+    static boolean motionProfileEditable = DEBUG;
 
     public static EditableCal mp_kA = new EditableCal("MP_kA", 0.0009, motionProfileEditable); //power per in/sec^2
     public static EditableCal mp_kV = new EditableCal("MP_kV", 0.006, motionProfileEditable); //power per in/sec

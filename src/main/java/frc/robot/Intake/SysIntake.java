@@ -7,7 +7,7 @@ public class SysIntake extends SubsystemBase implements AutoCloseable{
     
     public CalsIntake cals;
 
-    Motor intakeMotor;
+    public Motor intakeMotor;
 
     public SysIntake(CalsIntake cals){
         this.cals = cals;

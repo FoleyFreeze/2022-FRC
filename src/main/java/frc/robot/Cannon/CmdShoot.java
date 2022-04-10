@@ -34,6 +34,7 @@ public class CmdShoot extends SequentialCommandGroup{
         first = true;
         imgCt = 0;
         prevAngles = new double[r.cannon.cals.maxTgtImgs.getAsInt()];
+        fireCmd.endEarly = false;
     }
 
     double filtAngle;
@@ -101,7 +102,7 @@ public class CmdShoot extends SequentialCommandGroup{
             double angDiff = Math.abs(Angle.normDeg(filtAngle - r.sensors.botAng));
             if(angDiff < 45){
                 double blendRatio = (45 - angDiff) / 45;
-                kR = r.cannon.cals.drivekR45.get() * blendRatio + r.cannon.cals.drivekR0.get() * (1 - blendRatio);
+                kR = r.cannon.cals.drivekR45.get() * (1-blendRatio) + r.cannon.cals.drivekR0.get() * blendRatio;
             } else {
                 kR = r.cannon.cals.drivekR45.get();
             }

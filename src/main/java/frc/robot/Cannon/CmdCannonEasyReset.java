@@ -35,11 +35,11 @@ public class CmdCannonEasyReset extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        if(r.sensors.cannonAngleSensor.get() || DriverStation.isAutonomousEnabled()){
+        if(r.sensors.cannonAngleSensor.get() && !DriverStation.isAutonomousEnabled()){
             r.cannon.angleMotor.setEncoderPosition(r.cannon.cals.sensorResetAngle / 360);
             return true;
         } else {
-            return Timer.getFPGATimestamp() > startTime + r.cannon.cals.sensorResetTime;
+            return true;//Timer.getFPGATimestamp() > startTime + r.cannon.cals.sensorResetTime;
         }
     }
 

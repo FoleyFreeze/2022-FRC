@@ -22,6 +22,7 @@ public class AutonInitPos extends CommandBase{
         //r.sensors.botAng = p.getPosition(idx).a;
         r.sensors.navX.overrideAng(p.getPosition(idx).a);
         r.sensors.encoders.resetPos(p.getPosition(idx).v);
+        r.intake.intakeMotor.setEncoderPosition(0);
         System.out.println("Auton " + idx);
     }
 

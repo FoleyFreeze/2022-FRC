@@ -66,8 +66,8 @@ public class CalsDrive {
 
     public double kR = 0.01;
 
-    public EditableCal FFangleDist = new EditableCal("FFangleDist", 24);
-    public EditableCal FFanglePwrPerDeg = new EditableCal("FFanglePwr", 0.05);
+    public EditableCal FFangleDist = new EditableCal("FFangleDist", 24, false);
+    public EditableCal FFanglePwrPerDeg = new EditableCal("FFanglePwr", 0.15, false);
 
     public CalsWheel FLwheel = new CalsWheel();{
         FLwheel.driveMotor = new CalsMotor(MotorType.SPARK, 20).setEncUnits(driveRotationsPerInch).invert().setPIDF(kPdr,kIdr,kDdr,kFdr).setPIDPwrLim(MAX_DRIVE_PWR).setRamp(driveRampRate);

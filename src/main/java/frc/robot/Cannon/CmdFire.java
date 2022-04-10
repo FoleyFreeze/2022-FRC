@@ -56,7 +56,7 @@ public class CmdFire extends CommandBase{
         r.cannon.setSpeed(0, 0);
         r.cannon.fire(0);
         r.cannon.stopTransport();
-        endEarly = false;
+        //endEarly = false;
     }
 
     @Override

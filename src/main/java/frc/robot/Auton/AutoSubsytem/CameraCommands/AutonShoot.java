@@ -38,6 +38,7 @@ public class AutonShoot extends SequentialCommandGroup{
         System.out.println("Cmd Shoot Init");
         super.initialize();
         r.sensors.enableTgtLights(true);
+        fireCmd.endEarly = false;
     }
 
     @Override
