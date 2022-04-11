@@ -99,23 +99,29 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     }
 
     public void driveSwerveAng(Vector xy, double tgtAng, double maxPwr, double kR, double kD){
-        driveSwerveAng(xy, tgtAng, maxPwr, kR, kD, 0);
+        driveSwerveAng(xy, tgtAng, maxPwr, kR, kD, null);
     }
 
-    public void driveSwerveAng(Vector xy, double tgtAng, double maxPwr, double kR, double kD, double rotationFF){
+    public void driveSwerveAng(Vector xy, double tgtAng, double maxPwr, double kR, double kD, Vector centerOfStrafe){
         if(cals.DISABLED) return;
 
         angerror = Angle.normDeg(tgtAng - r.sensors.botAng);
         SmartDashboard.putNumber("RotAngleErr", angerror);
 
+        if(Math.abs(xy.r) > 0.05) kD = 0;//no d while moving, too much noise
         double zR = angerror * kR + r.sensors.dBotAng * kD;
         if(zR > maxPwr) zR = maxPwr;
         else if(zR < -maxPwr) zR = -maxPwr;
 
-        driveSwerve(xy, zR);
+        driveSwerve(xy, zR, centerOfStrafe);
     }
 
     public void driveSwerve(Vector xy, double zR){
+        driveSwerve(xy, zR, null);
+    }
+
+    //note that centerOfStrafe is robot relative
+    public void driveSwerve(Vector xy, double zR, Vector centerOfStrafe){
         if(cals.DISABLED) return;
         
         if(inputs.getFieldOrient()){
@@ -131,15 +137,48 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         //TODO: do we want to lock the angle for a climb?
         //do logic elsewhere w/ power control
 
+        if(centerOfStrafe != null){
+            double newXaxisAng = Angle.normRad(centerOfStrafe.theta - Math.PI/2);
+            //System.out.println(Math.toDegrees(newXaxisAng));
+            //System.out.println("1: " + xy.toStringXY());
+            
+            //we can modify xy here since its not used again
+            xy.theta = Angle.normRad(xy.theta - newXaxisAng);
+            Vector y = new Vector(xy.getY(), Math.PI/2 + newXaxisAng);
+            //System.out.println("2: " + xy.toStringXY());
+
+            double maxRotMag = 0;
+            for(Wheel w : wheels){
+                Vector v = w.calcRotAngle(centerOfStrafe);
+                if(Math.abs(v.r) > maxRotMag) maxRotMag = Math.abs(v.r);
+                w.driveVec = v;
+            }
+            
+            for(Wheel w : wheels){
+                w.driveVec.r /= maxRotMag;
+                //apply the "x" power along the rotation axis
+                w.driveVec.r *= xy.getX();
+                //apply the "y" power straight ahead with no rotation portion
+                w.driveVec.add(y);
+            }
+            //System.out.println(wheels[0].driveVec.toStringXY() + " " + wheels[1].driveVec.toStringXY() + " " + wheels[2].driveVec.toStringXY() + " " + wheels[3].driveVec.toStringXY());
+
+        } else {
+            for(Wheel w : wheels){
+                w.driveVec = new Vector(xy);
+            }
+        }
+
         //create rotation vectors from wheel angle and rotation axis magnitude
         double max = 0;
         boolean allZero = true;
         for(Wheel w : wheels){
-            double theta = w.calcRotAngle(centerOfRot);
-            Vector v = new Vector(zR, theta);
+            Vector rotateVec = w.calcRotAngle(centerOfRot);
+            //note that this will need normalization if we ever use a center of rotation that is not equidistant from each wheel
+            Vector v = new Vector(zR, rotateVec.theta);
 
             //add vectors into wheel vectors
-            w.driveVec = v.add(xy);
+            w.driveVec.add(v);
 
             //track maximum magnitude for normalization
             double mag = Math.abs(w.driveVec.r);

@@ -3,6 +3,7 @@ package frc.robot.Cannon;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Util.Vector;
 
 public class CmdPrime extends CommandBase{
 
@@ -40,10 +41,11 @@ public class CmdPrime extends CommandBase{
     @Override
     public boolean isFinished(){
         boolean isLayup = r.inputs.operatorJoy.layUpShot();
-        if(Math.abs(r.drive.angerror) > 3) alignstarttime = Timer.getFPGATimestamp();
+        Vector xy = Vector.fromXY(r.inputs.getDriveX(), r.inputs.getDriveY());
+        if(Math.abs(r.drive.angerror) > 3 || xy.r > 0.1) alignstarttime = Timer.getFPGATimestamp();
         boolean waitForBotAlign = !r.inputs.cameraDrive() || isLayup || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
         
-        System.out.format("%.1f %.1f %b\n", Timer.getFPGATimestamp()-alignstarttime, r.drive.angerror, r.cannon.upToSpeed());
+        //System.out.format("%.1f %.1f %b\n", Timer.getFPGATimestamp()-alignstarttime, r.drive.angerror, r.cannon.upToSpeed());
         return waitForBotAlign && r.cannon.upToSpeed() /*&& r.cannon.angleAligned()*/ && Timer.getFPGATimestamp() > timer + r.cannon.getPrimeTime() /*&& r.sensors.ballSensorUpper.get()*/;
     }
 }

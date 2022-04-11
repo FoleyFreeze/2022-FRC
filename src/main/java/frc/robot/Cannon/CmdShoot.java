@@ -108,6 +108,7 @@ public class CmdShoot extends SequentialCommandGroup{
             }
 
             //determine angle feed forward
+            /*
             Vector xyDist = new Vector(xy);
             xyDist.r *= r.drive.cals.FFangleDist.get();
             if(!r.inputs.getFieldOrient()){
@@ -118,8 +119,11 @@ public class CmdShoot extends SequentialCommandGroup{
             double finalAngle = Math.toDegrees(xyDist.theta);
             double angleDelta = Angle.normDeg(finalAngle - origAngle);
             double ffPwr = angleDelta * r.drive.cals.FFanglePwrPerDeg.get();
+            */
+            //turn into robot relative (facing backwards)
+            targetPos.theta = Angle.normRad(targetPos.theta - Math.PI/2);
 
-            r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, kR, r.cannon.cals.drivekD.get(), ffPwr);
+            r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, kR, r.cannon.cals.drivekD.get(), targetPos);
         } else {
             zR = r.inputs.getDrivezR();
             if(zR > r.cannon.cals.maxPower) zR = r.cannon.cals.maxPower;

@@ -10,7 +10,7 @@ public class CalsSensors {
     public final boolean DISABLED = false && Robot.isReal();
 
     public final EditableCal VISION_DATA_TIMEOUT_CARGO = new EditableCal("VisionTimeoutCargo", 0.2);
-    public final EditableCal VISION_DATA_TIMEOUT_TGT = new EditableCal("VisionTimeoutTgt", 0.2);
+    public final EditableCal VISION_DATA_TIMEOUT_TGT = new EditableCal("VisionTimeoutTgt", 1.0);
 
     public final double MOVING_TIMEOUT = 0.5;
 

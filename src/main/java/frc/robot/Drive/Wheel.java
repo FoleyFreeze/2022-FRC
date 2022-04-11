@@ -60,10 +60,10 @@ public class Wheel implements AutoCloseable {
         return Angle.normDeg((angleEncoder.getVoltage() - rawAbsEncOffset) / 5.0 * 360);
     }
 
-    public double calcRotAngle(Vector centerOfRot){
+    public Vector calcRotAngle(Vector centerOfRot){
         Vector v = Vector.subVectors(wheelLocation, centerOfRot);
-
-        return v.theta + (Math.PI / 2);
+        v.theta += (Math.PI / 2);
+        return v;
     }
 
     public Vector deltaVec(){
