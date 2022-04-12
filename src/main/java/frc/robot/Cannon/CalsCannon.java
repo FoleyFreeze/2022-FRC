@@ -50,7 +50,7 @@ public class CalsCannon {
     public double potMinAngle = 45;
     public double voltsPerDegree = 5/270.0 * 1.1609;//0.01819;
     public double potResetDeltaAngle = 2;
-    public double potMaxMovement = 10;
+    public double potMaxMovement = 25;
     public double potVoltOffset = 1.672; //set this to the analog voltage when the limit switch is pressed
 
     public boolean useVariableShootSpeed = false;
@@ -71,8 +71,8 @@ public class CalsCannon {
     public double jogInitAng = 0;
     public double jogAngInterval = 2;//degrees
 
-    public double minShootSpeedError = -60;
-    public double maxShootSpeedError = 60;
+    public double minShootSpeedError = -30;
+    public double maxShootSpeedError = 30;
     public double minShootAngleError = -2.5;
     public double maxShootAngleError = 2.5;
 
@@ -83,9 +83,9 @@ public class CalsCannon {
     public EditableCal shootTimeOneToTwo = new EditableCal("shot_spacing_time", 0.0);
     public EditableCal shootTimeOneToTwoLayup = new EditableCal("layup_spacing", 0.4);
     public double shootTimeTwo = 0.5;
-    public double minPrimeTime15h = 0.7-0.25;
+    public double minPrimeTime15h = 1;//0.7-0.25;
     public double minPrimeTimeSpd = 1500;
-    public double minPrimeTime21h = 1.1-0.25;
+    public double minPrimeTime21h = 1;//1.1-0.25;
     public double maxPrimeTimeSpd = 2100;
     public double alignTime = 0.3;
 

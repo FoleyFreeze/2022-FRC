@@ -58,7 +58,9 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void prime(boolean setAngle){
         if (cals.DISABLED) return;
-        if(r.inputs.operatorJoy.layUpShot() && !DriverStation.isAutonomous()){//layup
+        if(!r.inputs.operatorJoy.hubSwitch() && !DriverStation.isAutonomous()){//low shot selected
+            prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG), setAngle);
+        } else if(r.inputs.operatorJoy.layUpShot() && !DriverStation.isAutonomous()){//layup
             prime(cals.LAYUP_SHOOT_SPEED, flip(cals.LAYUP_SHOOT_ANG), setAngle);
         }else if(cals.useDistanceLookup.get() != 0 && r.inputs.cameraDrive() && r.sensors.hasTargetImage()){//using dist look-up table
             Vector v = Vector.subVectors(r.sensors.target.location, r.sensors.botLoc);
@@ -75,8 +77,6 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                     (cals.shootMaxAngle - cals.shootMinAngle)
                     + cals.shootMinAngle;
             prime(speed, angle, setAngle);
-        } else if(!r.inputs.operatorJoy.hubSwitch()){//low shot selected
-            prime(cals.LOW_SHOOT_SPEED, flip(cals.LOW_SHOOT_ANG), setAngle);
         }else if(r.inputs.operatorJoy.launchPadShot()){//launch pad
             prime(cals.LAUNCH_PAD_SHOOT_SPEED, flip(cals.LAUNCH_PAD_SHOOT_ANG), setAngle);
         } else{//joe shot
@@ -187,6 +187,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         double error = ccwMotor.getClosedLoopError();
         error += cwMotor.getClosedLoopError();
 
+        //System.out.format("%.0f\n", error);
+
         return error > cals.minShootSpeedError && error < cals.maxShootSpeedError;
     }
 
@@ -259,16 +261,18 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
     public void resetShooterAngle(){
         if(!potDisabled){
             double analogAngle = (anglePot.getVoltage() - cals.potVoltOffset)  / cals.voltsPerDegree + cals.sensorResetAngle;
-            //SmartDashboard.putNumber("AnalogShootAngle", analogAngle);
+            SmartDashboard.putNumber("AnalogShootAngle", analogAngle);
             if(first) prevAnalogAngle = analogAngle;
 
             //check if pot value is reasonable
             if(Math.abs(analogAngle - prevAnalogAngle) > cals.potMaxMovement){
                 //moved too fast
+                SmartDashboard.putString("PotBrokeReason", "moved too fast");
                 potDisabled = true;
             }
             if(analogAngle > cals.potMaxAngle || analogAngle < cals.potMinAngle){
                 //out of bounds
+                SmartDashboard.putString("PotBrokeReason", "out of bounds");
                 potDisabled = true;
             }
             Log.addValue(potDisabled, "Pot Broke", Log.compTab);
@@ -277,7 +281,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             double deltaAngle = Math.abs(angleMotor.getPosition() * 360 - analogAngle);
             boolean rezeroNeeded = deltaAngle > cals.potResetDeltaAngle;
 
-            //SmartDashboard.putNumber("analogShootErr", deltaAngle);
+            SmartDashboard.putNumber("analogShootErr", deltaAngle);
             
             //rezero
             if(rezeroNeeded){
