@@ -119,7 +119,7 @@ public class ManArms extends ErrorCommand {
             //if(Math.abs(errorL + errorR) < 5) hasReachedThreshold = true;
 
             //slow the arms when they are close to the target
-            double maxArmPower = 0.2;
+            double maxArmPower = 0.3;
             //if(hasReachedThreshold) maxArmPower = r.climb.cals.armBasePower;
             //else if(winchPos < r.climb.cals.winchOutRevs) maxArmPower = r.climb.cals.armPower;
             //else maxArmPower = r.climb.cals.armBasePower;
@@ -132,6 +132,7 @@ public class ManArms extends ErrorCommand {
             if(pwrR > maxArmPower) pwrR = maxArmPower;
             else if(pwrR < minPwr) pwrR = minPwr;
 
+            System.out.format("ArmPwr: %.2f, %.2f\n",pwrL,pwrR);
             r.climb.driveArms(pwrL, pwrR);
         } else {
             System.out.println("Stage " + stage + " skipped");

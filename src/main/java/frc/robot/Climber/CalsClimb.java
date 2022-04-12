@@ -47,7 +47,7 @@ public class CalsClimb {
     public double maxRunTimeWinch = 10;
     public int prevIdxWinch = 5;
 
-    public EditableCal winchPower = new EditableCal("WinchPower", 0.75, false);
+    public EditableCal winchPower = new EditableCal("WinchPower", 0.90, false);
     public double releaseWinchPower = -1.0;//FULL POWER!!!
 
     public double winchStallTime = 0.0;
