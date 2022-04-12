@@ -34,7 +34,7 @@ public class Reset extends ErrorCommand{
     @Override
     public void execute(){
         if(currentStage <= stage){
-            r.climb.resetEncoders();
+            r.climb.resetEncoders(false);
         } else {
             System.out.println("Stage " + stage + " skipped");
         }

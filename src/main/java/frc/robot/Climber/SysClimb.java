@@ -42,10 +42,14 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         //barSensorR = new SmartDigitalInput(0);
     }
 
-    public void resetEncoders(){
+    public void resetAllClimbEncoders(){
+        resetEncoders(true);
+    }
+
+    public void resetEncoders(boolean resetWinch){
         climbArmL.resetEncoder();
         climbArmR.resetEncoder();
-        //climbWinch.resetEncoder();
+        if(resetWinch) climbWinch.resetEncoder();
     }
 
     public void driveArms(double pwr){
@@ -123,7 +127,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
 
         SmartDashboard.putNumber("ClimbCurr",climbWinch.getMotorSideCurrent());
 
-        Log.addValue(getStage(CmdClimb.stage).toString(), "climb stage", Log.compTab);
+        Log.addValue(getStage(CmdClimb.stage).toString() + " " + CmdClimb.stage, "climb stage", Log.compTab);
     }
 
     @Override

@@ -71,11 +71,13 @@ public class Winch extends ErrorCommand{
         if(currentStage <= stage){
             //winch PID
             double winchPos = r.climb.climbWinch.getPosition();
-            double wErr = 10 - winchPos;
-            double pwr = r.climb.cals.winchKp * wErr;
-            if(pwr > r.climb.cals.winchPower.get()) pwr = r.climb.cals.winchPower.get();
-            else if(pwr < -r.climb.cals.winchPower.get()) pwr = -r.climb.cals.winchPower.get();
+            double wErr = 20 - winchPos;
+            //double pwr = r.climb.cals.winchKp * wErr;
+            //if(pwr > r.climb.cals.winchPower.get()) pwr = r.climb.cals.winchPower.get();
+            //else if(pwr < -r.climb.cals.winchPower.get()) pwr = -r.climb.cals.winchPower.get();
+            double pwr = r.climb.cals.winchPower.get();
             r.climb.driveWinch(pwr);
+            //System.out.format("WinchPwr: %.2f\n",pwr);
             
             r.climb.climbArmL.setBrake(false);
             r.climb.climbArmR.setBrake(false);
@@ -127,6 +129,7 @@ public class Winch extends ErrorCommand{
         if(!stoppedMoving) stoppedTime = Timer.getFPGATimestamp();
         boolean stoppedTimePassed = Timer.getFPGATimestamp() > stoppedTime + r.climb.cals.winchStallTime;
         boolean pitchAndPitchRate = (r.sensors.navX.pitch < 10 && r.sensors.navX.pitchRate < 0) || stage == 2;
+        pitchAndPitchRate |= r.sensors.navX.pitch < 12 && r.sensors.navX.pitch > -5 && Math.abs(r.sensors.navX.pitchRate) < 5;
         //return currentStage > stage || (startTimePassed && stoppedMoving && correctPosition && r.inputs.gather.get());
         return currentStage > stage || (/*r.climb.limSwitchR.get() && r.climb.limSwitchL.get()*/ stoppedMoving && stoppedTimePassed && startTimePassed && pitchAndPitchRate) || r.inputs.leftTriggerRisingEdge;
     }

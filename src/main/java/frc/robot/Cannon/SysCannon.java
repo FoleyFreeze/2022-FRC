@@ -145,6 +145,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
         double revs = angle / 360;
         angleMotor.setPosition(revs);
+
+        timeAngleWasSet = Timer.getFPGATimestamp();
     }
 
     public void resetTimeAngleWasSet(){
@@ -336,7 +338,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
             angleMotor.setPower(0);
         }
 
-        if(r.inputs.operatorJoy.climbSwitch() && climbStartTime + r.climb.cals.cannonAngTime > Timer.getFPGATimestamp()){
+        if(r.inputs.operatorJoy.climbSwitch() && !climbStartTimeRan /*climbStartTime + r.climb.cals.cannonAngTime < Timer.getFPGATimestamp()*/){
             if(!climbStartTimeRan){
                 climbStartTime = Timer.getFPGATimestamp();
             }

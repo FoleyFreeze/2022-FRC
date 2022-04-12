@@ -78,24 +78,25 @@ public class Hook extends ErrorCommand {
         r.climb.driveWinch(0);
         r.climb.climbWinch.setBrake(true);
         
+        /*
         if(fallenTooFar){
             //if we fell, go back to the winch stage
             sv.set(stage-1);
         } else if(!interrupted && currentStage == stage){
-            sv.set(stage + 1);
-        }
+        */    sv.set(stage + 1);
+        //}
         System.out.println("Stage " + stage + " ended");
     }
 
     @Override
     public boolean isFinished(){
         boolean time = startTime + r.climb.cals.maxHookTime < Timer.getFPGATimestamp();
-        return currentStage > stage || r.inputs.leftTriggerRisingEdge || (time && !fallenTooFar);
+        return currentStage > stage || r.inputs.leftTriggerRisingEdge || (time/* && !fallenTooFar*/);
     }
 
     @Override
     public boolean isError(){
-        return fallenTooFar;
+        return false;// fallenTooFar;
     }
 
 

@@ -28,7 +28,7 @@ public class CalsCannon {
     EditableCal angle_kD = new EditableCal("angle kD", 0.05, false);
     EditableCal angle_kF = new EditableCal("angle kF", 0.0, false);
     double angle_iLim = 0;
-    double maxAngleSetTime = 0.25; //the amount of time the shooter is allowed to move after you release the command
+    double maxAngleSetTime = 0.5; //the amount of time the shooter is allowed to move after you release the command
 
     double angleGearRatio = 60 * 59 / 24;
 

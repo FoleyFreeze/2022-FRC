@@ -119,7 +119,7 @@ public class RobotContainer implements AutoCloseable{
     inputs.resetSwerveAngles.whileActiveOnce(new InstantAlwaysCommand(drive::learnWheelAngs));
     inputs.resetNavXAng.whileActiveOnce(new InstantAlwaysCommand(sensors::resetAng));
     inputs.resetNavXPos.whileActiveOnce(new InstantAlwaysCommand(sensors::resetPos));
-    inputs.resetClimberEnc.whileActiveOnce(new InstantAlwaysCommand(climb::resetEncoders));
+    inputs.resetClimberEnc.whileActiveOnce(new InstantAlwaysCommand(climb::resetAllClimbEncoders));
       
     inputs.loadCargo.whileActiveOnce(new CmdLoadSequential(this));
     inputs.fireCannon.and(inputs.getClimbMode.negate()).whileActiveOnce(new CmdShoot(this));

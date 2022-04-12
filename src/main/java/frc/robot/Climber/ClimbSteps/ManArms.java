@@ -114,6 +114,7 @@ public class ManArms extends ErrorCommand {
             double errorR = armSetPoint - armR;
             double pwrL = errorL * r.climb.cals.armHoldKp;
             double pwrR = errorR * r.climb.cals.armHoldKp;
+            //System.out.format("%.0f, %.0f\n", errorL, errorR);
             
             //if(Math.abs(errorL + errorR) < 5) hasReachedThreshold = true;
 
