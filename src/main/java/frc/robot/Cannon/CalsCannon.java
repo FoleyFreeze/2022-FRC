@@ -80,12 +80,12 @@ public class CalsCannon {
 
     public double wheelOfFirePower = 1;
     public double shootTimeOne = 0.25;
-    public EditableCal shootTimeOneToTwo = new EditableCal("shot_spacing_time", 0.0);
+    public EditableCal shootTimeOneToTwo = new EditableCal("shot_spacing_time", 0.1);
     public EditableCal shootTimeOneToTwoLayup = new EditableCal("layup_spacing", 0.4);
     public double shootTimeTwo = 0.5;
-    public double minPrimeTime15h = 1;//0.7-0.25;
+    public double minPrimeTime15h = 0.7-0.25;
     public double minPrimeTimeSpd = 1500;
-    public double minPrimeTime21h = 1;//1.1-0.25;
+    public double minPrimeTime21h = 1.1-0.25;
     public double maxPrimeTimeSpd = 2100;
     public double alignTime = 0.3;
 
