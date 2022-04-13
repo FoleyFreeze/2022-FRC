@@ -46,7 +46,7 @@ public class CmdFire extends CommandBase{
         r.cannon.prime();
         r.cannon.fire();
         if(twoBalls && Timer.getFPGATimestamp() > startTime + betweenWait){
-            r.cannon.transport(1);
+            r.cannon.transport(0.75);
         }
     }
 

@@ -40,9 +40,9 @@ public class CalsCannon {
     public CalsMotor transpMotor = new CalsMotor(MotorType.SPARK, 5).invert().brake();
     
     public EditableCal useDistanceLookup = new EditableCal("UseImgDist", 1);
-    public double[] distances = {  59,   69,   77,   86,   93,  114,  120,  127,     135,     145,     157,          175,         197,        205,      218};
-    public double[] angles =    {  80,   78,   76,   74,   74,   70,   70,   70,      70,      70,      70,           70,         66,         66,        66};
-    public double[] speeds =    {1350, 1350, 1350, 1375, 1375, 1375, 1400, 1425+25, 1450+25, 1500+25, 1550+25+25, 1650+25+25, 1775+25+25, 1800+25+25, 1900+50};
+    public double[] distances = {  59,   69,   77,   86,       93,         114,       120,        127,      135,       145,        157,         175,           197,            205,        218,            228};
+    public double[] angles =    {  80,   78,   76,   74,       74,         70,        70,         70,       70,        70,          70,          70,           66,             64,         64,            64};
+    public double[] speeds =    {1350, 1350, 1350, 1375+25, 1375+25+25, 1375+50+50, 1400+50+50, 1425+75, 1450+75+50, 1500+75+50, 1550+125+50, 1650+125+75, 1775+125+75, 1800+200+75, 1900+200+75, 1900+350+125};
 
     public double shootMaxAngle = 120;
     public double shootMinAngle = 55;
@@ -50,16 +50,17 @@ public class CalsCannon {
     public double potMinAngle = 45;
     public double voltsPerDegree = 5/270.0 * 1.1609;//0.01819;
     public double potResetDeltaAngle = 2;
-    public double potMaxMovement = 25;
+    public double potMaxMovement = 10;
     public double potVoltOffset = 1.672; //set this to the analog voltage when the limit switch is pressed
 
     public boolean useVariableShootSpeed = false;
     public double maxVariableShootSpeed = 3800;
     public double minVariableShootSpeed = 1000;
-    public final double LAYUP_SHOOT_SPEED = 1450;
-    public final double LAYUP_SHOOT_ANG = 84;
-    public final double LOW_SHOOT_SPEED = 775;
-    public final double LOW_SHOOT_ANG = 78;
+    public final double LAYUP_SHOOT_SPEED = 1375;
+    public final double LAYUP_SHOOT_ANG = 82;//back
+    public final double LOW_SHOOT_SPEED = 750;
+    public final double LOW_SHOOT_ANG = 68;
+    public EditableCal flipAngOffset = new EditableCal("flipAngOffset", 178);
     public final double LAUNCH_PAD_SHOOT_SPEED = 1850;
     public final double LAUNCH_PAD_SHOOT_ANG = 57;
     public EditableCal TARMAC_SHOOT_SPEED = new EditableCal("ShootSpeed", CalsAuton.joeShotPrimeSpeed+50);
@@ -71,18 +72,18 @@ public class CalsCannon {
     public double jogInitAng = 0;
     public double jogAngInterval = 2;//degrees
 
-    public double minShootSpeedError = -30;
-    public double maxShootSpeedError = 30;
+    public double minShootSpeedError = -50;
+    public double maxShootSpeedError = 50;
     public double minShootAngleError = -2.5;
     public double maxShootAngleError = 2.5;
 
     public double minShootAngDiff = 6;//degrees
 
-    public double wheelOfFirePower = 1;
+    public EditableCal wheelOfFirePower = new EditableCal("FirePowah", 0.5);
     public double shootTimeOne = 0.25;
     public EditableCal shootTimeOneToTwo = new EditableCal("shot_spacing_time", 0.1);
     public EditableCal shootTimeOneToTwoLayup = new EditableCal("layup_spacing", 0.4);
-    public double shootTimeTwo = 0.5;
+    public double shootTimeTwo = 0.75;
     public double minPrimeTime15h = 0.7-0.25;
     public double minPrimeTimeSpd = 1500;
     public double minPrimeTime21h = 1.1-0.25;

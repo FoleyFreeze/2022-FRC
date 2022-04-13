@@ -33,16 +33,15 @@ public class CmdShoot extends SequentialCommandGroup{
         r.sensors.enableTgtLights(true);
         first = true;
         imgCt = 0;
-        prevAngles = new double[r.cannon.cals.maxTgtImgs.getAsInt()];
+        prevXs = new double[r.cannon.cals.maxTgtImgs.getAsInt()];
+        prevYs = new double[r.cannon.cals.maxTgtImgs.getAsInt()];
         fireCmd.endEarly = false;
     }
 
-    double filtAngle;
-    double prevAngle;
-    double kU = 0.1;
     boolean first;
     int imgCt;
-    double[] prevAngles;
+    double[] prevXs;
+    double[] prevYs;
 
     @Override
     public void execute(){
@@ -62,31 +61,14 @@ public class CmdShoot extends SequentialCommandGroup{
             //correct for shooter location
             targetPos.theta += Math.PI/2;
             double tgtAngle = Math.toDegrees(targetPos.theta);
-
+            
+            double tgtX = updateFilter(imgCt, prevXs, targetPos.getX());
+            double tgtY = updateFilter(imgCt, prevYs, targetPos.getY());
+            imgCt++;
+            
             targetPos.theta = Angle.normRad(targetPos.theta - Math.toRadians(r.sensors.botAng));
             SmartDashboard.putString("BotRelTgt", targetPos.toStringPolar());
-            
-            if(imgCt < prevAngles.length){
-                prevAngles[imgCt] = tgtAngle;
-                filtAngle = r.sensors.botAng;
-                imgCt++;
-            } else {
-                int idx = imgCt % prevAngles.length;
-                prevAngles[idx] = tgtAngle;
-                imgCt++;
-                double minAng = 361;
-                double maxAng = -361;
-                double sum = 0;
-                for(double d : prevAngles){
-                    sum += d;
-                    if(d > maxAng) maxAng = d;
-                    if(d < minAng) minAng = d;
-                }
-                sum -= maxAng;
-                sum -= minAng;
-                sum /= prevAngles.length - 2;
-                filtAngle = sum;
-            }
+
             /*
             if(first) {
                 first = false;
@@ -98,8 +80,10 @@ public class CmdShoot extends SequentialCommandGroup{
             prevAngle = tgtAngle;
             */
 
+            Vector filtLoc = Vector.fromXY(tgtX,tgtY);
+
             double kR;
-            double angDiff = Math.abs(Angle.normDeg(filtAngle - r.sensors.botAng));
+            double angDiff = Math.abs(Angle.normDeg(Math.toDegrees(filtLoc.theta) - r.sensors.botAng));
             if(angDiff < 45){
                 double blendRatio = (45 - angDiff) / 45;
                 kR = r.cannon.cals.drivekR45.get() * (1-blendRatio) + r.cannon.cals.drivekR0.get() * blendRatio;
@@ -123,12 +107,37 @@ public class CmdShoot extends SequentialCommandGroup{
             //turn into robot relative (facing backwards)
             targetPos.theta = Angle.normRad(targetPos.theta - Math.PI/2);
 
-            r.drive.driveSwerveAng(xy, filtAngle, r.cannon.cals.maxPower, kR, r.cannon.cals.drivekD.get(), targetPos);
+            r.drive.driveSwerveAng(xy, Math.toDegrees(filtLoc.theta), r.cannon.cals.maxPower, kR, r.cannon.cals.drivekD.get(), targetPos);
         } else {
             zR = r.inputs.getDrivezR();
             if(zR > r.cannon.cals.maxPower) zR = r.cannon.cals.maxPower;
             r.drive.driveSwerve(xy, zR);
         }
+    }
+
+    private double updateFilter(int imgCt,double[] array, double newVal){
+        double retVal;
+        if(imgCt < array.length){
+            array[imgCt] = newVal;
+            retVal = newVal;
+        } else {
+            int idx = imgCt % array.length;
+            array[idx] = newVal;
+            double minAng = 361;
+            double maxAng = -361;
+            double sum = 0;
+            for(double d : array){
+                sum += d;
+                if(d > maxAng) maxAng = d;
+                if(d < minAng) minAng = d;
+            }
+            sum -= maxAng;
+            sum -= minAng;
+            sum /= array.length - 2;
+            retVal = sum;
+        }
+
+        return retVal;
     }
 
     @Override

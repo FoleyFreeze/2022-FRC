@@ -1,6 +1,7 @@
 package frc.robot.Cannon;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Util.Vector;
@@ -40,9 +41,9 @@ public class CmdPrime extends CommandBase{
     double alignstarttime;
     @Override
     public boolean isFinished(){
-        boolean isLayup = r.inputs.operatorJoy.layUpShot();
+        boolean isLayup = r.inputs.operatorJoy.layUpShot() || !r.inputs.operatorJoy.hubSwitch();
         Vector xy = Vector.fromXY(r.inputs.getDriveX(), r.inputs.getDriveY());
-        if(Math.abs(r.drive.angerror) > 3 || xy.r > 0.1) alignstarttime = Timer.getFPGATimestamp();
+        if(Math.abs(r.drive.angerror) > 3 || xy.r > 0.1 || !r.sensors.hasTargetImage()) alignstarttime = Timer.getFPGATimestamp();
         boolean waitForBotAlign = !r.inputs.cameraDrive() || isLayup || Timer.getFPGATimestamp() > alignstarttime + r.cannon.cals.alignTime;
         
         //System.out.format("%.1f %.1f %b\n", Timer.getFPGATimestamp()-alignstarttime, r.drive.angerror, r.cannon.upToSpeed());

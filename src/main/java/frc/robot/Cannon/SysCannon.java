@@ -117,7 +117,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     double flip(double ang){
         if(r.inputs.operatorJoy.shootForward()){
-            return 180 - ang;//point shooter the other way
+            return cals.flipAngOffset.get() - ang;//point shooter the other way
         }
         return ang;
     }
@@ -130,7 +130,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
 
     public void fire(){
         if (cals.DISABLED) return;
-        fire(cals.wheelOfFirePower);
+        fire(cals.wheelOfFirePower.get());
     }
 
     double timeAngleWasSet;
@@ -272,6 +272,7 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
                 SmartDashboard.putString("PotBrokeReason", "moved too fast");
                 potDisabled = true;
             }
+            prevAnalogAngle = analogAngle;
             if(analogAngle > cals.potMaxAngle || analogAngle < cals.potMinAngle){
                 //out of bounds
                 SmartDashboard.putString("PotBrokeReason", "out of bounds");
@@ -347,6 +348,8 @@ public class SysCannon extends SubsystemBase implements AutoCloseable{
         } else if(!r.inputs.operatorJoy.climbSwitch()){
             climbStartTimeRan = false;
         }
+
+        SmartDashboard.putBoolean("up to speed", r.cannon.upToSpeed());
 
         first = false;
     }
