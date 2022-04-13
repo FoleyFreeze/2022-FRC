@@ -38,13 +38,13 @@ public class CmdGatherManual extends CommandBase{
         } else if(r.inputs.operatorJoy.ejectSwitch()){
             r.intake.intake(-0.5);
             r.cannon.transport(-0.5);
-        } else if(r.inputs.intakeSpin.get()){
+        }/* else if(r.inputs.intakeSpin.get()){
             r.intake.intake(run ? value : 0);
         } else if(r.inputs.fireSpin.get()){
             r.cannon.fire(run ? value : 0);
         } else if(r.inputs.transportSpin.get()){
             r.cannon.transport(run ? value : 0);
-        }
+        }*/
     }
 
     @Override

@@ -115,7 +115,7 @@ public class CmdShoot extends SequentialCommandGroup{
         }
     }
 
-    private double updateFilter(int imgCt,double[] array, double newVal){
+    private double updateFilter(int imgCt, double[] array, double newVal){
         double retVal;
         if(imgCt < array.length){
             array[imgCt] = newVal;

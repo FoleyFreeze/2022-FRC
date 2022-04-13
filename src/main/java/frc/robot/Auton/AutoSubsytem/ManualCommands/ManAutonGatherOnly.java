@@ -16,7 +16,7 @@ public class ManAutonGatherOnly extends ParallelRaceGroup {
         this.r = r;
         this.p = p;
         this.idx = idx;
-        addCommands(new WaitCommand(1), new CmdAutoGather(r));
+        addCommands(new WaitCommand(1 + 0.25), new CmdAutoGather(r));
     }
     
     @Override
