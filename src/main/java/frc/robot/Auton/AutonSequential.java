@@ -78,7 +78,7 @@ public class AutonSequential extends SequentialCommandGroup{
                         new ManAutonAbsDrGthSht(r, manualP, 7, true, 160),//shoot 2 and 3
                         new ManAutonAbsDrGthSht(r, manualP, 8, true, 0),   //move to loading station, gather ball 4-5
                         new ManAutonGatherOnly( r, manualP, 9),            //gather ball 5
-                        new ManAutonAbsDrGthSht(r, manualP, 10, true, 160)//move back towards goal, shoot
+                        new ManAutonAbsDrGthSht(r, manualP, 10, true, 172)//move back towards goal, shoot
                         );
         }
 

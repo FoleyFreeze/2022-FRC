@@ -114,6 +114,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
         ballSensorLower.update();
         ballSensorUpper.update();
+
         cannonAngleSensor.update();
 
         switch(DriverStation.getAlliance()){
@@ -134,13 +135,13 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
             encoders.updateRobotLocation(navX.getFieldOrientAngle());
         }
 
-        Log.logString(encoders.botPos.toStringXY(), Log.LOG_GROUPS.SENSORS, 1, true, "encoder X, Y");
-        Log.logDouble(encoders.botAng, Log.LOG_GROUPS.SENSORS, 1, true, "encoder angle");
+        //Log.logString(encoders.botPos.toStringXY(), Log.LOG_GROUPS.SENSORS, 1, true, "encoder X, Y");
+        //Log.logDouble(encoders.botAng, Log.LOG_GROUPS.SENSORS, 1, true, "encoder angle");
 
         boolean isMoving = botIsMoving();
 
         Log.logDouble(navX.getFieldOrientAngle(), Log.LOG_GROUPS.SENSORS, 1, true, "navx angle");
-        Log.logString(navX.getFieldOrientDisplacement(isMoving).toStringXY(), Log.LOG_GROUPS.SENSORS, 1, true, "navx X, Y");
+        //Log.logString(navX.getFieldOrientDisplacement(isMoving).toStringXY(), Log.LOG_GROUPS.SENSORS, 1, true, "navx X, Y");
 
         botLoc = new Vector(encoders.botPos);
         botAng = navX.getFieldOrientAngle();
@@ -161,7 +162,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
             switch(vd.type){
                 case BLUE_CARGO:
                     camera.imgToLocation(vd);
-                    SmartDashboard.putString("LastBlueLoc", vd.location.toStringXY());
+                    Log.addValue(vd.location.toStringXY(), "LastBlueLoc", Log.compTab);
                     if(isOnRedTeam) {
                         if(!hasOpponentCargo()) opponentCargo = vd;
                         else if(opponentCargo.camLocation == vd.camLocation) opponentCargo = vd;
@@ -182,7 +183,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     break;
                 case RED_CARGO:
                     camera.imgToLocation(vd);
-                    SmartDashboard.putString("LastRedLoc", vd.location.toStringXY());
+                    Log.addValue(vd.location.toStringXY(), "LastRedLoc", Log.compTab);
                     if(!isOnRedTeam) {
                         if(!hasOpponentCargo()) opponentCargo = vd;
                         else if(opponentCargo.camLocation == vd.camLocation) opponentCargo = vd;
@@ -203,7 +204,7 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
                     break;
                 case VISION_TARGET:
                     camera.imgToLocation(vd);
-                    SmartDashboard.putString("LastTargetLoc", vd.location.toStringXY());
+                    Log.addValue(vd.location.toStringXY(), "LastTargetLoc", Log.compTab);
 
                     target = vd;
                     //reset robot position based on goal

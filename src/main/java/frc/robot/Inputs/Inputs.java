@@ -174,19 +174,19 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     public Trigger intakeSpin = new Trigger(){
         public boolean get(){
-            return driverJoy.intakeSpin() || operatorJoy.intake();
+            return /*driverJoy.intakeSpin() ||*/ operatorJoy.intake();
         }
     };
 
     public Trigger transportSpin = new Trigger(){
         public boolean get(){
-            return driverJoy.transportSpin() || operatorJoy.transporter();
+            return /*driverJoy.transportSpin() ||*/ operatorJoy.transporter();
         }
     };
 
     public Trigger fireSpin = new Trigger(){
         public boolean get(){
-            return driverJoy.fireSpin() || operatorJoy.kicker();
+            return /*driverJoy.fireSpin() ||*/ operatorJoy.kicker();
         }
     };
 

@@ -126,6 +126,10 @@ public class ManArms extends ErrorCommand {
             
             double minPwr = 0;
             if(armSetPoint > 50 && stage != 1) minPwr = 0.1;
+            if(armSetPoint < 50 && stage != 1) {
+                minPwr = -0.1;
+                maxArmPower = -0.05;
+            }
 
             if(pwrL > maxArmPower) pwrL = maxArmPower;
             else if(pwrL < minPwr) pwrL = minPwr;

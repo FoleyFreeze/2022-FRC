@@ -83,7 +83,7 @@ public class CalsAuton {
             new Position(Vector.fromXY(48, 0), -90), //move after 1-ball auton (REL)
             //new Position(Vector.fromXY(27, -4), -52.0 - 90), //grab close ball (REL)
             new Position(Vector.fromXY(50, -32), -118), //grab close ball (REL)
-            new Position(Vector.fromXY(118.3, -77.3), -123 - 90), //grab second ball (ABS)
+            new Position(Vector.fromXY(118.3+8.0, -77.3), -123 - 90), //grab second ball (ABS)
             new Position(Vector.fromXY(76.2, -239.4), -45 - 90), //move to loading station (ABS)
             new Position(Vector.fromXY(40.0, -110.0), 112 - 90), //go back to shoot again (ABS)
         },
@@ -121,11 +121,11 @@ public class CalsAuton {
             new Position(Vector.fromXY(-48, -48), 136.5), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(162-244+5, -129), 136.5), //grab close ball (ABS)
             new Position(Vector.fromXY(-64.5-5,-64.5-18), 136.5),//shoot for 2 ball
+            new Position(Vector.fromXY(-152.5, -34), 70), //grab ball 3
+            new Position(Vector.fromXY(-117, -100), 130), //shoot ball 3 (but not if 4 ball)
+            new Position(Vector.fromXY(-117, -100), 90), //drive to hit opponent ball
             null,
-            null,
-            null,
-            null,
-            null
+            new Position(Vector.fromXY(-64.5-5,-64.5-18), 136.5), //drive and shoot ball 3 (if 4 ball)
         },
 
         { //mid start position MANUAL, NO CAMERA
@@ -159,10 +159,10 @@ public class CalsAuton {
         },
 
         { //test start positions
+            new Position(Vector.fromXY(0, 0), 180), //init position
             null,
             null,
-            null,
-            new Position(Vector.fromXY(0,120), 0),
+            new Position(Vector.fromXY(0, -48), 180), //move after 1-ball auton (REL)
             null,
             null,
             null,
@@ -180,8 +180,8 @@ public class CalsAuton {
         extendFalse(true, true, true, true), //1-ball, drive
         extendFalse(true, true, false, false, true, true), //2-ball
         extendFalse(true, true, false, false, true, false, true, true), //3-ball close
-        extendFalse(true, true, false, false, true, false, true), //NO WORK 3-ball far
-        extendFalse(true, true, false, false, true, true, true), //NO WORK 4-ball close
+        extendFalse(true, true, false, false, true, true, true, true), //3-ball far
+        extendFalse(true, true, false, false, true, true, true, false, true, false, true), //4-ball close
         extendFalse(true, true, false, false, true, false, true), //4-ball far
         extendFalse(true, true, false, false, true, false, true, true, true, true, true)// 5-ball
     };

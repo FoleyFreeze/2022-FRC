@@ -11,6 +11,7 @@ public class CalsClimb {
     public boolean DISABLED = false && Robot.isReal();
 
     public double cannonAngTime = 0.5;
+    public double alignTime = 1;
 
     //climb arm ratio is actually 45 * 42 / 44; but we cal'd for 45:1 so w/e
     public CalsMotor climbArmL = new CalsMotor(MotorType.SPARK, 13).invert().setRamp(0.4).setEncUnits(45.0).brake();

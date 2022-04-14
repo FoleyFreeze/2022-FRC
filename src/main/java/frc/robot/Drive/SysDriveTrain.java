@@ -1,5 +1,6 @@
 package frc.robot.Drive;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -120,6 +121,8 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         driveSwerve(xy, zR, null);
     }
 
+    boolean prevSwState = false;
+    double climbTimeStart = -r.climb.cals.alignTime;
     //note that centerOfStrafe is robot relative
     public void driveSwerve(Vector xy, double zR, Vector centerOfStrafe){
         if(cals.DISABLED) return;
@@ -128,14 +131,17 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
             xy.theta -= Math.toRadians(r.sensors.botAng);
         }
 
-        /*if(inputs.operatorJoy.climbSwitch() && r.sensors.navX.navX.isConnected()){
+        if(inputs.operatorJoy.climbSwitch() && !prevSwState && r.sensors.navX.navX.isConnected()){
+            climbTimeStart = Timer.getFPGATimestamp();
+        }
+        prevSwState = inputs.operatorJoy.climbSwitch();
+
+        if(climbTimeStart + r.climb.cals.alignTime > Timer.getFPGATimestamp()){
             //if climbing, lock orienttion towards drivers station (-90°)
             double error = Angle.normDeg(180 - r.sensors.botAng);
 
             zR = error * cals.climbAngleKp;
-        }*/
-        //TODO: do we want to lock the angle for a climb?
-        //do logic elsewhere w/ power control
+        }
 
         if(centerOfStrafe != null){
             double newXaxisAng = Angle.normRad(centerOfStrafe.theta - Math.PI/2);
