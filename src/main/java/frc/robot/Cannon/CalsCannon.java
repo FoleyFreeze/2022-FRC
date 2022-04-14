@@ -80,7 +80,7 @@ public class CalsCannon {
     public double minShootAngDiff = 6;//degrees
 
     public EditableCal wheelOfFirePower = new EditableCal("FirePowah", 0.5);
-    public double shootTimeOne = 0.25;
+    public double shootTimeOne = 0.3;
     public EditableCal shootTimeOneToTwo = new EditableCal("shot_spacing_time", 0.1);
     public EditableCal shootTimeOneToTwoLayup = new EditableCal("layup_spacing", 0.4);
     public double shootTimeTwo = 0.75;

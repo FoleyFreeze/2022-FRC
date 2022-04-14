@@ -13,6 +13,7 @@ public class MPAutonDriveRelative extends MPAutonDriveAbsolute{
     public void getPosition(){
         Position pos = p.getPosition(idx);
         if(pos != null){
+            System.out.println("Called GetPosition Relative");
             driveVec = pos.v.add(r.sensors.botLoc);
             rot = pos.a;
         }

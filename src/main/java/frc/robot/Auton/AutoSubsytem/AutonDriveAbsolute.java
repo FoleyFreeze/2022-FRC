@@ -32,6 +32,7 @@ public class AutonDriveAbsolute extends CommandBase {
     public void getPosition(){
         Position pos = p.getPosition(idx);
         if(pos != null){
+            System.out.println("Called GetPosition Absolute");
             driveVec = pos.v;
             rot = pos.a;
         }

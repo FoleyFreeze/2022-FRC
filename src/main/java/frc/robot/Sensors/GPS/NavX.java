@@ -94,9 +94,11 @@ public class NavX implements AutoCloseable {
         if(isDisabled) return;
 
         if(navX.isConnected()){
+            System.out.println("Reset navx angle to: " + angle);
             prevAng = angle;
             navX.zeroYaw();
         } else {
+            System.out.println("Should have reset navx angle, but wasnt connected");
             return;
         }
     }

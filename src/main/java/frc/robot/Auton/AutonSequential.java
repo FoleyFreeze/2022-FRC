@@ -48,6 +48,7 @@ public class AutonSequential extends SequentialCommandGroup{
             }
         };
 
+        /*
         PositionProvider manualP = new PositionProvider(){
             public Position getPosition(int index) {
                 return manualPList[index];
@@ -56,6 +57,7 @@ public class AutonSequential extends SequentialCommandGroup{
                 return manualTodoList[index];
             }  
         };
+        */
 
         //commands that are in common
         addCommands(new AutonInitPos(           r, p, 0),//set initial position
@@ -71,14 +73,14 @@ public class AutonSequential extends SequentialCommandGroup{
                         new AutonAbsDrvGthSht(  r, p, 7, false, true)  //move back towards goal, shoot
                         );
         } else {//no-camera-only commands
-            addCommands(new ManAutonRelDrGthSht(r, manualP, 3, false, 0),  //move out of zone for 1-ball
-                        new ManAutonAbsDrGthSht(r, manualP, 4, true, 0),   //gather ball 2 (and ball 1 if we still have it), in front of our auton zone
-                        new ManAutonAbsDrGthSht(r, manualP, 5, true, 114), //shoot ball 2 (in 2 ball only)
-                        new ManAutonAbsDrGthSht(r, manualP, 6, true, 0),   //gather ball 3 in front of allied auton zone
-                        new ManAutonAbsDrGthSht(r, manualP, 7, true, 160+15),//shoot 2 and 3
-                        new ManAutonAbsDrGthSht(r, manualP, 8, true, 0),   //move to loading station, gather ball 4-5
-                        new ManAutonGatherOnly( r, manualP, 9),            //gather ball 5
-                        new ManAutonAbsDrGthSht(r, manualP, 10, true, 172+7)//move back towards goal, shoot
+            addCommands(new ManAutonRelDrGthSht(r, p, 3, false, 0),  //move out of zone for 1-ball
+                        new ManAutonAbsDrGthSht(r, p, 4, true, 0),   //gather ball 2 (and ball 1 if we still have it), in front of our auton zone
+                        new ManAutonAbsDrGthSht(r, p, 5, true, 114), //shoot ball 2 (in 2 ball only)
+                        new ManAutonAbsDrGthSht(r, p, 6, true, 0),   //gather ball 3 in front of allied auton zone
+                        new ManAutonAbsDrGthSht(r, p, 7, true, 166),//shoot 2 and 3
+                        new ManAutonAbsDrGthSht(r, p, 8, true, 0),   //move to loading station, gather ball 4-5
+                        new ManAutonGatherOnly( r, p, 9),            //gather ball 5
+                        new ManAutonAbsDrGthSht(r, p, 10, true, 172)//move back towards goal, shoot
                         );
         }
 
@@ -89,12 +91,16 @@ public class AutonSequential extends SequentialCommandGroup{
     public void initialize() {
         autonStartTime = Timer.getFPGATimestamp();
         
-        positionList = cals.positionList[r.posChooser.getSelected()];
-        todoList = cals.todoLists[r.ballCtChooser.getSelected()];
         waitTime = r.waitTime.getSelected();
 
-        manualPList = cals.manPositionList[r.posChooser.getSelected()];
-        manualTodoList = cals.manTodoLists[r.ballCtChooser.getSelected()];
+        if(CalsAuton.useCamera){
+            positionList = cals.positionList[r.posChooser.getSelected()];
+            todoList = cals.todoLists[r.ballCtChooser.getSelected()];
+        } else {
+            positionList = cals.manPositionList[r.posChooser.getSelected()];
+            todoList = cals.manTodoLists[r.ballCtChooser.getSelected()];
+        }
+        
 
         /*switch(r.ballCtChooser.getSelected()){
             case 4: //3ball close
