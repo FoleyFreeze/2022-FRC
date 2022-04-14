@@ -90,7 +90,7 @@ public class RobotContainer implements AutoCloseable{
     ballCtChooser.addOption("2-ball", 3);
     ballCtChooser.addOption("3-ball right", 4);
     ballCtChooser.addOption("3-ball left", 5);
-    ballCtChooser.addOption("4-ball close", 6);
+    ballCtChooser.addOption("4-ball left", 6);
     ballCtChooser.addOption("4-ball far", 7);
     ballCtChooser.addOption("5-ball", 8);
 

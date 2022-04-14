@@ -127,8 +127,13 @@ public class ManArms extends ErrorCommand {
             double minPwr = 0;
             if(armSetPoint > 50 && stage != 1) minPwr = 0.1;
             if(armSetPoint < 50 && stage != 1) {
-                minPwr = -0.1;
-                maxArmPower = -0.05;
+                if(Timer.getFPGATimestamp() < startTime + 0.2){
+                    //drive up real hard to unhook the arms
+                    minPwr = 0.3;
+                } else {
+                    minPwr = -0.15;
+                    maxArmPower = -0.10;
+                }
             }
 
             if(pwrL > maxArmPower) pwrL = maxArmPower;

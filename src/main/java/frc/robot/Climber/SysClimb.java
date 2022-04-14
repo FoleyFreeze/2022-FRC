@@ -120,7 +120,7 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
         } else if(r.inputs.operatorJoy.climbDn() && !r.inputs.operatorJoy.shift()){
             manualClimbArms = true;
             driveArms(-0.2);
-        } else {
+        } else if(manualClimbArms) {
             manualClimbArms = false;
             driveArms(0);
         }

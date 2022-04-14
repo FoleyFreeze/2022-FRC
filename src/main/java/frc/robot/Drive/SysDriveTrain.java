@@ -122,7 +122,7 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
     }
 
     boolean prevSwState = false;
-    double climbTimeStart = -r.climb.cals.alignTime;
+    double climbTimeStart = -3;
     //note that centerOfStrafe is robot relative
     public void driveSwerve(Vector xy, double zR, Vector centerOfStrafe){
         if(cals.DISABLED) return;
@@ -134,14 +134,13 @@ public class SysDriveTrain extends SubsystemBase implements AutoCloseable {
         if(inputs.operatorJoy.climbSwitch() && !prevSwState && r.sensors.navX.navX.isConnected()){
             climbTimeStart = Timer.getFPGATimestamp();
         }
-        prevSwState = inputs.operatorJoy.climbSwitch();
-
         if(climbTimeStart + r.climb.cals.alignTime > Timer.getFPGATimestamp()){
             //if climbing, lock orienttion towards drivers station (-90°)
             double error = Angle.normDeg(180 - r.sensors.botAng);
 
             zR = error * cals.climbAngleKp;
         }
+        prevSwState = inputs.operatorJoy.climbSwitch();
 
         if(centerOfStrafe != null){
             double newXaxisAng = Angle.normRad(centerOfStrafe.theta - Math.PI/2);

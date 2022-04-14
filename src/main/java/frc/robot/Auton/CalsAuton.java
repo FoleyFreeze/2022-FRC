@@ -149,7 +149,7 @@ public class CalsAuton {
             new Position(Vector.fromXY(40, 0), -90), //move after 1-ball auton (REL)
             new Position(Vector.fromXY(91.2+50-1, 4.9-32-3), -90), //grab close ball (ABS)
             new Position(Vector.fromXY(90+15,5-7), -90),//shoot for 2 ball (ABS)
-            new Position(Vector.fromXY(162-74-15, -125), 155+8), //grab second ball (ABS)
+            new Position(Vector.fromXY(162-74-5, -125), 155+8+8), //grab second ball (ABS)
             new Position(Vector.fromXY(77.5, -140), -151), //better shooting position
             //new Position(Vector.fromXY(75,-75), -132),//move then shoot balls 2-3 (ABS)
             new Position(Vector.fromXY(119-3, -283), -165), //move to loading station (ABS)
@@ -179,9 +179,9 @@ public class CalsAuton {
         extendFalse(true, true), //1-ball
         extendFalse(true, true, true, true), //1-ball, drive
         extendFalse(true, true, false, false, true, true), //2-ball
-        extendFalse(true, true, false, false, true, false, true, true), //3-ball close
-        extendFalse(true, true, false, false, true, true, true, true), //3-ball far
-        extendFalse(true, true, false, false, true, true, true, false, true, false, true), //4-ball close
+        extendFalse(true, true, false, false, true, false, true, true), //3-ball close (right only)
+        extendFalse(true, true, false, false, true, true, true, true), //3-ball far (left only)
+        extendFalse(true, true, false, false, true, true, true, false, true, false, true), //4-ball close (left only)
         extendFalse(true, true, false, false, true, false, true), //4-ball far
         extendFalse(true, true, false, false, true, false, true, true, true, true, true)// 5-ball
     };

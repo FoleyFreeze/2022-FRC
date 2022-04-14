@@ -44,7 +44,7 @@ public class AutonShoot extends SequentialCommandGroup{
     @Override
     public void execute(){
         //if we are the left 3 ball shot (in the 5 ball step)
-        if(r.posChooser.getSelected() == 0 && dist == 172){
+        if(r.posChooser.getSelected() == 0 && dist == 172+15){
             CalsAuton.autonDist = 114;
         } else {
             CalsAuton.autonDist = dist;

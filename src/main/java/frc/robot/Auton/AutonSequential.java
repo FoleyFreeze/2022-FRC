@@ -75,10 +75,10 @@ public class AutonSequential extends SequentialCommandGroup{
                         new ManAutonAbsDrGthSht(r, manualP, 4, true, 0),   //gather ball 2 (and ball 1 if we still have it), in front of our auton zone
                         new ManAutonAbsDrGthSht(r, manualP, 5, true, 114), //shoot ball 2 (in 2 ball only)
                         new ManAutonAbsDrGthSht(r, manualP, 6, true, 0),   //gather ball 3 in front of allied auton zone
-                        new ManAutonAbsDrGthSht(r, manualP, 7, true, 160),//shoot 2 and 3
+                        new ManAutonAbsDrGthSht(r, manualP, 7, true, 160+15),//shoot 2 and 3
                         new ManAutonAbsDrGthSht(r, manualP, 8, true, 0),   //move to loading station, gather ball 4-5
                         new ManAutonGatherOnly( r, manualP, 9),            //gather ball 5
-                        new ManAutonAbsDrGthSht(r, manualP, 10, true, 172)//move back towards goal, shoot
+                        new ManAutonAbsDrGthSht(r, manualP, 10, true, 172+7)//move back towards goal, shoot
                         );
         }
 
@@ -96,14 +96,14 @@ public class AutonSequential extends SequentialCommandGroup{
         manualPList = cals.manPositionList[r.posChooser.getSelected()];
         manualTodoList = cals.manTodoLists[r.ballCtChooser.getSelected()];
 
-        switch(r.ballCtChooser.getSelected()){
+        /*switch(r.ballCtChooser.getSelected()){
             case 4: //3ball close
             case 6: //4ball close
             case 8: //5ball
                 //if in an incompatable position then force single ball-drive auton
                 //if(r.posChooser.getSelected() != 2) todoList = cals.todoLists[2]; 
             break;
-        }
+        }*/
 
         super.initialize();
     }
