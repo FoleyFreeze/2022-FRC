@@ -17,11 +17,11 @@ public class CalsCannon {
 
     public EditableCal maxTgtImgs = new EditableCal("max tgt imgs", 3, true);
 
-    EditableCal shoot_kP = new EditableCal("shoot kP", 0.1, false);
-    EditableCal shoot_kI = new EditableCal("shoot kI", 0.002, false);
-    EditableCal shoot_kD = new EditableCal("shoot kD", 0.0, false);
-    EditableCal shoot_kF = new EditableCal("shoot kF", 0.0507, false);
-    double shoot_izone = 300;
+    EditableCal shoot_kP = new EditableCal("shoot kP", 0.16, false);
+    EditableCal shoot_kI = new EditableCal("shoot kI", 0.0009, false);
+    EditableCal shoot_kD = new EditableCal("shoot kD", 0.8, false);
+    EditableCal shoot_kF = new EditableCal("shoot kF", 0.05, false);
+    double shoot_izone = 200;
 
     EditableCal angle_kP = new EditableCal("angle kP", 0.05, false);
     EditableCal angle_kI = new EditableCal("angle kI", 0.000, false);
