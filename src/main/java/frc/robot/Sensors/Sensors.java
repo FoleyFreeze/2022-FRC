@@ -290,7 +290,11 @@ public class Sensors extends SubsystemBase implements AutoCloseable{
 
     public boolean hasAlliedCargo(){
         if(cals.DISABLED) return false;
-        return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT_CARGO.get();
+        if(r.inputs.operatorJoy.pitMode()){
+            return Timer.getFPGATimestamp() - alliedCargo.timestamp < 2;
+        } else {
+            return Timer.getFPGATimestamp() - alliedCargo.timestamp < cals.VISION_DATA_TIMEOUT_CARGO.get();
+        }
     }   
 
     public boolean hasOpponentCargo(){

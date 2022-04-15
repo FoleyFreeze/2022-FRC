@@ -21,7 +21,7 @@ public class CalsSensors {
     public Vector ballCamLocationR = Vector.fromXY(11, 12.5);
     public Vector tgtCamLocation = Vector.fromXY(0, -11.5);
     public double ballCamAngleL = 90;
-    public double ballCamAngleR = 85;
+    public double ballCamAngleR = 84;
     public double tgtCamAngle = -90;
 
     public EditableCal switchablePower = new EditableCal("SwitchedPwr", 1, false);

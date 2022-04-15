@@ -50,7 +50,7 @@ public class CalsDrive {
     double iLimdr = 0;
     double dFiltdr = 0;
     public final double MAX_DRIVE_PWR = 0.9;
-    public final double MAX_PIT_PWR = 0.2;
+    public final double MAX_PIT_PWR = 0.4;
     public double maxDrivePowerClimb = 0.4;
     double driveRotationsPerInch = 64/18.0 * 18/32.0 * 45/15.0 / 4.0 / Math.PI;
     

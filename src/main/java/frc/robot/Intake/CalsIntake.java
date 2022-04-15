@@ -22,7 +22,7 @@ public class CalsIntake {
 
     public EditableCal kX = new EditableCal("gather kX", 0.03);
     public EditableCal kY = new EditableCal("gather kY", 0.015, false);
-    public EditableCal yPower = new EditableCal("gather yPwr", 0.5, false);
+    public EditableCal yPower = new EditableCal("gather yPwr", 0.4, false);
     public EditableCal kR = new EditableCal("gather kR", 0.0, false);
     public EditableCal autoBallMaxPwr = new EditableCal("autoballMaxPwr", 0.4, false);
     public EditableCal maxAnglePIDDist = new EditableCal("maxAnglePIDDist", 5, false);
