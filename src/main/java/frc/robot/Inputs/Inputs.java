@@ -192,7 +192,8 @@ public class Inputs extends SubsystemBase implements AutoCloseable{
 
     public Trigger manualClimber = new Trigger(){
         public boolean get(){
-            return driverJoy.manualIntake() && operatorJoy.climbSwitch();
+            //return driverJoy.manualIntake() && operatorJoy.climbSwitch();
+            return (operatorJoy.climbUp() || operatorJoy.climbDn()) && operatorJoy.climbSwitch();
         }
     };
 

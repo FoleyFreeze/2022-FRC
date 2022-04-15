@@ -142,9 +142,9 @@ public class SysClimb extends SubsystemBase implements AutoCloseable{
             return CLIMB_STAGE.RESET;
         } else if(stage == 1 || stage == 4 || stage == 7){
             return CLIMB_STAGE.ARMS;
-        } else if(stage == 2 || stage == 5 || stage == 8){
+        } else if(stage == 2 || stage == 5){
             return CLIMB_STAGE.WINCH;
-        } else if(stage == 3 || stage == 6 || stage == 9){
+        } else if(stage == 3 || stage == 6){
             return CLIMB_STAGE.HOOK;
         } else {
             return CLIMB_STAGE.DONE;

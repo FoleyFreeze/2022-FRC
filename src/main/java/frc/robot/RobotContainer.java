@@ -137,7 +137,7 @@ public class RobotContainer implements AutoCloseable{
     inputs.autoGather.and(inputs.gather).and(inputs.getClimbMode.negate()).whileActiveOnce(new CmdAutoGather(this));
 
     inputs.fireCannon.and(inputs.getClimbMode).and(inputs.manualClimber.negate()).whileActiveOnce(new CmdClimb(this));
-    inputs.fireCannon.and(inputs.manualClimber).whileActiveOnce(new CmdManualClimb(this));
+    //inputs.fireCannon.and(inputs.manualClimber).whileActiveOnce(new CmdManualClimb(this));
   }
 
   /**
